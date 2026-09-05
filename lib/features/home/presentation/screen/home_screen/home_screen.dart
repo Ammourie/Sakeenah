@@ -4,11 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:provider/provider.dart';
 
+import '../../../../../core/common/hive_helper.dart';
 import '../../../../../core/providers/internet_provider.dart';
 
 import '../../../../../core/ui/error_ui/error_viewer/error_viewer.dart';
 import '../../../../../core/ui/screens/base_screen.dart';
 
+import '../../../data/request/model/daily_prayer_schedule_model.dart';
+import '../../../domain/entity/daily_prayer_schedule_entity.dart';
 import '../../state_m/cubit/home_cubit.dart';
 
 import '../../state_m/provider/home_screen_notifier.dart';
@@ -77,11 +80,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 callback: callback,
               );
             },
+            prayerTimesLoadedState: (schedule) {
+              provider.isLoading = false;
+              _cachePrayerTimes(schedule);
+            },
           );
         },
 
         child: const HomeScreenContent(),
       ),
+    );
+  }
+
+  Future<void> _cachePrayerTimes(DailyPrayerScheduleEntity schedule) async {
+    final model = DailyPrayerScheduleModel.fromEntity(schedule);
+    final date = schedule.date ?? DateTime.now();
+    final scheduleDate =
+        '${date.year.toString().padLeft(4, '0')}-'
+        '${date.month.toString().padLeft(2, '0')}-'
+        '${date.day.toString().padLeft(2, '0')}';
+
+    await HiveHelper.putPrayerSchedule(
+      schedule: model.toMap(),
+      scheduleDate: scheduleDate,
     );
   }
 }

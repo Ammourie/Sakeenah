@@ -171,6 +171,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/map_styles/
     - assets/images/png/
     - assets/images/png/error/
     - assets/images/svg/

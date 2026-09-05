@@ -5,14 +5,14 @@ import '../../../../core/results/result.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../../data/request/param/get_today_prayer_times_params.dart';
 import '../entity/daily_prayer_schedule_entity.dart';
-import '../repository/iprayer_times_repository.dart';
+import '../repository/ihome_repository.dart';
 
 @injectable
 class GetTodayPrayerTimesUseCase
     extends UseCase<DailyPrayerScheduleEntity, GetTodayPrayerTimesParams> {
   GetTodayPrayerTimesUseCase(this._repository);
 
-  final IPrayerTimesRepository _repository;
+  final IHomeRepository _repository;
 
   @override
   Future<Result<AppErrors, DailyPrayerScheduleEntity>> call(

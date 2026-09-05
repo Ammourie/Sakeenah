@@ -64,9 +64,16 @@ A short branded screen (~2.2s) with the app illustration, name, and loading indi
 
 ---
 
-#### 5. Home & navigation drawer
+#### 5. Home, prayer times & navigation drawer
 
-The main screen has a **curved emerald app bar** and a **drawer** for settings.
+The main screen has a **curved emerald app bar**, a **prayer times card**, and a **drawer** for settings.
+
+**Prayer times**
+- Loads today's salah times from the **AlAdhan API** using GPS coordinates or the picked map location.
+- Highlights the next prayer and shows a countdown banner.
+- Supports **offline mode** by reading the cached daily schedule from Hive.
+- Shows a skeleton prayer card while loading and an inline retry card on error.
+- Caches successful loaded schedules from the home screen listener.
 
 **App bar**
 - Title bar with rounded bottom curve, stacked over the body so the curve stays visible.
@@ -79,6 +86,11 @@ The main screen has a **curved emerald app bar** and a **drawer** for settings.
 
 - **How it works:**
   - `lib/features/home/presentation/screen/home_screen/home_screen_content.dart`
+  - Prayer card: `lib/features/home/presentation/widgets/prayer_times_card.dart`
+  - State: `lib/features/home/presentation/state_m/cubit/home_cubit.dart` + `home_screen_notifier.dart`
+  - Repository: `lib/features/home/domain/repository/home_repository.dart`
+  - Remote datasource: `lib/features/home/data/datasource/home_remote_datasource.dart`
+  - Local datasource: `lib/features/home/data/datasource/home_local_datasource.dart`
   - Bar: `CurvedAppBar` inside `CurvedAppBarLayout` (body `Stack`, not `Scaffold.appBar`)
   - Drawer theme resolved via `AppConfig().resolveThemeDataForMode` so light/dark colors apply correctly.
 
@@ -109,7 +121,20 @@ Shared background for language, theme, and splash screens — cream/dark surface
 
 ---
 
-#### 8. Internet connection banner
+#### 8. Prayer times data flow
+
+The prayer-times feature now uses a thin repository and keeps the detailed behavior in the datasource and presentation layers.
+
+- `GetTodayPrayerTimesUseCase` is the only prayer-times use case.
+- `HomeRepository` only chooses **local** when `isOffline == true`, otherwise **remote**.
+- `HomeRemoteSource` builds the AlAdhan request and falls back to local cache if the request fails.
+- `HomeLocalSource` validates cached `locationKey` and cached day before returning data.
+- `HomeScreen` writes the loaded schedule to Hive when `prayerTimesLoadedState` is emitted.
+- Prayer-times request constants live in `lib/features/home/data/request/param/get_today_prayer_times_params.dart`.
+
+---
+
+#### 9. Internet connection banner
 
 When the device goes offline, a bottom banner appears; it hides again when connection returns.
 
@@ -117,7 +142,7 @@ When the device goes offline, a bottom banner appears; it hides again when conne
 
 ---
 
-#### 9. Responsive layout
+#### 10. Responsive layout
 
 UI scales from a **390×844** design canvas on all phone sizes.
 
@@ -366,7 +391,6 @@ Requires **Flutter 3.44.0** ([FVM](https://fvm.app/) recommended).
 
 ```bash
 fvm flutter pub get
-fvm dart run build_runner build --delete-conflicting-outputs
 fvm flutter run
 ```
 
@@ -376,7 +400,7 @@ Release APK:
 fvm flutter build apk --release
 ```
 
-Run code generation after editing `@freezed`, `@injectable`, or `.arb` files. After native config changes (Android/iOS), **fully restart** the app.
+Run your usual local codegen only when generated files need to be refreshed after editing `@freezed`, `@injectable`, or `.arb` source files. After native config changes (Android/iOS), **fully restart** the app.
 
 ---
 

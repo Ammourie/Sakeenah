@@ -2,6 +2,10 @@ import '../../../../../core/params/base_params.dart';
 import '../../../domain/entity/location_preference_entity.dart';
 
 class GetTodayPrayerTimesParams extends BaseParams {
+  static const aladhanTimingsPath = 'timings';
+  static const aladhanTimingsByCityPath = 'timingsByCity';
+  static const aladhanCalculationMethod = 2;
+
   final LocationPreferenceEntity location;
   final bool isOffline;
 

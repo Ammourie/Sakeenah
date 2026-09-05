@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:eraser/eraser.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:unique_identifier/unique_identifier.dart';
 
 import '../../di/service_locator.dart';
+import '../constants/app/google_map_styles.dart';
 import '../constants/enums/system_type.dart';
 import '../localization/flutter_localization.dart';
 import '../navigation/navigation_service.dart';
@@ -125,6 +127,12 @@ class AppConfig {
     // if (Device.get().isTablet) return const Size(768, 1024);
 
     return const Size(390, 844);
+  }
+
+  Future<String?> resolveGoogleMapStyle(Brightness brightness) async {
+    if (brightness != Brightness.dark) return null;
+
+    return rootBundle.loadString(GoogleMapStyles.darkAssetPath);
   }
 
   static void clearNotificationSystemCount() {

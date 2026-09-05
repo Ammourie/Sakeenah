@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../../../../core/common/app_config.dart';
 import '../../../../../core/common/custom_modules/screen_notifier.dart';
 import '../../../../../core/common/utils/location_access_utils.dart';
 import '../../../../../core/constants/app/app_constants.dart';
-import '../../../../../core/constants/app/google_map_styles.dart';
 import '../../../../../core/navigation/nav.dart';
 import '../../../domain/utils/location_label_utils.dart';
 import '../../screen/map_location_picker_screen.dart';
@@ -27,6 +27,7 @@ class MapLocationPickerNotifier extends ScreenNotifier<MapLocationPickerScreenPa
   bool _isLocating = false;
   bool _accessStarted = false;
   Brightness? _appliedMapStyleBrightness;
+  String? _mapStyle;
   bool _isCameraAnimating = false;
   LatLng? _lastCameraTarget;
 
@@ -36,6 +37,7 @@ class MapLocationPickerNotifier extends ScreenNotifier<MapLocationPickerScreenPa
   bool get locationGranted => _locationGranted;
   bool get isLocating => _isLocating;
   bool get hasInitialPosition => param.initialPosition != null;
+  String? get mapStyle => _mapStyle;
 
   CameraPosition get initialCameraPosition => CameraPosition(
         target: _center,
@@ -97,15 +99,12 @@ class MapLocationPickerNotifier extends ScreenNotifier<MapLocationPickerScreenPa
   }
 
   Future<void> applyMapStyle(Brightness brightness) async {
-    final controller = _mapController;
-    if (controller == null) return;
     if (_appliedMapStyleBrightness == brightness) return;
 
     try {
-      final style =
-          brightness == Brightness.dark ? GoogleMapStyles.dark : GoogleMapStyles.light;
-      await controller.setMapStyle(style);
+      _mapStyle = await AppConfig().resolveGoogleMapStyle(brightness);
       _appliedMapStyleBrightness = brightness;
+      notifyListeners();
       _log('applyMapStyle brightness=$brightness');
     } catch (e, stackTrace) {
       _log('applyMapStyle failed: $e\n$stackTrace');

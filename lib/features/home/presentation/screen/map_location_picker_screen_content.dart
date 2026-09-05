@@ -96,6 +96,9 @@ class _MapPickerMapAreaState extends State<_MapPickerMapArea> {
     final isLocating = context.select<MapLocationPickerNotifier, bool>(
       (n) => n.isLocating,
     );
+    final mapStyle = context.select<MapLocationPickerNotifier, String?>(
+      (n) => n.mapStyle,
+    );
     context.select<ThemeModeProvider, ThemeMode>((p) => p.themeMode);
 
     final sn = context.read<MapLocationPickerNotifier>();
@@ -126,6 +129,7 @@ class _MapPickerMapAreaState extends State<_MapPickerMapArea> {
               GoogleMap(
                 key: ValueKey(locationGranted),
                 initialCameraPosition: sn.initialCameraPosition,
+                style: mapStyle,
                 myLocationEnabled: locationGranted,
                 myLocationButtonEnabled: false,
                 zoomControlsEnabled: false,

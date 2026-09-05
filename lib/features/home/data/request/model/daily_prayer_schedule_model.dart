@@ -21,44 +21,44 @@ class DailyPrayerScheduleModel extends BaseModel<DailyPrayerScheduleEntity> {
 
   factory DailyPrayerScheduleModel.fromMap(Map<String, dynamic> json) {
     final prayerMaps = json['prayers'];
+    // Use type validators for all fields
     return DailyPrayerScheduleModel(
       dateIso: stringV(json['dateIso']),
       locationKey: stringV(json['locationKey']),
-      prayers: listV(
+      prayers: listV<PrayerTimeModel>(
         (prayerMaps is List
                 ? prayerMaps
-                      .whereType<Map>()
-                      .map(
-                        (e) => PrayerTimeModel.fromMap(
-                          Map<String, dynamic>.from(e),
-                        ),
-                      )
-                      .toList()
+                    .whereType<Map>()
+                    .map(
+                      (e) => PrayerTimeModel.fromMap(
+                        Map<String, dynamic>.from(e),
+                      ),
+                    )
+                    .toList()
                 : [])
             as List<PrayerTimeModel?>?,
       ),
-
       fetchedAtIso: stringV(json['fetchedAtIso']),
       isFromCache: boolV(json['isFromCache']),
     );
   }
 
-  /// Parses AlAdhan API `data` object.
   factory DailyPrayerScheduleModel.fromAlAdhanData(
     Map<String, dynamic> data, {
     required String locationKey,
   }) {
-    final timings = data['timings'] as Map<String, dynamic>? ?? {};
-    final dateMap = data['date'] as Map<String, dynamic>? ?? {};
-    final gregorian = dateMap['gregorian'] as Map<String, dynamic>? ?? {};
+    // Use type validators for all field accesses
+    final timings = (data['timings'] is Map) ? Map<String, dynamic>.from(data['timings']) : <String, dynamic>{};
+    final dateMap = (data['date'] is Map) ? Map<String, dynamic>.from(data['date']) : <String, dynamic>{};
+    final gregorian = (dateMap['gregorian'] is Map) ? Map<String, dynamic>.from(dateMap['gregorian']) : <String, dynamic>{};
     final dateParts = stringV(gregorian['date']).split('-');
     final now = DateTime.now();
 
     DateTime scheduleDate = DateTime(now.year, now.month, now.day);
     if (dateParts.length == 3) {
-      final day = int.tryParse(dateParts[0]) ?? now.day;
-      final month = int.tryParse(dateParts[1]) ?? now.month;
-      final year = int.tryParse(dateParts[2]) ?? now.year;
+      final day = numV<int>(dateParts[0]) ?? now.day;
+      final month = numV<int>(dateParts[1]) ?? now.month;
+      final year = numV<int>(dateParts[2]) ?? now.year;
       scheduleDate = DateTime(year, month, day);
     }
 
@@ -69,8 +69,8 @@ class DailyPrayerScheduleModel extends BaseModel<DailyPrayerScheduleEntity> {
       final timePart = raw.split(' ').first;
       final segments = timePart.split(':');
       if (segments.length < 2) continue;
-      final hour = int.tryParse(segments[0]) ?? 0;
-      final minute = int.tryParse(segments[1]) ?? 0;
+      final hour = numV<int>(segments[0]) ?? 0;
+      final minute = numV<int>(segments[1]) ?? 0;
       final prayerTime = DateTime(
         scheduleDate.year,
         scheduleDate.month,
@@ -85,28 +85,50 @@ class DailyPrayerScheduleModel extends BaseModel<DailyPrayerScheduleEntity> {
 
     return DailyPrayerScheduleModel(
       dateIso: scheduleDate.toIso8601String(),
-      locationKey: locationKey,
+      locationKey: stringV(locationKey),
       prayers: prayers,
       fetchedAtIso: DateTime.now().toIso8601String(),
       isFromCache: false,
     );
   }
 
+  factory DailyPrayerScheduleModel.fromEntity(DailyPrayerScheduleEntity entity) {
+    // Use type validators and handle possible nullables
+    final date = entity.date ?? DateTime.now();
+    final fetchedAt = entity.fetchedAt ?? DateTime.now();
+
+    return DailyPrayerScheduleModel(
+      dateIso: date.toIso8601String(),
+      locationKey: stringV(entity.locationKey),
+      prayers: listV<PrayerTimeModel>(
+        entity.prayers
+            .map(
+              (prayer) => PrayerTimeModel(
+                name: stringV(prayer.name?.name ?? PrayerName.fajr.name),
+                timeIso: (prayer.time ?? date).toIso8601String(),
+              ),
+            )
+            .toList(),
+      ),
+      fetchedAtIso: fetchedAt.toIso8601String(),
+    );
+  }
+
   Map<String, dynamic> toMap() => {
-    'dateIso': dateIso,
-    'locationKey': locationKey,
-    'prayers': prayers.map((e) => e.toMap()).toList(),
-    'fetchedAtIso': fetchedAtIso,
-    'isFromCache': isFromCache,
-  };
+        'dateIso': dateIso,
+        'locationKey': locationKey,
+        'prayers': prayers.map((e) => e.toMap()).toList(),
+        'fetchedAtIso': fetchedAtIso,
+        'isFromCache': isFromCache,
+      };
 
   @override
   DailyPrayerScheduleEntity toEntity() {
     return DailyPrayerScheduleEntity(
-      date: DateTime.parse(dateIso),
-      locationKey: locationKey,
+      date: dateTimeV(dateIso),
+      locationKey: stringV(locationKey),
       prayers: prayers.map((e) => e.toEntity()).toList(),
-      fetchedAt: DateTime.parse(fetchedAtIso),
+      fetchedAt: dateTimeV(fetchedAtIso),
     );
   }
 }
