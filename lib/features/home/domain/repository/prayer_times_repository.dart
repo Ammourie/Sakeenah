@@ -8,7 +8,7 @@ class PrayerTimesRepository extends IPrayerTimesRepository {
   final IPrayerTimesLocalSource _localDataSource;
 
   @override
-  Future<Result<AppErrors, LocationPreferenceEntity?>> getLocationPreference(
+  Future<Result<AppErrors, LocationPreferenceEntity>> getLocationPreference(
     NoParams params,
   ) async {
     final local = await _localDataSource.getLocation();
@@ -43,7 +43,8 @@ class PrayerTimesRepository extends IPrayerTimesRepository {
     final remote = await _remoteDataSource.getTodayPrayerTimes(params);
 
     if (remote.isRight()) {
-      final model = (remote as Right<AppErrors, DailyPrayerScheduleModel>).value;
+      final model =
+          (remote as Right<AppErrors, DailyPrayerScheduleModel>).value;
       await _localDataSource.saveSchedule(model);
       return execute<DailyPrayerScheduleModel, DailyPrayerScheduleEntity>(
         remoteResult: remote,

@@ -16,7 +16,7 @@ import '../entity/location_preference_entity.dart';
 part 'prayer_times_repository.dart';
 
 abstract class IPrayerTimesRepository extends Repository {
-  Future<Result<AppErrors, LocationPreferenceEntity?>> getLocationPreference(
+  Future<Result<AppErrors, LocationPreferenceEntity>> getLocationPreference(
     NoParams params,
   );
 

@@ -50,6 +50,67 @@ class DateUtility {
     ],
   };
 
+  /// Resolves [locale] to a supported code, falling back to [locale] getter.
+  static String resolveLocale([String? locale]) {
+    final code = locale ?? _locale ?? 'en';
+    return _locales.contains(code) ? code : 'en';
+  }
+
+  /// Locale-aware time (12h with localized AM/PM or 24h).
+  static String formatLocalTime(
+    DateTime time, {
+    String? locale,
+    bool use24HourFormat = false,
+  }) {
+    final resolvedLocale = resolveLocale(locale);
+    final pattern = use24HourFormat ? 'HH:mm' : 'jm';
+    return DateFormat(pattern, resolvedLocale).format(time);
+  }
+
+  /// Full date, e.g. "Saturday, 5 September 2026" (localized).
+  static String formatLocalFullDate(DateTime date, {String? locale}) {
+    return DateFormat.yMMMMEEEEd(resolveLocale(locale)).format(date);
+  }
+
+  /// Medium date, e.g. "5 Sep 2026" (localized).
+  static String formatLocalMediumDate(DateTime date, {String? locale}) {
+    return DateFormat.yMMMd(resolveLocale(locale)).format(date);
+  }
+
+  /// Short weekday + date, e.g. "Sat, 5 Sep" (localized).
+  static String formatLocalShortDate(DateTime date, {String? locale}) {
+    return DateFormat.MMMEd(resolveLocale(locale)).format(date);
+  }
+
+  /// Locale-aware hours/minutes text (e.g. `2 hours 20 minutes`).
+  static String formatLocalDuration(
+    Duration duration, {
+    String? locale,
+    required String hourUnitOne,
+    required String hourUnitOther,
+    required String minuteUnitOne,
+    required String minuteUnitOther,
+  }) {
+    final nf = NumberFormat.decimalPattern(resolveLocale(locale));
+    final hours = duration.inHours;
+    final minutes = duration.inMinutes.remainder(60);
+    final parts = <String>[];
+
+    if (hours > 0) {
+      final hourUnit = hours == 1 ? hourUnitOne : hourUnitOther;
+      parts.add('${nf.format(hours)} $hourUnit');
+    }
+    if (minutes > 0) {
+      final minuteUnit = minutes == 1 ? minuteUnitOne : minuteUnitOther;
+      parts.add('${nf.format(minutes)} $minuteUnit');
+    }
+    if (parts.isEmpty) {
+      parts.add('${nf.format(0)} $minuteUnitOther');
+    }
+
+    return parts.join(' ');
+  }
+
   /// Set Locale
   static String? setLocale(String newLocale) {
     if (_locales.contains(newLocale)) {

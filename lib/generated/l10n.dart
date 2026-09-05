@@ -1080,13 +1080,53 @@ class S {
     return Intl.message('Isha', name: 'prayerIsha', desc: '', args: []);
   }
 
-  /// `Next: {prayer} in {time}`
+  /// `Next is {prayer} after {time}`
   String nextPrayerIn(String prayer, String time) {
     return Intl.message(
-      'Next: $prayer in $time',
+      'Next is $prayer after $time',
       name: 'nextPrayerIn',
       desc: '',
       args: [prayer, time],
+    );
+  }
+
+  /// `hour`
+  String get durationHourUnitOne {
+    return Intl.message(
+      'hour',
+      name: 'durationHourUnitOne',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `hours`
+  String get durationHourUnitOther {
+    return Intl.message(
+      'hours',
+      name: 'durationHourUnitOther',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `minute`
+  String get durationMinuteUnitOne {
+    return Intl.message(
+      'minute',
+      name: 'durationMinuteUnitOne',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `minutes`
+  String get durationMinuteUnitOther {
+    return Intl.message(
+      'minutes',
+      name: 'durationMinuteUnitOther',
+      desc: '',
+      args: [],
     );
   }
 

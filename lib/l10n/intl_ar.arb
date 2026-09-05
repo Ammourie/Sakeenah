@@ -129,13 +129,17 @@
   "prayerAsr": "العصر",
   "prayerMaghrib": "المغرب",
   "prayerIsha": "العشاء",
-  "nextPrayerIn": "التالية: {prayer} بعد {time}",
+  "nextPrayerIn": "التالية {prayer} بعد {time}",
   "@nextPrayerIn": {
     "placeholders": {
       "prayer": {"type": "String"},
       "time": {"type": "String"}
     }
   },
+  "durationHourUnitOne": "ساعة",
+  "durationHourUnitOther": "ساعات",
+  "durationMinuteUnitOne": "دقيقة",
+  "durationMinuteUnitOther": "دقائق",
   "cachedPrayerTimes": "عرض الأوقات المحفوظة",
   "setLocationTitle": "حدد موقعك",
   "setLocationMessage": "حرّك الخريطة وضع الدبوس على منطقتك.",

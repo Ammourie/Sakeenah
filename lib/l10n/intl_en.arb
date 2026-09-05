@@ -129,13 +129,17 @@
   "prayerAsr": "Asr",
   "prayerMaghrib": "Maghrib",
   "prayerIsha": "Isha",
-  "nextPrayerIn": "Next: {prayer} in {time}",
+  "nextPrayerIn": "Next is {prayer} after {time}",
   "@nextPrayerIn": {
     "placeholders": {
       "prayer": {"type": "String"},
       "time": {"type": "String"}
     }
   },
+  "durationHourUnitOne": "hour",
+  "durationHourUnitOther": "hours",
+  "durationMinuteUnitOne": "minute",
+  "durationMinuteUnitOther": "minutes",
   "cachedPrayerTimes": "Showing saved times",
   "setLocationTitle": "Set your location",
   "setLocationMessage": "Move the map and place the pin on your area.",

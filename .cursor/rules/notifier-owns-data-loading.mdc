@@ -48,34 +48,19 @@ class PrayerTimesSection extends StatefulWidget {
   }
 }
 
-// ✅ GOOD — notifier + screen host; widget is dumb
+// ✅ GOOD — notifier owns cubit + actions; content uses BlocConsumer + context.select
 class HomeScreenNotifier extends ScreenNotifier<HomeScreenParam> {
   final PrayerTimesCubit prayerTimesCubit = PrayerTimesCubit();
-
-  Future<void> initializePrayerTimes({required bool hasInternet}) async { ... }
   Future<void> pickMapLocation(BuildContext context, {required bool hasInternet}) async { ... }
 }
 
-// home_screen_content.dart — private host wires bloc → display widget
+// home_screen_content.dart
+context.select<HomeScreenNotifier, bool>((n) => n.isLoading || n.isLoadingGps);
+
 BlocConsumer<PrayerTimesCubit, PrayerTimesState>(
   bloc: sn.prayerTimesCubit,
-  builder: (_, state) => PrayerTimesSection(
-    state: state,
-    clock: _clock,
-    onPickMapLocation: () => sn.pickMapLocation(context, hasInternet: hasInternet),
-    onRetryGps: () => sn.retryPrayerGps(hasInternet: hasInternet),
-  ),
+  builder: (_, state) => _buildPrayerTimesCard(...),
 );
-
-class PrayerTimesSection extends StatelessWidget {
-  const PrayerTimesSection({
-    required this.state,
-    required this.clock,
-    required this.onPickMapLocation,
-    required this.onRetryGps,
-  });
-  // build from state + callbacks only
-}
 ```
 
 ## Checklist

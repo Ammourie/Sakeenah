@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(permissionName) =>
       "لاستخدام التطبيق يجب التأكد من إعطاء صلاحية الوصول للموقع.";
 
-  static String m1(prayer, time) => "التالية: ${prayer} بعد ${time}";
+  static String m1(prayer, time) => "التالية ${prayer} بعد ${time}";
 
   static String m2(url) => "لم يتم إيجاد الصفحة المطلوبة ${url}";
 
@@ -113,6 +113,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "لم يتم إرسال الكود؟",
     ),
     "drawerPreferences": MessageLookupByLibrary.simpleMessage("التفضيلات"),
+    "durationHourUnitOne": MessageLookupByLibrary.simpleMessage("ساعة"),
+    "durationHourUnitOther": MessageLookupByLibrary.simpleMessage("ساعات"),
+    "durationMinuteUnitOne": MessageLookupByLibrary.simpleMessage("دقيقة"),
+    "durationMinuteUnitOther": MessageLookupByLibrary.simpleMessage("دقائق"),
     "empty": MessageLookupByLibrary.simpleMessage("لا يوجد معلومات لعرضها"),
     "emptyScreen": MessageLookupByLibrary.simpleMessage("هذه الصفحة فارغة"),
     "enterCodeText": MessageLookupByLibrary.simpleMessage(

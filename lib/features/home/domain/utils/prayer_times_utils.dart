@@ -52,26 +52,4 @@ class PrayerTimesUtils {
       remaining: tomorrowFajr.difference(now),
     );
   }
-
-  static String formatDuration(Duration duration) {
-    final hours = duration.inHours;
-    final minutes = duration.inMinutes.remainder(60);
-    final seconds = duration.inSeconds.remainder(60);
-
-    if (hours > 0) {
-      return '${hours}h ${minutes.toString().padLeft(2, '0')}m';
-    }
-    if (minutes > 0) {
-      return '${minutes}m ${seconds.toString().padLeft(2, '0')}s';
-    }
-    return '${seconds}s';
-  }
-
-  static String formatTime(DateTime time) {
-    final hour = time.hour;
-    final minute = time.minute.toString().padLeft(2, '0');
-    final period = hour >= 12 ? 'PM' : 'AM';
-    final displayHour = hour > 12 ? hour - 12 : (hour == 0 ? 12 : hour);
-    return '$displayHour:$minute $period';
-  }
 }

@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import '../../di/service_locator.dart';
 import '../../features/home/presentation/screen/app_main_screen/app_main_screen.dart';
 import '../../features/home/presentation/screen/home_screen/home_screen.dart';
-import '../../features/prayer_times/presentation/screen/map_location_picker_screen.dart';
+import '../../features/home/presentation/screen/map_location_picker_screen.dart';
 import '../constants/enums/route_type.dart';
 import '../ui/screens/base_screen.dart';
 import '../ui/screens/language_screen.dart';

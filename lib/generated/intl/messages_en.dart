@@ -23,7 +23,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(permissionName) =>
       "Make sure ${permissionName} permission is granted to be able to use the app.";
 
-  static String m1(prayer, time) => "Next: ${prayer} in ${time}";
+  static String m1(prayer, time) => "Next is ${prayer} after ${time}";
 
   static String m2(url) => "${url} not Found";
 
@@ -116,6 +116,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Didn\'t you receive any code?",
     ),
     "drawerPreferences": MessageLookupByLibrary.simpleMessage("Preferences"),
+    "durationHourUnitOne": MessageLookupByLibrary.simpleMessage("hour"),
+    "durationHourUnitOther": MessageLookupByLibrary.simpleMessage("hours"),
+    "durationMinuteUnitOne": MessageLookupByLibrary.simpleMessage("minute"),
+    "durationMinuteUnitOther": MessageLookupByLibrary.simpleMessage("minutes"),
     "empty": MessageLookupByLibrary.simpleMessage("Empty"),
     "emptyScreen": MessageLookupByLibrary.simpleMessage("This page is empty"),
     "enterCodeText": MessageLookupByLibrary.simpleMessage(

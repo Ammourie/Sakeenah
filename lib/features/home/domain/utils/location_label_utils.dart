@@ -222,30 +222,20 @@ abstract final class LocationLabelUtils {
     if (location.source == LocationSource.manual) {
       final city = location.city?.trim();
       if (city != null && city.isNotEmpty) {
-        _log('readableLabel manual city=$city');
         return city;
       }
     }
 
     final label = location.displayLabel.trim();
     if (label.isNotEmpty && !isCoordinateLabel(label)) {
-      _log('readableLabel displayLabel=$label');
       return label;
     }
 
     final city = location.city?.trim();
     if (city != null && city.isNotEmpty) {
-      _log('readableLabel city field=$city');
       return city;
     }
 
-    _log(
-      'readableLabel using fallback=$fallback for '
-      'source=${location.source.name} '
-      'displayLabel="${location.displayLabel}" '
-      'city=${location.city} country=${location.country} '
-      'lat=${location.latitude} lng=${location.longitude}',
-    );
     return fallback;
   }
 }

@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../domain/entity/prayer_name.dart';
-import '../../domain/utils/prayer_times_utils.dart';
 import '../utils/prayer_name_l10n.dart';
 
 class NextPrayerBanner extends StatelessWidget {
   const NextPrayerBanner({
     super.key,
-    required this.nextInfo,
     required this.countdownLabel,
   });
 
-  final NextPrayerInfo nextInfo;
   final String countdownLabel;
 
   @override
@@ -28,24 +25,12 @@ class NextPrayerBanner extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(color: colorScheme.outlineVariant),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            nextInfo.prayer.name.localized(),
-            style: textTheme.titleMedium?.copyWith(
-              color: colorScheme.onSecondaryContainer,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          4.verticalSpace,
-          Text(
-            countdownLabel,
-            style: textTheme.bodyMedium?.copyWith(
-              color: colorScheme.onSecondaryContainer,
-            ),
-          ),
-        ],
+      child: Text(
+        countdownLabel,
+        style: textTheme.bodyMedium?.copyWith(
+          color: colorScheme.onSecondaryContainer,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }

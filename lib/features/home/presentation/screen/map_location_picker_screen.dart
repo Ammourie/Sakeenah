@@ -16,10 +16,21 @@ class MapPickResult {
   const MapPickResult({
     required this.latitude,
     required this.longitude,
+    this.city,
+    this.country,
+    this.displayLabel,
   });
 
   final double latitude;
   final double longitude;
+  final String? city;
+  final String? country;
+  final String? displayLabel;
+
+  bool get hasGeocodedLabel =>
+      (city ?? '').isNotEmpty &&
+      (country ?? '').isNotEmpty &&
+      (displayLabel ?? '').isNotEmpty;
 }
 
 class MapLocationPickerScreen extends BaseScreen<MapLocationPickerScreenParam> {

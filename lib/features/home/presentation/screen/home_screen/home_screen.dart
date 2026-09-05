@@ -6,8 +6,6 @@ import 'package:provider/provider.dart';
 
 import '../../../../../core/providers/internet_provider.dart';
 
-import '../../../../../core/localization/localization_provider.dart';
-
 import '../../../../../core/ui/screens/base_screen.dart';
 
 import '../../state_m/cubit/home_cubit.dart';
@@ -30,7 +28,6 @@ class HomeScreen extends BaseScreen<HomeScreenParam> {
 
 class _HomeScreenState extends State<HomeScreen> {
   late final HomeScreenNotifier provider;
-  String? _trackedLanguageCode;
 
   @override
   void initState() {
@@ -57,32 +54,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final languageCode = context.watch<LocalizationProvider>().currentLanguage;
-    if (_trackedLanguageCode != null &&
-        _trackedLanguageCode != languageCode) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
-        provider.refreshPlaceLabelForCurrentLocale();
-      });
-    }
-    _trackedLanguageCode = languageCode;
-
     return ChangeNotifierProvider<HomeScreenNotifier>.value(
       value: provider,
-
       child: BlocListener<HomeCubit, HomeState>(
         bloc: provider.homeCubit,
-
         listener: (context, state) {
           state.when(
             homeInitState: () {},
-
             homeLoadingState: provider.homeLoadingStateListener,
-
             homeLoadedState: (s) {
               provider.homeLoadedStateListener(s);
             },
-
             homeErrorState: (error, callback) {
               provider.homeErrorStateListener(context, error, callback);
             },

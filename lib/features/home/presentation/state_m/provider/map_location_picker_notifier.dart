@@ -7,7 +7,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../../../core/common/custom_modules/screen_notifier.dart';
 import '../../../../../core/common/utils/location_access_utils.dart';
 import '../../../../../core/constants/app/app_constants.dart';
+import '../../../../../core/constants/app/google_map_styles.dart';
 import '../../../../../core/navigation/nav.dart';
+import '../../../domain/utils/location_label_utils.dart';
 import '../../screen/map_location_picker_screen.dart';
 
 class MapLocationPickerNotifier extends ScreenNotifier<MapLocationPickerScreenParam> {
@@ -24,6 +26,9 @@ class MapLocationPickerNotifier extends ScreenNotifier<MapLocationPickerScreenPa
   bool _locationGranted = false;
   bool _isLocating = false;
   bool _accessStarted = false;
+  Brightness? _appliedMapStyleBrightness;
+  bool _isCameraAnimating = false;
+  LatLng? _lastCameraTarget;
 
   LatLng get center => _center;
   bool get isSubmitting => _isSubmitting;
@@ -65,11 +70,16 @@ class MapLocationPickerNotifier extends ScreenNotifier<MapLocationPickerScreenPa
     }
   }
 
-  Future<void> onMapCreated(GoogleMapController controller) async {
+  Future<void> onMapCreated(
+    GoogleMapController controller, {
+    required Brightness brightness,
+  }) async {
     _log('onMapCreated map controller ready');
     _mapController = controller;
     _mapReady = true;
     notifyListeners();
+
+    await applyMapStyle(brightness);
 
     if (_locationGranted && !hasInitialPosition) {
       await goToCurrentLocation(
@@ -86,7 +96,31 @@ class MapLocationPickerNotifier extends ScreenNotifier<MapLocationPickerScreenPa
     }
   }
 
+  Future<void> applyMapStyle(Brightness brightness) async {
+    final controller = _mapController;
+    if (controller == null) return;
+    if (_appliedMapStyleBrightness == brightness) return;
+
+    try {
+      final style =
+          brightness == Brightness.dark ? GoogleMapStyles.dark : GoogleMapStyles.light;
+      await controller.setMapStyle(style);
+      _appliedMapStyleBrightness = brightness;
+      _log('applyMapStyle brightness=$brightness');
+    } catch (e, stackTrace) {
+      _log('applyMapStyle failed: $e\n$stackTrace');
+    }
+  }
+
   void onCameraMove(LatLng target) {
+    if (_isCameraAnimating) return;
+    _lastCameraTarget = target;
+  }
+
+  void onCameraIdle() {
+    if (_isCameraAnimating) return;
+    final target = _lastCameraTarget;
+    if (target == null) return;
     _center = target;
   }
 
@@ -134,6 +168,7 @@ class MapLocationPickerNotifier extends ScreenNotifier<MapLocationPickerScreenPa
 
       final target = LatLng(position.latitude, position.longitude);
       _center = target;
+      _lastCameraTarget = target;
       notifyListeners();
 
       _log(
@@ -159,11 +194,19 @@ class MapLocationPickerNotifier extends ScreenNotifier<MapLocationPickerScreenPa
         'zoom=${AppConstants.DEFAULT_MAP_ZOOM}',
       );
 
-      if (animate) {
-        await controller.animateCamera(update);
-      } else {
-        await controller.moveCamera(update);
+      _isCameraAnimating = true;
+      try {
+        if (animate) {
+          await controller.animateCamera(update);
+        } else {
+          await controller.moveCamera(update);
+        }
+      } finally {
+        _isCameraAnimating = false;
       }
+
+      _center = target;
+      _lastCameraTarget = target;
 
       _log('goToCurrentLocation camera move completed');
     } catch (e, stackTrace) {
@@ -175,23 +218,43 @@ class MapLocationPickerNotifier extends ScreenNotifier<MapLocationPickerScreenPa
     }
   }
 
-  void confirmLocation(BuildContext context) {
-    if (_isSubmitting) return;
+  Future<void> confirmLocation(BuildContext context) async {
+    if (_isSubmitting || _isLocating) return;
     _isSubmitting = true;
     notifyListeners();
 
-    Nav.pop(
-      context,
-      MapPickResult(
+    try {
+      _log(
+        'confirmLocation geocoding center=(${_center.latitude},${_center.longitude})',
+      );
+
+      final resolved = await LocationLabelUtils.resolveMapPlace(
         latitude: _center.latitude,
         longitude: _center.longitude,
-      ),
-    );
+      );
+
+      if (!context.mounted) return;
+
+      Nav.pop(
+        context,
+        MapPickResult(
+          latitude: _center.latitude,
+          longitude: _center.longitude,
+          city: resolved?.city,
+          country: resolved?.country,
+          displayLabel: resolved?.displayLabel,
+        ),
+      );
+    } finally {
+      _isSubmitting = false;
+      if (context.mounted) notifyListeners();
+    }
   }
 
   @override
   void closeNotifier() {
     _mapController = null;
+    _appliedMapStyleBrightness = null;
     dispose();
   }
 }

@@ -50,7 +50,9 @@ class _AppState extends State<App> {
             child: Consumer2<LocalizationProvider, ThemeModeProvider>(
               builder: (_, locProvider, themeProvider, __) {
                 return ThemeProvider(
-                  initTheme: AppConfig().resolveThemeData(),
+                  initTheme: AppConfig().resolveThemeDataForMode(
+                    themeProvider.themeMode,
+                  ),
                   builder: (_, theme) {
                     return RefreshConfiguration(
                       headerBuilder: () => WaterDropMaterialHeader(

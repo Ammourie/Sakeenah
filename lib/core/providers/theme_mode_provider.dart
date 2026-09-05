@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 
 import '../common/app_config.dart';
 import '../common/local_storage.dart';
-import '../theme/themes_data.dart';
 
 /// Notifies [MaterialApp] when [ThemeMode] changes so theme updates without restart.
-class ThemeModeProvider extends ChangeNotifier {
+class ThemeModeProvider extends ChangeNotifier with WidgetsBindingObserver {
   ThemeMode _themeMode = ThemeMode.system;
 
   ThemeMode get themeMode => _themeMode;
@@ -14,6 +13,13 @@ class ThemeModeProvider extends ChangeNotifier {
   void load() {
     _themeMode = LocalStorage.getThemeMode;
     AppConfig().themeMode = _themeMode;
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangePlatformBrightness() {
+    if (_themeMode != ThemeMode.system) return;
+    notifyListeners();
   }
 
   Future<void> setThemeMode(
@@ -28,16 +34,22 @@ class ThemeModeProvider extends ChangeNotifier {
     _themeMode = mode;
     notifyListeners();
 
-    if (!animate || context == null || mode == ThemeMode.system) return;
+    if (!animate || context == null) return;
 
     try {
-      final isDark = mode == ThemeMode.dark;
+      final theme = AppConfig().resolveThemeDataForMode(mode, context);
       ThemeSwitcher.of(context).changeTheme(
-        theme: isDark ? ThemesData.darkTheme : ThemesData.lightTheme,
-        isReversed: isDark,
+        theme: theme,
+        isReversed: theme.brightness == Brightness.dark,
       );
     } catch (_) {
       // ThemeSwitcher not available in this subtree.
     }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 }
