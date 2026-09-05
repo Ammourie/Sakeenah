@@ -132,6 +132,10 @@ dependencies:
   video_player: 2.11.1
   # A Flutter plugin for storing data in the secure storage.
   flutter_secure_storage: 10.3.1
+  # A Flutter plugin for handling animations with a simple, powerful API.
+  flutter_animate: 4.5.2
+  # Checks for an actual internet connection (not just network attachment)
+  internet_connection_checker_plus: 3.1.1
 
 
 dev_dependencies:

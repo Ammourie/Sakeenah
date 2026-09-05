@@ -42,39 +42,4 @@ class SplashCubit extends Cubit<SplashState> {
       );
     }
   }
-
-  // TODO Uncomment this
-  // void _handleNotAuthenticatedRequests(
-  //     List<Result<AppErrors, Object>> result) async {
-  //   if (result[0].hasErrorOnly || result[1].hasErrorOnly) {
-  //     emit(SplashState.error(
-  //       error: result[0].hasErrorOnly ? result[0].error! : result[1].error!,
-  //       callback: () => this.getHomeInitAndProfile(),
-  //     ));
-  //   } else {
-  //     if (int.parse(AppConfig().buildNumber!) <
-  //         ((result[1].data as AppUpdateEntity?)?.result?.lastSupportedVersion ??
-  //             -1)) {
-  //       emit(
-  //         SplashState.needUpdateError(
-  //           appLink:
-  //               (result[1].data as AppUpdateEntity?)?.result?.appLink ?? '',
-  //         ),
-  //       );
-  //     } else {
-  //       emit(
-  //         SplashState.loaded(
-  //           customersTypes: [],
-  //           checkAppVersion: int.parse(AppConfig().buildNumber!) <
-  //                   ((result[1].data as AppUpdateEntity?)
-  //                           ?.result
-  //                           ?.lastVersion ??
-  //                       -1)
-  //               ? result[1].data as AppUpdateEntity?
-  //               : null,
-  //         ),
-  //       );
-  //     }
-  //   }
-  // }
 }

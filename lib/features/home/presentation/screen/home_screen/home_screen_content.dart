@@ -312,16 +312,7 @@ class _HomeScreenContentState extends State<HomeScreenContent> {
                 },
                 trailing: const Icon(Icons.comment),
               ),
-              ListTile(
-                title: Text(
-                  "Map",
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                onTap: () {
-                  provider(context, listen: false).onMapTap();
-                },
-                trailing: const Icon(Icons.map),
-              ),
+             
               const Divider(),
               ListTile(
                 title: Text(

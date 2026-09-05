@@ -127,6 +127,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "internalServerErrorMessage": MessageLookupByLibrary.simpleMessage(
       "واجه الخادم خطأ أو تهيئة خاطئة ولم يتمكن من إكمال طلبك سيتم إصلاح المشكلة في أقرب وقت.",
     ),
+    "internetNotAvailable": MessageLookupByLibrary.simpleMessage(
+      "الإنترنت غير متوفر",
+    ),
     "invalidConfirmPassword": MessageLookupByLibrary.simpleMessage(
       "كلمة السر وتأكيد كلمة السر غير متطابقتين",
     ),

@@ -5,6 +5,7 @@ import 'package:provider/single_child_widget.dart';
 
 import '../../features/account/presentation/state_m/cubit/account_cubit.dart';
 import '../localization/localization_provider.dart';
+import '../providers/internet_provider.dart';
 import '../providers/session_data.dart';
 
 /// Centralizing all app providers in one class to be easy to adjust and read
@@ -23,6 +24,8 @@ class ApplicationProvider {
 
     ChangeNotifierProvider(create: (_) => SessionData(), lazy: true),
 
+    ChangeNotifierProvider(create: (_) => InternetProvider(), lazy: false),
+
     BlocProvider(
       create: (context) => AccountCubit(),
       lazy: true,
@@ -34,6 +37,7 @@ class ApplicationProvider {
   void dispose(BuildContext context) {
     context.read<LocalizationProvider>().dispose();
     context.read<SessionData>().dispose();
+    context.read<InternetProvider>().dispose();
     context.read<AccountCubit>().close();
   }
 }

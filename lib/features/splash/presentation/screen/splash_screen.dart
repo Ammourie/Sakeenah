@@ -3,14 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/common/local_storage.dart';
-import '../../../../core/constants/app/app_settings.dart';
 import '../../../../core/navigation/nav.dart';
 import '../../../../core/providers/session_data.dart';
-import '../../../../core/ui/custom_map/logic/location_wrapper.dart';
 import '../../../../core/ui/error_ui/error_viewer/dialog/errv_dialog_options.dart';
 import '../../../../core/ui/error_ui/error_viewer/error_viewer.dart';
 import '../../../../generated/l10n.dart';
-import '../../../account/presentation/screen/login_screen.dart';
 import '../../../home/presentation/screen/app_main_screen/app_main_screen.dart';
 import '../cubit/splash_cubit.dart';
 import 'splash_screen_content.dart';
@@ -85,21 +82,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void outFromSplash() async {
-    final isForce = AppSettings.forceLocationPermission;
-    if (isForce) {
-      await LocationWrapper.singleton().checkLocationPermissions(
-        isForce: isForce,
-      );
-    }
-
-    handleNavigation();
-  }
-
-  void handleNavigation() async {
-    if (LocalStorage.hasToken)
-      Nav.off(AppMainScreen.routeName, arguments: AppMainScreenParam());
-    else
-      Nav.off(LoginScreen.routeName, arguments: LoginScreenParam());
+    Nav.off(AppMainScreen.routeName, arguments: AppMainScreenParam());
   }
 
   @override

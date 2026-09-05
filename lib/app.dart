@@ -17,6 +17,7 @@ import 'core/navigation/navigation_service.dart';
 import 'core/navigation/route_generator.dart';
 import 'core/ui/error_ui/error_widgets/global_error_widget.dart';
 import 'core/ui/screens/language_screen.dart';
+import 'core/ui/widgets/internet_banner.dart';
 import 'core/ui/widgets/restart_widget.dart';
 import 'di/service_locator.dart';
 import 'features/splash/presentation/screen/splash_screen.dart';
@@ -33,18 +34,6 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-    // TODO: figure out how to get this to work
-    // Location.instance.onLocationChanged.listen((event) async {
-    //   if (event == ServiceStatus.disabled) {
-    //     await LocationWrapper.singleton().hasLocationPermissionLogic(
-    //       showDialog: () async => await ShowDialog().showElasticDialog(
-    //         context: AppConfig().appContext!,
-    //         barrierDismissible: false,
-    //         builder: (context) => const PermissionAlertDialog(),
-    //       ),
-    //     );
-    //   }
-    // });
   }
 
   @override
@@ -149,7 +138,15 @@ class _AppState extends State<App> {
                               data: MediaQuery.of(
                                 context,
                               ).copyWith(textScaler: TextScaler.noScaling),
-                              child: widget!,
+                              child: Stack(
+                                children: [
+                                  Positioned.fill(child: widget!),
+                                  const Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: InternetBanner(),
+                                  ),
+                                ],
+                              ),
                             );
                           },
                         ),

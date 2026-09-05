@@ -172,7 +172,7 @@ String? _getTranslatedPermissionName(Permission permission) {
     return S.current.locationPermission;
   else if (permission == Permission.camera)
     return S.current.cameraPermission;
-  // TODO: translate other permissions
+  // TODO: translate other permissions  
   // else if (permission == Permission.microphone)
   //   return S.current.microphonePermission;
   // else if (permission == Permission.photos)

@@ -974,6 +974,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Internet not available`
+  String get internetNotAvailable {
+    return Intl.message(
+      'Internet not available',
+      name: 'internetNotAvailable',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -13,7 +13,6 @@ import '../../../../../core/ui/show_toast.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../../core/ui/screens/language_screen.dart';
 import '../../screen/comments_screen.dart';
-import '../../screen/map_screen.dart';
 import '../../screen/people_screen.dart';
 import '../cubit/home_cubit.dart';
 import 'app_main_screen_notifier.dart';
@@ -67,10 +66,6 @@ class HomeScreenNotifier extends ScreenNotifier {
 
   void onGetCommentsTap(BuildContext context) {
     Nav.to(CommentsScreen.routeName, arguments: CommentsScreenParam());
-  }
-
-  void onMapTap() {
-    Nav.to(MapScreen.routeName, arguments: MapScreenParam());
   }
 
   void onTestValidatorRequestTap() {

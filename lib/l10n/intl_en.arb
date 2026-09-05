@@ -113,5 +113,6 @@
   "testValidatorRequest": "Test Validator Request",
   "getPeople": "Get People",
   "getPokemons": "Get Pokemons",
-  "testErrorScreen": "Test Error Handler"
+  "testErrorScreen": "Test Error Handler",
+  "internetNotAvailable": "Internet not available"
 }

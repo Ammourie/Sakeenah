@@ -128,6 +128,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "internalServerErrorMessage": MessageLookupByLibrary.simpleMessage(
       "The server encountered an internal error or misconfigurtion and was unable to complete your request.",
     ),
+    "internetNotAvailable": MessageLookupByLibrary.simpleMessage(
+      "Internet not available",
+    ),
     "invalidConfirmPassword": MessageLookupByLibrary.simpleMessage(
       "Password and confirm password doesn\'t match",
     ),
