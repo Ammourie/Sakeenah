@@ -32,7 +32,7 @@ class AppConfig {
   late String _buildNumber;
   String? _appName;
   String? _appVersion;
-  ThemeMode _themeMode = ThemeMode.light;
+  ThemeMode _themeMode = ThemeMode.system;
 
   BuildContext? get appContext => getIt<NavigationService>().appContext;
 
@@ -48,9 +48,42 @@ class AppConfig {
 
   String? get appName => _appName;
 
-  ThemeData get themeData => _themeMode == ThemeMode.light
-      ? ThemesData.lightTheme
-      : ThemesData.darkTheme;
+  /// Resolves [ThemeData] for an explicit [mode] (e.g. theme-picker preview).
+  ThemeData resolveThemeDataForMode(ThemeMode mode, [BuildContext? context]) {
+    switch (mode) {
+      case ThemeMode.dark:
+        return ThemesData.darkTheme;
+      case ThemeMode.light:
+        return ThemesData.lightTheme;
+      case ThemeMode.system:
+        final brightness =
+            context != null
+                ? MediaQuery.platformBrightnessOf(context)
+                : WidgetsBinding.instance.platformDispatcher.platformBrightness;
+        return brightness == Brightness.dark
+            ? ThemesData.darkTheme
+            : ThemesData.lightTheme;
+    }
+  }
+
+  /// Resolves the active [ThemeData] for the current [themeMode].
+  ThemeData resolveThemeData([Brightness? platformBrightness]) {
+    switch (_themeMode) {
+      case ThemeMode.dark:
+        return ThemesData.darkTheme;
+      case ThemeMode.light:
+        return ThemesData.lightTheme;
+      case ThemeMode.system:
+        final brightness =
+            platformBrightness ??
+            WidgetsBinding.instance.platformDispatcher.platformBrightness;
+        return brightness == Brightness.dark
+            ? ThemesData.darkTheme
+            : ThemesData.lightTheme;
+    }
+  }
+
+  ThemeData get themeData => resolveThemeData();
 
   ThemeMode get themeMode => _themeMode;
   set themeMode(ThemeMode v) {
@@ -84,12 +117,14 @@ class AppConfig {
     deviceId = await _getDeviceId();
   }
 
+  /// Logical design canvas for [ScreenUtilInit].
+  ///
+  /// Use a phone logical size (not 1080×1920 export pixels) so `.sp`, `.w`,
+  /// `.h`, and `.r` render at readable sizes on real devices.
   static Size screenUtilDesignSize() {
-    // if (Device.get().isTablet) return const Size(1536, 2048);
+    // if (Device.get().isTablet) return const Size(768, 1024);
 
-    // if (Device.get().isPhone) return const Size(1080, 1920);
-
-    return const Size(1080, 1920);
+    return const Size(390, 844);
   }
 
   static void clearNotificationSystemCount() {

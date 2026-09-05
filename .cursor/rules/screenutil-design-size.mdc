@@ -1,0 +1,53 @@
+---
+description: Use AppConfig.screenUtilDesignSize() as the single ScreenUtil design-size source — never hardcode designSize elsewhere
+alwaysApply: true
+---
+
+# ScreenUtil design size
+
+All responsive UI in this app scales against the design canvas defined in
+`lib/core/common/app_config.dart` via `AppConfig.screenUtilDesignSize()`.
+
+## Single source of truth
+
+- **Design size lives in `AppConfig` only** — currently `Size(390, 844)` (logical phone canvas).
+- **`ScreenUtilInit` must use it** — as in `lib/app.dart`:
+
+```dart
+ScreenUtilInit(
+  designSize: AppConfig.screenUtilDesignSize(),
+  builder: (context, _) { ... },
+)
+```
+
+## Do / don't
+
+```dart
+// ❌ BAD — hardcoded design size in a widget, test, or second ScreenUtilInit
+ScreenUtilInit(designSize: const Size(375, 812), ...);
+
+// ❌ BAD — raw pixels instead of ScreenUtil extensions
+padding: EdgeInsets.all(16),
+
+// ✅ GOOD — rely on the global init + extensions
+padding: EdgeInsets.all(16.w),
+fontSize: 15.sp,
+borderRadius: BorderRadius.circular(12.r),
+16.verticalSpace,
+```
+
+## When changing the design canvas
+
+1. Update **`AppConfig.screenUtilDesignSize()`** only (e.g. uncomment tablet
+   branches when supporting tablets).
+2. Do **not** duplicate `Size(...)` in other files.
+3. Re-check layouts after a design-size change — `.sp`, `.w`, `.h`, and `.r`
+   values scale relative to this canvas.
+
+## Agent checklist for UI work
+
+- [ ] No inline `designSize:` literals outside `AppConfig`
+- [ ] Spacing/sizing uses `.sp` / `.w` / `.h` / `.r` / `.verticalSpace` /
+      `.horizontalSpace`
+- [ ] New `ScreenUtilInit` wrappers (tests, previews) call
+      `AppConfig.screenUtilDesignSize()`

@@ -1,0 +1,56 @@
+---
+description: Cubit/Bloc states must use freezed unions (not sealed/manual classes)
+globs: lib/**/*_{cubit,state}.dart
+alwaysApply: false
+---
+
+# Freezed cubit states
+
+All Cubit/Bloc states must be **freezed** unions. Do not use sealed classes,
+hand-written subclasses, or plain enums for state machines.
+
+## Required shape
+
+- State file is `part of 'xxx_cubit.dart';`
+- Cubit imports `freezed_annotation` and declares:
+  - `part 'xxx_cubit.freezed.dart';`
+  - `part 'xxx_state.dart';`
+- Factories: `initial`, `loading`, `error` (with `AppErrors` + `VoidCallback`),
+  plus domain-specific success/loaded variants
+- Concrete type names: `{Feature}InitState`, `{Feature}LoadingState`, …
+- Emit via factories: `emit(const XxxState.loading());`
+- Listen with `when` / `maybeWhen` / `map` — not Dart 3 pattern-match on
+  hand-written classes
+
+## Example
+
+```dart
+// ❌ BAD — sealed / manual subclasses
+sealed class AuthState {
+  const AuthState();
+}
+class AuthLoading extends AuthState {
+  const AuthLoading();
+}
+
+// ✅ GOOD — freezed (see item_list_state.dart)
+part of 'auth_cubit.dart';
+
+@freezed
+class AuthState with _$AuthState {
+  const factory AuthState.initial() = AuthInitState;
+  const factory AuthState.loading() = AuthLoadingState;
+  const factory AuthState.authenticated({required UserEntity user}) =
+      AuthAuthenticatedState;
+  const factory AuthState.unauthenticated() = AuthUnauthenticatedState;
+  const factory AuthState.error({
+    required AppErrors error,
+    required VoidCallback callback,
+  }) = AuthErrorState;
+}
+```
+
+## Notes
+
+- Do **not** hand-write `*.freezed.dart` — run codegen later
+- Prefer named params on success factories (`user:`, `data:`) for clarity

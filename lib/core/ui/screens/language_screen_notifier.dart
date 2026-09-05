@@ -11,8 +11,8 @@ import '../../navigation/nav.dart';
 import '../widgets/restart_widget.dart';
 import 'language_screen.dart';
 
-class LanguageScreenNotifier extends ScreenNotifier {
-  LanguageScreenNotifier(this.param)
+class LanguageScreenNotifier extends ScreenNotifier<LanguageScreenParam> {
+  LanguageScreenNotifier(super.param)
     : _selectedLanguage = mapStringToLanguagesEnum(
         intl.Intl.getCurrentLocale(),
       ) {
@@ -20,7 +20,7 @@ class LanguageScreenNotifier extends ScreenNotifier {
   }
 
   /// fields
-  final LanguageScreenParam param;
+
   late final LanguagesEnum _initialLanguage;
   LanguagesEnum _selectedLanguage;
 
@@ -41,10 +41,13 @@ class LanguageScreenNotifier extends ScreenNotifier {
       await Provider.of<LocalizationProvider>(
         context,
         listen: false,
-      ).changeLanguage(Locale(mapLanguageEnumToString(_selectedLanguage)), context);
+      ).changeLanguage(
+        Locale(mapLanguageEnumToString(_selectedLanguage)),
+        context,
+      );
     }
 
-    if (param.isFirstStart) {
+    if (!LocalStorage.languageFirstStartSelected) {
       await LocalStorage.persistLanguageFirstStartSelected(true);
       RestartWidget.restartApp(context);
       return;

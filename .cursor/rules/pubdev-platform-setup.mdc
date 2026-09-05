@@ -1,0 +1,29 @@
+---
+description: When adding a pub.dev package, apply its Android/iOS/native platform setup
+alwaysApply: true
+---
+
+# Pub.dev package platform setup
+
+When adding or upgrading a Flutter package from pub.dev (`pubspec.yaml` / `fvm flutter pub add`):
+
+1. **Read the package docs** (pub.dev “Readme” + “Installing” / platform sections) for Android, iOS, and any other target this app uses. Do not stop at the Dart import.
+2. **Apply required native config** in the same change. Typical items:
+   - Android: `AndroidManifest.xml` permissions/queries, `build.gradle` `minSdk`/`ndk`, ProGuard, Application/Activity subclass (e.g. `FlutterFragmentActivity`)
+   - iOS: `Info.plist` usage descriptions, capabilities, Podfile
+   - Gradle/Kotlin files under `android/`, `ios/`, `android/app/src/main/`
+3. **Match what is already in the repo** — do not duplicate permissions or weaken `minSdk` without cause. Follow the package’s **current** major-version instructions (e.g. `local_auth` 3.x vs 2.x).
+4. After native edits, tell the user a **full app restart** is required (hot reload is not enough).
+
+```dart
+// ❌ BAD — Dart-only add
+// pubspec: local_auth
+await LocalAuthentication().authenticate(...);
+// MainActivity still extends FlutterActivity → uiUnavailable crash
+
+// ✅ GOOD — also change MainActivity to FlutterFragmentActivity
+// android/.../MainActivity.kt
+class MainActivity : FlutterFragmentActivity()
+```
+
+Use `fvm flutter pub add <package>` (never bare `flutter pub`). Skip codegen (`build_runner`) unless the user runs it.

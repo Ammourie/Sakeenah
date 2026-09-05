@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:statusbarz/statusbarz.dart';
 
+import 'core/providers/theme_mode_provider.dart';
+import 'core/theme/themes_data.dart';
 import 'core/common/app_config.dart';
 import 'core/common/local_storage.dart';
 import 'core/common/provider_list.dart';
@@ -17,6 +19,7 @@ import 'core/navigation/navigation_service.dart';
 import 'core/navigation/route_generator.dart';
 import 'core/ui/error_ui/error_widgets/global_error_widget.dart';
 import 'core/ui/screens/language_screen.dart';
+import 'core/ui/screens/theme_screen.dart';
 import 'core/ui/widgets/internet_banner.dart';
 import 'core/ui/widgets/restart_widget.dart';
 import 'di/service_locator.dart';
@@ -44,14 +47,15 @@ class _AppState extends State<App> {
         builder: (context, _) {
           return MultiProvider(
             providers: [...ApplicationProvider().dependItems],
-            child: Consumer<LocalizationProvider>(
-              builder: (_, provider, __) {
+            child: Consumer2<LocalizationProvider, ThemeModeProvider>(
+              builder: (_, locProvider, themeProvider, __) {
                 return ThemeProvider(
-                  initTheme: AppConfig().themeData,
+                  initTheme: AppConfig().resolveThemeData(),
                   builder: (_, theme) {
                     return RefreshConfiguration(
                       headerBuilder: () => WaterDropMaterialHeader(
-                        backgroundColor: theme.colorScheme.primary,
+                        backgroundColor:
+                            ThemesData.lightTheme.colorScheme.primary,
                         distance: 40,
                       ),
                       child: StatusbarzCapturer(
@@ -70,7 +74,7 @@ class _AppState extends State<App> {
 
                           /// Setup app localization
                           supportedLocales: S.delegate.supportedLocales,
-                          locale: provider.appLocal,
+                          locale: locProvider.appLocal,
 
                           localizationsDelegates: [
                             S.delegate,
@@ -85,16 +89,16 @@ class _AppState extends State<App> {
 
                           /// Run app at first time on device language
                           localeResolutionCallback: (locale, supportedLocales) {
-                            if (provider.firstStart) {
+                            if (locProvider.firstStart) {
                               /// Check if the current device locale is supported
                               for (var supportedLocale in supportedLocales) {
                                 if (supportedLocale.languageCode ==
                                     locale!.languageCode) {
                                   /// Set _firstStart false
-                                  provider.firstStartOff();
+                                  locProvider.firstStartOff();
 
                                   /// Change language
-                                  provider.changeLanguage(
+                                  locProvider.changeLanguage(
                                     Locale(locale.languageCode),
                                     context,
                                   );
@@ -104,7 +108,7 @@ class _AppState extends State<App> {
 
                               /// If the locale of the device is not supported, use the first one
                               /// from the list (English, in this case).
-                              provider.changeLanguage(
+                              locProvider.changeLanguage(
                                 supportedLocales.first,
                                 context,
                               );
@@ -113,20 +117,13 @@ class _AppState extends State<App> {
                               return null;
                           },
 
-                          /// Theming
-                          theme: theme,
-                          themeMode: theme.brightness == Brightness.light
-                              ? ThemeMode.light
-                              : ThemeMode.dark,
+                          /// Theming — follow system by default (see LocalStorage.getThemeMode)
+                          theme: ThemesData.lightTheme,
+                          darkTheme: ThemesData.darkTheme,
+                          themeMode: themeProvider.themeMode,
 
-                          /// Init screen
-                          home: LocalStorage.languageFirstStartSelected
-                              ? SplashScreen()
-                              : const LanguageScreen(
-                                  param: LanguageScreenParam(
-                                    isFirstStart: true,
-                                  ),
-                                ),
+                          /// Init screen — language → theme → splash on first start
+                          home: _resolveInitialScreen(),
 
                           // builder: DevicePreview.appBuilder,
                           builder: (context, widget) {
@@ -160,6 +157,16 @@ class _AppState extends State<App> {
         },
       ),
     );
+  }
+
+  Widget _resolveInitialScreen() {
+    if (!LocalStorage.languageFirstStartSelected) {
+      return const LanguageScreen(param: LanguageScreenParam());
+    }
+    if (!LocalStorage.themeFirstStartSelected) {
+      return const ThemeScreen(param: ThemeScreenParam());
+    }
+    return const SplashScreen();
   }
 
   void _handleGlobalError(Widget? widget) {

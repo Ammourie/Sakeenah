@@ -1,0 +1,21 @@
+---
+description: Download Lucide outline icons as SVG when the UI needs a new icon
+alwaysApply: true
+---
+
+# Lucide SVG icons
+
+When a screen needs an icon that is **not** already under `assets/images/svg/icons/`:
+
+1. **Download** the Lucide outline SVG (ISC) from the static package matching existing icons (prefer the same version as peers, e.g. `lucide-static` `v0.544.0`):
+   - `https://unpkg.com/lucide-static@0.544.0/icons/<name>.svg`
+   - Or `https://cdn.jsdelivr.net/npm/lucide-static@0.544.0/icons/<name>.svg`
+2. Save to `assets/images/svg/icons/<name>.svg` (keep Lucide license header if present).
+3. Register a constant in `lib/core/constants/app/app_constants.dart`:
+   - `static const SVG_ICON_<NAME> = 'assets/images/svg/icons/<name>.svg';`
+4. Use via `CustomImage.asset(..., color: …)` — tint with `context.appColors` / `ColorScheme`, never hardcode light-only colors.
+5. Folder is already listed in `pubspec.yaml` (`assets/images/svg/icons/`) — no pubspec edit needed for new files in that directory.
+
+Do **not** invent ad-hoc SVG paths or use Material icons when a Lucide asset is the project convention (drawer, app bar actions, list actions).
+
+Common names: `filter`, `calendar`, `search`, `settings`, `plus`, `trash-2`, etc. (see [Lucide icons](https://lucide.dev/icons/)).

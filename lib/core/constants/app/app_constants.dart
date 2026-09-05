@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -44,20 +45,36 @@ class AppConstants {
   // connection, not found
 
   /// Image
-  static const LOGIN_BACKGROUND = "assets/png/login_background.jpg";
-  static const REGISTER_BACKGROUND = "assets/png/register_background.png";
-  static const APP_LOGO = "assets/images/png/app_logo.png";
-  static const APP_FLUTTER_MARKER = "assets/images/png/flutter_marker.png";
-  static const APP_USER_MARKER = "assets/images/png/user_marker.png";
+  static String appLogoForTheme(Brightness brightness) {
+    return brightness == Brightness.light
+        ? "assets/images/png/logo_light.png"
+        : "assets/images/png/logo_dark.png";
+  }
+  static String mainImageForTheme(Brightness brightness) {
+    return brightness == Brightness.light
+        ? "assets/images/png/main_image_light.png"
+        : "assets/images/png/main_image_dark.png";
+  }
 
-  /// Svg
-  static const SVG_IMAGE_PLACEHOLDER =
-      'assets/images/svg/image_placeholder.svg';
-  static const SVG_LIST_PLACEHOLDER = 'assets/images/svg/list_placeholder.svg';
-  static const SVG_LIST_TILE_PLACEHOLDER =
-      'assets/images/svg/list_tile_placeholder.svg';
-  static const SVG_DETAILS_PLACEHOLDER =
-      'assets/images/svg/details_placeholder.svg';
+
+
+
+
+  /// Svg Icons
+  static const SVG_IMAGE_PLACEHOLDER = 'assets/images/svg/image_placeholder.svg';
+  static const SVG_ICON_LANGUAGES = 'assets/images/svg/icons/languages.svg';
+  static const SVG_ICON_CHECK = 'assets/images/svg/icons/check.svg';
+  static const SVG_ICON_WIFI_OFF = 'assets/images/svg/icons/wifi-off.svg';
+  static const SVG_ICON_CASE_SENSITIVE =
+      'assets/images/svg/icons/case-sensitive.svg';
+  static const SVG_ICON_ALIGN_RIGHT =
+      'assets/images/svg/icons/align-right.svg';
+  static const SVG_ICON_SUN = 'assets/images/svg/icons/sun.svg';
+  static const SVG_ICON_MOON = 'assets/images/svg/icons/moon.svg';
+  static const SVG_ICON_SUN_MOON = 'assets/images/svg/icons/sun-moon.svg';
+  static const SVG_ICON_GLOBE_2 = 'assets/images/svg/icons/globe-2.svg';
+  static const SVG_ICON_BOOK_OPEN_TEXT =
+      'assets/images/svg/icons/book-open-text.svg';
 
   /// ERROR IMAGES
   static const ERROR_403_401 = "assets/images/png/error/403.png";
@@ -80,10 +97,8 @@ class AppConstants {
 
   /// APP constants
   static const MENU_CHANGE_LANG = "assets/png/menu/change_lang.png";
-  static const MENU_LOGOUT = "assets/png/menu/logout.png";
 
   /// Mock Json API Token
-  static const MOCK_JSON_TOKEN = 'H6HWs31en2BV1yYbXpkARg';
 
   ///Map Constants
   static const API_KEY_GOOGLE_MAPS = 'AIzaSyAT9wA45sR_sIsLAdWUhw-wLGH_othLH7M';

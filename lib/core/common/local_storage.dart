@@ -1,146 +1,57 @@
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../constants/shared_preference/shared_preference_keys.dart';
-
-import 'encryption.dart';
-
-class LocalStorage {
-  static late SharedPreferences _sp;
-
-  static Future init() async {
-    _sp = await SharedPreferences.getInstance();
-  }
-
-  static SharedPreferences get sharedPreferences => _sp;
-
-  /// deleteToken
-  static Future<void> deleteToken() async {
-    await _sp.remove(SharedPreferenceKeys.KEY_TOKEN);
-    await _sp.remove(SharedPreferenceKeys.KEY_REFRESH_TOKEN);
-  }
-
-  /// deleteFcmToken
-  static Future<void> deleteFcmToken() async {
-    await _sp.remove(SharedPreferenceKeys.KEY_FIREBASE_TOKEN);
-  }
-
-  /// deleteFcmToken
-  static Future<void> deleteOldFcmToken() async {
-    await _sp.remove(SharedPreferenceKeys.KEY_OLD_FIREBASE_TOKEN);
-  }
-
-  /// persistToken
-  static Future<void> persistToken(String token, String refreshToken) async {
-    if (token.isNotEmpty) {
-      await _sp.setString(
-        SharedPreferenceKeys.KEY_TOKEN,
-        Encryption.encrypt(token),
-      );
-    }
-    if (refreshToken.isNotEmpty) {
-      await _sp.setString(
-        SharedPreferenceKeys.KEY_REFRESH_TOKEN,
-        Encryption.encrypt(refreshToken),
-      );
-    }
-  }
-
-  /// persist OldFcmToken
-  static Future<void> persistOldFcmToken(String token) async {
-    await _sp.setString(SharedPreferenceKeys.KEY_OLD_FIREBASE_TOKEN, token);
-  }
-
-  /// persistFcmToken
-  static Future<void> persistFcmToken(String token) async {
-    await _sp.setString(SharedPreferenceKeys.KEY_FIREBASE_TOKEN, token);
-  }
-
-  /// read authToken
-  /// if returns null thats means there no SP instance
-  static String? get authToken {
-    final token = _sp.getString(SharedPreferenceKeys.KEY_TOKEN);
-    if (token != null && token.isNotEmpty) {
-      try {
-        return Encryption.decrypt(token);
-      } catch (e) {
-        debugPrint(e.toString());
-      }
-    }
-    return null;
-  }
-
-  /// read refreshToken
-  /// if returns null thats means there no SP instance
-  static String? get refreshToken {
-    final token = _sp.getString(SharedPreferenceKeys.KEY_REFRESH_TOKEN);
-    if (token != null && token.isNotEmpty) {
-      try {
-        return Encryption.decrypt(token);
-      } catch (e) {
-        debugPrint(e.toString());
-      }
-    }
-    return null;
-  }
-
-  /// read fcmToken
-  /// if returns null thats means there no SP instance
-  static String? get fcmToken {
-    return _sp.getString(SharedPreferenceKeys.KEY_FIREBASE_TOKEN);
-  }
-
-  /// read oldFcmToken
-  /// if returns null thats means there no SP instance
-  static String? get oldFcmToken {
-    return _sp.getString(SharedPreferenceKeys.KEY_OLD_FIREBASE_TOKEN);
-  }
-
-  /// check if hasToken or not
-  static bool get hasToken {
-    String? token = _sp.getString(SharedPreferenceKeys.KEY_TOKEN);
-    if (token != null) return true;
-    return false;
-  }
-
-  /// check if hasRefreshToken or not
-  static bool get hasRefreshToken {
-    String? token = _sp.getString(SharedPreferenceKeys.KEY_REFRESH_TOKEN);
-    if (token != null && token.isNotEmpty) return true;
-    return false;
-  }
-
-  /// check if hasFcmToken or not
-  static bool get hasFcmToken {
-    String? token = _sp.getString(SharedPreferenceKeys.KEY_FIREBASE_TOKEN);
-    if (token != null && token.isNotEmpty) return true;
-    return false;
-  }
-
-  /// Persist Theme Mode
-  static Future<void> persistThemeMode(ThemeMode theme) async {
-    await _sp.setInt(SharedPreferenceKeys.KEY_APP_THEME, theme.index);
-  }
-
-  /// Get APP Theme Mode
-  static ThemeMode get getThemeMode {
-    int? token = _sp.getInt(SharedPreferenceKeys.KEY_APP_THEME);
-    if (token == null) return ThemeMode.light;
-    return ThemeMode.values[token];
-  }
-
-  /// Persist LanguageFirstStartSelected
-  static Future<void> persistLanguageFirstStartSelected(bool value) async {
-    await _sp.setBool(
-      SharedPreferenceKeys.KEY_LANGUAGE_FIRST_START_SELECTED,
-      value,
-    );
-  }
-
-  /// check if the user already selected a language on first app start
-  static bool get languageFirstStartSelected {
-    return _sp.getBool(
-          SharedPreferenceKeys.KEY_LANGUAGE_FIRST_START_SELECTED,
-        ) ??
-        false;
-  }
-}
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../constants/shared_preference/shared_preference_keys.dart';
+
+class LocalStorage {
+  static late SharedPreferences _sp;
+
+  static Future init() async {
+    _sp = await SharedPreferences.getInstance();
+  }
+
+  static SharedPreferences get sharedPreferences => _sp;
+
+  /// Persist Theme Mode
+  static Future<void> persistThemeMode(ThemeMode theme) async {
+    await _sp.setInt(SharedPreferenceKeys.KEY_APP_THEME, theme.index);
+  }
+
+  /// Get APP Theme Mode
+  static ThemeMode get getThemeMode {
+    final themeIndex = _sp.getInt(SharedPreferenceKeys.KEY_APP_THEME);
+    if (themeIndex == null) return ThemeMode.system;
+    return ThemeMode.values[themeIndex];
+  }
+
+  /// Persist LanguageFirstStartSelected
+  static Future<void> persistLanguageFirstStartSelected(bool value) async {
+    await _sp.setBool(
+      SharedPreferenceKeys.KEY_LANGUAGE_FIRST_START_SELECTED,
+      value,
+    );
+  }
+
+  /// check if the user already selected a language on first app start
+  static bool get languageFirstStartSelected {
+    return _sp.getBool(
+          SharedPreferenceKeys.KEY_LANGUAGE_FIRST_START_SELECTED,
+        ) ??
+        false;
+  }
+
+  /// Persist ThemeFirstStartSelected
+  static Future<void> persistThemeFirstStartSelected(bool value) async {
+    await _sp.setBool(
+      SharedPreferenceKeys.KEY_THEME_FIRST_START_SELECTED,
+      value,
+    );
+  }
+
+  /// Whether the user completed theme selection on first app start.
+  static bool get themeFirstStartSelected {
+    return _sp.getBool(
+          SharedPreferenceKeys.KEY_THEME_FIRST_START_SELECTED,
+        ) ??
+        false;
+  }
+}

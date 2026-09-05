@@ -1,93 +1,71 @@
+import 'package:Sakeenah/core/ui/widgets/waiting_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/common/local_storage.dart';
+import '../../../../core/constants/app/app_constants.dart';
 import '../../../../core/navigation/nav.dart';
-import '../../../../core/providers/session_data.dart';
-import '../../../../core/ui/error_ui/error_viewer/dialog/errv_dialog_options.dart';
-import '../../../../core/ui/error_ui/error_viewer/error_viewer.dart';
 import '../../../../generated/l10n.dart';
 import '../../../home/presentation/screen/app_main_screen/app_main_screen.dart';
-import '../cubit/splash_cubit.dart';
-import 'splash_screen_content.dart';
+import '../../../../core/ui/widgets/onboarding_wallpaper.dart';
+import '../../../../core/ui/widgets/themed_system_overlay.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final splashCubit = SplashCubit();
-  bool canGo = false;
-
   @override
   void initState() {
     super.initState();
-    splashCubit.getSplash();
-    print('LocalStorage.authToken: ${LocalStorage.authToken}');
-    print('LocalStorage.refreshToken: ${LocalStorage.refreshToken}');
+    Future.delayed(const Duration(milliseconds: 2200), _goToMain);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocListener<SplashCubit, SplashState>(
-        bloc: splashCubit,
-        listener: (context, state) {
-          state.map(
-            initial: (e) {},
-            loading: (e) {},
-            loaded: (s) => _splashScreenLoaded(context, s),
-            error: (e) => _handleSplashError(context, e),
-          );
-        },
-        child: SplashScreenContent(
-          onAnimationFinished: () {
-            if (canGo)
-              outFromSplash();
-            else
-              canGo = true;
-          },
-        ),
-      ),
-    );
-  }
-
-  void _handleSplashError(BuildContext context, ErrorState errorState) {
-    ErrorViewer.showError(
-      context: context,
-      error: errorState.error,
-      callback: errorState.callback,
-      errorViewerOptions: ErrVDialogOptions(
-        isDismissible: false,
-        cancelOptions: ErrVButtonOptions(
-          buttonText: S.current.closeApp,
-          onBtnPressed: (context) {
-            SystemNavigator.pop();
-          },
-        ),
-      ),
-    );
-  }
-
-  void _splashScreenLoaded(BuildContext context, LoadedState state) async {
-    context.read<SessionData>().profile = state.splashEntity.profile;
-
-    if (canGo) {
-      outFromSplash();
-    } else {
-      canGo = true;
-    }
-  }
-
-  void outFromSplash() async {
+  void _goToMain() {
+    if (!mounted) return;
     Nav.off(AppMainScreen.routeName, arguments: AppMainScreenParam());
   }
 
   @override
-  void dispose() {
-    splashCubit.close();
-    super.dispose();
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    return ThemedSystemOverlay(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            const OnboardingWallpaper(),
+            SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    AppConstants.mainImageForTheme(Theme.of(context).brightness),
+                    width: 120.r,
+                    height: 120.r,
+                    fit: BoxFit.contain,
+                  ),
+                  24.verticalSpace,
+                  Text(
+                    S.current.appName,
+                    style: textTheme.headlineSmall?.copyWith(
+                      color: colorScheme.onSurface,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  32.verticalSpace,
+                  SizedBox(width: 50.r, height: 28.r, child: WaitingWidget()),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

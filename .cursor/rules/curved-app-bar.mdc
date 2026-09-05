@@ -1,0 +1,95 @@
+---
+description: Use CurvedAppBar in a body Stack via CurvedAppBarLayout — never on Scaffold.appBar
+alwaysApply: true
+---
+
+# Curved app bar
+
+Standard screens use [`CurvedAppBar`](lib/core/ui/widgets/curved_app_bar.dart) inside
+[`CurvedAppBarLayout`](lib/core/ui/widgets/curved_app_bar.dart) — **not** on
+`Scaffold.appBar` and not raw `AppBar(...)`.
+
+The bar is painted in a `Stack` so body content starts **below** the curved
+bottom edge and the curve stays visible.
+
+## When to use
+
+- Home, settings, lists, forms, and any pushed route that needs a title bar
+- Drawer screens: `CurvedAppBar(..., showDrawerMenu: true)` inside the layout
+- Pushed screens: default back button (`automaticallyImplyLeading: true`)
+
+## When NOT to use
+
+- First-start onboarding (language / theme) with inline back button and no top bar
+- Full-screen dialogs, splash, or screens that deliberately hide the bar
+
+## Usage
+
+```dart
+import '../widgets/curved_app_bar.dart';
+
+Scaffold(
+  drawer: myDrawer, // optional
+  body: CurvedAppBarLayout(
+    appBar: CurvedAppBar(
+      title: S.current.homePage,
+      showDrawerMenu: true,
+      automaticallyImplyLeading: false,
+    ),
+    body: _HomeBody(),
+  ),
+)
+```
+
+Full-screen background + bar overlay:
+
+```dart
+Scaffold(
+  body: Stack(
+    fit: StackFit.expand,
+    children: [
+      const MyBackground(),
+      CurvedAppBarLayout(
+        appBar: CurvedAppBar(title: S.current.someTitle),
+        body: _ScreenContent(),
+      ),
+    ],
+  ),
+)
+```
+
+Optional: `titleWidget`, `leading`, `actions`, `centerTitle`, `bottomCurveRadius`,
+`bodyTopGap` on `CurvedAppBarLayout` (default `12` logical gap below the curve).
+
+## Spacing
+
+- Use `CurvedAppBar.bodyTopPadding(context)` only when building a custom stack;
+  prefer `CurvedAppBarLayout` so inset stays consistent.
+- Do not add manual `SafeArea` top padding on the body — the layout already
+  accounts for status bar + toolbar + curve.
+
+## Styling rules
+
+- Colors come from `Theme.of(context).colorScheme` inside the widget
+- Title uses `textTheme.titleLarge` with `onPrimary`
+- Status bar overlay is handled by the bar; do not duplicate `AnnotatedRegion`
+  on the same screen unless the body extends behind the bar intentionally
+
+## Do / don't
+
+```dart
+// ❌ BAD — separates bar from body; curve gets clipped
+appBar: CurvedAppBar(title: S.current.homePage),
+
+// ❌ BAD
+appBar: AppBar(title: Text(S.current.homePage)),
+
+// ✅ GOOD
+body: CurvedAppBarLayout(
+  appBar: CurvedAppBar(title: S.current.homePage, showDrawerMenu: true),
+  body: ...,
+),
+```
+
+When adding a new screen, default to `CurvedAppBarLayout` unless the design
+matches the onboarding (no bar) pattern.

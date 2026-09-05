@@ -230,6 +230,16 @@ class S {
     return Intl.message('Confirm', name: 'confirm', desc: '', args: []);
   }
 
+  /// `Select language`
+  String get selectLanguageTitle {
+    return Intl.message(
+      'Select language',
+      name: 'selectLanguageTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Select a language, the application will restart`
   String get changeLangMessage {
     return Intl.message(
@@ -238,6 +248,41 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Choose appearance`
+  String get selectThemeTitle {
+    return Intl.message(
+      'Choose appearance',
+      name: 'selectThemeTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick light, dark, or follow your device setting`
+  String get selectThemeMessage {
+    return Intl.message(
+      'Pick light, dark, or follow your device setting',
+      name: 'selectThemeMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Light`
+  String get themeLight {
+    return Intl.message('Light', name: 'themeLight', desc: '', args: []);
+  }
+
+  /// `Dark`
+  String get themeDark {
+    return Intl.message('Dark', name: 'themeDark', desc: '', args: []);
+  }
+
+  /// `System`
+  String get themeSystem {
+    return Intl.message('System', name: 'themeSystem', desc: '', args: []);
   }
 
   /// `Login`
@@ -435,6 +480,16 @@ class S {
     return Intl.message(
       'Switch theme',
       name: 'switchTheme',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Preferences`
+  String get drawerPreferences {
+    return Intl.message(
+      'Preferences',
+      name: 'drawerPreferences',
       desc: '',
       args: [],
     );
@@ -983,6 +1038,11 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Sakeenah`
+  String get appName {
+    return Intl.message('Sakeenah', name: 'appName', desc: '', args: []);
   }
 }
 

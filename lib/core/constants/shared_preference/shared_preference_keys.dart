@@ -1,16 +1,11 @@
-import 'package:flutter/foundation.dart';
-
-@immutable
-class SharedPreferenceKeys {
-  static const KEY_LANGUAGE = 'language';
-  static const KEY_TOKEN = 'token';
-  static const KEY_FIREBASE_TOKEN = 'firebase_token';
-  static const KEY_OLD_FIREBASE_TOKEN = 'old_firebase_token';
-  static const KEY_FIRST_START = 'First_start';
-  static const KEY_LANGUAGE_FIRST_START_SELECTED =
-      'language_first_start_selected';
-  static const KEY_APP_THEME = 'appTheme';
-  static const KEY_REFRESH_TOKEN = 'refresh_token';
-
-  static const REMOVE_KEYS_ON_LOGOUT = [KEY_TOKEN, KEY_REFRESH_TOKEN];
-}
+import 'package:flutter/foundation.dart';
+
+@immutable
+class SharedPreferenceKeys {
+  static const KEY_LANGUAGE = 'language';
+  static const KEY_FIRST_START = 'First_start';
+  static const KEY_LANGUAGE_FIRST_START_SELECTED =
+      'language_first_start_selected';
+  static const KEY_THEME_FIRST_START_SELECTED = 'theme_first_start_selected';
+  static const KEY_APP_THEME = 'appTheme';
+}

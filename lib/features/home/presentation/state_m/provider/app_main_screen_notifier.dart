@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/common/custom_modules/screen_notifier.dart';
-import '../../../../account/presentation/state_m/cubit/account_cubit.dart';
 import '../../screen/app_main_screen/app_main_screen.dart';
 
-class AppMainScreenNotifier extends ScreenNotifier {
+class AppMainScreenNotifier extends ScreenNotifier<AppMainScreenParam> {
   /// Constructors
-  AppMainScreenNotifier(this.param);
+  AppMainScreenNotifier(super.param);
 
   /// Fields
   late BuildContext context;
-  final AppMainScreenParam param;
-  final logoutCubit = AccountCubit();
   bool _isLoading = false;
 
   /// Getters and Setters
@@ -21,14 +18,8 @@ class AppMainScreenNotifier extends ScreenNotifier {
     notifyListeners();
   }
 
-  /// Methods
-  void logout() {
-    logoutCubit.logout();
-  }
-
   @override
   void closeNotifier() {
-    logoutCubit.close();
-    this.dispose();
+    dispose();
   }
 }

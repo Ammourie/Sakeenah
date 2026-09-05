@@ -1,0 +1,58 @@
+---
+description: context.select must be inside a Builder or provider builder callback
+globs: lib/**/*.dart
+alwaysApply: false
+---
+
+# context.select scope
+
+`context.select` must run inside a **narrow builder scope** — never directly in
+a widget's top-level `build` method or in a method that shares the parent
+`BuildContext`.
+
+## Required placement
+
+Use one of:
+
+1. **`Builder`** — for section-level scoped rebuilds
+2. **Provider `builder:`** — for shell-level loading HUD (e.g. `ModalProgressHUD`)
+
+## Rules
+
+- Wrap **only** the widget subtree that depends on the selected value
+- Do **not** call `context.select` in `build()` without a `Builder` ancestor
+- Do **not** use `context.watch<Notifier>()` or a top-level `Consumer` for
+  whole-screen rebuilds
+- Use `context.read<T>()` for one-off reads with no rebuild
+
+## Examples
+
+```dart
+// ❌ BAD — select in top-level build; rebuilds entire screen
+@override
+Widget build(BuildContext context) {
+  final isLoading = context.select<MyNotifier, bool>((n) => n.isLoading);
+  return ModalProgressHUD(inAsyncCall: isLoading, child: _content);
+}
+
+// ✅ GOOD — select inside Builder; only this section rebuilds
+Widget _buildLanguageRow() {
+  return Builder(
+    builder: (context) {
+      final label = context.select<MyNotifier, int>((n) => n.someField);
+      return _buildSectionEntry(S.current.language, sn.onLanguageTap,
+          trailing: '$label');
+    },
+  );
+}
+
+// ✅ GOOD — select inside provider builder for global loading HUD
+ChangeNotifierProvider.value(
+  value: sn,
+  builder: (context, child) {
+    context.select<MyNotifier, bool>((n) => n.isLoading);
+    return ModalProgressHUD(inAsyncCall: sn.isLoading, child: child!);
+  },
+  child: const MyScreenContent(),
+);
+```

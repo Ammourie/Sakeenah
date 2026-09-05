@@ -21,7 +21,13 @@
   "changeLanguage": "تغيير اللغة",
   "cancel": "إلغاء",
   "confirm": "تأكيد",
+  "selectLanguageTitle": "اختر اللغة",
   "changeLangMessage": "اختر اللغة، ستتم إعادة تشغيل التطبيق",
+  "selectThemeTitle": "اختر المظهر",
+  "selectThemeMessage": "اختر الوضع الفاتح أو الداكن أو اتبع إعداد الجهاز",
+  "themeLight": "فاتح",
+  "themeDark": "داكن",
+  "themeSystem": "النظام",
   "login": "تسجيل الدخول",
   "welcome": "أهلاً بك",
   "pressTwiceToExit": "إضغط مرتين للخروج",
@@ -50,6 +56,7 @@
   "lastName": "الأسم الأخير",
   "errorEmptyField": "لا يمكن لهذا الحقل أن يكون فارغاً",
   "switchTheme": "تغيير وضع الالوان",
+  "drawerPreferences": "التفضيلات",
   "accountNotVerifiedErrorMessage": "لم يتم التحقق من الحساب",
   "cancelErrorMessage": "تم إلغاء العملية",
   "loginErrorRequired": "تسجيل الدخول مطلوب",
@@ -114,5 +121,6 @@
   "getPeople": "الأشخاص",
   "getPokemons": "البوكيمونات",
   "testErrorScreen": "اختبار كاشف الأخطاء",
-  "internetNotAvailable": "الإنترنت غير متوفر"
+  "internetNotAvailable": "الإنترنت غير متوفر",
+  "appName": "سكينة"
 }

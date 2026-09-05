@@ -14,10 +14,6 @@ class HomeState with _$HomeState {
     VoidCallback callback,
   ) = HomeErrorInitState;
 
-  const factory HomeState.peopleListLoadedState(PeopleDataEntity data) =
-      PeopleListLoadedState;
-
-  const factory HomeState.commentsLoadedState(List<CommentsEntity> comments) =
-  CommentsLoadedState;
+  
 }
 

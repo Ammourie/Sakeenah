@@ -116,10 +116,6 @@ dependencies:
   auto_size_text: 3.0.0
   # A VisibilityDetector widget wraps an existing Flutter widget and fires a callback when the widget's visibility changes.
   visibility_detector: 0.4.0+2
-  # Periodic callbacks in the background for both iOS and Android. Includes Android Headless implementation.
-  background_fetch: 1.7.0
-  # Port of awesome JavaScript Node.js library - Socket.io-client v2._ ~ v4._ - in Dart
-  socket_io_client: 3.1.4
   # A Flutter plugin for iOS and Android for picking images from the image library, and taking new pictures with the camera.
   image_picker: 1.2.2
   # A package that allows you to use the native file explorer to pick single or multiple files, with extensions filtering support.
@@ -136,7 +132,8 @@ dependencies:
   flutter_animate: 4.5.2
   # Checks for an actual internet connection (not just network attachment)
   internet_connection_checker_plus: 3.1.1
-
+  # A Flutter plugin to show a beautiful loading widget.
+  flutter_spinkit: 5.2.2
 
 dev_dependencies:
   flutter_test:
@@ -169,6 +166,7 @@ flutter:
     - assets/images/png/
     - assets/images/png/error/
     - assets/images/svg/
+    - assets/images/svg/icons/
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a

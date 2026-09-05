@@ -40,6 +40,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage("حدث خطأ في عرض الصوت"),
     "anErrorOccurredWhileDisplayingTheVideo":
         MessageLookupByLibrary.simpleMessage("حدث خطأ في عرض الفيديو"),
+    "appName": MessageLookupByLibrary.simpleMessage("سكينة"),
     "apply": MessageLookupByLibrary.simpleMessage("تغيير"),
     "audio": MessageLookupByLibrary.simpleMessage("صوت"),
     "badRequest": MessageLookupByLibrary.simpleMessage("إرسال خاطئ"),
@@ -87,6 +88,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "didnotReceiveAnyCode": MessageLookupByLibrary.simpleMessage(
       "لم يتم إرسال الكود؟",
     ),
+    "drawerPreferences": MessageLookupByLibrary.simpleMessage("التفضيلات"),
     "empty": MessageLookupByLibrary.simpleMessage("لا يوجد معلومات لعرضها"),
     "emptyScreen": MessageLookupByLibrary.simpleMessage("هذه الصفحة فارغة"),
     "enterCodeText": MessageLookupByLibrary.simpleMessage(
@@ -199,6 +201,11 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "retry": MessageLookupByLibrary.simpleMessage("إعادة المحاولة"),
     "search": MessageLookupByLibrary.simpleMessage("بحث"),
+    "selectLanguageTitle": MessageLookupByLibrary.simpleMessage("اختر اللغة"),
+    "selectThemeMessage": MessageLookupByLibrary.simpleMessage(
+      "اختر الوضع الفاتح أو الداكن أو اتبع إعداد الجهاز",
+    ),
+    "selectThemeTitle": MessageLookupByLibrary.simpleMessage("اختر المظهر"),
     "send": MessageLookupByLibrary.simpleMessage("إرسال"),
     "signUp": MessageLookupByLibrary.simpleMessage("تسجيل حساب"),
     "specificPermissionRequired": m3,
@@ -218,6 +225,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "thankYouForReporting": MessageLookupByLibrary.simpleMessage(
       "شكرا لك على إرسال التقرير",
     ),
+    "themeDark": MessageLookupByLibrary.simpleMessage("داكن"),
+    "themeLight": MessageLookupByLibrary.simpleMessage("فاتح"),
+    "themeSystem": MessageLookupByLibrary.simpleMessage("النظام"),
     "thereAreNoMessagesToDisplay": MessageLookupByLibrary.simpleMessage(
       "لا يوجد رسائل لعرضها",
     ),

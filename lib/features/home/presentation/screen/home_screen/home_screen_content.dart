@@ -5,362 +5,294 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../core/common/app_config.dart';
-import '../../../../../core/theme/custom_theme_colors.dart';
-import '../../../../../core/ui/clippers/theme_circle_clipper.dart';
-import '../../../../../core/ui/widgets/restart_widget.dart';
+import '../../../../../core/constants/app/app_constants.dart';
+import '../../../../../core/localization/localization_provider.dart';
+import '../../../../../core/providers/theme_mode_provider.dart';
+import '../../../../../core/theme/theme_extensions.dart';
+import '../../../../../core/ui/widgets/curved_app_bar.dart';
+import '../../../../../core/ui/widgets/custom_image.dart';
 import '../../../../../generated/l10n.dart';
 import '../../state_m/provider/home_screen_notifier.dart';
 
-class HomeScreenContent extends StatefulWidget {
-  const HomeScreenContent({Key? key}) : super(key: key);
+class HomeScreenContent extends StatelessWidget {
+  const HomeScreenContent({super.key});
 
-  @override
-  State<HomeScreenContent> createState() => _HomeScreenContentState();
-}
-
-class _HomeScreenContentState extends State<HomeScreenContent> {
   @override
   Widget build(BuildContext context) {
+    final sn = Provider.of<HomeScreenNotifier>(context);
+
     return ThemeSwitchingArea(
-      child: Theme(
-        data: Theme.of(context),
-        child: ModalProgressHUD(
-          inAsyncCall: provider(context).isLoading,
-          child: _buildHomeScreen(context),
+      child: ModalProgressHUD(
+        inAsyncCall: sn.isLoading,
+        child: Scaffold(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          drawer: const _AppDrawer(),
+          body: CurvedAppBarLayout(
+            appBar: CurvedAppBar(
+              title: sn.getHomeScreenTitle(context),
+              showDrawerMenu: true,
+              automaticallyImplyLeading: false,
+            ),
+            body: const SizedBox.shrink(),
+          ),
         ),
       ),
     );
   }
+}
 
-  Scaffold _buildHomeScreen(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(
-        title: Text(
-          provider(context).getHomeScreenTitle(context),
-          style: Theme.of(context).textTheme.titleLarge,
-        ),
-      ),
-      body: _buildHomeScreenBody(context),
-      drawer: _drawerList(context),
-      bottomNavigationBar: _buildNavBar(),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {},
-      ),
-      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
-    );
-  }
+class _AppDrawer extends StatelessWidget {
+  const _AppDrawer();
 
-  int _selectedPage = 0;
+  @override
+  Widget build(BuildContext context) {
+    final sn = Provider.of<HomeScreenNotifier>(context, listen: false);
+    final themeMode = context.watch<ThemeModeProvider>().themeMode;
+    final drawerTheme = AppConfig().resolveThemeDataForMode(themeMode, context);
+    final colorScheme = drawerTheme.colorScheme;
+    final locale = context.watch<LocalizationProvider>();
 
-  Widget _buildNavBar() {
-    return NavigationBar(
-      destinations: [
-        const NavigationDestination(
-          selectedIcon: Icon(Icons.home_outlined),
-          icon: Icon(Icons.home),
-          label: "Home",
-        ),
-        const NavigationDestination(
-          selectedIcon: Icon(Icons.person_outline),
-          icon: Icon(Icons.person),
-          label: "Profile",
-        ),
-        const NavigationDestination(
-          selectedIcon: Icon(Icons.headphones_outlined),
-          icon: Icon(Icons.headphones),
-          label: "Contact us",
-        ),
-        const NavigationDestination(
-          selectedIcon: Icon(Icons.settings_outlined),
-          icon: Icon(Icons.settings),
-          label: "Settings",
-        ),
-      ],
-      onDestinationSelected: (value) {
-        setState(() {
-          _selectedPage = value;
-        });
-      },
-      selectedIndex: _selectedPage,
-      labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-    );
-  }
+    final languageLabel = locale.currentLanguage == AppConstants.LANG_AR
+        ? AppConstants.LANG_AR_OUTPUT
+        : AppConstants.LANG_EN_OUTPUT;
+    final themeLabel = _themeModeLabel(themeMode);
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
 
-  bool valueTrue = true;
-  String? selectedValue;
-
-  Padding _buildHomeScreenBody(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: SingleChildScrollView(
+    return Theme(
+      data: drawerTheme,
+      child: Drawer(
+        backgroundColor: colorScheme.surface,
+        surfaceTintColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.horizontal(
+            left: isRtl ? Radius.circular(28.r) : Radius.zero,
+            right: isRtl ? Radius.zero : Radius.circular(28.r),
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            24.verticalSpace,
-            const Text("Translation test"),
-            10.verticalSpace,
-            Text(S.current.welcome),
-            20.verticalSpace,
-            const Align(child: CircularProgressIndicator()),
-            50.verticalSpace,
-            const Align(child: LinearProgressIndicator()),
-            50.verticalSpace,
-            const Align(child: RefreshProgressIndicator()),
-            20.verticalSpace,
-            TextButton(
-              onPressed: () async {
-                RestartWidget.restartApp(AppConfig().appContext!);
-                print("j");
-                // await showDialog(
-                //   context: context,
-                //   builder: (context) {
-                //     return Dialog.fullscreen(
-                //       child: Text("hello"),
-                //     );
-                //   },
-                // );
-                // ScaffoldMessenger.of(context).showSnackBar(
-                //   SnackBar(
-                //     content: Text("hello"),
-                //     action: SnackBarAction(
-                //       label: "close",
-                //       onPressed: () {
-                //         ScaffoldMessenger.of(context).clearSnackBars();
-                //       },
-                //     ),
-                //   ),
-                // );
-                // await showDatePicker(
-                //   context: context,
-                //   initialDate: DateTime.now(),
-                //   firstDate: DateTime(1950, 1, 1),
-                //   lastDate: DateTime(2050, 1, 1),
-                // );
-                // await showTimePicker(
-                //   context: context,
-                //   initialTime: TimeOfDay.now(),
-                // );
-              },
-              child: const Text("Test Custom theme color"),
-              style: TextButton.styleFrom(
-                backgroundColor:
-                    Theme.of(
-                      context,
-                    ).extension<CustomThemeColors>()!.testButtonColor,
+            _DrawerHeader(colorScheme: colorScheme),
+            8.verticalSpace,
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                children: [
+                  _DrawerMenuTile(
+                    iconAsset: AppConstants.SVG_ICON_LANGUAGES,
+                    title: S.current.changeLanguage,
+                    subtitle: languageLabel,
+                    onTap: () {
+                      Navigator.pop(context);
+                      sn.onChangeLanguageTap(context);
+                    },
+                  ),
+                  12.verticalSpace,
+                  _DrawerMenuTile(
+                    iconAsset: AppConstants.SVG_ICON_SUN_MOON,
+                    title: S.current.switchTheme,
+                    subtitle: themeLabel,
+                    onTap: () {
+                      Navigator.pop(context);
+                      sn.onThemeSwitcherTap(context);
+                    },
+                  ),
+                ],
               ),
             ),
-            Switch(
-              value: valueTrue,
-              onChanged: (value) {
-                setState(() {
-                  valueTrue = !valueTrue;
-                });
-              },
-            ),
-            Checkbox(
-              value: valueTrue,
-              onChanged: (value) {
-                setState(() {
-                  valueTrue = !valueTrue;
-                });
-              },
-            ),
-            TextFormField(
-              decoration: InputDecoration(
-                fillColor: Theme.of(context).colorScheme.secondaryContainer,
-                filled: true,
-                labelText: 'label',
-                alignLabelWithHint: true,
-                border: border,
-                errorBorder: border,
-                enabledBorder: border,
-                focusedBorder: border,
-                disabledBorder: border,
-                focusedErrorBorder: border,
-              ),
-            ),
-            60.verticalSpace,
-            SizedBox(
-              width: 1.sw,
-              child: Align(
-                child: DropdownMenu<String>(
-                  // value: selectedValue,
-                  dropdownMenuEntries:
-                      ["ali", "elias"]
-                          .map(
-                            (e) =>
-                                DropdownMenuEntry<String>(value: e, label: e),
-                          )
-                          .toList(),
-                  onSelected: (value) {
-                    setState(() {
-                      selectedValue = value;
-                    });
-                  },
-                  enableFilter: true,
-                ),
-              ),
-            ),
-            MediaQuery.of(context).viewInsets.bottom.verticalSpace,
           ],
         ),
       ),
     );
   }
 
-  UnderlineInputBorder get border => UnderlineInputBorder(
-    borderSide: const BorderSide(
-      style: BorderStyle.none,
-      width: 0,
-      strokeAlign: 0,
-      color: Colors.transparent,
-    ),
-    borderRadius: BorderRadius.circular(35.r),
-  );
+  String _themeModeLabel(ThemeMode mode) {
+    switch (mode) {
+      case ThemeMode.light:
+        return S.current.themeLight;
+      case ThemeMode.dark:
+        return S.current.themeDark;
+      case ThemeMode.system:
+        return S.current.themeSystem;
+    }
+  }
+}
 
-  Widget _drawerList(BuildContext context) {
-    return SafeArea(
-      child: Drawer(
-        child: SingleChildScrollView(
-          child: Column(
+class _DrawerHeader extends StatelessWidget {
+  const _DrawerHeader({required this.colorScheme});
+
+  final ColorScheme colorScheme;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final brightness = Theme.of(context).brightness;
+    final isLight = brightness == Brightness.light;
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: isLight ? colorScheme.surfaceContainerHigh : colorScheme.primary,
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(28.r),
+        ),
+        border: isLight
+            ? Border(
+                bottom: BorderSide(color: colorScheme.outlineVariant),
+              )
+            : null,
+      ),
+      child: SafeArea(
+        bottom: false,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 24.h),
+          child: Row(
             children: [
               Container(
-                width: double.infinity,
-                color: Theme.of(context).colorScheme.primary,
-                child: DrawerHeader(
-                  child: Align(
-                    alignment: AlignmentDirectional.topEnd,
-                    child: _themeSwitcher(),
-                  ),
+                width: 56.r,
+                height: 56.r,
+                decoration: BoxDecoration(
+                  color: isLight
+                      ? colorScheme.primaryContainer.withValues(alpha: 0.65)
+                      : colorScheme.onPrimary.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(16.r),
+                ),
+                padding: EdgeInsets.all(10.r),
+                child: Image.asset(
+                  AppConstants.appLogoForTheme(brightness),
+                  fit: BoxFit.contain,
                 ),
               ),
-              ListTile(
-                title: Text(
-                  S.current.changeLanguage,
-                  style: Theme.of(context).textTheme.titleLarge,
+              16.horizontalSpace,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      AppConstants.TITLE_APP_NAME,
+                      style: textTheme.titleLarge?.copyWith(
+                        color: isLight
+                            ? colorScheme.onSurface
+                            : colorScheme.onPrimary,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    4.verticalSpace,
+                    Text(
+                      S.current.drawerPreferences,
+                      style: textTheme.bodyMedium?.copyWith(
+                        color: isLight
+                            ? colorScheme.onSurfaceVariant
+                            : colorScheme.onPrimary.withValues(alpha: 0.82),
+                      ),
+                    ),
+                  ],
                 ),
-                onTap: () {
-                  provider(
-                    context,
-                    listen: false,
-                  ).onChangeLanguageTap(context);
-                },
-                trailing: const Icon(Icons.language),
               ),
-              const Divider(),
-              ListTile(
-                title: Text(
-                  S.current.justLog,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                onTap: () {
-                  provider(context, listen: false).onJustLogTap();
-                },
-                trailing: const Icon(Icons.info),
-              ),
-              const Divider(),
-              ListTile(
-                title: Text(
-                  S.current.testSuccessRequest,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                onTap: () {
-                  provider(context, listen: false).onTestSuccessRequestTap();
-                },
-                trailing: const Icon(Icons.check),
-              ),
-              ListTile(
-                title: Text(
-                  S.current.testFailureRequest,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                onTap: () {
-                  provider(context, listen: false).onTestFailurRequestTap();
-                },
-                trailing: const Icon(Icons.close),
-              ),
-              ListTile(
-                title: Text(
-                  S.current.testValidatorRequest,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                onTap: () {
-                  provider(context, listen: false).onTestValidatorRequestTap();
-                },
-                trailing: const Icon(Icons.vertical_align_top_rounded),
-              ),
-              const Divider(),
-              ListTile(
-                title: Text(
-                  S.current.getPeople,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                onTap: () {
-                  provider(context, listen: false).onGetPeopleTap(context);
-                },
-                trailing: const Icon(Icons.people),
-              ),
-              ListTile(
-                title: Text(
-                  "Get Comments",
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                onTap: () {
-                  provider(context, listen: false).onGetCommentsTap(context);
-                },
-                trailing: const Icon(Icons.comment),
-              ),
-             
-              const Divider(),
-              ListTile(
-                title: Text(
-                  S.current.testErrorScreen,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                onTap: () {
-                  Navigator.of(
-                    context,
-                    // ignore: null_check_always_fails
-                  ).push(MaterialPageRoute(builder: (context) => null!));
-                },
-                trailing: const Icon(Icons.report_gmailerrorred_outlined),
-              ),
-              const Divider(),
-              ListTile(
-                title: Text(
-                  S.current.logOut,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                onTap:
-                    () => provider(context, listen: false).onLogoutTap(context),
-                trailing: const Icon(Icons.logout),
-              ),
-              const Divider(),
             ],
           ),
         ),
       ),
     );
   }
+}
 
-  Widget _themeSwitcher() {
-    return ThemeSwitcher(
-      clipper: const CustomThemeSwitcherCircleClipper(),
-      builder: (context) {
-        return IconButton(
-          icon: Icon(provider(context).getThemeIcon(context)),
-          onPressed: () {
-            provider(context, listen: false).onThemeSwitcherTap(context);
-          },
-        );
-      },
+class _DrawerMenuTile extends StatelessWidget {
+  const _DrawerMenuTile({
+    required this.iconAsset,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+  });
+
+  final String iconAsset;
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    final appColors = context.appColors;
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
+
+    return Semantics(
+      button: true,
+      label: title,
+      child: Material(
+        color: colorScheme.surfaceContainer,
+        borderRadius: BorderRadius.circular(16.r),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16.r),
+          onTap: onTap,
+          child: Ink(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16.r),
+              border: Border.all(color: colorScheme.outlineVariant),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+              child: Row(
+                children: [
+                  Container(
+                    width: 48.r,
+                    height: 48.r,
+                    decoration: BoxDecoration(
+                      color: colorScheme.primaryContainer.withValues(
+                        alpha: 0.55,
+                      ),
+                      borderRadius: BorderRadius.circular(14.r),
+                    ),
+                    alignment: Alignment.center,
+                    child: CustomImage.asset(
+                      iconAsset,
+                      width: 24.r,
+                      height: 24.r,
+                      color: colorScheme.primary,
+                    ),
+                  ),
+                  14.horizontalSpace,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: textTheme.titleSmall?.copyWith(
+                            color: appColors.ink,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        4.verticalSpace,
+                        Text(
+                          subtitle,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: textTheme.bodySmall?.copyWith(
+                            color: appColors.muted,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  8.horizontalSpace,
+                  Icon(
+                    isRtl
+                        ? Icons.chevron_left_rounded
+                        : Icons.chevron_right_rounded,
+                    color: appColors.muted,
+                    size: 24.r,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
-
-  /// Logic
-
-  HomeScreenNotifier provider(BuildContext context, {bool listen = true}) =>
-      Provider.of<HomeScreenNotifier>(context, listen: listen);
 }

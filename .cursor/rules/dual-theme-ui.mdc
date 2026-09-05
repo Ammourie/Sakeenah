@@ -1,0 +1,43 @@
+---
+description: Every UI/design change must work in both light and dark themes
+alwaysApply: true
+---
+
+# Dual-theme UI (light + dark)
+
+Any design, screen, widget, dialog, drawer, or visual polish request **must** be implemented for **both** light and dark themes. Do not ship light-only styling.
+
+## Required approach (Material 3)
+
+- Themes are seeded with `ColorScheme.fromSeed` in `lib/core/theme/app_color_schemes.dart` (jade brand).
+- **Prefer Material roles**: `Theme.of(context).colorScheme` (`primary`, `onPrimary`, `surface`, `surfaceContainer*`, `onSurface`, `onSurfaceVariant`, `outline`, `outlineVariant`, …).
+- App semantic aliases live on `CustomThemeColors` and are **mapped from** that `ColorScheme` via `CustomThemeColors.fromScheme` — use `context.appColors` when you need named tokens (`ink`, `card`, `muted`, …).
+- Primary actions (FAB, filled buttons, selected pills) must use `colorScheme.primary` / `onPrimary` (or `primaryContainer` / `onPrimaryContainer` for FABs) — never hardcode light-mode jade on dark surfaces.
+- Brand-only constants that are theme-independent (`AppColors` splash gradients, scan overlays) may stay on `AppColors`.
+- Do **not** invent one-off dark hex pairs or branch `isLight ? … : …` for colors in widgets.
+- When adding a dual-theme color: extend the `fromScheme` mapping (or use a `ColorScheme` role directly), then consume via `context.appColors` / `colorScheme`.
+
+## Do / don't
+
+```dart
+// ❌ BAD — brightness check / light-only brand on dark
+color: isLight ? AppColors.ink : AppColors.darkText;
+backgroundColor: AppColors.jade; // poor contrast in MD3 dark
+
+// ✅ GOOD — Material roles + app aliases
+final s = Theme.of(context).colorScheme;
+final c = context.appColors;
+color: c.ink; // == onSurface
+backgroundColor: s.primary;
+foregroundColor: s.onPrimary;
+```
+
+Exception: brightness is OK when picking **non-color** assets (e.g. moon vs sun icon).
+
+## Checklist before finishing a design task
+
+- [ ] Surfaces follow elevation: `surface` → `surfaceContainerLow` → `surfaceContainer` → `surfaceContainerHigh`
+- [ ] Text uses `onSurface` / `onSurfaceVariant` (via `appColors.ink` / `muted`)
+- [ ] Primary actions use `primary`/`onPrimary` (readable in dark)
+- [ ] Borders use `outline` / `outlineVariant`
+- [ ] Dialogs, sheets, drawers use scheme containers (or `appColors` aliases)

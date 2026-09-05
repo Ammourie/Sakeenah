@@ -1,45 +1,48 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import 'custom_shimmer.dart';
 
 enum ProgressIndicatorOption {
   Circular,
   AdaptiveCircular,
   Linear,
+  SpinningLines,
 }
 
 class WaitingWidget extends StatelessWidget {
-  final double? value;
-  final Color? backgroundColor;
-  final Animation<Color?>? valueColor;
-  final double strokeWidth = 4.0;
-  final String? semanticsLabel;
-  final String? semanticsValue;
-  final ProgressIndicatorOption? option;
-
   const WaitingWidget({
-    Key? key,
+    super.key,
     this.value,
     this.backgroundColor,
     this.valueColor,
     this.semanticsLabel,
     this.semanticsValue,
-    this.option,
-  }) : super(key: key);
+    this.option = ProgressIndicatorOption.SpinningLines,
+  });
+
+  final double? value;
+  final Color? backgroundColor;
+  final Animation<Color?>? valueColor;
+  final String? semanticsLabel;
+  final String? semanticsValue;
+  final ProgressIndicatorOption? option;
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final progressColor =
+        valueColor ?? AlwaysStoppedAnimation<Color?>(colorScheme.primary);
+    final trackColor = backgroundColor ?? colorScheme.surfaceContainerHighest;
+
     switch (option) {
       case ProgressIndicatorOption.Circular:
         return Center(
           child: CircularProgressIndicator(
-            key: key,
             value: value,
-            backgroundColor: backgroundColor,
-            valueColor: valueColor,
+            backgroundColor: trackColor,
+            valueColor: progressColor,
             semanticsLabel: semanticsLabel,
             semanticsValue: semanticsValue,
           ),
@@ -47,10 +50,9 @@ class WaitingWidget extends StatelessWidget {
       case ProgressIndicatorOption.AdaptiveCircular:
         return Center(
           child: CircularProgressIndicator.adaptive(
-            key: key,
             value: value,
-            backgroundColor: backgroundColor,
-            valueColor: valueColor,
+            backgroundColor: trackColor,
+            valueColor: progressColor,
             semanticsLabel: semanticsLabel,
             semanticsValue: semanticsValue,
           ),
@@ -58,29 +60,29 @@ class WaitingWidget extends StatelessWidget {
       case ProgressIndicatorOption.Linear:
         return Center(
           child: LinearProgressIndicator(
-            key: key,
             value: value,
-            backgroundColor: backgroundColor,
-            valueColor: valueColor,
+            backgroundColor: trackColor,
+            valueColor: progressColor,
             semanticsLabel: semanticsLabel,
             semanticsValue: semanticsValue,
           ),
         );
+      case ProgressIndicatorOption.SpinningLines:
       default:
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+        final spinningLinesColor =
+            backgroundColor ?? (isDark ? Colors.white : colorScheme.primary);
         return Center(
-          child: CircularProgressIndicator.adaptive(
-            key: key,
-            value: value,
-            backgroundColor: backgroundColor,
-            valueColor: valueColor,
-            semanticsLabel: semanticsLabel,
-            semanticsValue: semanticsValue,
+          child: SpinKitSpinningLines(
+            color: spinningLinesColor,
+            size: 50.r,
           ),
         );
     }
   }
 
-  static Widget wavyText({
+  static Widget wavyText(
+    BuildContext context, {
     String? loadingMessage,
     TextStyle? textStyle,
     Duration pause = const Duration(milliseconds: 1000),
@@ -92,6 +94,9 @@ class WaitingWidget extends StatelessWidget {
     void Function(int, bool)? onNextBeforePause,
     void Function()? onFinished,
   }) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     return AnimatedTextKit(
       onTap: onTap,
       onNext: onNext,
@@ -102,49 +107,20 @@ class WaitingWidget extends StatelessWidget {
       animatedTexts: [
         WavyAnimatedText(
           loadingMessage?.toUpperCase() ?? 'LOADING...',
-          textStyle: textStyle ??
-              TextStyle(
-                color: Colors.black,
-                fontSize: 40.sp,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 10,
+          textStyle:
+              textStyle ??
+              textTheme.headlineSmall?.copyWith(
+                color: colorScheme.onSurface,
+                fontSize: 24.sp,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 4,
               ),
           speed: speed,
           textAlign: textAlign,
-        )
+        ),
       ],
     );
   }
 
-  static Widget shimmer(
-    ShimmerOptions option, {
-    Color baseColor = const Color(0xffC4C4C4),
-    Color highlightColor = const Color(0xffE8E8E8),
-    Color? backgroundColor,
-    double? height,
-    double? width,
-    BoxFit? fit,
-    AlignmentGeometry alignment = Alignment.center,
-    int shimmerItemsCount = 1,
-    double spacing = 20,
-    CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
-    Duration? period,
-    ShimmerDirection? direction,
-  }) {
-    return CustomShimmer.fromOptions(
-      option,
-      baseColor: baseColor,
-      highlightColor: highlightColor,
-      backgroundColor: backgroundColor,
-      height: height,
-      width: width,
-      fit: fit,
-      alignment: alignment,
-      shimmerItemsCount: shimmerItemsCount,
-      spacing: spacing,
-      crossAxisAlignment: crossAxisAlignment,
-      period: period,
-      direction: direction,
-    );
-  }
+  
 }

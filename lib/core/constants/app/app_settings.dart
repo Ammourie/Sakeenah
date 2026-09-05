@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../common/text_formatters/iq_number_formatter.dart';
@@ -7,7 +6,6 @@ import '../enums/app_options_enum.dart';
 class AppSettings {
   // Api Url
   static const BASE_URL = "https://nest-starter.osousdev.com/api/";
-  static const SOCKET_URL = "https://nest-starter.osousdev.com";
 
   /// Constants
   static const orientation = OrientationOptions.PORTRAIT;
@@ -19,12 +17,12 @@ class AppSettings {
   static const enableNotification = false;
   static const enableBranchIO = false;
 
-  // App Colors
-  static const Color PRIMARY_COLOR_LIGHT = Colors.blue;
-  static const Color ACCENT_COLOR_LIGHT = Colors.black;
+  // Sakeenah brand colors (see docs/prayer_quran_app_requirements.md)
+  static const Color PRIMARY_COLOR_LIGHT = Color(0xFF0F4C3A);
+  static const Color ACCENT_COLOR_LIGHT = Color(0xFFC9A24B);
 
-  static const Color PRIMARY_COLOR_DARK = Colors.blue;
-  static const Color ACCENT_COLOR_DARK = Colors.black;
+  static const Color PRIMARY_COLOR_DARK = Color(0xFF0F4C3A);
+  static const Color ACCENT_COLOR_DARK = Color(0xFFC9A24B);
 
   static final List<TextInputFormatter> PHONE_FIELD_FORMATTERS = [
     FilteringTextInputFormatter.allow(RegExp(r'^[0-9-]{1,12}')),

@@ -60,10 +60,3 @@ settings.json
 output-apk
 # docs
 docs/
-
-# Cursor
-.cursor/
-
-# Claude Code
-.claude/
-CLAUDE.md

@@ -21,7 +21,13 @@
   "changeLanguage": "Change Language",
   "cancel": "Cancel",
   "confirm": "Confirm",
+  "selectLanguageTitle": "Select language",
   "changeLangMessage": "Select a language, the application will restart",
+  "selectThemeTitle": "Choose appearance",
+  "selectThemeMessage": "Pick light, dark, or follow your device setting",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "System",
   "login": "Login",
   "welcome": "Welcome",
   "pressTwiceToExit": "Press twice to exit",
@@ -50,6 +56,7 @@
   "lastName": "Last Name",
   "errorEmptyField": "This field mustn't be empty",
   "switchTheme": "Switch theme",
+  "drawerPreferences": "Preferences",
   "accountNotVerifiedErrorMessage": "Account Not Verified",
   "cancelErrorMessage": "Operation has been cancelled",
   "loginErrorRequired": "login Error Required",
@@ -114,5 +121,6 @@
   "getPeople": "Get People",
   "getPokemons": "Get Pokemons",
   "testErrorScreen": "Test Error Handler",
-  "internetNotAvailable": "Internet not available"
+  "internetNotAvailable": "Internet not available",
+  "appName": "Sakeenah"
 }

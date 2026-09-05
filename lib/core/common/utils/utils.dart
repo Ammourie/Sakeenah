@@ -1,15 +1,14 @@
 import 'dart:io';
 
-import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../generated/l10n.dart';
-import '../../theme/themes_data.dart';
+import '../../providers/theme_mode_provider.dart';
 import '../../ui/show_toast.dart';
 import '../app_config.dart';
-import '../local_storage.dart';
 
 class Utils {
   Utils._();
@@ -36,22 +35,25 @@ class Utils {
     }
   }
 
+  static Brightness effectiveBrightness(BuildContext context) {
+    switch (AppConfig().themeMode) {
+      case ThemeMode.dark:
+        return Brightness.dark;
+      case ThemeMode.light:
+        return Brightness.light;
+      case ThemeMode.system:
+        return MediaQuery.platformBrightnessOf(context);
+    }
+  }
+
   static void changeTheme(BuildContext context) async {
-    ThemeSwitcher.of(context).changeTheme(
-      theme:
-          AppConfig().themeMode == ThemeMode.light
-              ? ThemesData.darkTheme
-              : ThemesData.lightTheme,
-      isReversed: AppConfig().themeMode == ThemeMode.dark ? true : false,
+    final isDark = effectiveBrightness(context) == Brightness.dark;
+    final nextMode = isDark ? ThemeMode.light : ThemeMode.dark;
+
+    await context.read<ThemeModeProvider>().setThemeMode(
+      nextMode,
+      context: context,
     );
-
-    ThemeMode theme =
-        AppConfig().themeMode == ThemeMode.light
-            ? ThemeMode.dark
-            : ThemeMode.light;
-
-    await LocalStorage.persistThemeMode(theme);
-    AppConfig().themeMode = theme;
   }
 
   static void share({required BuildContext context, required Uri link}) {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../constants/app/app_constants.dart';
+import '../../theme/text_theme_styles.dart';
 import '../app_config.dart';
+import '../utils/language_utils.dart';
 
 class TextUtils {
   TextUtils._();
@@ -19,20 +19,12 @@ class TextUtils {
       text: TextSpan(
         text: text,
         style: style.copyWith(
-          fontFamily: style.fontFamily ??
-              (AppConfig()
-                      .appLanguage
-                      .languageCode
-                      .startsWith(AppConstants.LANG_EN)
-                  ? GoogleFonts.poppins().fontFamily
-                  : AppConfig().appLanguage.languageCode == AppConstants.LANG_AR
-                      ? GoogleFonts.cairo().fontFamily
-                      : GoogleFonts.notoNaskhArabic().fontFamily),
+          fontFamily: style.fontFamily ?? TextThemeStyles.fontFamily(),
         ),
       ),
       maxLines: maxLines,
       textDirection:
-          AppConfig().appLanguage.languageCode.startsWith(AppConstants.LANG_EN)
+          LanguageUtils.isLTR()
               ? TextDirection.ltr
               : TextDirection.rtl,
       textScaler: MediaQuery.of(AppConfig().appContext!).textScaler,

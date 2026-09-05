@@ -6,11 +6,8 @@ import 'package:http_parser/http_parser.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-import '../common/local_storage.dart';
-import '../common/refresh_token_manager.dart';
-import '../../features/account/presentation/state_m/cubit/account_cubit.dart';
-import '../../generated/l10n.dart';
 import '../common/extensions/extensions.dart';
+import '../../generated/l10n.dart';
 import '../constants/app/app_settings.dart';
 import '../constants/enums/error_code_type.dart';
 import '../constants/enums/http_method.dart';
@@ -148,27 +145,6 @@ class HttpClient {
     /// Handling errors
     on DioException catch (e, stacktrace) {
       stacktrace.toString().logE;
-      if (e.response?.statusCode == 401 && LocalStorage.hasRefreshToken) {
-        if (!RefreshTokenManager.mutex.isLocked) {
-          RefreshTokenManager.refreshToken();
-        }
-
-        await RefreshTokenManager.mutex.acquire();
-        RefreshTokenManager.mutex.release();
-        if (RefreshTokenManager.isRefreshDone) {
-          return await sendRequest(
-            method: method,
-            url: url,
-            responseValidator: responseValidator,
-            headers: headers,
-            queryParameters: queryParameters,
-            body: body,
-            cancelToken: cancelToken,
-            baseUrl: baseUrl,
-            isFormData: isFormData,
-          );
-        }
-      }
       return Left(_handleDioError(e));
     }
     /// Couldn't reach out the server
@@ -276,27 +252,6 @@ class HttpClient {
     /// Handling errors
     on DioException catch (e, stacktrace) {
       stacktrace.toString().logE;
-      if (e.response?.statusCode == 401 && LocalStorage.hasRefreshToken) {
-        if (!RefreshTokenManager.mutex.isLocked) {
-          RefreshTokenManager.refreshToken();
-        }
-
-        await RefreshTokenManager.mutex.acquire();
-        RefreshTokenManager.mutex.release();
-        if (RefreshTokenManager.isRefreshDone) {
-          return await sendListRequest(
-            method: method,
-            url: url,
-            responseValidator: responseValidator,
-            headers: headers,
-            queryParameters: queryParameters,
-            body: body,
-            cancelToken: cancelToken,
-            baseUrl: baseUrl,
-            isFormData: isFormData,
-          );
-        }
-      }
       return Left(_handleDioError(e));
     }
     /// Couldn't reach out the server
@@ -378,31 +333,6 @@ class HttpClient {
     // Handling errors
     on DioException catch (e, stacktrace) {
       stacktrace.toString().logE;
-      if (e.response?.statusCode == 401 && LocalStorage.hasRefreshToken) {
-        if (!RefreshTokenManager.mutex.isLocked) {
-          RefreshTokenManager.refreshToken();
-        }
-
-        await RefreshTokenManager.mutex.acquire();
-        RefreshTokenManager.mutex.release();
-        if (RefreshTokenManager.isRefreshDone) {
-          return await upload(
-            url: url,
-            fileKey: fileKey,
-            filePath: filePath,
-            fileName: fileName,
-            responseValidator: responseValidator,
-            mediaType: mediaType,
-            cancelToken: cancelToken,
-            data: data,
-            queryParameters: queryParameters,
-            headers: headers,
-            onSendProgress: onSendProgress,
-            onReceiveProgress: onReceiveProgress,
-            baseUrl: baseUrl,
-          );
-        }
-      }
       return Left(_handleDioError(e));
     }
     // Couldn't reach out the server
@@ -421,10 +351,8 @@ class HttpClient {
           case 400:
             return const BadRequestError();
           case 401:
-            AccountCubit().logout();
             return const UnauthorizedError();
           case 403:
-            AccountCubit().logout();
             return const ForbiddenError();
           case 404:
             return NotFoundError(error.requestOptions.path);

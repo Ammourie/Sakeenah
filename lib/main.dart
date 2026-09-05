@@ -5,9 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'app.dart';
-import 'core/background_task/background_tasks_manager.dart';
 import 'core/common/app_config.dart';
-import 'core/common/encryption.dart';
 import 'core/common/local_storage.dart';
 import 'core/constants/app/app_constants.dart';
 import 'core/constants/app/app_settings.dart';
@@ -59,8 +57,6 @@ Future<void> _initAppConfigs() async {
   /// In case of network handshake error
   HttpOverrides.global = new BadCertHttpOverrides();
 
-  await BackgroundTasksManager.init();
-  await Encryption.init();
   // await DeepLinkService().init();
 }
 

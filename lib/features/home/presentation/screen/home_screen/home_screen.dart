@@ -13,18 +13,19 @@ class HomeScreen extends BaseScreen<HomeScreenParam> {
   static const routeName = "/HomeScreen";
 
   HomeScreen({required HomeScreenParam param, Key? key})
-      : super(param: param, key: key);
+    : super(param: param, key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final provider = HomeScreenNotifier();
+  late final HomeScreenNotifier provider;
   @override
   void initState() {
     super.initState();
-   
+
+    provider = HomeScreenNotifier(widget.param);
   }
 
   @override
@@ -49,8 +50,6 @@ class _HomeScreenState extends State<HomeScreen> {
             homeErrorState: (error, callback) {
               provider.homeErrorStateListener(context, error, callback);
             },
-            peopleListLoadedState: (data) {},
-            commentsLoadedState: (_) {},
           );
         },
         child: const HomeScreenContent(),
@@ -61,5 +60,4 @@ class _HomeScreenState extends State<HomeScreen> {
   /// Widget
 
   /// Logic
-
 }

@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../di/service_locator.dart';
-import '../../features/account/presentation/screen/login_screen.dart';
-import '../../features/account/presentation/screen/register_screen.dart';
 import '../../features/home/presentation/screen/app_main_screen/app_main_screen.dart';
-import '../../features/home/presentation/screen/comments_screen.dart';
 import '../../features/home/presentation/screen/home_screen/home_screen.dart';
-import '../../features/home/presentation/screen/people_screen.dart';
 import '../constants/enums/route_type.dart';
 import '../ui/screens/base_screen.dart';
 import '../ui/screens/language_screen.dart';
+import '../ui/screens/theme_screen.dart';
+import '../ui/widgets/curved_app_bar.dart';
 import 'animations/animated_route.dart';
 import 'animations/fade_route.dart';
 import 'animations/swipeable_page_route.dart';
@@ -28,36 +26,21 @@ class NavigationRoute {
           settings: settings,
           createScreen: (param) => AppMainScreen(param: param),
         );
-      case LoginScreen.routeName:
-        return _getRoute<LoginScreenParam>(
-          settings: settings,
-          createScreen: (param) => LoginScreen(param: param),
-        );
-      case RegisterScreen.routeName:
-        return _getRoute<RegisterScreenParam>(
-          settings: settings,
-          createScreen: (param) => RegisterScreen(param: param),
-          type: RouteType.ANIMATED,
-        );
       case HomeScreen.routeName:
         return _getRoute<HomeScreenParam>(
           settings: settings,
           createScreen: (param) => HomeScreen(param: param),
         );
-      case PeopleScreen.routeName:
-        return _getRoute<PeopleScreenParam>(
-          settings: settings,
-          createScreen: (param) => PeopleScreen(param: param),
-        );
-      case CommentsScreen.routeName:
-        return _getRoute<CommentsScreenParam>(
-          settings: settings,
-          createScreen: (param) => CommentsScreen(param: param),
-        );
+      
       case LanguageScreen.routeName:
         return _getRoute<LanguageScreenParam>(
           settings: settings,
           createScreen: (param) => LanguageScreen(param: param),
+        );
+      case ThemeScreen.routeName:
+        return _getRoute<ThemeScreenParam>(
+          settings: settings,
+          createScreen: (param) => ThemeScreen(param: param),
         );
       default:
         // If there is no such named route in the switch statement, e.g. /third
@@ -108,13 +91,15 @@ class NavigationRoute {
           backgroundColor: Theme.of(
             getIt<NavigationService>().getNavigationKey.currentContext!,
           ).scaffoldBackgroundColor,
-          appBar: AppBar(title: const Text('Error')),
-          body: Center(
-            child: Text(
-              argumentError
-                  ? 'ROUTE ERROR CHECK ARGUMENT THAT PASSED TO THIS SCREEN.'
-                  : 'ROUTE ERROR CHECK THE ROUTE GENERATOR.',
-              textAlign: TextAlign.center,
+          body: CurvedAppBarLayout(
+            appBar: const CurvedAppBar(title: 'Error'),
+            body: Center(
+              child: Text(
+                argumentError
+                    ? 'ROUTE ERROR CHECK ARGUMENT THAT PASSED TO THIS SCREEN.'
+                    : 'ROUTE ERROR CHECK THE ROUTE GENERATOR.',
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         );

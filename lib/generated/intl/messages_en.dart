@@ -43,6 +43,7 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "An error occurred while displaying the video",
         ),
+    "appName": MessageLookupByLibrary.simpleMessage("Sakeenah"),
     "apply": MessageLookupByLibrary.simpleMessage("Apply"),
     "audio": MessageLookupByLibrary.simpleMessage("Audio"),
     "badRequest": MessageLookupByLibrary.simpleMessage("Bad Request"),
@@ -88,6 +89,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "didnotReceiveAnyCode": MessageLookupByLibrary.simpleMessage(
       "Didn\'t you receive any code?",
     ),
+    "drawerPreferences": MessageLookupByLibrary.simpleMessage("Preferences"),
     "empty": MessageLookupByLibrary.simpleMessage("Empty"),
     "emptyScreen": MessageLookupByLibrary.simpleMessage("This page is empty"),
     "enterCodeText": MessageLookupByLibrary.simpleMessage(
@@ -200,6 +202,15 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "retry": MessageLookupByLibrary.simpleMessage("Retry"),
     "search": MessageLookupByLibrary.simpleMessage("Search"),
+    "selectLanguageTitle": MessageLookupByLibrary.simpleMessage(
+      "Select language",
+    ),
+    "selectThemeMessage": MessageLookupByLibrary.simpleMessage(
+      "Pick light, dark, or follow your device setting",
+    ),
+    "selectThemeTitle": MessageLookupByLibrary.simpleMessage(
+      "Choose appearance",
+    ),
     "send": MessageLookupByLibrary.simpleMessage("Send"),
     "signUp": MessageLookupByLibrary.simpleMessage("Signup"),
     "specificPermissionRequired": m3,
@@ -219,6 +230,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "thankYouForReporting": MessageLookupByLibrary.simpleMessage(
       "Thank you for reporting",
     ),
+    "themeDark": MessageLookupByLibrary.simpleMessage("Dark"),
+    "themeLight": MessageLookupByLibrary.simpleMessage("Light"),
+    "themeSystem": MessageLookupByLibrary.simpleMessage("System"),
     "thereAreNoMessagesToDisplay": MessageLookupByLibrary.simpleMessage(
       "There are no messages to display.",
     ),

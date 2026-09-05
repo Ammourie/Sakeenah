@@ -164,7 +164,7 @@ class CustomDropdownState<T> extends State<CustomDropdown<T>> {
           alignment: widget.alignment,
           dropdownColor: widget.dropdownColor,
           hint: _isLoading
-              ? WaitingWidget.wavyText()
+              ? WaitingWidget.wavyText(context)
               : _isError
               ? Text(_error!, style: const TextStyle(color: Colors.red))
               : widget.hint,

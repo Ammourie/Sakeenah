@@ -55,16 +55,14 @@ extension HomeStatePatterns on HomeState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( HomeInitState value)?  homeInitState,TResult Function( HomeLoadingState value)?  homeLoadingState,TResult Function( HomeLoadedState value)?  homeLoadedState,TResult Function( HomeErrorInitState value)?  homeErrorState,TResult Function( PeopleListLoadedState value)?  peopleListLoadedState,TResult Function( CommentsLoadedState value)?  commentsLoadedState,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( HomeInitState value)?  homeInitState,TResult Function( HomeLoadingState value)?  homeLoadingState,TResult Function( HomeLoadedState value)?  homeLoadedState,TResult Function( HomeErrorInitState value)?  homeErrorState,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case HomeInitState() when homeInitState != null:
 return homeInitState(_that);case HomeLoadingState() when homeLoadingState != null:
 return homeLoadingState(_that);case HomeLoadedState() when homeLoadedState != null:
 return homeLoadedState(_that);case HomeErrorInitState() when homeErrorState != null:
-return homeErrorState(_that);case PeopleListLoadedState() when peopleListLoadedState != null:
-return peopleListLoadedState(_that);case CommentsLoadedState() when commentsLoadedState != null:
-return commentsLoadedState(_that);case _:
+return homeErrorState(_that);case _:
   return orElse();
 
 }
@@ -82,16 +80,14 @@ return commentsLoadedState(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( HomeInitState value)  homeInitState,required TResult Function( HomeLoadingState value)  homeLoadingState,required TResult Function( HomeLoadedState value)  homeLoadedState,required TResult Function( HomeErrorInitState value)  homeErrorState,required TResult Function( PeopleListLoadedState value)  peopleListLoadedState,required TResult Function( CommentsLoadedState value)  commentsLoadedState,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( HomeInitState value)  homeInitState,required TResult Function( HomeLoadingState value)  homeLoadingState,required TResult Function( HomeLoadedState value)  homeLoadedState,required TResult Function( HomeErrorInitState value)  homeErrorState,}){
 final _that = this;
 switch (_that) {
 case HomeInitState():
 return homeInitState(_that);case HomeLoadingState():
 return homeLoadingState(_that);case HomeLoadedState():
 return homeLoadedState(_that);case HomeErrorInitState():
-return homeErrorState(_that);case PeopleListLoadedState():
-return peopleListLoadedState(_that);case CommentsLoadedState():
-return commentsLoadedState(_that);case _:
+return homeErrorState(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -108,16 +104,14 @@ return commentsLoadedState(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( HomeInitState value)?  homeInitState,TResult? Function( HomeLoadingState value)?  homeLoadingState,TResult? Function( HomeLoadedState value)?  homeLoadedState,TResult? Function( HomeErrorInitState value)?  homeErrorState,TResult? Function( PeopleListLoadedState value)?  peopleListLoadedState,TResult? Function( CommentsLoadedState value)?  commentsLoadedState,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( HomeInitState value)?  homeInitState,TResult? Function( HomeLoadingState value)?  homeLoadingState,TResult? Function( HomeLoadedState value)?  homeLoadedState,TResult? Function( HomeErrorInitState value)?  homeErrorState,}){
 final _that = this;
 switch (_that) {
 case HomeInitState() when homeInitState != null:
 return homeInitState(_that);case HomeLoadingState() when homeLoadingState != null:
 return homeLoadingState(_that);case HomeLoadedState() when homeLoadedState != null:
 return homeLoadedState(_that);case HomeErrorInitState() when homeErrorState != null:
-return homeErrorState(_that);case PeopleListLoadedState() when peopleListLoadedState != null:
-return peopleListLoadedState(_that);case CommentsLoadedState() when commentsLoadedState != null:
-return commentsLoadedState(_that);case _:
+return homeErrorState(_that);case _:
   return null;
 
 }
@@ -134,15 +128,13 @@ return commentsLoadedState(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  homeInitState,TResult Function()?  homeLoadingState,TResult Function( EmptyResponse emptyResponse)?  homeLoadedState,TResult Function( AppErrors error,  VoidCallback callback)?  homeErrorState,TResult Function( PeopleDataEntity data)?  peopleListLoadedState,TResult Function( List<CommentsEntity> comments)?  commentsLoadedState,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  homeInitState,TResult Function()?  homeLoadingState,TResult Function( EmptyResponse emptyResponse)?  homeLoadedState,TResult Function( AppErrors error,  VoidCallback callback)?  homeErrorState,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case HomeInitState() when homeInitState != null:
 return homeInitState();case HomeLoadingState() when homeLoadingState != null:
 return homeLoadingState();case HomeLoadedState() when homeLoadedState != null:
 return homeLoadedState(_that.emptyResponse);case HomeErrorInitState() when homeErrorState != null:
-return homeErrorState(_that.error,_that.callback);case PeopleListLoadedState() when peopleListLoadedState != null:
-return peopleListLoadedState(_that.data);case CommentsLoadedState() when commentsLoadedState != null:
-return commentsLoadedState(_that.comments);case _:
+return homeErrorState(_that.error,_that.callback);case _:
   return orElse();
 
 }
@@ -160,15 +152,13 @@ return commentsLoadedState(_that.comments);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  homeInitState,required TResult Function()  homeLoadingState,required TResult Function( EmptyResponse emptyResponse)  homeLoadedState,required TResult Function( AppErrors error,  VoidCallback callback)  homeErrorState,required TResult Function( PeopleDataEntity data)  peopleListLoadedState,required TResult Function( List<CommentsEntity> comments)  commentsLoadedState,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  homeInitState,required TResult Function()  homeLoadingState,required TResult Function( EmptyResponse emptyResponse)  homeLoadedState,required TResult Function( AppErrors error,  VoidCallback callback)  homeErrorState,}) {final _that = this;
 switch (_that) {
 case HomeInitState():
 return homeInitState();case HomeLoadingState():
 return homeLoadingState();case HomeLoadedState():
 return homeLoadedState(_that.emptyResponse);case HomeErrorInitState():
-return homeErrorState(_that.error,_that.callback);case PeopleListLoadedState():
-return peopleListLoadedState(_that.data);case CommentsLoadedState():
-return commentsLoadedState(_that.comments);case _:
+return homeErrorState(_that.error,_that.callback);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -185,15 +175,13 @@ return commentsLoadedState(_that.comments);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  homeInitState,TResult? Function()?  homeLoadingState,TResult? Function( EmptyResponse emptyResponse)?  homeLoadedState,TResult? Function( AppErrors error,  VoidCallback callback)?  homeErrorState,TResult? Function( PeopleDataEntity data)?  peopleListLoadedState,TResult? Function( List<CommentsEntity> comments)?  commentsLoadedState,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  homeInitState,TResult? Function()?  homeLoadingState,TResult? Function( EmptyResponse emptyResponse)?  homeLoadedState,TResult? Function( AppErrors error,  VoidCallback callback)?  homeErrorState,}) {final _that = this;
 switch (_that) {
 case HomeInitState() when homeInitState != null:
 return homeInitState();case HomeLoadingState() when homeLoadingState != null:
 return homeLoadingState();case HomeLoadedState() when homeLoadedState != null:
 return homeLoadedState(_that.emptyResponse);case HomeErrorInitState() when homeErrorState != null:
-return homeErrorState(_that.error,_that.callback);case PeopleListLoadedState() when peopleListLoadedState != null:
-return peopleListLoadedState(_that.data);case CommentsLoadedState() when commentsLoadedState != null:
-return commentsLoadedState(_that.comments);case _:
+return homeErrorState(_that.error,_that.callback);case _:
   return null;
 
 }
@@ -406,144 +394,6 @@ $AppErrorsCopyWith<$Res> get error {
     return _then(_self.copyWith(error: value));
   });
 }
-}
-
-/// @nodoc
-
-
-class PeopleListLoadedState implements HomeState {
-  const PeopleListLoadedState(this.data);
-  
-
- final  PeopleDataEntity data;
-
-/// Create a copy of HomeState
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$PeopleListLoadedStateCopyWith<PeopleListLoadedState> get copyWith => _$PeopleListLoadedStateCopyWithImpl<PeopleListLoadedState>(this, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PeopleListLoadedState&&(identical(other.data, data) || other.data == data));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,data);
-
-@override
-String toString() {
-  return 'HomeState.peopleListLoadedState(data: $data)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $PeopleListLoadedStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
-  factory $PeopleListLoadedStateCopyWith(PeopleListLoadedState value, $Res Function(PeopleListLoadedState) _then) = _$PeopleListLoadedStateCopyWithImpl;
-@useResult
-$Res call({
- PeopleDataEntity data
-});
-
-
-
-
-}
-/// @nodoc
-class _$PeopleListLoadedStateCopyWithImpl<$Res>
-    implements $PeopleListLoadedStateCopyWith<$Res> {
-  _$PeopleListLoadedStateCopyWithImpl(this._self, this._then);
-
-  final PeopleListLoadedState _self;
-  final $Res Function(PeopleListLoadedState) _then;
-
-/// Create a copy of HomeState
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
-  return _then(PeopleListLoadedState(
-null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
-as PeopleDataEntity,
-  ));
-}
-
-
-}
-
-/// @nodoc
-
-
-class CommentsLoadedState implements HomeState {
-  const CommentsLoadedState(final  List<CommentsEntity> comments): _comments = comments;
-  
-
- final  List<CommentsEntity> _comments;
- List<CommentsEntity> get comments {
-  if (_comments is EqualUnmodifiableListView) return _comments;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_comments);
-}
-
-
-/// Create a copy of HomeState
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$CommentsLoadedStateCopyWith<CommentsLoadedState> get copyWith => _$CommentsLoadedStateCopyWithImpl<CommentsLoadedState>(this, _$identity);
-
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommentsLoadedState&&const DeepCollectionEquality().equals(other._comments, _comments));
-}
-
-
-@override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_comments));
-
-@override
-String toString() {
-  return 'HomeState.commentsLoadedState(comments: $comments)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $CommentsLoadedStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
-  factory $CommentsLoadedStateCopyWith(CommentsLoadedState value, $Res Function(CommentsLoadedState) _then) = _$CommentsLoadedStateCopyWithImpl;
-@useResult
-$Res call({
- List<CommentsEntity> comments
-});
-
-
-
-
-}
-/// @nodoc
-class _$CommentsLoadedStateCopyWithImpl<$Res>
-    implements $CommentsLoadedStateCopyWith<$Res> {
-  _$CommentsLoadedStateCopyWithImpl(this._self, this._then);
-
-  final CommentsLoadedState _self;
-  final $Res Function(CommentsLoadedState) _then;
-
-/// Create a copy of HomeState
-/// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? comments = null,}) {
-  return _then(CommentsLoadedState(
-null == comments ? _self._comments : comments // ignore: cast_nullable_to_non_nullable
-as List<CommentsEntity>,
-  ));
-}
-
-
 }
 
 // dart format on

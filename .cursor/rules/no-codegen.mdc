@@ -1,0 +1,35 @@
+---
+description: Never generate or hand-edit codegen files; ignore errors until the user generates them
+alwaysApply: true
+---
+
+# No codegen — user generates
+
+Do **not** generate, regenerate, or hand-edit any generated files. The user runs codegen later.
+
+## Do not run
+
+- `build_runner` (`fvm dart run build_runner …`, `flutter pub run build_runner …`)
+- `flutter gen-l10n` / intl generate / `flutter_intl` CLI
+- Any other generator (`injectable`, `freezed`, `json_serializable`, etc.)
+
+## Do not create or edit
+
+- `*.freezed.dart`, `*.g.dart`
+- `lib/di/service_locator.config.dart`
+- `lib/generated/l10n.dart`, `lib/generated/intl/**`
+
+Write **source only**: `@freezed` / `@injectable` / `part` directives, `.arb` keys, models. Leave missing generated parts as-is.
+
+## Ignore these errors
+
+Treat as expected until the user generates:
+
+- Missing `part` files (`*.freezed.dart`, `*.g.dart`, `service_locator.config.dart`)
+- Undefined `S.current.<newKey>` after adding `.arb` keys
+- Missing GetIt registrations for newly `@injectable` types
+- Analyzer/IDE errors **only** in generated files or caused solely by stale codegen
+
+Do **not** "fix" those by writing generated code, stubbing `*.g.dart`, or running codegen.
+
+Continue the task on source files. Mention once that the user should generate when ready.
