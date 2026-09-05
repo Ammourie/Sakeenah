@@ -28,7 +28,7 @@ env:
   TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
   APK_DIR: build/app/outputs/flutter-apk
   TG_MAX_BYTES: 52428800
-  TG_APP_NAME: Starter App
+  TG_APP_NAME: Sakeenah
   TG_REF_NAME: ${{ github.ref_name }}
   TG_RUN_NUMBER: ${{ github.run_number }}
   TG_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
@@ -114,7 +114,7 @@ jobs:
 
           for abi in armeabi-v7a arm64-v8a x86_64; do
             SRC="${APK_DIR}/app-${abi}-release.apk"
-            DEST="dist/StarterApp-${abi}-v${SAFE_VERSION}.apk"
+            DEST="dist/Sakeenah-${abi}-v${SAFE_VERSION}.apk"
             if [ ! -f "$SRC" ]; then
               echo "Missing APK: $SRC" >&2
               ls -la "${APK_DIR}" || true
@@ -157,16 +157,16 @@ jobs:
           tag_name: ${{ steps.assets.outputs.tag }}
           name: Release ${{ steps.assets.outputs.tag }}
           body: |
-            ## Starter App — ${{ steps.assets.outputs.tag }}
+            ## Sakeenah — ${{ steps.assets.outputs.tag }}
 
             **Branch:** `${{ github.ref_name }}`
             **Commit:** `${{ github.sha }}`
             **Workflow:** [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
 
             ### APKs (split per ABI)
-            - `StarterApp-armeabi-v7a-*.apk` — 32-bit ARM
-            - `StarterApp-arm64-v8a-*.apk` — 64-bit ARM (most phones)
-            - `StarterApp-x86_64-*.apk` — emulators / x86 devices
+            - `Sakeenah-armeabi-v7a-*.apk` — 32-bit ARM
+            - `Sakeenah-arm64-v8a-*.apk` — 64-bit ARM (most phones)
+            - `Sakeenah-x86_64-*.apk` — emulators / x86 devices
           files: dist/*.apk
           fail_on_unmatched_files: true
           generate_release_notes: true

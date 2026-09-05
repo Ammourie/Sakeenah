@@ -5,8 +5,8 @@
 //This would make you loose the whole state of your app
 // you can reset your app from anywhere using RestartWidget.restartApp(context)
 import 'package:flutter/material.dart';
-import 'package:starter_application/core/navigation/navigation_service.dart';
-import 'package:starter_application/di/service_locator.dart';
+import 'package:Sakeenah/core/navigation/navigation_service.dart';
+import 'package:Sakeenah/di/service_locator.dart';
 
 class RestartWidget extends StatefulWidget {
   final Widget child;

@@ -1,12 +1,12 @@
-name: starter_application
-description: Launch your new project in the clearest possible way :-).
+name: Sakeenah
+description: Sakeenah is a simple, reliable mobile app that combines accurate, location-based prayer times with a live Quran radio stream for daily use. Designed for tranquility and ease, it helps users check prayer times and listen to recitation in the background, all in a clean, trustworthy interface.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # Application version
-version: 1.0.1+2
+version: 1.0.0+1
 
 environment:
   sdk: ^3.10.0-0
@@ -69,10 +69,6 @@ dependencies:
   freezed_annotation: 3.1.0
   # Changing them with beautiful and easy way with animations
   animated_theme_switcher: 2.0.10
-  # Global error catcher stuff
-  # Sending mails
-  mailer: 7.1.0
-  flutter_mailer: 3.0.2
   # Provides APIs for debugging and error logging
   logging: 1.3.0
   # A crash reporting library for Dart that sends crash reports to Sentry.io.
@@ -107,12 +103,7 @@ dependencies:
   pin_code_fields: 9.4.0
   # Show snack bars without context
   another_flushbar: 2.2.4
-  # Add the dependency for the Firebase Core Flutter SDK
-  firebase_core: 4.9.0
-  # A cross platform plugin for displaying local notifications.
-  flutter_local_notifications: 22.0.0-dev.3
-  # A Flutter plugin to use the Firebase Cloud Messaging API.
-  firebase_messaging: 16.2.2
+
   # A library for creating locks to ensure mutual exclusion when running critical sections of code.
   mutex: 3.1.0
   # A Flutter package for dynamically changing status bar color based on the background.
@@ -125,8 +116,6 @@ dependencies:
   auto_size_text: 3.0.0
   # A VisibilityDetector widget wraps an existing Flutter widget and fires a callback when the widget's visibility changes.
   visibility_detector: 0.4.0+2
-  # Flutter Plugin for create deep link using Brach SDK (https://branch.io).
-  flutter_branch_sdk: 9.3.1
   # Periodic callbacks in the background for both iOS and Android. Includes Android Headless implementation.
   background_fetch: 1.7.0
   # Port of awesome JavaScript Node.js library - Socket.io-client v2._ ~ v4._ - in Dart
@@ -143,8 +132,7 @@ dependencies:
   video_player: 2.11.1
   # A Flutter plugin for storing data in the secure storage.
   flutter_secure_storage: 10.3.1
-  # A Flutter plugin for handling deep links and URI schemes.
-  app_links: 7.1.1
+
 
 dev_dependencies:
   flutter_test:
@@ -177,9 +165,6 @@ flutter:
     - assets/images/png/
     - assets/images/png/error/
     - assets/images/svg/
-    - assets/anim/lottie/
-    - assets/anim/lottie/error/
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a

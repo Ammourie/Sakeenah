@@ -5,13 +5,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
-import 'core/dynamic_link/app_links_manager.dart';
 import 'package:statusbarz/statusbarz.dart';
 
 import 'core/common/app_config.dart';
 import 'core/common/provider_list.dart';
 import 'core/constants/app/app_constants.dart';
-import 'core/firebase/firebase_messaging.dart';
 import 'core/localization/flutter_localization.dart';
 import 'core/localization/global_widgets_with_kurdish_localization_delegate.dart';
 import 'core/localization/kurdish/flutter_kurdish_localization.dart';
@@ -31,8 +29,6 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  AppLinksManager _appLinks = AppLinksManager();
-
   @override
   void initState() {
     super.initState();
@@ -179,8 +175,6 @@ class _AppState extends State<App> {
   @override
   void dispose() {
     ApplicationProvider().dispose(context);
-    _appLinks.close();
-    FireBaseMessagingWrapper.dispose();
     super.dispose();
   }
 }

@@ -4,11 +4,11 @@
 
 import 'dart:convert';
 
-import 'package:starter_application/core/common/type_validators.dart';
-import 'package:starter_application/core/models/base_model.dart';
-import 'package:starter_application/features/pokemon/data/model/response/pokemon_model/pokemon_model.dart';
-import 'package:starter_application/features/pokemon/domain/entity/pokemon_entity/pkemon_list_entity.dart';
-import 'package:starter_application/core/common/extensions/extensions.dart';
+import 'package:Sakeenah/core/common/type_validators.dart';
+import 'package:Sakeenah/core/models/base_model.dart';
+import 'package:Sakeenah/features/pokemon/data/model/response/pokemon_model/pokemon_model.dart';
+import 'package:Sakeenah/features/pokemon/domain/entity/pokemon_entity/pkemon_list_entity.dart';
+import 'package:Sakeenah/core/common/extensions/extensions.dart';
 
 
 class PokemonListModel extends BaseModel<PokemonListEntity> {

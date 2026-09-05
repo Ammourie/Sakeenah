@@ -1,4 +1,4 @@
-# Starter application
+# Sakeenah — Prayer Times & Quran Radio App
 
 Application with base architecture to start developing new flutter projects.
 

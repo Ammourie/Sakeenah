@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,3020 +9,907 @@ part of 'account_cubit.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
 mixin _$AccountState {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() accountInit,
-    required TResult Function() accountLoading,
-    required TResult Function(LoginEntity loginEntity) loginLoaded,
-    required TResult Function(RegisterEntity registerEntity) registerLoaded,
-    required TResult Function(ProfileEntity data) profileLoaded,
-    required TResult Function() successResendNewPhoneNumberCode,
-    required TResult Function() successResendCode,
-    required TResult Function() successConfirmDeleteMyAccount,
-    required TResult Function() successResendDeleteMyAccountCode,
-    required TResult Function() successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeEntity data) confirmCodeLoaded,
-    required TResult Function(RefreshTokenEntity data) refreshTokenLoaded,
-    required TResult Function(AppErrors error, VoidCallback callback)
-        accountError,
-    required TResult Function() successLogout,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? accountInit,
-    TResult? Function()? accountLoading,
-    TResult? Function(LoginEntity loginEntity)? loginLoaded,
-    TResult? Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult? Function(ProfileEntity data)? profileLoaded,
-    TResult? Function()? successResendNewPhoneNumberCode,
-    TResult? Function()? successResendCode,
-    TResult? Function()? successConfirmDeleteMyAccount,
-    TResult? Function()? successResendDeleteMyAccountCode,
-    TResult? Function()? successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult? Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult? Function()? successLogout,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? accountInit,
-    TResult Function()? accountLoading,
-    TResult Function(LoginEntity loginEntity)? loginLoaded,
-    TResult Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult Function(ProfileEntity data)? profileLoaded,
-    TResult Function()? successResendNewPhoneNumberCode,
-    TResult Function()? successResendCode,
-    TResult Function()? successConfirmDeleteMyAccount,
-    TResult Function()? successResendDeleteMyAccountCode,
-    TResult Function()? successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult Function()? successLogout,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AccountInit value) accountInit,
-    required TResult Function(AccountLoading value) accountLoading,
-    required TResult Function(AccLoginLoaded value) loginLoaded,
-    required TResult Function(AccRegisterLoaded value) registerLoaded,
-    required TResult Function(ProfileLoadedState value) profileLoaded,
-    required TResult Function(SuccessResendNewPhoneNumberCodeState value)
-        successResendNewPhoneNumberCode,
-    required TResult Function(SuccessResendCodeState value) successResendCode,
-    required TResult Function(SuccessConfirmDeleteMyAccountState value)
-        successConfirmDeleteMyAccount,
-    required TResult Function(SuccessResendDeleteMyAccountCodeState value)
-        successResendDeleteMyAccountCode,
-    required TResult Function(SuccessConfirmNewPhoneNumberState value)
-        successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeLoadedState value) confirmCodeLoaded,
-    required TResult Function(RefreshTokenLoadedState value) refreshTokenLoaded,
-    required TResult Function(AccountError value) accountError,
-    required TResult Function(SuccessLogoutState value) successLogout,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AccountInit value)? accountInit,
-    TResult? Function(AccountLoading value)? accountLoading,
-    TResult? Function(AccLoginLoaded value)? loginLoaded,
-    TResult? Function(AccRegisterLoaded value)? registerLoaded,
-    TResult? Function(ProfileLoadedState value)? profileLoaded,
-    TResult? Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult? Function(SuccessResendCodeState value)? successResendCode,
-    TResult? Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult? Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult? Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult? Function(AccountError value)? accountError,
-    TResult? Function(SuccessLogoutState value)? successLogout,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AccountInit value)? accountInit,
-    TResult Function(AccountLoading value)? accountLoading,
-    TResult Function(AccLoginLoaded value)? loginLoaded,
-    TResult Function(AccRegisterLoaded value)? registerLoaded,
-    TResult Function(ProfileLoadedState value)? profileLoaded,
-    TResult Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult Function(SuccessResendCodeState value)? successResendCode,
-    TResult Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult Function(AccountError value)? accountError,
-    TResult Function(SuccessLogoutState value)? successLogout,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AccountState);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'AccountState()';
+}
+
+
 }
 
 /// @nodoc
-abstract class $AccountStateCopyWith<$Res> {
-  factory $AccountStateCopyWith(
-          AccountState value, $Res Function(AccountState) then) =
-      _$AccountStateCopyWithImpl<$Res, AccountState>;
+class $AccountStateCopyWith<$Res>  {
+$AccountStateCopyWith(AccountState _, $Res Function(AccountState) __);
 }
 
-/// @nodoc
-class _$AccountStateCopyWithImpl<$Res, $Val extends AccountState>
-    implements $AccountStateCopyWith<$Res> {
-  _$AccountStateCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+/// Adds pattern-matching-related methods to [AccountState].
+extension AccountStatePatterns on AccountState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( AccountInit value)?  accountInit,TResult Function( AccountLoading value)?  accountLoading,TResult Function( AccLoginLoaded value)?  loginLoaded,TResult Function( AccRegisterLoaded value)?  registerLoaded,TResult Function( ProfileLoadedState value)?  profileLoaded,TResult Function( SuccessResendNewPhoneNumberCodeState value)?  successResendNewPhoneNumberCode,TResult Function( SuccessResendCodeState value)?  successResendCode,TResult Function( SuccessConfirmDeleteMyAccountState value)?  successConfirmDeleteMyAccount,TResult Function( SuccessResendDeleteMyAccountCodeState value)?  successResendDeleteMyAccountCode,TResult Function( SuccessConfirmNewPhoneNumberState value)?  successConfirmNewPhoneNumber,TResult Function( ConfirmCodeLoadedState value)?  confirmCodeLoaded,TResult Function( RefreshTokenLoadedState value)?  refreshTokenLoaded,TResult Function( AccountError value)?  accountError,TResult Function( SuccessLogoutState value)?  successLogout,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case AccountInit() when accountInit != null:
+return accountInit(_that);case AccountLoading() when accountLoading != null:
+return accountLoading(_that);case AccLoginLoaded() when loginLoaded != null:
+return loginLoaded(_that);case AccRegisterLoaded() when registerLoaded != null:
+return registerLoaded(_that);case ProfileLoadedState() when profileLoaded != null:
+return profileLoaded(_that);case SuccessResendNewPhoneNumberCodeState() when successResendNewPhoneNumberCode != null:
+return successResendNewPhoneNumberCode(_that);case SuccessResendCodeState() when successResendCode != null:
+return successResendCode(_that);case SuccessConfirmDeleteMyAccountState() when successConfirmDeleteMyAccount != null:
+return successConfirmDeleteMyAccount(_that);case SuccessResendDeleteMyAccountCodeState() when successResendDeleteMyAccountCode != null:
+return successResendDeleteMyAccountCode(_that);case SuccessConfirmNewPhoneNumberState() when successConfirmNewPhoneNumber != null:
+return successConfirmNewPhoneNumber(_that);case ConfirmCodeLoadedState() when confirmCodeLoaded != null:
+return confirmCodeLoaded(_that);case RefreshTokenLoadedState() when refreshTokenLoaded != null:
+return refreshTokenLoaded(_that);case AccountError() when accountError != null:
+return accountError(_that);case SuccessLogoutState() when successLogout != null:
+return successLogout(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( AccountInit value)  accountInit,required TResult Function( AccountLoading value)  accountLoading,required TResult Function( AccLoginLoaded value)  loginLoaded,required TResult Function( AccRegisterLoaded value)  registerLoaded,required TResult Function( ProfileLoadedState value)  profileLoaded,required TResult Function( SuccessResendNewPhoneNumberCodeState value)  successResendNewPhoneNumberCode,required TResult Function( SuccessResendCodeState value)  successResendCode,required TResult Function( SuccessConfirmDeleteMyAccountState value)  successConfirmDeleteMyAccount,required TResult Function( SuccessResendDeleteMyAccountCodeState value)  successResendDeleteMyAccountCode,required TResult Function( SuccessConfirmNewPhoneNumberState value)  successConfirmNewPhoneNumber,required TResult Function( ConfirmCodeLoadedState value)  confirmCodeLoaded,required TResult Function( RefreshTokenLoadedState value)  refreshTokenLoaded,required TResult Function( AccountError value)  accountError,required TResult Function( SuccessLogoutState value)  successLogout,}){
+final _that = this;
+switch (_that) {
+case AccountInit():
+return accountInit(_that);case AccountLoading():
+return accountLoading(_that);case AccLoginLoaded():
+return loginLoaded(_that);case AccRegisterLoaded():
+return registerLoaded(_that);case ProfileLoadedState():
+return profileLoaded(_that);case SuccessResendNewPhoneNumberCodeState():
+return successResendNewPhoneNumberCode(_that);case SuccessResendCodeState():
+return successResendCode(_that);case SuccessConfirmDeleteMyAccountState():
+return successConfirmDeleteMyAccount(_that);case SuccessResendDeleteMyAccountCodeState():
+return successResendDeleteMyAccountCode(_that);case SuccessConfirmNewPhoneNumberState():
+return successConfirmNewPhoneNumber(_that);case ConfirmCodeLoadedState():
+return confirmCodeLoaded(_that);case RefreshTokenLoadedState():
+return refreshTokenLoaded(_that);case AccountError():
+return accountError(_that);case SuccessLogoutState():
+return successLogout(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( AccountInit value)?  accountInit,TResult? Function( AccountLoading value)?  accountLoading,TResult? Function( AccLoginLoaded value)?  loginLoaded,TResult? Function( AccRegisterLoaded value)?  registerLoaded,TResult? Function( ProfileLoadedState value)?  profileLoaded,TResult? Function( SuccessResendNewPhoneNumberCodeState value)?  successResendNewPhoneNumberCode,TResult? Function( SuccessResendCodeState value)?  successResendCode,TResult? Function( SuccessConfirmDeleteMyAccountState value)?  successConfirmDeleteMyAccount,TResult? Function( SuccessResendDeleteMyAccountCodeState value)?  successResendDeleteMyAccountCode,TResult? Function( SuccessConfirmNewPhoneNumberState value)?  successConfirmNewPhoneNumber,TResult? Function( ConfirmCodeLoadedState value)?  confirmCodeLoaded,TResult? Function( RefreshTokenLoadedState value)?  refreshTokenLoaded,TResult? Function( AccountError value)?  accountError,TResult? Function( SuccessLogoutState value)?  successLogout,}){
+final _that = this;
+switch (_that) {
+case AccountInit() when accountInit != null:
+return accountInit(_that);case AccountLoading() when accountLoading != null:
+return accountLoading(_that);case AccLoginLoaded() when loginLoaded != null:
+return loginLoaded(_that);case AccRegisterLoaded() when registerLoaded != null:
+return registerLoaded(_that);case ProfileLoadedState() when profileLoaded != null:
+return profileLoaded(_that);case SuccessResendNewPhoneNumberCodeState() when successResendNewPhoneNumberCode != null:
+return successResendNewPhoneNumberCode(_that);case SuccessResendCodeState() when successResendCode != null:
+return successResendCode(_that);case SuccessConfirmDeleteMyAccountState() when successConfirmDeleteMyAccount != null:
+return successConfirmDeleteMyAccount(_that);case SuccessResendDeleteMyAccountCodeState() when successResendDeleteMyAccountCode != null:
+return successResendDeleteMyAccountCode(_that);case SuccessConfirmNewPhoneNumberState() when successConfirmNewPhoneNumber != null:
+return successConfirmNewPhoneNumber(_that);case ConfirmCodeLoadedState() when confirmCodeLoaded != null:
+return confirmCodeLoaded(_that);case RefreshTokenLoadedState() when refreshTokenLoaded != null:
+return refreshTokenLoaded(_that);case AccountError() when accountError != null:
+return accountError(_that);case SuccessLogoutState() when successLogout != null:
+return successLogout(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  accountInit,TResult Function()?  accountLoading,TResult Function( LoginEntity loginEntity)?  loginLoaded,TResult Function( RegisterEntity registerEntity)?  registerLoaded,TResult Function( ProfileEntity data)?  profileLoaded,TResult Function()?  successResendNewPhoneNumberCode,TResult Function()?  successResendCode,TResult Function()?  successConfirmDeleteMyAccount,TResult Function()?  successResendDeleteMyAccountCode,TResult Function()?  successConfirmNewPhoneNumber,TResult Function( ConfirmCodeEntity data)?  confirmCodeLoaded,TResult Function( RefreshTokenEntity data)?  refreshTokenLoaded,TResult Function( AppErrors error,  VoidCallback callback)?  accountError,TResult Function()?  successLogout,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case AccountInit() when accountInit != null:
+return accountInit();case AccountLoading() when accountLoading != null:
+return accountLoading();case AccLoginLoaded() when loginLoaded != null:
+return loginLoaded(_that.loginEntity);case AccRegisterLoaded() when registerLoaded != null:
+return registerLoaded(_that.registerEntity);case ProfileLoadedState() when profileLoaded != null:
+return profileLoaded(_that.data);case SuccessResendNewPhoneNumberCodeState() when successResendNewPhoneNumberCode != null:
+return successResendNewPhoneNumberCode();case SuccessResendCodeState() when successResendCode != null:
+return successResendCode();case SuccessConfirmDeleteMyAccountState() when successConfirmDeleteMyAccount != null:
+return successConfirmDeleteMyAccount();case SuccessResendDeleteMyAccountCodeState() when successResendDeleteMyAccountCode != null:
+return successResendDeleteMyAccountCode();case SuccessConfirmNewPhoneNumberState() when successConfirmNewPhoneNumber != null:
+return successConfirmNewPhoneNumber();case ConfirmCodeLoadedState() when confirmCodeLoaded != null:
+return confirmCodeLoaded(_that.data);case RefreshTokenLoadedState() when refreshTokenLoaded != null:
+return refreshTokenLoaded(_that.data);case AccountError() when accountError != null:
+return accountError(_that.error,_that.callback);case SuccessLogoutState() when successLogout != null:
+return successLogout();case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  accountInit,required TResult Function()  accountLoading,required TResult Function( LoginEntity loginEntity)  loginLoaded,required TResult Function( RegisterEntity registerEntity)  registerLoaded,required TResult Function( ProfileEntity data)  profileLoaded,required TResult Function()  successResendNewPhoneNumberCode,required TResult Function()  successResendCode,required TResult Function()  successConfirmDeleteMyAccount,required TResult Function()  successResendDeleteMyAccountCode,required TResult Function()  successConfirmNewPhoneNumber,required TResult Function( ConfirmCodeEntity data)  confirmCodeLoaded,required TResult Function( RefreshTokenEntity data)  refreshTokenLoaded,required TResult Function( AppErrors error,  VoidCallback callback)  accountError,required TResult Function()  successLogout,}) {final _that = this;
+switch (_that) {
+case AccountInit():
+return accountInit();case AccountLoading():
+return accountLoading();case AccLoginLoaded():
+return loginLoaded(_that.loginEntity);case AccRegisterLoaded():
+return registerLoaded(_that.registerEntity);case ProfileLoadedState():
+return profileLoaded(_that.data);case SuccessResendNewPhoneNumberCodeState():
+return successResendNewPhoneNumberCode();case SuccessResendCodeState():
+return successResendCode();case SuccessConfirmDeleteMyAccountState():
+return successConfirmDeleteMyAccount();case SuccessResendDeleteMyAccountCodeState():
+return successResendDeleteMyAccountCode();case SuccessConfirmNewPhoneNumberState():
+return successConfirmNewPhoneNumber();case ConfirmCodeLoadedState():
+return confirmCodeLoaded(_that.data);case RefreshTokenLoadedState():
+return refreshTokenLoaded(_that.data);case AccountError():
+return accountError(_that.error,_that.callback);case SuccessLogoutState():
+return successLogout();case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  accountInit,TResult? Function()?  accountLoading,TResult? Function( LoginEntity loginEntity)?  loginLoaded,TResult? Function( RegisterEntity registerEntity)?  registerLoaded,TResult? Function( ProfileEntity data)?  profileLoaded,TResult? Function()?  successResendNewPhoneNumberCode,TResult? Function()?  successResendCode,TResult? Function()?  successConfirmDeleteMyAccount,TResult? Function()?  successResendDeleteMyAccountCode,TResult? Function()?  successConfirmNewPhoneNumber,TResult? Function( ConfirmCodeEntity data)?  confirmCodeLoaded,TResult? Function( RefreshTokenEntity data)?  refreshTokenLoaded,TResult? Function( AppErrors error,  VoidCallback callback)?  accountError,TResult? Function()?  successLogout,}) {final _that = this;
+switch (_that) {
+case AccountInit() when accountInit != null:
+return accountInit();case AccountLoading() when accountLoading != null:
+return accountLoading();case AccLoginLoaded() when loginLoaded != null:
+return loginLoaded(_that.loginEntity);case AccRegisterLoaded() when registerLoaded != null:
+return registerLoaded(_that.registerEntity);case ProfileLoadedState() when profileLoaded != null:
+return profileLoaded(_that.data);case SuccessResendNewPhoneNumberCodeState() when successResendNewPhoneNumberCode != null:
+return successResendNewPhoneNumberCode();case SuccessResendCodeState() when successResendCode != null:
+return successResendCode();case SuccessConfirmDeleteMyAccountState() when successConfirmDeleteMyAccount != null:
+return successConfirmDeleteMyAccount();case SuccessResendDeleteMyAccountCodeState() when successResendDeleteMyAccountCode != null:
+return successResendDeleteMyAccountCode();case SuccessConfirmNewPhoneNumberState() when successConfirmNewPhoneNumber != null:
+return successConfirmNewPhoneNumber();case ConfirmCodeLoadedState() when confirmCodeLoaded != null:
+return confirmCodeLoaded(_that.data);case RefreshTokenLoadedState() when refreshTokenLoaded != null:
+return refreshTokenLoaded(_that.data);case AccountError() when accountError != null:
+return accountError(_that.error,_that.callback);case SuccessLogoutState() when successLogout != null:
+return successLogout();case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-abstract class _$$AccountInitImplCopyWith<$Res> {
-  factory _$$AccountInitImplCopyWith(
-          _$AccountInitImpl value, $Res Function(_$AccountInitImpl) then) =
-      __$$AccountInitImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$AccountInitImplCopyWithImpl<$Res>
-    extends _$AccountStateCopyWithImpl<$Res, _$AccountInitImpl>
-    implements _$$AccountInitImplCopyWith<$Res> {
-  __$$AccountInitImplCopyWithImpl(
-      _$AccountInitImpl _value, $Res Function(_$AccountInitImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$AccountInitImpl implements AccountInit {
-  const _$AccountInitImpl();
-
-  @override
-  String toString() {
-    return 'AccountState.accountInit()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$AccountInitImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() accountInit,
-    required TResult Function() accountLoading,
-    required TResult Function(LoginEntity loginEntity) loginLoaded,
-    required TResult Function(RegisterEntity registerEntity) registerLoaded,
-    required TResult Function(ProfileEntity data) profileLoaded,
-    required TResult Function() successResendNewPhoneNumberCode,
-    required TResult Function() successResendCode,
-    required TResult Function() successConfirmDeleteMyAccount,
-    required TResult Function() successResendDeleteMyAccountCode,
-    required TResult Function() successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeEntity data) confirmCodeLoaded,
-    required TResult Function(RefreshTokenEntity data) refreshTokenLoaded,
-    required TResult Function(AppErrors error, VoidCallback callback)
-        accountError,
-    required TResult Function() successLogout,
-  }) {
-    return accountInit();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? accountInit,
-    TResult? Function()? accountLoading,
-    TResult? Function(LoginEntity loginEntity)? loginLoaded,
-    TResult? Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult? Function(ProfileEntity data)? profileLoaded,
-    TResult? Function()? successResendNewPhoneNumberCode,
-    TResult? Function()? successResendCode,
-    TResult? Function()? successConfirmDeleteMyAccount,
-    TResult? Function()? successResendDeleteMyAccountCode,
-    TResult? Function()? successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult? Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult? Function()? successLogout,
-  }) {
-    return accountInit?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? accountInit,
-    TResult Function()? accountLoading,
-    TResult Function(LoginEntity loginEntity)? loginLoaded,
-    TResult Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult Function(ProfileEntity data)? profileLoaded,
-    TResult Function()? successResendNewPhoneNumberCode,
-    TResult Function()? successResendCode,
-    TResult Function()? successConfirmDeleteMyAccount,
-    TResult Function()? successResendDeleteMyAccountCode,
-    TResult Function()? successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult Function()? successLogout,
-    required TResult orElse(),
-  }) {
-    if (accountInit != null) {
-      return accountInit();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AccountInit value) accountInit,
-    required TResult Function(AccountLoading value) accountLoading,
-    required TResult Function(AccLoginLoaded value) loginLoaded,
-    required TResult Function(AccRegisterLoaded value) registerLoaded,
-    required TResult Function(ProfileLoadedState value) profileLoaded,
-    required TResult Function(SuccessResendNewPhoneNumberCodeState value)
-        successResendNewPhoneNumberCode,
-    required TResult Function(SuccessResendCodeState value) successResendCode,
-    required TResult Function(SuccessConfirmDeleteMyAccountState value)
-        successConfirmDeleteMyAccount,
-    required TResult Function(SuccessResendDeleteMyAccountCodeState value)
-        successResendDeleteMyAccountCode,
-    required TResult Function(SuccessConfirmNewPhoneNumberState value)
-        successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeLoadedState value) confirmCodeLoaded,
-    required TResult Function(RefreshTokenLoadedState value) refreshTokenLoaded,
-    required TResult Function(AccountError value) accountError,
-    required TResult Function(SuccessLogoutState value) successLogout,
-  }) {
-    return accountInit(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AccountInit value)? accountInit,
-    TResult? Function(AccountLoading value)? accountLoading,
-    TResult? Function(AccLoginLoaded value)? loginLoaded,
-    TResult? Function(AccRegisterLoaded value)? registerLoaded,
-    TResult? Function(ProfileLoadedState value)? profileLoaded,
-    TResult? Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult? Function(SuccessResendCodeState value)? successResendCode,
-    TResult? Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult? Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult? Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult? Function(AccountError value)? accountError,
-    TResult? Function(SuccessLogoutState value)? successLogout,
-  }) {
-    return accountInit?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AccountInit value)? accountInit,
-    TResult Function(AccountLoading value)? accountLoading,
-    TResult Function(AccLoginLoaded value)? loginLoaded,
-    TResult Function(AccRegisterLoaded value)? registerLoaded,
-    TResult Function(ProfileLoadedState value)? profileLoaded,
-    TResult Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult Function(SuccessResendCodeState value)? successResendCode,
-    TResult Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult Function(AccountError value)? accountError,
-    TResult Function(SuccessLogoutState value)? successLogout,
-    required TResult orElse(),
-  }) {
-    if (accountInit != null) {
-      return accountInit(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class AccountInit implements AccountState {
-  const factory AccountInit() = _$AccountInitImpl;
-}
-
-/// @nodoc
-abstract class _$$AccountLoadingImplCopyWith<$Res> {
-  factory _$$AccountLoadingImplCopyWith(_$AccountLoadingImpl value,
-          $Res Function(_$AccountLoadingImpl) then) =
-      __$$AccountLoadingImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$AccountLoadingImplCopyWithImpl<$Res>
-    extends _$AccountStateCopyWithImpl<$Res, _$AccountLoadingImpl>
-    implements _$$AccountLoadingImplCopyWith<$Res> {
-  __$$AccountLoadingImplCopyWithImpl(
-      _$AccountLoadingImpl _value, $Res Function(_$AccountLoadingImpl) _then)
-      : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$AccountLoadingImpl implements AccountLoading {
-  const _$AccountLoadingImpl();
 
-  @override
-  String toString() {
-    return 'AccountState.accountLoading()';
-  }
+class AccountInit implements AccountState {
+  const AccountInit();
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$AccountLoadingImpl);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() accountInit,
-    required TResult Function() accountLoading,
-    required TResult Function(LoginEntity loginEntity) loginLoaded,
-    required TResult Function(RegisterEntity registerEntity) registerLoaded,
-    required TResult Function(ProfileEntity data) profileLoaded,
-    required TResult Function() successResendNewPhoneNumberCode,
-    required TResult Function() successResendCode,
-    required TResult Function() successConfirmDeleteMyAccount,
-    required TResult Function() successResendDeleteMyAccountCode,
-    required TResult Function() successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeEntity data) confirmCodeLoaded,
-    required TResult Function(RefreshTokenEntity data) refreshTokenLoaded,
-    required TResult Function(AppErrors error, VoidCallback callback)
-        accountError,
-    required TResult Function() successLogout,
-  }) {
-    return accountLoading();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? accountInit,
-    TResult? Function()? accountLoading,
-    TResult? Function(LoginEntity loginEntity)? loginLoaded,
-    TResult? Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult? Function(ProfileEntity data)? profileLoaded,
-    TResult? Function()? successResendNewPhoneNumberCode,
-    TResult? Function()? successResendCode,
-    TResult? Function()? successConfirmDeleteMyAccount,
-    TResult? Function()? successResendDeleteMyAccountCode,
-    TResult? Function()? successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult? Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult? Function()? successLogout,
-  }) {
-    return accountLoading?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? accountInit,
-    TResult Function()? accountLoading,
-    TResult Function(LoginEntity loginEntity)? loginLoaded,
-    TResult Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult Function(ProfileEntity data)? profileLoaded,
-    TResult Function()? successResendNewPhoneNumberCode,
-    TResult Function()? successResendCode,
-    TResult Function()? successConfirmDeleteMyAccount,
-    TResult Function()? successResendDeleteMyAccountCode,
-    TResult Function()? successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult Function()? successLogout,
-    required TResult orElse(),
-  }) {
-    if (accountLoading != null) {
-      return accountLoading();
-    }
-    return orElse();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AccountInit value) accountInit,
-    required TResult Function(AccountLoading value) accountLoading,
-    required TResult Function(AccLoginLoaded value) loginLoaded,
-    required TResult Function(AccRegisterLoaded value) registerLoaded,
-    required TResult Function(ProfileLoadedState value) profileLoaded,
-    required TResult Function(SuccessResendNewPhoneNumberCodeState value)
-        successResendNewPhoneNumberCode,
-    required TResult Function(SuccessResendCodeState value) successResendCode,
-    required TResult Function(SuccessConfirmDeleteMyAccountState value)
-        successConfirmDeleteMyAccount,
-    required TResult Function(SuccessResendDeleteMyAccountCodeState value)
-        successResendDeleteMyAccountCode,
-    required TResult Function(SuccessConfirmNewPhoneNumberState value)
-        successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeLoadedState value) confirmCodeLoaded,
-    required TResult Function(RefreshTokenLoadedState value) refreshTokenLoaded,
-    required TResult Function(AccountError value) accountError,
-    required TResult Function(SuccessLogoutState value) successLogout,
-  }) {
-    return accountLoading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AccountInit value)? accountInit,
-    TResult? Function(AccountLoading value)? accountLoading,
-    TResult? Function(AccLoginLoaded value)? loginLoaded,
-    TResult? Function(AccRegisterLoaded value)? registerLoaded,
-    TResult? Function(ProfileLoadedState value)? profileLoaded,
-    TResult? Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult? Function(SuccessResendCodeState value)? successResendCode,
-    TResult? Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult? Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult? Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult? Function(AccountError value)? accountError,
-    TResult? Function(SuccessLogoutState value)? successLogout,
-  }) {
-    return accountLoading?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AccountInit value)? accountInit,
-    TResult Function(AccountLoading value)? accountLoading,
-    TResult Function(AccLoginLoaded value)? loginLoaded,
-    TResult Function(AccRegisterLoaded value)? registerLoaded,
-    TResult Function(ProfileLoadedState value)? profileLoaded,
-    TResult Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult Function(SuccessResendCodeState value)? successResendCode,
-    TResult Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult Function(AccountError value)? accountError,
-    TResult Function(SuccessLogoutState value)? successLogout,
-    required TResult orElse(),
-  }) {
-    if (accountLoading != null) {
-      return accountLoading(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AccountInit);
 }
 
-abstract class AccountLoading implements AccountState {
-  const factory AccountLoading() = _$AccountLoadingImpl;
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'AccountState.accountInit()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class AccountLoading implements AccountState {
+  const AccountLoading();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AccountLoading);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'AccountState.accountLoading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class AccLoginLoaded implements AccountState {
+  const AccLoginLoaded(this.loginEntity);
+  
+
+ final  LoginEntity loginEntity;
+
+/// Create a copy of AccountState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AccLoginLoadedCopyWith<AccLoginLoaded> get copyWith => _$AccLoginLoadedCopyWithImpl<AccLoginLoaded>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AccLoginLoaded&&(identical(other.loginEntity, loginEntity) || other.loginEntity == loginEntity));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,loginEntity);
+
+@override
+String toString() {
+  return 'AccountState.loginLoaded(loginEntity: $loginEntity)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$AccLoginLoadedImplCopyWith<$Res> {
-  factory _$$AccLoginLoadedImplCopyWith(_$AccLoginLoadedImpl value,
-          $Res Function(_$AccLoginLoadedImpl) then) =
-      __$$AccLoginLoadedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({LoginEntity loginEntity});
+abstract mixin class $AccLoginLoadedCopyWith<$Res> implements $AccountStateCopyWith<$Res> {
+  factory $AccLoginLoadedCopyWith(AccLoginLoaded value, $Res Function(AccLoginLoaded) _then) = _$AccLoginLoadedCopyWithImpl;
+@useResult
+$Res call({
+ LoginEntity loginEntity
+});
+
+
+
+
+}
+/// @nodoc
+class _$AccLoginLoadedCopyWithImpl<$Res>
+    implements $AccLoginLoadedCopyWith<$Res> {
+  _$AccLoginLoadedCopyWithImpl(this._self, this._then);
+
+  final AccLoginLoaded _self;
+  final $Res Function(AccLoginLoaded) _then;
+
+/// Create a copy of AccountState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? loginEntity = null,}) {
+  return _then(AccLoginLoaded(
+null == loginEntity ? _self.loginEntity : loginEntity // ignore: cast_nullable_to_non_nullable
+as LoginEntity,
+  ));
 }
 
-/// @nodoc
-class __$$AccLoginLoadedImplCopyWithImpl<$Res>
-    extends _$AccountStateCopyWithImpl<$Res, _$AccLoginLoadedImpl>
-    implements _$$AccLoginLoadedImplCopyWith<$Res> {
-  __$$AccLoginLoadedImplCopyWithImpl(
-      _$AccLoginLoadedImpl _value, $Res Function(_$AccLoginLoadedImpl) _then)
-      : super(_value, _then);
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? loginEntity = null,
-  }) {
-    return _then(_$AccLoginLoadedImpl(
-      null == loginEntity
-          ? _value.loginEntity
-          : loginEntity // ignore: cast_nullable_to_non_nullable
-              as LoginEntity,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$AccLoginLoadedImpl implements AccLoginLoaded {
-  const _$AccLoginLoadedImpl(this.loginEntity);
 
-  @override
-  final LoginEntity loginEntity;
+class AccRegisterLoaded implements AccountState {
+  const AccRegisterLoaded(this.registerEntity);
+  
 
-  @override
-  String toString() {
-    return 'AccountState.loginLoaded(loginEntity: $loginEntity)';
-  }
+ final  RegisterEntity registerEntity;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AccLoginLoadedImpl &&
-            (identical(other.loginEntity, loginEntity) ||
-                other.loginEntity == loginEntity));
-  }
+/// Create a copy of AccountState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AccRegisterLoadedCopyWith<AccRegisterLoaded> get copyWith => _$AccRegisterLoadedCopyWithImpl<AccRegisterLoaded>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, loginEntity);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$AccLoginLoadedImplCopyWith<_$AccLoginLoadedImpl> get copyWith =>
-      __$$AccLoginLoadedImplCopyWithImpl<_$AccLoginLoadedImpl>(
-          this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() accountInit,
-    required TResult Function() accountLoading,
-    required TResult Function(LoginEntity loginEntity) loginLoaded,
-    required TResult Function(RegisterEntity registerEntity) registerLoaded,
-    required TResult Function(ProfileEntity data) profileLoaded,
-    required TResult Function() successResendNewPhoneNumberCode,
-    required TResult Function() successResendCode,
-    required TResult Function() successConfirmDeleteMyAccount,
-    required TResult Function() successResendDeleteMyAccountCode,
-    required TResult Function() successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeEntity data) confirmCodeLoaded,
-    required TResult Function(RefreshTokenEntity data) refreshTokenLoaded,
-    required TResult Function(AppErrors error, VoidCallback callback)
-        accountError,
-    required TResult Function() successLogout,
-  }) {
-    return loginLoaded(loginEntity);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? accountInit,
-    TResult? Function()? accountLoading,
-    TResult? Function(LoginEntity loginEntity)? loginLoaded,
-    TResult? Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult? Function(ProfileEntity data)? profileLoaded,
-    TResult? Function()? successResendNewPhoneNumberCode,
-    TResult? Function()? successResendCode,
-    TResult? Function()? successConfirmDeleteMyAccount,
-    TResult? Function()? successResendDeleteMyAccountCode,
-    TResult? Function()? successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult? Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult? Function()? successLogout,
-  }) {
-    return loginLoaded?.call(loginEntity);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? accountInit,
-    TResult Function()? accountLoading,
-    TResult Function(LoginEntity loginEntity)? loginLoaded,
-    TResult Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult Function(ProfileEntity data)? profileLoaded,
-    TResult Function()? successResendNewPhoneNumberCode,
-    TResult Function()? successResendCode,
-    TResult Function()? successConfirmDeleteMyAccount,
-    TResult Function()? successResendDeleteMyAccountCode,
-    TResult Function()? successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult Function()? successLogout,
-    required TResult orElse(),
-  }) {
-    if (loginLoaded != null) {
-      return loginLoaded(loginEntity);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AccountInit value) accountInit,
-    required TResult Function(AccountLoading value) accountLoading,
-    required TResult Function(AccLoginLoaded value) loginLoaded,
-    required TResult Function(AccRegisterLoaded value) registerLoaded,
-    required TResult Function(ProfileLoadedState value) profileLoaded,
-    required TResult Function(SuccessResendNewPhoneNumberCodeState value)
-        successResendNewPhoneNumberCode,
-    required TResult Function(SuccessResendCodeState value) successResendCode,
-    required TResult Function(SuccessConfirmDeleteMyAccountState value)
-        successConfirmDeleteMyAccount,
-    required TResult Function(SuccessResendDeleteMyAccountCodeState value)
-        successResendDeleteMyAccountCode,
-    required TResult Function(SuccessConfirmNewPhoneNumberState value)
-        successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeLoadedState value) confirmCodeLoaded,
-    required TResult Function(RefreshTokenLoadedState value) refreshTokenLoaded,
-    required TResult Function(AccountError value) accountError,
-    required TResult Function(SuccessLogoutState value) successLogout,
-  }) {
-    return loginLoaded(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AccountInit value)? accountInit,
-    TResult? Function(AccountLoading value)? accountLoading,
-    TResult? Function(AccLoginLoaded value)? loginLoaded,
-    TResult? Function(AccRegisterLoaded value)? registerLoaded,
-    TResult? Function(ProfileLoadedState value)? profileLoaded,
-    TResult? Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult? Function(SuccessResendCodeState value)? successResendCode,
-    TResult? Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult? Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult? Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult? Function(AccountError value)? accountError,
-    TResult? Function(SuccessLogoutState value)? successLogout,
-  }) {
-    return loginLoaded?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AccountInit value)? accountInit,
-    TResult Function(AccountLoading value)? accountLoading,
-    TResult Function(AccLoginLoaded value)? loginLoaded,
-    TResult Function(AccRegisterLoaded value)? registerLoaded,
-    TResult Function(ProfileLoadedState value)? profileLoaded,
-    TResult Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult Function(SuccessResendCodeState value)? successResendCode,
-    TResult Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult Function(AccountError value)? accountError,
-    TResult Function(SuccessLogoutState value)? successLogout,
-    required TResult orElse(),
-  }) {
-    if (loginLoaded != null) {
-      return loginLoaded(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AccRegisterLoaded&&(identical(other.registerEntity, registerEntity) || other.registerEntity == registerEntity));
 }
 
-abstract class AccLoginLoaded implements AccountState {
-  const factory AccLoginLoaded(final LoginEntity loginEntity) =
-      _$AccLoginLoadedImpl;
 
-  LoginEntity get loginEntity;
-  @JsonKey(ignore: true)
-  _$$AccLoginLoadedImplCopyWith<_$AccLoginLoadedImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,registerEntity);
+
+@override
+String toString() {
+  return 'AccountState.registerLoaded(registerEntity: $registerEntity)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$AccRegisterLoadedImplCopyWith<$Res> {
-  factory _$$AccRegisterLoadedImplCopyWith(_$AccRegisterLoadedImpl value,
-          $Res Function(_$AccRegisterLoadedImpl) then) =
-      __$$AccRegisterLoadedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({RegisterEntity registerEntity});
+abstract mixin class $AccRegisterLoadedCopyWith<$Res> implements $AccountStateCopyWith<$Res> {
+  factory $AccRegisterLoadedCopyWith(AccRegisterLoaded value, $Res Function(AccRegisterLoaded) _then) = _$AccRegisterLoadedCopyWithImpl;
+@useResult
+$Res call({
+ RegisterEntity registerEntity
+});
+
+
+
+
+}
+/// @nodoc
+class _$AccRegisterLoadedCopyWithImpl<$Res>
+    implements $AccRegisterLoadedCopyWith<$Res> {
+  _$AccRegisterLoadedCopyWithImpl(this._self, this._then);
+
+  final AccRegisterLoaded _self;
+  final $Res Function(AccRegisterLoaded) _then;
+
+/// Create a copy of AccountState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? registerEntity = null,}) {
+  return _then(AccRegisterLoaded(
+null == registerEntity ? _self.registerEntity : registerEntity // ignore: cast_nullable_to_non_nullable
+as RegisterEntity,
+  ));
 }
 
-/// @nodoc
-class __$$AccRegisterLoadedImplCopyWithImpl<$Res>
-    extends _$AccountStateCopyWithImpl<$Res, _$AccRegisterLoadedImpl>
-    implements _$$AccRegisterLoadedImplCopyWith<$Res> {
-  __$$AccRegisterLoadedImplCopyWithImpl(_$AccRegisterLoadedImpl _value,
-      $Res Function(_$AccRegisterLoadedImpl) _then)
-      : super(_value, _then);
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? registerEntity = null,
-  }) {
-    return _then(_$AccRegisterLoadedImpl(
-      null == registerEntity
-          ? _value.registerEntity
-          : registerEntity // ignore: cast_nullable_to_non_nullable
-              as RegisterEntity,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$AccRegisterLoadedImpl implements AccRegisterLoaded {
-  const _$AccRegisterLoadedImpl(this.registerEntity);
 
-  @override
-  final RegisterEntity registerEntity;
+class ProfileLoadedState implements AccountState {
+  const ProfileLoadedState({required this.data});
+  
 
-  @override
-  String toString() {
-    return 'AccountState.registerLoaded(registerEntity: $registerEntity)';
-  }
+ final  ProfileEntity data;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AccRegisterLoadedImpl &&
-            (identical(other.registerEntity, registerEntity) ||
-                other.registerEntity == registerEntity));
-  }
+/// Create a copy of AccountState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ProfileLoadedStateCopyWith<ProfileLoadedState> get copyWith => _$ProfileLoadedStateCopyWithImpl<ProfileLoadedState>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, registerEntity);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$AccRegisterLoadedImplCopyWith<_$AccRegisterLoadedImpl> get copyWith =>
-      __$$AccRegisterLoadedImplCopyWithImpl<_$AccRegisterLoadedImpl>(
-          this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() accountInit,
-    required TResult Function() accountLoading,
-    required TResult Function(LoginEntity loginEntity) loginLoaded,
-    required TResult Function(RegisterEntity registerEntity) registerLoaded,
-    required TResult Function(ProfileEntity data) profileLoaded,
-    required TResult Function() successResendNewPhoneNumberCode,
-    required TResult Function() successResendCode,
-    required TResult Function() successConfirmDeleteMyAccount,
-    required TResult Function() successResendDeleteMyAccountCode,
-    required TResult Function() successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeEntity data) confirmCodeLoaded,
-    required TResult Function(RefreshTokenEntity data) refreshTokenLoaded,
-    required TResult Function(AppErrors error, VoidCallback callback)
-        accountError,
-    required TResult Function() successLogout,
-  }) {
-    return registerLoaded(registerEntity);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? accountInit,
-    TResult? Function()? accountLoading,
-    TResult? Function(LoginEntity loginEntity)? loginLoaded,
-    TResult? Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult? Function(ProfileEntity data)? profileLoaded,
-    TResult? Function()? successResendNewPhoneNumberCode,
-    TResult? Function()? successResendCode,
-    TResult? Function()? successConfirmDeleteMyAccount,
-    TResult? Function()? successResendDeleteMyAccountCode,
-    TResult? Function()? successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult? Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult? Function()? successLogout,
-  }) {
-    return registerLoaded?.call(registerEntity);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? accountInit,
-    TResult Function()? accountLoading,
-    TResult Function(LoginEntity loginEntity)? loginLoaded,
-    TResult Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult Function(ProfileEntity data)? profileLoaded,
-    TResult Function()? successResendNewPhoneNumberCode,
-    TResult Function()? successResendCode,
-    TResult Function()? successConfirmDeleteMyAccount,
-    TResult Function()? successResendDeleteMyAccountCode,
-    TResult Function()? successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult Function()? successLogout,
-    required TResult orElse(),
-  }) {
-    if (registerLoaded != null) {
-      return registerLoaded(registerEntity);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AccountInit value) accountInit,
-    required TResult Function(AccountLoading value) accountLoading,
-    required TResult Function(AccLoginLoaded value) loginLoaded,
-    required TResult Function(AccRegisterLoaded value) registerLoaded,
-    required TResult Function(ProfileLoadedState value) profileLoaded,
-    required TResult Function(SuccessResendNewPhoneNumberCodeState value)
-        successResendNewPhoneNumberCode,
-    required TResult Function(SuccessResendCodeState value) successResendCode,
-    required TResult Function(SuccessConfirmDeleteMyAccountState value)
-        successConfirmDeleteMyAccount,
-    required TResult Function(SuccessResendDeleteMyAccountCodeState value)
-        successResendDeleteMyAccountCode,
-    required TResult Function(SuccessConfirmNewPhoneNumberState value)
-        successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeLoadedState value) confirmCodeLoaded,
-    required TResult Function(RefreshTokenLoadedState value) refreshTokenLoaded,
-    required TResult Function(AccountError value) accountError,
-    required TResult Function(SuccessLogoutState value) successLogout,
-  }) {
-    return registerLoaded(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AccountInit value)? accountInit,
-    TResult? Function(AccountLoading value)? accountLoading,
-    TResult? Function(AccLoginLoaded value)? loginLoaded,
-    TResult? Function(AccRegisterLoaded value)? registerLoaded,
-    TResult? Function(ProfileLoadedState value)? profileLoaded,
-    TResult? Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult? Function(SuccessResendCodeState value)? successResendCode,
-    TResult? Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult? Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult? Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult? Function(AccountError value)? accountError,
-    TResult? Function(SuccessLogoutState value)? successLogout,
-  }) {
-    return registerLoaded?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AccountInit value)? accountInit,
-    TResult Function(AccountLoading value)? accountLoading,
-    TResult Function(AccLoginLoaded value)? loginLoaded,
-    TResult Function(AccRegisterLoaded value)? registerLoaded,
-    TResult Function(ProfileLoadedState value)? profileLoaded,
-    TResult Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult Function(SuccessResendCodeState value)? successResendCode,
-    TResult Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult Function(AccountError value)? accountError,
-    TResult Function(SuccessLogoutState value)? successLogout,
-    required TResult orElse(),
-  }) {
-    if (registerLoaded != null) {
-      return registerLoaded(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProfileLoadedState&&(identical(other.data, data) || other.data == data));
 }
 
-abstract class AccRegisterLoaded implements AccountState {
-  const factory AccRegisterLoaded(final RegisterEntity registerEntity) =
-      _$AccRegisterLoadedImpl;
 
-  RegisterEntity get registerEntity;
-  @JsonKey(ignore: true)
-  _$$AccRegisterLoadedImplCopyWith<_$AccRegisterLoadedImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,data);
+
+@override
+String toString() {
+  return 'AccountState.profileLoaded(data: $data)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$ProfileLoadedStateImplCopyWith<$Res> {
-  factory _$$ProfileLoadedStateImplCopyWith(_$ProfileLoadedStateImpl value,
-          $Res Function(_$ProfileLoadedStateImpl) then) =
-      __$$ProfileLoadedStateImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({ProfileEntity data});
+abstract mixin class $ProfileLoadedStateCopyWith<$Res> implements $AccountStateCopyWith<$Res> {
+  factory $ProfileLoadedStateCopyWith(ProfileLoadedState value, $Res Function(ProfileLoadedState) _then) = _$ProfileLoadedStateCopyWithImpl;
+@useResult
+$Res call({
+ ProfileEntity data
+});
+
+
+
+
+}
+/// @nodoc
+class _$ProfileLoadedStateCopyWithImpl<$Res>
+    implements $ProfileLoadedStateCopyWith<$Res> {
+  _$ProfileLoadedStateCopyWithImpl(this._self, this._then);
+
+  final ProfileLoadedState _self;
+  final $Res Function(ProfileLoadedState) _then;
+
+/// Create a copy of AccountState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
+  return _then(ProfileLoadedState(
+data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as ProfileEntity,
+  ));
 }
 
-/// @nodoc
-class __$$ProfileLoadedStateImplCopyWithImpl<$Res>
-    extends _$AccountStateCopyWithImpl<$Res, _$ProfileLoadedStateImpl>
-    implements _$$ProfileLoadedStateImplCopyWith<$Res> {
-  __$$ProfileLoadedStateImplCopyWithImpl(_$ProfileLoadedStateImpl _value,
-      $Res Function(_$ProfileLoadedStateImpl) _then)
-      : super(_value, _then);
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? data = null,
-  }) {
-    return _then(_$ProfileLoadedStateImpl(
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as ProfileEntity,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$ProfileLoadedStateImpl implements ProfileLoadedState {
-  const _$ProfileLoadedStateImpl({required this.data});
 
-  @override
-  final ProfileEntity data;
+class SuccessResendNewPhoneNumberCodeState implements AccountState {
+  const SuccessResendNewPhoneNumberCodeState();
+  
 
-  @override
-  String toString() {
-    return 'AccountState.profileLoaded(data: $data)';
-  }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ProfileLoadedStateImpl &&
-            (identical(other.data, data) || other.data == data));
-  }
 
-  @override
-  int get hashCode => Object.hash(runtimeType, data);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ProfileLoadedStateImplCopyWith<_$ProfileLoadedStateImpl> get copyWith =>
-      __$$ProfileLoadedStateImplCopyWithImpl<_$ProfileLoadedStateImpl>(
-          this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() accountInit,
-    required TResult Function() accountLoading,
-    required TResult Function(LoginEntity loginEntity) loginLoaded,
-    required TResult Function(RegisterEntity registerEntity) registerLoaded,
-    required TResult Function(ProfileEntity data) profileLoaded,
-    required TResult Function() successResendNewPhoneNumberCode,
-    required TResult Function() successResendCode,
-    required TResult Function() successConfirmDeleteMyAccount,
-    required TResult Function() successResendDeleteMyAccountCode,
-    required TResult Function() successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeEntity data) confirmCodeLoaded,
-    required TResult Function(RefreshTokenEntity data) refreshTokenLoaded,
-    required TResult Function(AppErrors error, VoidCallback callback)
-        accountError,
-    required TResult Function() successLogout,
-  }) {
-    return profileLoaded(data);
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? accountInit,
-    TResult? Function()? accountLoading,
-    TResult? Function(LoginEntity loginEntity)? loginLoaded,
-    TResult? Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult? Function(ProfileEntity data)? profileLoaded,
-    TResult? Function()? successResendNewPhoneNumberCode,
-    TResult? Function()? successResendCode,
-    TResult? Function()? successConfirmDeleteMyAccount,
-    TResult? Function()? successResendDeleteMyAccountCode,
-    TResult? Function()? successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult? Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult? Function()? successLogout,
-  }) {
-    return profileLoaded?.call(data);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? accountInit,
-    TResult Function()? accountLoading,
-    TResult Function(LoginEntity loginEntity)? loginLoaded,
-    TResult Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult Function(ProfileEntity data)? profileLoaded,
-    TResult Function()? successResendNewPhoneNumberCode,
-    TResult Function()? successResendCode,
-    TResult Function()? successConfirmDeleteMyAccount,
-    TResult Function()? successResendDeleteMyAccountCode,
-    TResult Function()? successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult Function()? successLogout,
-    required TResult orElse(),
-  }) {
-    if (profileLoaded != null) {
-      return profileLoaded(data);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AccountInit value) accountInit,
-    required TResult Function(AccountLoading value) accountLoading,
-    required TResult Function(AccLoginLoaded value) loginLoaded,
-    required TResult Function(AccRegisterLoaded value) registerLoaded,
-    required TResult Function(ProfileLoadedState value) profileLoaded,
-    required TResult Function(SuccessResendNewPhoneNumberCodeState value)
-        successResendNewPhoneNumberCode,
-    required TResult Function(SuccessResendCodeState value) successResendCode,
-    required TResult Function(SuccessConfirmDeleteMyAccountState value)
-        successConfirmDeleteMyAccount,
-    required TResult Function(SuccessResendDeleteMyAccountCodeState value)
-        successResendDeleteMyAccountCode,
-    required TResult Function(SuccessConfirmNewPhoneNumberState value)
-        successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeLoadedState value) confirmCodeLoaded,
-    required TResult Function(RefreshTokenLoadedState value) refreshTokenLoaded,
-    required TResult Function(AccountError value) accountError,
-    required TResult Function(SuccessLogoutState value) successLogout,
-  }) {
-    return profileLoaded(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AccountInit value)? accountInit,
-    TResult? Function(AccountLoading value)? accountLoading,
-    TResult? Function(AccLoginLoaded value)? loginLoaded,
-    TResult? Function(AccRegisterLoaded value)? registerLoaded,
-    TResult? Function(ProfileLoadedState value)? profileLoaded,
-    TResult? Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult? Function(SuccessResendCodeState value)? successResendCode,
-    TResult? Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult? Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult? Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult? Function(AccountError value)? accountError,
-    TResult? Function(SuccessLogoutState value)? successLogout,
-  }) {
-    return profileLoaded?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AccountInit value)? accountInit,
-    TResult Function(AccountLoading value)? accountLoading,
-    TResult Function(AccLoginLoaded value)? loginLoaded,
-    TResult Function(AccRegisterLoaded value)? registerLoaded,
-    TResult Function(ProfileLoadedState value)? profileLoaded,
-    TResult Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult Function(SuccessResendCodeState value)? successResendCode,
-    TResult Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult Function(AccountError value)? accountError,
-    TResult Function(SuccessLogoutState value)? successLogout,
-    required TResult orElse(),
-  }) {
-    if (profileLoaded != null) {
-      return profileLoaded(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SuccessResendNewPhoneNumberCodeState);
 }
 
-abstract class ProfileLoadedState implements AccountState {
-  const factory ProfileLoadedState({required final ProfileEntity data}) =
-      _$ProfileLoadedStateImpl;
 
-  ProfileEntity get data;
-  @JsonKey(ignore: true)
-  _$$ProfileLoadedStateImplCopyWith<_$ProfileLoadedStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'AccountState.successResendNewPhoneNumberCode()';
 }
 
-/// @nodoc
-abstract class _$$SuccessResendNewPhoneNumberCodeStateImplCopyWith<$Res> {
-  factory _$$SuccessResendNewPhoneNumberCodeStateImplCopyWith(
-          _$SuccessResendNewPhoneNumberCodeStateImpl value,
-          $Res Function(_$SuccessResendNewPhoneNumberCodeStateImpl) then) =
-      __$$SuccessResendNewPhoneNumberCodeStateImplCopyWithImpl<$Res>;
+
 }
 
-/// @nodoc
-class __$$SuccessResendNewPhoneNumberCodeStateImplCopyWithImpl<$Res>
-    extends _$AccountStateCopyWithImpl<$Res,
-        _$SuccessResendNewPhoneNumberCodeStateImpl>
-    implements _$$SuccessResendNewPhoneNumberCodeStateImplCopyWith<$Res> {
-  __$$SuccessResendNewPhoneNumberCodeStateImplCopyWithImpl(
-      _$SuccessResendNewPhoneNumberCodeStateImpl _value,
-      $Res Function(_$SuccessResendNewPhoneNumberCodeStateImpl) _then)
-      : super(_value, _then);
-}
+
+
 
 /// @nodoc
 
-class _$SuccessResendNewPhoneNumberCodeStateImpl
-    implements SuccessResendNewPhoneNumberCodeState {
-  const _$SuccessResendNewPhoneNumberCodeStateImpl();
 
-  @override
-  String toString() {
-    return 'AccountState.successResendNewPhoneNumberCode()';
-  }
+class SuccessResendCodeState implements AccountState {
+  const SuccessResendCodeState();
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SuccessResendNewPhoneNumberCodeStateImpl);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() accountInit,
-    required TResult Function() accountLoading,
-    required TResult Function(LoginEntity loginEntity) loginLoaded,
-    required TResult Function(RegisterEntity registerEntity) registerLoaded,
-    required TResult Function(ProfileEntity data) profileLoaded,
-    required TResult Function() successResendNewPhoneNumberCode,
-    required TResult Function() successResendCode,
-    required TResult Function() successConfirmDeleteMyAccount,
-    required TResult Function() successResendDeleteMyAccountCode,
-    required TResult Function() successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeEntity data) confirmCodeLoaded,
-    required TResult Function(RefreshTokenEntity data) refreshTokenLoaded,
-    required TResult Function(AppErrors error, VoidCallback callback)
-        accountError,
-    required TResult Function() successLogout,
-  }) {
-    return successResendNewPhoneNumberCode();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? accountInit,
-    TResult? Function()? accountLoading,
-    TResult? Function(LoginEntity loginEntity)? loginLoaded,
-    TResult? Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult? Function(ProfileEntity data)? profileLoaded,
-    TResult? Function()? successResendNewPhoneNumberCode,
-    TResult? Function()? successResendCode,
-    TResult? Function()? successConfirmDeleteMyAccount,
-    TResult? Function()? successResendDeleteMyAccountCode,
-    TResult? Function()? successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult? Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult? Function()? successLogout,
-  }) {
-    return successResendNewPhoneNumberCode?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? accountInit,
-    TResult Function()? accountLoading,
-    TResult Function(LoginEntity loginEntity)? loginLoaded,
-    TResult Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult Function(ProfileEntity data)? profileLoaded,
-    TResult Function()? successResendNewPhoneNumberCode,
-    TResult Function()? successResendCode,
-    TResult Function()? successConfirmDeleteMyAccount,
-    TResult Function()? successResendDeleteMyAccountCode,
-    TResult Function()? successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult Function()? successLogout,
-    required TResult orElse(),
-  }) {
-    if (successResendNewPhoneNumberCode != null) {
-      return successResendNewPhoneNumberCode();
-    }
-    return orElse();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AccountInit value) accountInit,
-    required TResult Function(AccountLoading value) accountLoading,
-    required TResult Function(AccLoginLoaded value) loginLoaded,
-    required TResult Function(AccRegisterLoaded value) registerLoaded,
-    required TResult Function(ProfileLoadedState value) profileLoaded,
-    required TResult Function(SuccessResendNewPhoneNumberCodeState value)
-        successResendNewPhoneNumberCode,
-    required TResult Function(SuccessResendCodeState value) successResendCode,
-    required TResult Function(SuccessConfirmDeleteMyAccountState value)
-        successConfirmDeleteMyAccount,
-    required TResult Function(SuccessResendDeleteMyAccountCodeState value)
-        successResendDeleteMyAccountCode,
-    required TResult Function(SuccessConfirmNewPhoneNumberState value)
-        successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeLoadedState value) confirmCodeLoaded,
-    required TResult Function(RefreshTokenLoadedState value) refreshTokenLoaded,
-    required TResult Function(AccountError value) accountError,
-    required TResult Function(SuccessLogoutState value) successLogout,
-  }) {
-    return successResendNewPhoneNumberCode(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AccountInit value)? accountInit,
-    TResult? Function(AccountLoading value)? accountLoading,
-    TResult? Function(AccLoginLoaded value)? loginLoaded,
-    TResult? Function(AccRegisterLoaded value)? registerLoaded,
-    TResult? Function(ProfileLoadedState value)? profileLoaded,
-    TResult? Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult? Function(SuccessResendCodeState value)? successResendCode,
-    TResult? Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult? Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult? Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult? Function(AccountError value)? accountError,
-    TResult? Function(SuccessLogoutState value)? successLogout,
-  }) {
-    return successResendNewPhoneNumberCode?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AccountInit value)? accountInit,
-    TResult Function(AccountLoading value)? accountLoading,
-    TResult Function(AccLoginLoaded value)? loginLoaded,
-    TResult Function(AccRegisterLoaded value)? registerLoaded,
-    TResult Function(ProfileLoadedState value)? profileLoaded,
-    TResult Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult Function(SuccessResendCodeState value)? successResendCode,
-    TResult Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult Function(AccountError value)? accountError,
-    TResult Function(SuccessLogoutState value)? successLogout,
-    required TResult orElse(),
-  }) {
-    if (successResendNewPhoneNumberCode != null) {
-      return successResendNewPhoneNumberCode(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SuccessResendCodeState);
 }
 
-abstract class SuccessResendNewPhoneNumberCodeState implements AccountState {
-  const factory SuccessResendNewPhoneNumberCodeState() =
-      _$SuccessResendNewPhoneNumberCodeStateImpl;
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'AccountState.successResendCode()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class SuccessConfirmDeleteMyAccountState implements AccountState {
+  const SuccessConfirmDeleteMyAccountState();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SuccessConfirmDeleteMyAccountState);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'AccountState.successConfirmDeleteMyAccount()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class SuccessResendDeleteMyAccountCodeState implements AccountState {
+  const SuccessResendDeleteMyAccountCodeState();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SuccessResendDeleteMyAccountCodeState);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'AccountState.successResendDeleteMyAccountCode()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class SuccessConfirmNewPhoneNumberState implements AccountState {
+  const SuccessConfirmNewPhoneNumberState();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SuccessConfirmNewPhoneNumberState);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'AccountState.successConfirmNewPhoneNumber()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class ConfirmCodeLoadedState implements AccountState {
+  const ConfirmCodeLoadedState({required this.data});
+  
+
+ final  ConfirmCodeEntity data;
+
+/// Create a copy of AccountState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ConfirmCodeLoadedStateCopyWith<ConfirmCodeLoadedState> get copyWith => _$ConfirmCodeLoadedStateCopyWithImpl<ConfirmCodeLoadedState>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ConfirmCodeLoadedState&&(identical(other.data, data) || other.data == data));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,data);
+
+@override
+String toString() {
+  return 'AccountState.confirmCodeLoaded(data: $data)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$SuccessResendCodeStateImplCopyWith<$Res> {
-  factory _$$SuccessResendCodeStateImplCopyWith(
-          _$SuccessResendCodeStateImpl value,
-          $Res Function(_$SuccessResendCodeStateImpl) then) =
-      __$$SuccessResendCodeStateImplCopyWithImpl<$Res>;
+abstract mixin class $ConfirmCodeLoadedStateCopyWith<$Res> implements $AccountStateCopyWith<$Res> {
+  factory $ConfirmCodeLoadedStateCopyWith(ConfirmCodeLoadedState value, $Res Function(ConfirmCodeLoadedState) _then) = _$ConfirmCodeLoadedStateCopyWithImpl;
+@useResult
+$Res call({
+ ConfirmCodeEntity data
+});
+
+
+
+
+}
+/// @nodoc
+class _$ConfirmCodeLoadedStateCopyWithImpl<$Res>
+    implements $ConfirmCodeLoadedStateCopyWith<$Res> {
+  _$ConfirmCodeLoadedStateCopyWithImpl(this._self, this._then);
+
+  final ConfirmCodeLoadedState _self;
+  final $Res Function(ConfirmCodeLoadedState) _then;
+
+/// Create a copy of AccountState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
+  return _then(ConfirmCodeLoadedState(
+data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as ConfirmCodeEntity,
+  ));
 }
 
-/// @nodoc
-class __$$SuccessResendCodeStateImplCopyWithImpl<$Res>
-    extends _$AccountStateCopyWithImpl<$Res, _$SuccessResendCodeStateImpl>
-    implements _$$SuccessResendCodeStateImplCopyWith<$Res> {
-  __$$SuccessResendCodeStateImplCopyWithImpl(
-      _$SuccessResendCodeStateImpl _value,
-      $Res Function(_$SuccessResendCodeStateImpl) _then)
-      : super(_value, _then);
+
 }
 
 /// @nodoc
 
-class _$SuccessResendCodeStateImpl implements SuccessResendCodeState {
-  const _$SuccessResendCodeStateImpl();
 
-  @override
-  String toString() {
-    return 'AccountState.successResendCode()';
-  }
+class RefreshTokenLoadedState implements AccountState {
+  const RefreshTokenLoadedState({required this.data});
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SuccessResendCodeStateImpl);
-  }
+ final  RefreshTokenEntity data;
 
-  @override
-  int get hashCode => runtimeType.hashCode;
+/// Create a copy of AccountState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$RefreshTokenLoadedStateCopyWith<RefreshTokenLoadedState> get copyWith => _$RefreshTokenLoadedStateCopyWithImpl<RefreshTokenLoadedState>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() accountInit,
-    required TResult Function() accountLoading,
-    required TResult Function(LoginEntity loginEntity) loginLoaded,
-    required TResult Function(RegisterEntity registerEntity) registerLoaded,
-    required TResult Function(ProfileEntity data) profileLoaded,
-    required TResult Function() successResendNewPhoneNumberCode,
-    required TResult Function() successResendCode,
-    required TResult Function() successConfirmDeleteMyAccount,
-    required TResult Function() successResendDeleteMyAccountCode,
-    required TResult Function() successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeEntity data) confirmCodeLoaded,
-    required TResult Function(RefreshTokenEntity data) refreshTokenLoaded,
-    required TResult Function(AppErrors error, VoidCallback callback)
-        accountError,
-    required TResult Function() successLogout,
-  }) {
-    return successResendCode();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? accountInit,
-    TResult? Function()? accountLoading,
-    TResult? Function(LoginEntity loginEntity)? loginLoaded,
-    TResult? Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult? Function(ProfileEntity data)? profileLoaded,
-    TResult? Function()? successResendNewPhoneNumberCode,
-    TResult? Function()? successResendCode,
-    TResult? Function()? successConfirmDeleteMyAccount,
-    TResult? Function()? successResendDeleteMyAccountCode,
-    TResult? Function()? successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult? Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult? Function()? successLogout,
-  }) {
-    return successResendCode?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? accountInit,
-    TResult Function()? accountLoading,
-    TResult Function(LoginEntity loginEntity)? loginLoaded,
-    TResult Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult Function(ProfileEntity data)? profileLoaded,
-    TResult Function()? successResendNewPhoneNumberCode,
-    TResult Function()? successResendCode,
-    TResult Function()? successConfirmDeleteMyAccount,
-    TResult Function()? successResendDeleteMyAccountCode,
-    TResult Function()? successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult Function()? successLogout,
-    required TResult orElse(),
-  }) {
-    if (successResendCode != null) {
-      return successResendCode();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AccountInit value) accountInit,
-    required TResult Function(AccountLoading value) accountLoading,
-    required TResult Function(AccLoginLoaded value) loginLoaded,
-    required TResult Function(AccRegisterLoaded value) registerLoaded,
-    required TResult Function(ProfileLoadedState value) profileLoaded,
-    required TResult Function(SuccessResendNewPhoneNumberCodeState value)
-        successResendNewPhoneNumberCode,
-    required TResult Function(SuccessResendCodeState value) successResendCode,
-    required TResult Function(SuccessConfirmDeleteMyAccountState value)
-        successConfirmDeleteMyAccount,
-    required TResult Function(SuccessResendDeleteMyAccountCodeState value)
-        successResendDeleteMyAccountCode,
-    required TResult Function(SuccessConfirmNewPhoneNumberState value)
-        successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeLoadedState value) confirmCodeLoaded,
-    required TResult Function(RefreshTokenLoadedState value) refreshTokenLoaded,
-    required TResult Function(AccountError value) accountError,
-    required TResult Function(SuccessLogoutState value) successLogout,
-  }) {
-    return successResendCode(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AccountInit value)? accountInit,
-    TResult? Function(AccountLoading value)? accountLoading,
-    TResult? Function(AccLoginLoaded value)? loginLoaded,
-    TResult? Function(AccRegisterLoaded value)? registerLoaded,
-    TResult? Function(ProfileLoadedState value)? profileLoaded,
-    TResult? Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult? Function(SuccessResendCodeState value)? successResendCode,
-    TResult? Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult? Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult? Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult? Function(AccountError value)? accountError,
-    TResult? Function(SuccessLogoutState value)? successLogout,
-  }) {
-    return successResendCode?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AccountInit value)? accountInit,
-    TResult Function(AccountLoading value)? accountLoading,
-    TResult Function(AccLoginLoaded value)? loginLoaded,
-    TResult Function(AccRegisterLoaded value)? registerLoaded,
-    TResult Function(ProfileLoadedState value)? profileLoaded,
-    TResult Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult Function(SuccessResendCodeState value)? successResendCode,
-    TResult Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult Function(AccountError value)? accountError,
-    TResult Function(SuccessLogoutState value)? successLogout,
-    required TResult orElse(),
-  }) {
-    if (successResendCode != null) {
-      return successResendCode(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RefreshTokenLoadedState&&(identical(other.data, data) || other.data == data));
 }
 
-abstract class SuccessResendCodeState implements AccountState {
-  const factory SuccessResendCodeState() = _$SuccessResendCodeStateImpl;
+
+@override
+int get hashCode => Object.hash(runtimeType,data);
+
+@override
+String toString() {
+  return 'AccountState.refreshTokenLoaded(data: $data)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$SuccessConfirmDeleteMyAccountStateImplCopyWith<$Res> {
-  factory _$$SuccessConfirmDeleteMyAccountStateImplCopyWith(
-          _$SuccessConfirmDeleteMyAccountStateImpl value,
-          $Res Function(_$SuccessConfirmDeleteMyAccountStateImpl) then) =
-      __$$SuccessConfirmDeleteMyAccountStateImplCopyWithImpl<$Res>;
+abstract mixin class $RefreshTokenLoadedStateCopyWith<$Res> implements $AccountStateCopyWith<$Res> {
+  factory $RefreshTokenLoadedStateCopyWith(RefreshTokenLoadedState value, $Res Function(RefreshTokenLoadedState) _then) = _$RefreshTokenLoadedStateCopyWithImpl;
+@useResult
+$Res call({
+ RefreshTokenEntity data
+});
+
+
+
+
+}
+/// @nodoc
+class _$RefreshTokenLoadedStateCopyWithImpl<$Res>
+    implements $RefreshTokenLoadedStateCopyWith<$Res> {
+  _$RefreshTokenLoadedStateCopyWithImpl(this._self, this._then);
+
+  final RefreshTokenLoadedState _self;
+  final $Res Function(RefreshTokenLoadedState) _then;
+
+/// Create a copy of AccountState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
+  return _then(RefreshTokenLoadedState(
+data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as RefreshTokenEntity,
+  ));
 }
 
-/// @nodoc
-class __$$SuccessConfirmDeleteMyAccountStateImplCopyWithImpl<$Res>
-    extends _$AccountStateCopyWithImpl<$Res,
-        _$SuccessConfirmDeleteMyAccountStateImpl>
-    implements _$$SuccessConfirmDeleteMyAccountStateImplCopyWith<$Res> {
-  __$$SuccessConfirmDeleteMyAccountStateImplCopyWithImpl(
-      _$SuccessConfirmDeleteMyAccountStateImpl _value,
-      $Res Function(_$SuccessConfirmDeleteMyAccountStateImpl) _then)
-      : super(_value, _then);
+
 }
 
 /// @nodoc
 
-class _$SuccessConfirmDeleteMyAccountStateImpl
-    implements SuccessConfirmDeleteMyAccountState {
-  const _$SuccessConfirmDeleteMyAccountStateImpl();
 
-  @override
-  String toString() {
-    return 'AccountState.successConfirmDeleteMyAccount()';
-  }
+class AccountError implements AccountState {
+  const AccountError(this.error, this.callback);
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SuccessConfirmDeleteMyAccountStateImpl);
-  }
+ final  AppErrors error;
+ final  VoidCallback callback;
 
-  @override
-  int get hashCode => runtimeType.hashCode;
+/// Create a copy of AccountState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AccountErrorCopyWith<AccountError> get copyWith => _$AccountErrorCopyWithImpl<AccountError>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() accountInit,
-    required TResult Function() accountLoading,
-    required TResult Function(LoginEntity loginEntity) loginLoaded,
-    required TResult Function(RegisterEntity registerEntity) registerLoaded,
-    required TResult Function(ProfileEntity data) profileLoaded,
-    required TResult Function() successResendNewPhoneNumberCode,
-    required TResult Function() successResendCode,
-    required TResult Function() successConfirmDeleteMyAccount,
-    required TResult Function() successResendDeleteMyAccountCode,
-    required TResult Function() successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeEntity data) confirmCodeLoaded,
-    required TResult Function(RefreshTokenEntity data) refreshTokenLoaded,
-    required TResult Function(AppErrors error, VoidCallback callback)
-        accountError,
-    required TResult Function() successLogout,
-  }) {
-    return successConfirmDeleteMyAccount();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? accountInit,
-    TResult? Function()? accountLoading,
-    TResult? Function(LoginEntity loginEntity)? loginLoaded,
-    TResult? Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult? Function(ProfileEntity data)? profileLoaded,
-    TResult? Function()? successResendNewPhoneNumberCode,
-    TResult? Function()? successResendCode,
-    TResult? Function()? successConfirmDeleteMyAccount,
-    TResult? Function()? successResendDeleteMyAccountCode,
-    TResult? Function()? successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult? Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult? Function()? successLogout,
-  }) {
-    return successConfirmDeleteMyAccount?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? accountInit,
-    TResult Function()? accountLoading,
-    TResult Function(LoginEntity loginEntity)? loginLoaded,
-    TResult Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult Function(ProfileEntity data)? profileLoaded,
-    TResult Function()? successResendNewPhoneNumberCode,
-    TResult Function()? successResendCode,
-    TResult Function()? successConfirmDeleteMyAccount,
-    TResult Function()? successResendDeleteMyAccountCode,
-    TResult Function()? successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult Function()? successLogout,
-    required TResult orElse(),
-  }) {
-    if (successConfirmDeleteMyAccount != null) {
-      return successConfirmDeleteMyAccount();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AccountInit value) accountInit,
-    required TResult Function(AccountLoading value) accountLoading,
-    required TResult Function(AccLoginLoaded value) loginLoaded,
-    required TResult Function(AccRegisterLoaded value) registerLoaded,
-    required TResult Function(ProfileLoadedState value) profileLoaded,
-    required TResult Function(SuccessResendNewPhoneNumberCodeState value)
-        successResendNewPhoneNumberCode,
-    required TResult Function(SuccessResendCodeState value) successResendCode,
-    required TResult Function(SuccessConfirmDeleteMyAccountState value)
-        successConfirmDeleteMyAccount,
-    required TResult Function(SuccessResendDeleteMyAccountCodeState value)
-        successResendDeleteMyAccountCode,
-    required TResult Function(SuccessConfirmNewPhoneNumberState value)
-        successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeLoadedState value) confirmCodeLoaded,
-    required TResult Function(RefreshTokenLoadedState value) refreshTokenLoaded,
-    required TResult Function(AccountError value) accountError,
-    required TResult Function(SuccessLogoutState value) successLogout,
-  }) {
-    return successConfirmDeleteMyAccount(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AccountInit value)? accountInit,
-    TResult? Function(AccountLoading value)? accountLoading,
-    TResult? Function(AccLoginLoaded value)? loginLoaded,
-    TResult? Function(AccRegisterLoaded value)? registerLoaded,
-    TResult? Function(ProfileLoadedState value)? profileLoaded,
-    TResult? Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult? Function(SuccessResendCodeState value)? successResendCode,
-    TResult? Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult? Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult? Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult? Function(AccountError value)? accountError,
-    TResult? Function(SuccessLogoutState value)? successLogout,
-  }) {
-    return successConfirmDeleteMyAccount?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AccountInit value)? accountInit,
-    TResult Function(AccountLoading value)? accountLoading,
-    TResult Function(AccLoginLoaded value)? loginLoaded,
-    TResult Function(AccRegisterLoaded value)? registerLoaded,
-    TResult Function(ProfileLoadedState value)? profileLoaded,
-    TResult Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult Function(SuccessResendCodeState value)? successResendCode,
-    TResult Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult Function(AccountError value)? accountError,
-    TResult Function(SuccessLogoutState value)? successLogout,
-    required TResult orElse(),
-  }) {
-    if (successConfirmDeleteMyAccount != null) {
-      return successConfirmDeleteMyAccount(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AccountError&&(identical(other.error, error) || other.error == error)&&(identical(other.callback, callback) || other.callback == callback));
 }
 
-abstract class SuccessConfirmDeleteMyAccountState implements AccountState {
-  const factory SuccessConfirmDeleteMyAccountState() =
-      _$SuccessConfirmDeleteMyAccountStateImpl;
+
+@override
+int get hashCode => Object.hash(runtimeType,error,callback);
+
+@override
+String toString() {
+  return 'AccountState.accountError(error: $error, callback: $callback)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$SuccessResendDeleteMyAccountCodeStateImplCopyWith<$Res> {
-  factory _$$SuccessResendDeleteMyAccountCodeStateImplCopyWith(
-          _$SuccessResendDeleteMyAccountCodeStateImpl value,
-          $Res Function(_$SuccessResendDeleteMyAccountCodeStateImpl) then) =
-      __$$SuccessResendDeleteMyAccountCodeStateImplCopyWithImpl<$Res>;
+abstract mixin class $AccountErrorCopyWith<$Res> implements $AccountStateCopyWith<$Res> {
+  factory $AccountErrorCopyWith(AccountError value, $Res Function(AccountError) _then) = _$AccountErrorCopyWithImpl;
+@useResult
+$Res call({
+ AppErrors error, VoidCallback callback
+});
+
+
+$AppErrorsCopyWith<$Res> get error;
+
+}
+/// @nodoc
+class _$AccountErrorCopyWithImpl<$Res>
+    implements $AccountErrorCopyWith<$Res> {
+  _$AccountErrorCopyWithImpl(this._self, this._then);
+
+  final AccountError _self;
+  final $Res Function(AccountError) _then;
+
+/// Create a copy of AccountState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? error = null,Object? callback = null,}) {
+  return _then(AccountError(
+null == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as AppErrors,null == callback ? _self.callback : callback // ignore: cast_nullable_to_non_nullable
+as VoidCallback,
+  ));
 }
 
-/// @nodoc
-class __$$SuccessResendDeleteMyAccountCodeStateImplCopyWithImpl<$Res>
-    extends _$AccountStateCopyWithImpl<$Res,
-        _$SuccessResendDeleteMyAccountCodeStateImpl>
-    implements _$$SuccessResendDeleteMyAccountCodeStateImplCopyWith<$Res> {
-  __$$SuccessResendDeleteMyAccountCodeStateImplCopyWithImpl(
-      _$SuccessResendDeleteMyAccountCodeStateImpl _value,
-      $Res Function(_$SuccessResendDeleteMyAccountCodeStateImpl) _then)
-      : super(_value, _then);
+/// Create a copy of AccountState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AppErrorsCopyWith<$Res> get error {
+  
+  return $AppErrorsCopyWith<$Res>(_self.error, (value) {
+    return _then(_self.copyWith(error: value));
+  });
+}
 }
 
 /// @nodoc
 
-class _$SuccessResendDeleteMyAccountCodeStateImpl
-    implements SuccessResendDeleteMyAccountCodeState {
-  const _$SuccessResendDeleteMyAccountCodeStateImpl();
 
-  @override
-  String toString() {
-    return 'AccountState.successResendDeleteMyAccountCode()';
-  }
+class SuccessLogoutState implements AccountState {
+  const SuccessLogoutState();
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SuccessResendDeleteMyAccountCodeStateImpl);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() accountInit,
-    required TResult Function() accountLoading,
-    required TResult Function(LoginEntity loginEntity) loginLoaded,
-    required TResult Function(RegisterEntity registerEntity) registerLoaded,
-    required TResult Function(ProfileEntity data) profileLoaded,
-    required TResult Function() successResendNewPhoneNumberCode,
-    required TResult Function() successResendCode,
-    required TResult Function() successConfirmDeleteMyAccount,
-    required TResult Function() successResendDeleteMyAccountCode,
-    required TResult Function() successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeEntity data) confirmCodeLoaded,
-    required TResult Function(RefreshTokenEntity data) refreshTokenLoaded,
-    required TResult Function(AppErrors error, VoidCallback callback)
-        accountError,
-    required TResult Function() successLogout,
-  }) {
-    return successResendDeleteMyAccountCode();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? accountInit,
-    TResult? Function()? accountLoading,
-    TResult? Function(LoginEntity loginEntity)? loginLoaded,
-    TResult? Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult? Function(ProfileEntity data)? profileLoaded,
-    TResult? Function()? successResendNewPhoneNumberCode,
-    TResult? Function()? successResendCode,
-    TResult? Function()? successConfirmDeleteMyAccount,
-    TResult? Function()? successResendDeleteMyAccountCode,
-    TResult? Function()? successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult? Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult? Function()? successLogout,
-  }) {
-    return successResendDeleteMyAccountCode?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? accountInit,
-    TResult Function()? accountLoading,
-    TResult Function(LoginEntity loginEntity)? loginLoaded,
-    TResult Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult Function(ProfileEntity data)? profileLoaded,
-    TResult Function()? successResendNewPhoneNumberCode,
-    TResult Function()? successResendCode,
-    TResult Function()? successConfirmDeleteMyAccount,
-    TResult Function()? successResendDeleteMyAccountCode,
-    TResult Function()? successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult Function()? successLogout,
-    required TResult orElse(),
-  }) {
-    if (successResendDeleteMyAccountCode != null) {
-      return successResendDeleteMyAccountCode();
-    }
-    return orElse();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AccountInit value) accountInit,
-    required TResult Function(AccountLoading value) accountLoading,
-    required TResult Function(AccLoginLoaded value) loginLoaded,
-    required TResult Function(AccRegisterLoaded value) registerLoaded,
-    required TResult Function(ProfileLoadedState value) profileLoaded,
-    required TResult Function(SuccessResendNewPhoneNumberCodeState value)
-        successResendNewPhoneNumberCode,
-    required TResult Function(SuccessResendCodeState value) successResendCode,
-    required TResult Function(SuccessConfirmDeleteMyAccountState value)
-        successConfirmDeleteMyAccount,
-    required TResult Function(SuccessResendDeleteMyAccountCodeState value)
-        successResendDeleteMyAccountCode,
-    required TResult Function(SuccessConfirmNewPhoneNumberState value)
-        successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeLoadedState value) confirmCodeLoaded,
-    required TResult Function(RefreshTokenLoadedState value) refreshTokenLoaded,
-    required TResult Function(AccountError value) accountError,
-    required TResult Function(SuccessLogoutState value) successLogout,
-  }) {
-    return successResendDeleteMyAccountCode(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AccountInit value)? accountInit,
-    TResult? Function(AccountLoading value)? accountLoading,
-    TResult? Function(AccLoginLoaded value)? loginLoaded,
-    TResult? Function(AccRegisterLoaded value)? registerLoaded,
-    TResult? Function(ProfileLoadedState value)? profileLoaded,
-    TResult? Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult? Function(SuccessResendCodeState value)? successResendCode,
-    TResult? Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult? Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult? Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult? Function(AccountError value)? accountError,
-    TResult? Function(SuccessLogoutState value)? successLogout,
-  }) {
-    return successResendDeleteMyAccountCode?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AccountInit value)? accountInit,
-    TResult Function(AccountLoading value)? accountLoading,
-    TResult Function(AccLoginLoaded value)? loginLoaded,
-    TResult Function(AccRegisterLoaded value)? registerLoaded,
-    TResult Function(ProfileLoadedState value)? profileLoaded,
-    TResult Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult Function(SuccessResendCodeState value)? successResendCode,
-    TResult Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult Function(AccountError value)? accountError,
-    TResult Function(SuccessLogoutState value)? successLogout,
-    required TResult orElse(),
-  }) {
-    if (successResendDeleteMyAccountCode != null) {
-      return successResendDeleteMyAccountCode(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SuccessLogoutState);
 }
 
-abstract class SuccessResendDeleteMyAccountCodeState implements AccountState {
-  const factory SuccessResendDeleteMyAccountCodeState() =
-      _$SuccessResendDeleteMyAccountCodeStateImpl;
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'AccountState.successLogout()';
 }
 
-/// @nodoc
-abstract class _$$SuccessConfirmNewPhoneNumberStateImplCopyWith<$Res> {
-  factory _$$SuccessConfirmNewPhoneNumberStateImplCopyWith(
-          _$SuccessConfirmNewPhoneNumberStateImpl value,
-          $Res Function(_$SuccessConfirmNewPhoneNumberStateImpl) then) =
-      __$$SuccessConfirmNewPhoneNumberStateImplCopyWithImpl<$Res>;
+
 }
 
-/// @nodoc
-class __$$SuccessConfirmNewPhoneNumberStateImplCopyWithImpl<$Res>
-    extends _$AccountStateCopyWithImpl<$Res,
-        _$SuccessConfirmNewPhoneNumberStateImpl>
-    implements _$$SuccessConfirmNewPhoneNumberStateImplCopyWith<$Res> {
-  __$$SuccessConfirmNewPhoneNumberStateImplCopyWithImpl(
-      _$SuccessConfirmNewPhoneNumberStateImpl _value,
-      $Res Function(_$SuccessConfirmNewPhoneNumberStateImpl) _then)
-      : super(_value, _then);
-}
 
-/// @nodoc
 
-class _$SuccessConfirmNewPhoneNumberStateImpl
-    implements SuccessConfirmNewPhoneNumberState {
-  const _$SuccessConfirmNewPhoneNumberStateImpl();
 
-  @override
-  String toString() {
-    return 'AccountState.successConfirmNewPhoneNumber()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SuccessConfirmNewPhoneNumberStateImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() accountInit,
-    required TResult Function() accountLoading,
-    required TResult Function(LoginEntity loginEntity) loginLoaded,
-    required TResult Function(RegisterEntity registerEntity) registerLoaded,
-    required TResult Function(ProfileEntity data) profileLoaded,
-    required TResult Function() successResendNewPhoneNumberCode,
-    required TResult Function() successResendCode,
-    required TResult Function() successConfirmDeleteMyAccount,
-    required TResult Function() successResendDeleteMyAccountCode,
-    required TResult Function() successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeEntity data) confirmCodeLoaded,
-    required TResult Function(RefreshTokenEntity data) refreshTokenLoaded,
-    required TResult Function(AppErrors error, VoidCallback callback)
-        accountError,
-    required TResult Function() successLogout,
-  }) {
-    return successConfirmNewPhoneNumber();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? accountInit,
-    TResult? Function()? accountLoading,
-    TResult? Function(LoginEntity loginEntity)? loginLoaded,
-    TResult? Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult? Function(ProfileEntity data)? profileLoaded,
-    TResult? Function()? successResendNewPhoneNumberCode,
-    TResult? Function()? successResendCode,
-    TResult? Function()? successConfirmDeleteMyAccount,
-    TResult? Function()? successResendDeleteMyAccountCode,
-    TResult? Function()? successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult? Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult? Function()? successLogout,
-  }) {
-    return successConfirmNewPhoneNumber?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? accountInit,
-    TResult Function()? accountLoading,
-    TResult Function(LoginEntity loginEntity)? loginLoaded,
-    TResult Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult Function(ProfileEntity data)? profileLoaded,
-    TResult Function()? successResendNewPhoneNumberCode,
-    TResult Function()? successResendCode,
-    TResult Function()? successConfirmDeleteMyAccount,
-    TResult Function()? successResendDeleteMyAccountCode,
-    TResult Function()? successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult Function()? successLogout,
-    required TResult orElse(),
-  }) {
-    if (successConfirmNewPhoneNumber != null) {
-      return successConfirmNewPhoneNumber();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AccountInit value) accountInit,
-    required TResult Function(AccountLoading value) accountLoading,
-    required TResult Function(AccLoginLoaded value) loginLoaded,
-    required TResult Function(AccRegisterLoaded value) registerLoaded,
-    required TResult Function(ProfileLoadedState value) profileLoaded,
-    required TResult Function(SuccessResendNewPhoneNumberCodeState value)
-        successResendNewPhoneNumberCode,
-    required TResult Function(SuccessResendCodeState value) successResendCode,
-    required TResult Function(SuccessConfirmDeleteMyAccountState value)
-        successConfirmDeleteMyAccount,
-    required TResult Function(SuccessResendDeleteMyAccountCodeState value)
-        successResendDeleteMyAccountCode,
-    required TResult Function(SuccessConfirmNewPhoneNumberState value)
-        successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeLoadedState value) confirmCodeLoaded,
-    required TResult Function(RefreshTokenLoadedState value) refreshTokenLoaded,
-    required TResult Function(AccountError value) accountError,
-    required TResult Function(SuccessLogoutState value) successLogout,
-  }) {
-    return successConfirmNewPhoneNumber(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AccountInit value)? accountInit,
-    TResult? Function(AccountLoading value)? accountLoading,
-    TResult? Function(AccLoginLoaded value)? loginLoaded,
-    TResult? Function(AccRegisterLoaded value)? registerLoaded,
-    TResult? Function(ProfileLoadedState value)? profileLoaded,
-    TResult? Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult? Function(SuccessResendCodeState value)? successResendCode,
-    TResult? Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult? Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult? Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult? Function(AccountError value)? accountError,
-    TResult? Function(SuccessLogoutState value)? successLogout,
-  }) {
-    return successConfirmNewPhoneNumber?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AccountInit value)? accountInit,
-    TResult Function(AccountLoading value)? accountLoading,
-    TResult Function(AccLoginLoaded value)? loginLoaded,
-    TResult Function(AccRegisterLoaded value)? registerLoaded,
-    TResult Function(ProfileLoadedState value)? profileLoaded,
-    TResult Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult Function(SuccessResendCodeState value)? successResendCode,
-    TResult Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult Function(AccountError value)? accountError,
-    TResult Function(SuccessLogoutState value)? successLogout,
-    required TResult orElse(),
-  }) {
-    if (successConfirmNewPhoneNumber != null) {
-      return successConfirmNewPhoneNumber(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class SuccessConfirmNewPhoneNumberState implements AccountState {
-  const factory SuccessConfirmNewPhoneNumberState() =
-      _$SuccessConfirmNewPhoneNumberStateImpl;
-}
-
-/// @nodoc
-abstract class _$$ConfirmCodeLoadedStateImplCopyWith<$Res> {
-  factory _$$ConfirmCodeLoadedStateImplCopyWith(
-          _$ConfirmCodeLoadedStateImpl value,
-          $Res Function(_$ConfirmCodeLoadedStateImpl) then) =
-      __$$ConfirmCodeLoadedStateImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({ConfirmCodeEntity data});
-}
-
-/// @nodoc
-class __$$ConfirmCodeLoadedStateImplCopyWithImpl<$Res>
-    extends _$AccountStateCopyWithImpl<$Res, _$ConfirmCodeLoadedStateImpl>
-    implements _$$ConfirmCodeLoadedStateImplCopyWith<$Res> {
-  __$$ConfirmCodeLoadedStateImplCopyWithImpl(
-      _$ConfirmCodeLoadedStateImpl _value,
-      $Res Function(_$ConfirmCodeLoadedStateImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? data = null,
-  }) {
-    return _then(_$ConfirmCodeLoadedStateImpl(
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as ConfirmCodeEntity,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$ConfirmCodeLoadedStateImpl implements ConfirmCodeLoadedState {
-  const _$ConfirmCodeLoadedStateImpl({required this.data});
-
-  @override
-  final ConfirmCodeEntity data;
-
-  @override
-  String toString() {
-    return 'AccountState.confirmCodeLoaded(data: $data)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ConfirmCodeLoadedStateImpl &&
-            (identical(other.data, data) || other.data == data));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, data);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ConfirmCodeLoadedStateImplCopyWith<_$ConfirmCodeLoadedStateImpl>
-      get copyWith => __$$ConfirmCodeLoadedStateImplCopyWithImpl<
-          _$ConfirmCodeLoadedStateImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() accountInit,
-    required TResult Function() accountLoading,
-    required TResult Function(LoginEntity loginEntity) loginLoaded,
-    required TResult Function(RegisterEntity registerEntity) registerLoaded,
-    required TResult Function(ProfileEntity data) profileLoaded,
-    required TResult Function() successResendNewPhoneNumberCode,
-    required TResult Function() successResendCode,
-    required TResult Function() successConfirmDeleteMyAccount,
-    required TResult Function() successResendDeleteMyAccountCode,
-    required TResult Function() successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeEntity data) confirmCodeLoaded,
-    required TResult Function(RefreshTokenEntity data) refreshTokenLoaded,
-    required TResult Function(AppErrors error, VoidCallback callback)
-        accountError,
-    required TResult Function() successLogout,
-  }) {
-    return confirmCodeLoaded(data);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? accountInit,
-    TResult? Function()? accountLoading,
-    TResult? Function(LoginEntity loginEntity)? loginLoaded,
-    TResult? Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult? Function(ProfileEntity data)? profileLoaded,
-    TResult? Function()? successResendNewPhoneNumberCode,
-    TResult? Function()? successResendCode,
-    TResult? Function()? successConfirmDeleteMyAccount,
-    TResult? Function()? successResendDeleteMyAccountCode,
-    TResult? Function()? successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult? Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult? Function()? successLogout,
-  }) {
-    return confirmCodeLoaded?.call(data);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? accountInit,
-    TResult Function()? accountLoading,
-    TResult Function(LoginEntity loginEntity)? loginLoaded,
-    TResult Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult Function(ProfileEntity data)? profileLoaded,
-    TResult Function()? successResendNewPhoneNumberCode,
-    TResult Function()? successResendCode,
-    TResult Function()? successConfirmDeleteMyAccount,
-    TResult Function()? successResendDeleteMyAccountCode,
-    TResult Function()? successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult Function()? successLogout,
-    required TResult orElse(),
-  }) {
-    if (confirmCodeLoaded != null) {
-      return confirmCodeLoaded(data);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AccountInit value) accountInit,
-    required TResult Function(AccountLoading value) accountLoading,
-    required TResult Function(AccLoginLoaded value) loginLoaded,
-    required TResult Function(AccRegisterLoaded value) registerLoaded,
-    required TResult Function(ProfileLoadedState value) profileLoaded,
-    required TResult Function(SuccessResendNewPhoneNumberCodeState value)
-        successResendNewPhoneNumberCode,
-    required TResult Function(SuccessResendCodeState value) successResendCode,
-    required TResult Function(SuccessConfirmDeleteMyAccountState value)
-        successConfirmDeleteMyAccount,
-    required TResult Function(SuccessResendDeleteMyAccountCodeState value)
-        successResendDeleteMyAccountCode,
-    required TResult Function(SuccessConfirmNewPhoneNumberState value)
-        successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeLoadedState value) confirmCodeLoaded,
-    required TResult Function(RefreshTokenLoadedState value) refreshTokenLoaded,
-    required TResult Function(AccountError value) accountError,
-    required TResult Function(SuccessLogoutState value) successLogout,
-  }) {
-    return confirmCodeLoaded(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AccountInit value)? accountInit,
-    TResult? Function(AccountLoading value)? accountLoading,
-    TResult? Function(AccLoginLoaded value)? loginLoaded,
-    TResult? Function(AccRegisterLoaded value)? registerLoaded,
-    TResult? Function(ProfileLoadedState value)? profileLoaded,
-    TResult? Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult? Function(SuccessResendCodeState value)? successResendCode,
-    TResult? Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult? Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult? Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult? Function(AccountError value)? accountError,
-    TResult? Function(SuccessLogoutState value)? successLogout,
-  }) {
-    return confirmCodeLoaded?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AccountInit value)? accountInit,
-    TResult Function(AccountLoading value)? accountLoading,
-    TResult Function(AccLoginLoaded value)? loginLoaded,
-    TResult Function(AccRegisterLoaded value)? registerLoaded,
-    TResult Function(ProfileLoadedState value)? profileLoaded,
-    TResult Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult Function(SuccessResendCodeState value)? successResendCode,
-    TResult Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult Function(AccountError value)? accountError,
-    TResult Function(SuccessLogoutState value)? successLogout,
-    required TResult orElse(),
-  }) {
-    if (confirmCodeLoaded != null) {
-      return confirmCodeLoaded(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ConfirmCodeLoadedState implements AccountState {
-  const factory ConfirmCodeLoadedState(
-      {required final ConfirmCodeEntity data}) = _$ConfirmCodeLoadedStateImpl;
-
-  ConfirmCodeEntity get data;
-  @JsonKey(ignore: true)
-  _$$ConfirmCodeLoadedStateImplCopyWith<_$ConfirmCodeLoadedStateImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$RefreshTokenLoadedStateImplCopyWith<$Res> {
-  factory _$$RefreshTokenLoadedStateImplCopyWith(
-          _$RefreshTokenLoadedStateImpl value,
-          $Res Function(_$RefreshTokenLoadedStateImpl) then) =
-      __$$RefreshTokenLoadedStateImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({RefreshTokenEntity data});
-}
-
-/// @nodoc
-class __$$RefreshTokenLoadedStateImplCopyWithImpl<$Res>
-    extends _$AccountStateCopyWithImpl<$Res, _$RefreshTokenLoadedStateImpl>
-    implements _$$RefreshTokenLoadedStateImplCopyWith<$Res> {
-  __$$RefreshTokenLoadedStateImplCopyWithImpl(
-      _$RefreshTokenLoadedStateImpl _value,
-      $Res Function(_$RefreshTokenLoadedStateImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? data = null,
-  }) {
-    return _then(_$RefreshTokenLoadedStateImpl(
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as RefreshTokenEntity,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$RefreshTokenLoadedStateImpl implements RefreshTokenLoadedState {
-  const _$RefreshTokenLoadedStateImpl({required this.data});
-
-  @override
-  final RefreshTokenEntity data;
-
-  @override
-  String toString() {
-    return 'AccountState.refreshTokenLoaded(data: $data)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$RefreshTokenLoadedStateImpl &&
-            (identical(other.data, data) || other.data == data));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, data);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$RefreshTokenLoadedStateImplCopyWith<_$RefreshTokenLoadedStateImpl>
-      get copyWith => __$$RefreshTokenLoadedStateImplCopyWithImpl<
-          _$RefreshTokenLoadedStateImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() accountInit,
-    required TResult Function() accountLoading,
-    required TResult Function(LoginEntity loginEntity) loginLoaded,
-    required TResult Function(RegisterEntity registerEntity) registerLoaded,
-    required TResult Function(ProfileEntity data) profileLoaded,
-    required TResult Function() successResendNewPhoneNumberCode,
-    required TResult Function() successResendCode,
-    required TResult Function() successConfirmDeleteMyAccount,
-    required TResult Function() successResendDeleteMyAccountCode,
-    required TResult Function() successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeEntity data) confirmCodeLoaded,
-    required TResult Function(RefreshTokenEntity data) refreshTokenLoaded,
-    required TResult Function(AppErrors error, VoidCallback callback)
-        accountError,
-    required TResult Function() successLogout,
-  }) {
-    return refreshTokenLoaded(data);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? accountInit,
-    TResult? Function()? accountLoading,
-    TResult? Function(LoginEntity loginEntity)? loginLoaded,
-    TResult? Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult? Function(ProfileEntity data)? profileLoaded,
-    TResult? Function()? successResendNewPhoneNumberCode,
-    TResult? Function()? successResendCode,
-    TResult? Function()? successConfirmDeleteMyAccount,
-    TResult? Function()? successResendDeleteMyAccountCode,
-    TResult? Function()? successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult? Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult? Function()? successLogout,
-  }) {
-    return refreshTokenLoaded?.call(data);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? accountInit,
-    TResult Function()? accountLoading,
-    TResult Function(LoginEntity loginEntity)? loginLoaded,
-    TResult Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult Function(ProfileEntity data)? profileLoaded,
-    TResult Function()? successResendNewPhoneNumberCode,
-    TResult Function()? successResendCode,
-    TResult Function()? successConfirmDeleteMyAccount,
-    TResult Function()? successResendDeleteMyAccountCode,
-    TResult Function()? successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult Function()? successLogout,
-    required TResult orElse(),
-  }) {
-    if (refreshTokenLoaded != null) {
-      return refreshTokenLoaded(data);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AccountInit value) accountInit,
-    required TResult Function(AccountLoading value) accountLoading,
-    required TResult Function(AccLoginLoaded value) loginLoaded,
-    required TResult Function(AccRegisterLoaded value) registerLoaded,
-    required TResult Function(ProfileLoadedState value) profileLoaded,
-    required TResult Function(SuccessResendNewPhoneNumberCodeState value)
-        successResendNewPhoneNumberCode,
-    required TResult Function(SuccessResendCodeState value) successResendCode,
-    required TResult Function(SuccessConfirmDeleteMyAccountState value)
-        successConfirmDeleteMyAccount,
-    required TResult Function(SuccessResendDeleteMyAccountCodeState value)
-        successResendDeleteMyAccountCode,
-    required TResult Function(SuccessConfirmNewPhoneNumberState value)
-        successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeLoadedState value) confirmCodeLoaded,
-    required TResult Function(RefreshTokenLoadedState value) refreshTokenLoaded,
-    required TResult Function(AccountError value) accountError,
-    required TResult Function(SuccessLogoutState value) successLogout,
-  }) {
-    return refreshTokenLoaded(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AccountInit value)? accountInit,
-    TResult? Function(AccountLoading value)? accountLoading,
-    TResult? Function(AccLoginLoaded value)? loginLoaded,
-    TResult? Function(AccRegisterLoaded value)? registerLoaded,
-    TResult? Function(ProfileLoadedState value)? profileLoaded,
-    TResult? Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult? Function(SuccessResendCodeState value)? successResendCode,
-    TResult? Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult? Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult? Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult? Function(AccountError value)? accountError,
-    TResult? Function(SuccessLogoutState value)? successLogout,
-  }) {
-    return refreshTokenLoaded?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AccountInit value)? accountInit,
-    TResult Function(AccountLoading value)? accountLoading,
-    TResult Function(AccLoginLoaded value)? loginLoaded,
-    TResult Function(AccRegisterLoaded value)? registerLoaded,
-    TResult Function(ProfileLoadedState value)? profileLoaded,
-    TResult Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult Function(SuccessResendCodeState value)? successResendCode,
-    TResult Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult Function(AccountError value)? accountError,
-    TResult Function(SuccessLogoutState value)? successLogout,
-    required TResult orElse(),
-  }) {
-    if (refreshTokenLoaded != null) {
-      return refreshTokenLoaded(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class RefreshTokenLoadedState implements AccountState {
-  const factory RefreshTokenLoadedState(
-      {required final RefreshTokenEntity data}) = _$RefreshTokenLoadedStateImpl;
-
-  RefreshTokenEntity get data;
-  @JsonKey(ignore: true)
-  _$$RefreshTokenLoadedStateImplCopyWith<_$RefreshTokenLoadedStateImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$AccountErrorImplCopyWith<$Res> {
-  factory _$$AccountErrorImplCopyWith(
-          _$AccountErrorImpl value, $Res Function(_$AccountErrorImpl) then) =
-      __$$AccountErrorImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({AppErrors error, VoidCallback callback});
-
-  $AppErrorsCopyWith<$Res> get error;
-}
-
-/// @nodoc
-class __$$AccountErrorImplCopyWithImpl<$Res>
-    extends _$AccountStateCopyWithImpl<$Res, _$AccountErrorImpl>
-    implements _$$AccountErrorImplCopyWith<$Res> {
-  __$$AccountErrorImplCopyWithImpl(
-      _$AccountErrorImpl _value, $Res Function(_$AccountErrorImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? error = null,
-    Object? callback = null,
-  }) {
-    return _then(_$AccountErrorImpl(
-      null == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as AppErrors,
-      null == callback
-          ? _value.callback
-          : callback // ignore: cast_nullable_to_non_nullable
-              as VoidCallback,
-    ));
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $AppErrorsCopyWith<$Res> get error {
-    return $AppErrorsCopyWith<$Res>(_value.error, (value) {
-      return _then(_value.copyWith(error: value));
-    });
-  }
-}
-
-/// @nodoc
-
-class _$AccountErrorImpl implements AccountError {
-  const _$AccountErrorImpl(this.error, this.callback);
-
-  @override
-  final AppErrors error;
-  @override
-  final VoidCallback callback;
-
-  @override
-  String toString() {
-    return 'AccountState.accountError(error: $error, callback: $callback)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AccountErrorImpl &&
-            (identical(other.error, error) || other.error == error) &&
-            (identical(other.callback, callback) ||
-                other.callback == callback));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, error, callback);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$AccountErrorImplCopyWith<_$AccountErrorImpl> get copyWith =>
-      __$$AccountErrorImplCopyWithImpl<_$AccountErrorImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() accountInit,
-    required TResult Function() accountLoading,
-    required TResult Function(LoginEntity loginEntity) loginLoaded,
-    required TResult Function(RegisterEntity registerEntity) registerLoaded,
-    required TResult Function(ProfileEntity data) profileLoaded,
-    required TResult Function() successResendNewPhoneNumberCode,
-    required TResult Function() successResendCode,
-    required TResult Function() successConfirmDeleteMyAccount,
-    required TResult Function() successResendDeleteMyAccountCode,
-    required TResult Function() successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeEntity data) confirmCodeLoaded,
-    required TResult Function(RefreshTokenEntity data) refreshTokenLoaded,
-    required TResult Function(AppErrors error, VoidCallback callback)
-        accountError,
-    required TResult Function() successLogout,
-  }) {
-    return accountError(error, callback);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? accountInit,
-    TResult? Function()? accountLoading,
-    TResult? Function(LoginEntity loginEntity)? loginLoaded,
-    TResult? Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult? Function(ProfileEntity data)? profileLoaded,
-    TResult? Function()? successResendNewPhoneNumberCode,
-    TResult? Function()? successResendCode,
-    TResult? Function()? successConfirmDeleteMyAccount,
-    TResult? Function()? successResendDeleteMyAccountCode,
-    TResult? Function()? successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult? Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult? Function()? successLogout,
-  }) {
-    return accountError?.call(error, callback);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? accountInit,
-    TResult Function()? accountLoading,
-    TResult Function(LoginEntity loginEntity)? loginLoaded,
-    TResult Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult Function(ProfileEntity data)? profileLoaded,
-    TResult Function()? successResendNewPhoneNumberCode,
-    TResult Function()? successResendCode,
-    TResult Function()? successConfirmDeleteMyAccount,
-    TResult Function()? successResendDeleteMyAccountCode,
-    TResult Function()? successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult Function()? successLogout,
-    required TResult orElse(),
-  }) {
-    if (accountError != null) {
-      return accountError(error, callback);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AccountInit value) accountInit,
-    required TResult Function(AccountLoading value) accountLoading,
-    required TResult Function(AccLoginLoaded value) loginLoaded,
-    required TResult Function(AccRegisterLoaded value) registerLoaded,
-    required TResult Function(ProfileLoadedState value) profileLoaded,
-    required TResult Function(SuccessResendNewPhoneNumberCodeState value)
-        successResendNewPhoneNumberCode,
-    required TResult Function(SuccessResendCodeState value) successResendCode,
-    required TResult Function(SuccessConfirmDeleteMyAccountState value)
-        successConfirmDeleteMyAccount,
-    required TResult Function(SuccessResendDeleteMyAccountCodeState value)
-        successResendDeleteMyAccountCode,
-    required TResult Function(SuccessConfirmNewPhoneNumberState value)
-        successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeLoadedState value) confirmCodeLoaded,
-    required TResult Function(RefreshTokenLoadedState value) refreshTokenLoaded,
-    required TResult Function(AccountError value) accountError,
-    required TResult Function(SuccessLogoutState value) successLogout,
-  }) {
-    return accountError(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AccountInit value)? accountInit,
-    TResult? Function(AccountLoading value)? accountLoading,
-    TResult? Function(AccLoginLoaded value)? loginLoaded,
-    TResult? Function(AccRegisterLoaded value)? registerLoaded,
-    TResult? Function(ProfileLoadedState value)? profileLoaded,
-    TResult? Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult? Function(SuccessResendCodeState value)? successResendCode,
-    TResult? Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult? Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult? Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult? Function(AccountError value)? accountError,
-    TResult? Function(SuccessLogoutState value)? successLogout,
-  }) {
-    return accountError?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AccountInit value)? accountInit,
-    TResult Function(AccountLoading value)? accountLoading,
-    TResult Function(AccLoginLoaded value)? loginLoaded,
-    TResult Function(AccRegisterLoaded value)? registerLoaded,
-    TResult Function(ProfileLoadedState value)? profileLoaded,
-    TResult Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult Function(SuccessResendCodeState value)? successResendCode,
-    TResult Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult Function(AccountError value)? accountError,
-    TResult Function(SuccessLogoutState value)? successLogout,
-    required TResult orElse(),
-  }) {
-    if (accountError != null) {
-      return accountError(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class AccountError implements AccountState {
-  const factory AccountError(
-      final AppErrors error, final VoidCallback callback) = _$AccountErrorImpl;
-
-  AppErrors get error;
-  VoidCallback get callback;
-  @JsonKey(ignore: true)
-  _$$AccountErrorImplCopyWith<_$AccountErrorImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$SuccessLogoutStateImplCopyWith<$Res> {
-  factory _$$SuccessLogoutStateImplCopyWith(_$SuccessLogoutStateImpl value,
-          $Res Function(_$SuccessLogoutStateImpl) then) =
-      __$$SuccessLogoutStateImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$SuccessLogoutStateImplCopyWithImpl<$Res>
-    extends _$AccountStateCopyWithImpl<$Res, _$SuccessLogoutStateImpl>
-    implements _$$SuccessLogoutStateImplCopyWith<$Res> {
-  __$$SuccessLogoutStateImplCopyWithImpl(_$SuccessLogoutStateImpl _value,
-      $Res Function(_$SuccessLogoutStateImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$SuccessLogoutStateImpl implements SuccessLogoutState {
-  const _$SuccessLogoutStateImpl();
-
-  @override
-  String toString() {
-    return 'AccountState.successLogout()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$SuccessLogoutStateImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() accountInit,
-    required TResult Function() accountLoading,
-    required TResult Function(LoginEntity loginEntity) loginLoaded,
-    required TResult Function(RegisterEntity registerEntity) registerLoaded,
-    required TResult Function(ProfileEntity data) profileLoaded,
-    required TResult Function() successResendNewPhoneNumberCode,
-    required TResult Function() successResendCode,
-    required TResult Function() successConfirmDeleteMyAccount,
-    required TResult Function() successResendDeleteMyAccountCode,
-    required TResult Function() successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeEntity data) confirmCodeLoaded,
-    required TResult Function(RefreshTokenEntity data) refreshTokenLoaded,
-    required TResult Function(AppErrors error, VoidCallback callback)
-        accountError,
-    required TResult Function() successLogout,
-  }) {
-    return successLogout();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? accountInit,
-    TResult? Function()? accountLoading,
-    TResult? Function(LoginEntity loginEntity)? loginLoaded,
-    TResult? Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult? Function(ProfileEntity data)? profileLoaded,
-    TResult? Function()? successResendNewPhoneNumberCode,
-    TResult? Function()? successResendCode,
-    TResult? Function()? successConfirmDeleteMyAccount,
-    TResult? Function()? successResendDeleteMyAccountCode,
-    TResult? Function()? successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult? Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult? Function()? successLogout,
-  }) {
-    return successLogout?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? accountInit,
-    TResult Function()? accountLoading,
-    TResult Function(LoginEntity loginEntity)? loginLoaded,
-    TResult Function(RegisterEntity registerEntity)? registerLoaded,
-    TResult Function(ProfileEntity data)? profileLoaded,
-    TResult Function()? successResendNewPhoneNumberCode,
-    TResult Function()? successResendCode,
-    TResult Function()? successConfirmDeleteMyAccount,
-    TResult Function()? successResendDeleteMyAccountCode,
-    TResult Function()? successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeEntity data)? confirmCodeLoaded,
-    TResult Function(RefreshTokenEntity data)? refreshTokenLoaded,
-    TResult Function(AppErrors error, VoidCallback callback)? accountError,
-    TResult Function()? successLogout,
-    required TResult orElse(),
-  }) {
-    if (successLogout != null) {
-      return successLogout();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(AccountInit value) accountInit,
-    required TResult Function(AccountLoading value) accountLoading,
-    required TResult Function(AccLoginLoaded value) loginLoaded,
-    required TResult Function(AccRegisterLoaded value) registerLoaded,
-    required TResult Function(ProfileLoadedState value) profileLoaded,
-    required TResult Function(SuccessResendNewPhoneNumberCodeState value)
-        successResendNewPhoneNumberCode,
-    required TResult Function(SuccessResendCodeState value) successResendCode,
-    required TResult Function(SuccessConfirmDeleteMyAccountState value)
-        successConfirmDeleteMyAccount,
-    required TResult Function(SuccessResendDeleteMyAccountCodeState value)
-        successResendDeleteMyAccountCode,
-    required TResult Function(SuccessConfirmNewPhoneNumberState value)
-        successConfirmNewPhoneNumber,
-    required TResult Function(ConfirmCodeLoadedState value) confirmCodeLoaded,
-    required TResult Function(RefreshTokenLoadedState value) refreshTokenLoaded,
-    required TResult Function(AccountError value) accountError,
-    required TResult Function(SuccessLogoutState value) successLogout,
-  }) {
-    return successLogout(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(AccountInit value)? accountInit,
-    TResult? Function(AccountLoading value)? accountLoading,
-    TResult? Function(AccLoginLoaded value)? loginLoaded,
-    TResult? Function(AccRegisterLoaded value)? registerLoaded,
-    TResult? Function(ProfileLoadedState value)? profileLoaded,
-    TResult? Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult? Function(SuccessResendCodeState value)? successResendCode,
-    TResult? Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult? Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult? Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult? Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult? Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult? Function(AccountError value)? accountError,
-    TResult? Function(SuccessLogoutState value)? successLogout,
-  }) {
-    return successLogout?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(AccountInit value)? accountInit,
-    TResult Function(AccountLoading value)? accountLoading,
-    TResult Function(AccLoginLoaded value)? loginLoaded,
-    TResult Function(AccRegisterLoaded value)? registerLoaded,
-    TResult Function(ProfileLoadedState value)? profileLoaded,
-    TResult Function(SuccessResendNewPhoneNumberCodeState value)?
-        successResendNewPhoneNumberCode,
-    TResult Function(SuccessResendCodeState value)? successResendCode,
-    TResult Function(SuccessConfirmDeleteMyAccountState value)?
-        successConfirmDeleteMyAccount,
-    TResult Function(SuccessResendDeleteMyAccountCodeState value)?
-        successResendDeleteMyAccountCode,
-    TResult Function(SuccessConfirmNewPhoneNumberState value)?
-        successConfirmNewPhoneNumber,
-    TResult Function(ConfirmCodeLoadedState value)? confirmCodeLoaded,
-    TResult Function(RefreshTokenLoadedState value)? refreshTokenLoaded,
-    TResult Function(AccountError value)? accountError,
-    TResult Function(SuccessLogoutState value)? successLogout,
-    required TResult orElse(),
-  }) {
-    if (successLogout != null) {
-      return successLogout(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class SuccessLogoutState implements AccountState {
-  const factory SuccessLogoutState() = _$SuccessLogoutStateImpl;
-}
+// dart format on

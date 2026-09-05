@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,627 +9,391 @@ part of 'map_cubit.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
 mixin _$MapState {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() mapInitial,
-    required TResult Function() mapLoading,
-    required TResult Function(MapDistanceModel mapDistanceResult)
-        mapDistanceLoaded,
-    required TResult Function(AppErrors error, VoidCallback callback) mapError,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? mapInitial,
-    TResult? Function()? mapLoading,
-    TResult? Function(MapDistanceModel mapDistanceResult)? mapDistanceLoaded,
-    TResult? Function(AppErrors error, VoidCallback callback)? mapError,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? mapInitial,
-    TResult Function()? mapLoading,
-    TResult Function(MapDistanceModel mapDistanceResult)? mapDistanceLoaded,
-    TResult Function(AppErrors error, VoidCallback callback)? mapError,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(MapInitial value) mapInitial,
-    required TResult Function(MapLoading value) mapLoading,
-    required TResult Function(MapDistanceLoaded value) mapDistanceLoaded,
-    required TResult Function(MapError value) mapError,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MapInitial value)? mapInitial,
-    TResult? Function(MapLoading value)? mapLoading,
-    TResult? Function(MapDistanceLoaded value)? mapDistanceLoaded,
-    TResult? Function(MapError value)? mapError,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(MapInitial value)? mapInitial,
-    TResult Function(MapLoading value)? mapLoading,
-    TResult Function(MapDistanceLoaded value)? mapDistanceLoaded,
-    TResult Function(MapError value)? mapError,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MapState);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'MapState()';
+}
+
+
 }
 
 /// @nodoc
-abstract class $MapStateCopyWith<$Res> {
-  factory $MapStateCopyWith(MapState value, $Res Function(MapState) then) =
-      _$MapStateCopyWithImpl<$Res, MapState>;
+class $MapStateCopyWith<$Res>  {
+$MapStateCopyWith(MapState _, $Res Function(MapState) __);
 }
 
-/// @nodoc
-class _$MapStateCopyWithImpl<$Res, $Val extends MapState>
-    implements $MapStateCopyWith<$Res> {
-  _$MapStateCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+/// Adds pattern-matching-related methods to [MapState].
+extension MapStatePatterns on MapState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( MapInitial value)?  mapInitial,TResult Function( MapLoading value)?  mapLoading,TResult Function( MapDistanceLoaded value)?  mapDistanceLoaded,TResult Function( MapError value)?  mapError,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case MapInitial() when mapInitial != null:
+return mapInitial(_that);case MapLoading() when mapLoading != null:
+return mapLoading(_that);case MapDistanceLoaded() when mapDistanceLoaded != null:
+return mapDistanceLoaded(_that);case MapError() when mapError != null:
+return mapError(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( MapInitial value)  mapInitial,required TResult Function( MapLoading value)  mapLoading,required TResult Function( MapDistanceLoaded value)  mapDistanceLoaded,required TResult Function( MapError value)  mapError,}){
+final _that = this;
+switch (_that) {
+case MapInitial():
+return mapInitial(_that);case MapLoading():
+return mapLoading(_that);case MapDistanceLoaded():
+return mapDistanceLoaded(_that);case MapError():
+return mapError(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( MapInitial value)?  mapInitial,TResult? Function( MapLoading value)?  mapLoading,TResult? Function( MapDistanceLoaded value)?  mapDistanceLoaded,TResult? Function( MapError value)?  mapError,}){
+final _that = this;
+switch (_that) {
+case MapInitial() when mapInitial != null:
+return mapInitial(_that);case MapLoading() when mapLoading != null:
+return mapLoading(_that);case MapDistanceLoaded() when mapDistanceLoaded != null:
+return mapDistanceLoaded(_that);case MapError() when mapError != null:
+return mapError(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  mapInitial,TResult Function()?  mapLoading,TResult Function( MapDistanceModel mapDistanceResult)?  mapDistanceLoaded,TResult Function( AppErrors error,  VoidCallback callback)?  mapError,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case MapInitial() when mapInitial != null:
+return mapInitial();case MapLoading() when mapLoading != null:
+return mapLoading();case MapDistanceLoaded() when mapDistanceLoaded != null:
+return mapDistanceLoaded(_that.mapDistanceResult);case MapError() when mapError != null:
+return mapError(_that.error,_that.callback);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  mapInitial,required TResult Function()  mapLoading,required TResult Function( MapDistanceModel mapDistanceResult)  mapDistanceLoaded,required TResult Function( AppErrors error,  VoidCallback callback)  mapError,}) {final _that = this;
+switch (_that) {
+case MapInitial():
+return mapInitial();case MapLoading():
+return mapLoading();case MapDistanceLoaded():
+return mapDistanceLoaded(_that.mapDistanceResult);case MapError():
+return mapError(_that.error,_that.callback);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  mapInitial,TResult? Function()?  mapLoading,TResult? Function( MapDistanceModel mapDistanceResult)?  mapDistanceLoaded,TResult? Function( AppErrors error,  VoidCallback callback)?  mapError,}) {final _that = this;
+switch (_that) {
+case MapInitial() when mapInitial != null:
+return mapInitial();case MapLoading() when mapLoading != null:
+return mapLoading();case MapDistanceLoaded() when mapDistanceLoaded != null:
+return mapDistanceLoaded(_that.mapDistanceResult);case MapError() when mapError != null:
+return mapError(_that.error,_that.callback);case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-abstract class _$$MapInitialImplCopyWith<$Res> {
-  factory _$$MapInitialImplCopyWith(
-          _$MapInitialImpl value, $Res Function(_$MapInitialImpl) then) =
-      __$$MapInitialImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$MapInitialImplCopyWithImpl<$Res>
-    extends _$MapStateCopyWithImpl<$Res, _$MapInitialImpl>
-    implements _$$MapInitialImplCopyWith<$Res> {
-  __$$MapInitialImplCopyWithImpl(
-      _$MapInitialImpl _value, $Res Function(_$MapInitialImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$MapInitialImpl implements MapInitial {
-  const _$MapInitialImpl();
-
-  @override
-  String toString() {
-    return 'MapState.mapInitial()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$MapInitialImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() mapInitial,
-    required TResult Function() mapLoading,
-    required TResult Function(MapDistanceModel mapDistanceResult)
-        mapDistanceLoaded,
-    required TResult Function(AppErrors error, VoidCallback callback) mapError,
-  }) {
-    return mapInitial();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? mapInitial,
-    TResult? Function()? mapLoading,
-    TResult? Function(MapDistanceModel mapDistanceResult)? mapDistanceLoaded,
-    TResult? Function(AppErrors error, VoidCallback callback)? mapError,
-  }) {
-    return mapInitial?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? mapInitial,
-    TResult Function()? mapLoading,
-    TResult Function(MapDistanceModel mapDistanceResult)? mapDistanceLoaded,
-    TResult Function(AppErrors error, VoidCallback callback)? mapError,
-    required TResult orElse(),
-  }) {
-    if (mapInitial != null) {
-      return mapInitial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(MapInitial value) mapInitial,
-    required TResult Function(MapLoading value) mapLoading,
-    required TResult Function(MapDistanceLoaded value) mapDistanceLoaded,
-    required TResult Function(MapError value) mapError,
-  }) {
-    return mapInitial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MapInitial value)? mapInitial,
-    TResult? Function(MapLoading value)? mapLoading,
-    TResult? Function(MapDistanceLoaded value)? mapDistanceLoaded,
-    TResult? Function(MapError value)? mapError,
-  }) {
-    return mapInitial?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(MapInitial value)? mapInitial,
-    TResult Function(MapLoading value)? mapLoading,
-    TResult Function(MapDistanceLoaded value)? mapDistanceLoaded,
-    TResult Function(MapError value)? mapError,
-    required TResult orElse(),
-  }) {
-    if (mapInitial != null) {
-      return mapInitial(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class MapInitial implements MapState {
-  const factory MapInitial() = _$MapInitialImpl;
-}
-
-/// @nodoc
-abstract class _$$MapLoadingImplCopyWith<$Res> {
-  factory _$$MapLoadingImplCopyWith(
-          _$MapLoadingImpl value, $Res Function(_$MapLoadingImpl) then) =
-      __$$MapLoadingImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$MapLoadingImplCopyWithImpl<$Res>
-    extends _$MapStateCopyWithImpl<$Res, _$MapLoadingImpl>
-    implements _$$MapLoadingImplCopyWith<$Res> {
-  __$$MapLoadingImplCopyWithImpl(
-      _$MapLoadingImpl _value, $Res Function(_$MapLoadingImpl) _then)
-      : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$MapLoadingImpl implements MapLoading {
-  const _$MapLoadingImpl();
 
-  @override
-  String toString() {
-    return 'MapState.mapLoading()';
-  }
+class MapInitial implements MapState {
+  const MapInitial();
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$MapLoadingImpl);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() mapInitial,
-    required TResult Function() mapLoading,
-    required TResult Function(MapDistanceModel mapDistanceResult)
-        mapDistanceLoaded,
-    required TResult Function(AppErrors error, VoidCallback callback) mapError,
-  }) {
-    return mapLoading();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? mapInitial,
-    TResult? Function()? mapLoading,
-    TResult? Function(MapDistanceModel mapDistanceResult)? mapDistanceLoaded,
-    TResult? Function(AppErrors error, VoidCallback callback)? mapError,
-  }) {
-    return mapLoading?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? mapInitial,
-    TResult Function()? mapLoading,
-    TResult Function(MapDistanceModel mapDistanceResult)? mapDistanceLoaded,
-    TResult Function(AppErrors error, VoidCallback callback)? mapError,
-    required TResult orElse(),
-  }) {
-    if (mapLoading != null) {
-      return mapLoading();
-    }
-    return orElse();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(MapInitial value) mapInitial,
-    required TResult Function(MapLoading value) mapLoading,
-    required TResult Function(MapDistanceLoaded value) mapDistanceLoaded,
-    required TResult Function(MapError value) mapError,
-  }) {
-    return mapLoading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MapInitial value)? mapInitial,
-    TResult? Function(MapLoading value)? mapLoading,
-    TResult? Function(MapDistanceLoaded value)? mapDistanceLoaded,
-    TResult? Function(MapError value)? mapError,
-  }) {
-    return mapLoading?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(MapInitial value)? mapInitial,
-    TResult Function(MapLoading value)? mapLoading,
-    TResult Function(MapDistanceLoaded value)? mapDistanceLoaded,
-    TResult Function(MapError value)? mapError,
-    required TResult orElse(),
-  }) {
-    if (mapLoading != null) {
-      return mapLoading(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MapInitial);
 }
 
-abstract class MapLoading implements MapState {
-  const factory MapLoading() = _$MapLoadingImpl;
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'MapState.mapInitial()';
 }
 
-/// @nodoc
-abstract class _$$MapDistanceLoadedImplCopyWith<$Res> {
-  factory _$$MapDistanceLoadedImplCopyWith(_$MapDistanceLoadedImpl value,
-          $Res Function(_$MapDistanceLoadedImpl) then) =
-      __$$MapDistanceLoadedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({MapDistanceModel mapDistanceResult});
+
 }
 
-/// @nodoc
-class __$$MapDistanceLoadedImplCopyWithImpl<$Res>
-    extends _$MapStateCopyWithImpl<$Res, _$MapDistanceLoadedImpl>
-    implements _$$MapDistanceLoadedImplCopyWith<$Res> {
-  __$$MapDistanceLoadedImplCopyWithImpl(_$MapDistanceLoadedImpl _value,
-      $Res Function(_$MapDistanceLoadedImpl) _then)
-      : super(_value, _then);
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? mapDistanceResult = null,
-  }) {
-    return _then(_$MapDistanceLoadedImpl(
-      mapDistanceResult: null == mapDistanceResult
-          ? _value.mapDistanceResult
-          : mapDistanceResult // ignore: cast_nullable_to_non_nullable
-              as MapDistanceModel,
-    ));
-  }
-}
+
 
 /// @nodoc
 
-class _$MapDistanceLoadedImpl implements MapDistanceLoaded {
-  const _$MapDistanceLoadedImpl({required this.mapDistanceResult});
 
-  @override
-  final MapDistanceModel mapDistanceResult;
+class MapLoading implements MapState {
+  const MapLoading();
+  
 
-  @override
-  String toString() {
-    return 'MapState.mapDistanceLoaded(mapDistanceResult: $mapDistanceResult)';
-  }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MapDistanceLoadedImpl &&
-            (identical(other.mapDistanceResult, mapDistanceResult) ||
-                other.mapDistanceResult == mapDistanceResult));
-  }
 
-  @override
-  int get hashCode => Object.hash(runtimeType, mapDistanceResult);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MapDistanceLoadedImplCopyWith<_$MapDistanceLoadedImpl> get copyWith =>
-      __$$MapDistanceLoadedImplCopyWithImpl<_$MapDistanceLoadedImpl>(
-          this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() mapInitial,
-    required TResult Function() mapLoading,
-    required TResult Function(MapDistanceModel mapDistanceResult)
-        mapDistanceLoaded,
-    required TResult Function(AppErrors error, VoidCallback callback) mapError,
-  }) {
-    return mapDistanceLoaded(mapDistanceResult);
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? mapInitial,
-    TResult? Function()? mapLoading,
-    TResult? Function(MapDistanceModel mapDistanceResult)? mapDistanceLoaded,
-    TResult? Function(AppErrors error, VoidCallback callback)? mapError,
-  }) {
-    return mapDistanceLoaded?.call(mapDistanceResult);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? mapInitial,
-    TResult Function()? mapLoading,
-    TResult Function(MapDistanceModel mapDistanceResult)? mapDistanceLoaded,
-    TResult Function(AppErrors error, VoidCallback callback)? mapError,
-    required TResult orElse(),
-  }) {
-    if (mapDistanceLoaded != null) {
-      return mapDistanceLoaded(mapDistanceResult);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(MapInitial value) mapInitial,
-    required TResult Function(MapLoading value) mapLoading,
-    required TResult Function(MapDistanceLoaded value) mapDistanceLoaded,
-    required TResult Function(MapError value) mapError,
-  }) {
-    return mapDistanceLoaded(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MapInitial value)? mapInitial,
-    TResult? Function(MapLoading value)? mapLoading,
-    TResult? Function(MapDistanceLoaded value)? mapDistanceLoaded,
-    TResult? Function(MapError value)? mapError,
-  }) {
-    return mapDistanceLoaded?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(MapInitial value)? mapInitial,
-    TResult Function(MapLoading value)? mapLoading,
-    TResult Function(MapDistanceLoaded value)? mapDistanceLoaded,
-    TResult Function(MapError value)? mapError,
-    required TResult orElse(),
-  }) {
-    if (mapDistanceLoaded != null) {
-      return mapDistanceLoaded(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MapLoading);
 }
 
-abstract class MapDistanceLoaded implements MapState {
-  const factory MapDistanceLoaded(
-          {required final MapDistanceModel mapDistanceResult}) =
-      _$MapDistanceLoadedImpl;
 
-  MapDistanceModel get mapDistanceResult;
-  @JsonKey(ignore: true)
-  _$$MapDistanceLoadedImplCopyWith<_$MapDistanceLoadedImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'MapState.mapLoading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class MapDistanceLoaded implements MapState {
+  const MapDistanceLoaded({required this.mapDistanceResult});
+  
+
+ final  MapDistanceModel mapDistanceResult;
+
+/// Create a copy of MapState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MapDistanceLoadedCopyWith<MapDistanceLoaded> get copyWith => _$MapDistanceLoadedCopyWithImpl<MapDistanceLoaded>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MapDistanceLoaded&&(identical(other.mapDistanceResult, mapDistanceResult) || other.mapDistanceResult == mapDistanceResult));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,mapDistanceResult);
+
+@override
+String toString() {
+  return 'MapState.mapDistanceLoaded(mapDistanceResult: $mapDistanceResult)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$MapErrorImplCopyWith<$Res> {
-  factory _$$MapErrorImplCopyWith(
-          _$MapErrorImpl value, $Res Function(_$MapErrorImpl) then) =
-      __$$MapErrorImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({AppErrors error, VoidCallback callback});
+abstract mixin class $MapDistanceLoadedCopyWith<$Res> implements $MapStateCopyWith<$Res> {
+  factory $MapDistanceLoadedCopyWith(MapDistanceLoaded value, $Res Function(MapDistanceLoaded) _then) = _$MapDistanceLoadedCopyWithImpl;
+@useResult
+$Res call({
+ MapDistanceModel mapDistanceResult
+});
 
-  $AppErrorsCopyWith<$Res> get error;
+
+
+
+}
+/// @nodoc
+class _$MapDistanceLoadedCopyWithImpl<$Res>
+    implements $MapDistanceLoadedCopyWith<$Res> {
+  _$MapDistanceLoadedCopyWithImpl(this._self, this._then);
+
+  final MapDistanceLoaded _self;
+  final $Res Function(MapDistanceLoaded) _then;
+
+/// Create a copy of MapState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? mapDistanceResult = null,}) {
+  return _then(MapDistanceLoaded(
+mapDistanceResult: null == mapDistanceResult ? _self.mapDistanceResult : mapDistanceResult // ignore: cast_nullable_to_non_nullable
+as MapDistanceModel,
+  ));
 }
 
-/// @nodoc
-class __$$MapErrorImplCopyWithImpl<$Res>
-    extends _$MapStateCopyWithImpl<$Res, _$MapErrorImpl>
-    implements _$$MapErrorImplCopyWith<$Res> {
-  __$$MapErrorImplCopyWithImpl(
-      _$MapErrorImpl _value, $Res Function(_$MapErrorImpl) _then)
-      : super(_value, _then);
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? error = null,
-    Object? callback = null,
-  }) {
-    return _then(_$MapErrorImpl(
-      error: null == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as AppErrors,
-      callback: null == callback
-          ? _value.callback
-          : callback // ignore: cast_nullable_to_non_nullable
-              as VoidCallback,
-    ));
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $AppErrorsCopyWith<$Res> get error {
-    return $AppErrorsCopyWith<$Res>(_value.error, (value) {
-      return _then(_value.copyWith(error: value));
-    });
-  }
 }
 
 /// @nodoc
 
-class _$MapErrorImpl implements MapError {
-  const _$MapErrorImpl({required this.error, required this.callback});
 
-  @override
-  final AppErrors error;
-  @override
-  final VoidCallback callback;
+class MapError implements MapState {
+  const MapError({required this.error, required this.callback});
+  
 
-  @override
-  String toString() {
-    return 'MapState.mapError(error: $error, callback: $callback)';
-  }
+ final  AppErrors error;
+ final  VoidCallback callback;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MapErrorImpl &&
-            (identical(other.error, error) || other.error == error) &&
-            (identical(other.callback, callback) ||
-                other.callback == callback));
-  }
+/// Create a copy of MapState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MapErrorCopyWith<MapError> get copyWith => _$MapErrorCopyWithImpl<MapError>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, error, callback);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MapErrorImplCopyWith<_$MapErrorImpl> get copyWith =>
-      __$$MapErrorImplCopyWithImpl<_$MapErrorImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() mapInitial,
-    required TResult Function() mapLoading,
-    required TResult Function(MapDistanceModel mapDistanceResult)
-        mapDistanceLoaded,
-    required TResult Function(AppErrors error, VoidCallback callback) mapError,
-  }) {
-    return mapError(error, callback);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? mapInitial,
-    TResult? Function()? mapLoading,
-    TResult? Function(MapDistanceModel mapDistanceResult)? mapDistanceLoaded,
-    TResult? Function(AppErrors error, VoidCallback callback)? mapError,
-  }) {
-    return mapError?.call(error, callback);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? mapInitial,
-    TResult Function()? mapLoading,
-    TResult Function(MapDistanceModel mapDistanceResult)? mapDistanceLoaded,
-    TResult Function(AppErrors error, VoidCallback callback)? mapError,
-    required TResult orElse(),
-  }) {
-    if (mapError != null) {
-      return mapError(error, callback);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(MapInitial value) mapInitial,
-    required TResult Function(MapLoading value) mapLoading,
-    required TResult Function(MapDistanceLoaded value) mapDistanceLoaded,
-    required TResult Function(MapError value) mapError,
-  }) {
-    return mapError(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(MapInitial value)? mapInitial,
-    TResult? Function(MapLoading value)? mapLoading,
-    TResult? Function(MapDistanceLoaded value)? mapDistanceLoaded,
-    TResult? Function(MapError value)? mapError,
-  }) {
-    return mapError?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(MapInitial value)? mapInitial,
-    TResult Function(MapLoading value)? mapLoading,
-    TResult Function(MapDistanceLoaded value)? mapDistanceLoaded,
-    TResult Function(MapError value)? mapError,
-    required TResult orElse(),
-  }) {
-    if (mapError != null) {
-      return mapError(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MapError&&(identical(other.error, error) || other.error == error)&&(identical(other.callback, callback) || other.callback == callback));
 }
 
-abstract class MapError implements MapState {
-  const factory MapError(
-      {required final AppErrors error,
-      required final VoidCallback callback}) = _$MapErrorImpl;
 
-  AppErrors get error;
-  VoidCallback get callback;
-  @JsonKey(ignore: true)
-  _$$MapErrorImplCopyWith<_$MapErrorImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,error,callback);
+
+@override
+String toString() {
+  return 'MapState.mapError(error: $error, callback: $callback)';
 }
+
+
+}
+
+/// @nodoc
+abstract mixin class $MapErrorCopyWith<$Res> implements $MapStateCopyWith<$Res> {
+  factory $MapErrorCopyWith(MapError value, $Res Function(MapError) _then) = _$MapErrorCopyWithImpl;
+@useResult
+$Res call({
+ AppErrors error, VoidCallback callback
+});
+
+
+$AppErrorsCopyWith<$Res> get error;
+
+}
+/// @nodoc
+class _$MapErrorCopyWithImpl<$Res>
+    implements $MapErrorCopyWith<$Res> {
+  _$MapErrorCopyWithImpl(this._self, this._then);
+
+  final MapError _self;
+  final $Res Function(MapError) _then;
+
+/// Create a copy of MapState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? error = null,Object? callback = null,}) {
+  return _then(MapError(
+error: null == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as AppErrors,callback: null == callback ? _self.callback : callback // ignore: cast_nullable_to_non_nullable
+as VoidCallback,
+  ));
+}
+
+/// Create a copy of MapState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AppErrorsCopyWith<$Res> get error {
+  
+  return $AppErrorsCopyWith<$Res>(_self.error, (value) {
+    return _then(_self.copyWith(error: value));
+  });
+}
+}
+
+// dart format on

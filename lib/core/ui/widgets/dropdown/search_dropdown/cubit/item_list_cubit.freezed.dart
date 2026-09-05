@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,668 +9,427 @@ part of 'item_list_cubit.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
-mixin _$ItemListState<T> {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(AppErrors error, VoidCallback callback) error,
-    required TResult Function(List<T> data) loaded,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(AppErrors error, VoidCallback callback)? error,
-    TResult? Function(List<T> data)? loaded,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(AppErrors error, VoidCallback callback)? error,
-    TResult Function(List<T> data)? loaded,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ItemListInitState<T> value) initial,
-    required TResult Function(ItemListLoadingState<T> value) loading,
-    required TResult Function(ItemListErrorState<T> value) error,
-    required TResult Function(ItemListLoadedState<T> value) loaded,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ItemListInitState<T> value)? initial,
-    TResult? Function(ItemListLoadingState<T> value)? loading,
-    TResult? Function(ItemListErrorState<T> value)? error,
-    TResult? Function(ItemListLoadedState<T> value)? loaded,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ItemListInitState<T> value)? initial,
-    TResult Function(ItemListLoadingState<T> value)? loading,
-    TResult Function(ItemListErrorState<T> value)? error,
-    TResult Function(ItemListLoadedState<T> value)? loaded,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+mixin _$ItemListState<T> implements DiagnosticableTreeMixin {
+
+
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'ItemListState<$T>'))
+    ;
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ItemListState<T>);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'ItemListState<$T>()';
+}
+
+
 }
 
 /// @nodoc
-abstract class $ItemListStateCopyWith<T, $Res> {
-  factory $ItemListStateCopyWith(
-          ItemListState<T> value, $Res Function(ItemListState<T>) then) =
-      _$ItemListStateCopyWithImpl<T, $Res, ItemListState<T>>;
+class $ItemListStateCopyWith<T,$Res>  {
+$ItemListStateCopyWith(ItemListState<T> _, $Res Function(ItemListState<T>) __);
 }
 
-/// @nodoc
-class _$ItemListStateCopyWithImpl<T, $Res, $Val extends ItemListState<T>>
-    implements $ItemListStateCopyWith<T, $Res> {
-  _$ItemListStateCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+/// Adds pattern-matching-related methods to [ItemListState].
+extension ItemListStatePatterns<T> on ItemListState<T> {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( ItemListInitState<T> value)?  initial,TResult Function( ItemListLoadingState<T> value)?  loading,TResult Function( ItemListErrorState<T> value)?  error,TResult Function( ItemListLoadedState<T> value)?  loaded,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case ItemListInitState() when initial != null:
+return initial(_that);case ItemListLoadingState() when loading != null:
+return loading(_that);case ItemListErrorState() when error != null:
+return error(_that);case ItemListLoadedState() when loaded != null:
+return loaded(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( ItemListInitState<T> value)  initial,required TResult Function( ItemListLoadingState<T> value)  loading,required TResult Function( ItemListErrorState<T> value)  error,required TResult Function( ItemListLoadedState<T> value)  loaded,}){
+final _that = this;
+switch (_that) {
+case ItemListInitState():
+return initial(_that);case ItemListLoadingState():
+return loading(_that);case ItemListErrorState():
+return error(_that);case ItemListLoadedState():
+return loaded(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( ItemListInitState<T> value)?  initial,TResult? Function( ItemListLoadingState<T> value)?  loading,TResult? Function( ItemListErrorState<T> value)?  error,TResult? Function( ItemListLoadedState<T> value)?  loaded,}){
+final _that = this;
+switch (_that) {
+case ItemListInitState() when initial != null:
+return initial(_that);case ItemListLoadingState() when loading != null:
+return loading(_that);case ItemListErrorState() when error != null:
+return error(_that);case ItemListLoadedState() when loaded != null:
+return loaded(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( AppErrors error,  VoidCallback callback)?  error,TResult Function( List<T> data)?  loaded,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case ItemListInitState() when initial != null:
+return initial();case ItemListLoadingState() when loading != null:
+return loading();case ItemListErrorState() when error != null:
+return error(_that.error,_that.callback);case ItemListLoadedState() when loaded != null:
+return loaded(_that.data);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( AppErrors error,  VoidCallback callback)  error,required TResult Function( List<T> data)  loaded,}) {final _that = this;
+switch (_that) {
+case ItemListInitState():
+return initial();case ItemListLoadingState():
+return loading();case ItemListErrorState():
+return error(_that.error,_that.callback);case ItemListLoadedState():
+return loaded(_that.data);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( AppErrors error,  VoidCallback callback)?  error,TResult? Function( List<T> data)?  loaded,}) {final _that = this;
+switch (_that) {
+case ItemListInitState() when initial != null:
+return initial();case ItemListLoadingState() when loading != null:
+return loading();case ItemListErrorState() when error != null:
+return error(_that.error,_that.callback);case ItemListLoadedState() when loaded != null:
+return loaded(_that.data);case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-abstract class _$$ItemListInitStateImplCopyWith<T, $Res> {
-  factory _$$ItemListInitStateImplCopyWith(_$ItemListInitStateImpl<T> value,
-          $Res Function(_$ItemListInitStateImpl<T>) then) =
-      __$$ItemListInitStateImplCopyWithImpl<T, $Res>;
-}
-
-/// @nodoc
-class __$$ItemListInitStateImplCopyWithImpl<T, $Res>
-    extends _$ItemListStateCopyWithImpl<T, $Res, _$ItemListInitStateImpl<T>>
-    implements _$$ItemListInitStateImplCopyWith<T, $Res> {
-  __$$ItemListInitStateImplCopyWithImpl(_$ItemListInitStateImpl<T> _value,
-      $Res Function(_$ItemListInitStateImpl<T>) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$ItemListInitStateImpl<T>
-    with DiagnosticableTreeMixin
-    implements ItemListInitState<T> {
-  const _$ItemListInitStateImpl();
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ItemListState<$T>.initial()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'ItemListState<$T>.initial'));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ItemListInitStateImpl<T>);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(AppErrors error, VoidCallback callback) error,
-    required TResult Function(List<T> data) loaded,
-  }) {
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(AppErrors error, VoidCallback callback)? error,
-    TResult? Function(List<T> data)? loaded,
-  }) {
-    return initial?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(AppErrors error, VoidCallback callback)? error,
-    TResult Function(List<T> data)? loaded,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ItemListInitState<T> value) initial,
-    required TResult Function(ItemListLoadingState<T> value) loading,
-    required TResult Function(ItemListErrorState<T> value) error,
-    required TResult Function(ItemListLoadedState<T> value) loaded,
-  }) {
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ItemListInitState<T> value)? initial,
-    TResult? Function(ItemListLoadingState<T> value)? loading,
-    TResult? Function(ItemListErrorState<T> value)? error,
-    TResult? Function(ItemListLoadedState<T> value)? loaded,
-  }) {
-    return initial?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ItemListInitState<T> value)? initial,
-    TResult Function(ItemListLoadingState<T> value)? loading,
-    TResult Function(ItemListErrorState<T> value)? error,
-    TResult Function(ItemListLoadedState<T> value)? loaded,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ItemListInitState<T> implements ItemListState<T> {
-  const factory ItemListInitState() = _$ItemListInitStateImpl<T>;
-}
-
-/// @nodoc
-abstract class _$$ItemListLoadingStateImplCopyWith<T, $Res> {
-  factory _$$ItemListLoadingStateImplCopyWith(
-          _$ItemListLoadingStateImpl<T> value,
-          $Res Function(_$ItemListLoadingStateImpl<T>) then) =
-      __$$ItemListLoadingStateImplCopyWithImpl<T, $Res>;
-}
-
-/// @nodoc
-class __$$ItemListLoadingStateImplCopyWithImpl<T, $Res>
-    extends _$ItemListStateCopyWithImpl<T, $Res, _$ItemListLoadingStateImpl<T>>
-    implements _$$ItemListLoadingStateImplCopyWith<T, $Res> {
-  __$$ItemListLoadingStateImplCopyWithImpl(_$ItemListLoadingStateImpl<T> _value,
-      $Res Function(_$ItemListLoadingStateImpl<T>) _then)
-      : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$ItemListLoadingStateImpl<T>
-    with DiagnosticableTreeMixin
-    implements ItemListLoadingState<T> {
-  const _$ItemListLoadingStateImpl();
 
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ItemListState<$T>.loading()';
-  }
+class ItemListInitState<T> with DiagnosticableTreeMixin implements ItemListState<T> {
+  const ItemListInitState();
+  
 
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'ItemListState<$T>.loading'));
-  }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ItemListLoadingStateImpl<T>);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(AppErrors error, VoidCallback callback) error,
-    required TResult Function(List<T> data) loaded,
-  }) {
-    return loading();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(AppErrors error, VoidCallback callback)? error,
-    TResult? Function(List<T> data)? loaded,
-  }) {
-    return loading?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(AppErrors error, VoidCallback callback)? error,
-    TResult Function(List<T> data)? loaded,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ItemListInitState<T> value) initial,
-    required TResult Function(ItemListLoadingState<T> value) loading,
-    required TResult Function(ItemListErrorState<T> value) error,
-    required TResult Function(ItemListLoadedState<T> value) loaded,
-  }) {
-    return loading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ItemListInitState<T> value)? initial,
-    TResult? Function(ItemListLoadingState<T> value)? loading,
-    TResult? Function(ItemListErrorState<T> value)? error,
-    TResult? Function(ItemListLoadedState<T> value)? loaded,
-  }) {
-    return loading?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ItemListInitState<T> value)? initial,
-    TResult Function(ItemListLoadingState<T> value)? loading,
-    TResult Function(ItemListErrorState<T> value)? error,
-    TResult Function(ItemListLoadedState<T> value)? loaded,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading(this);
-    }
-    return orElse();
-  }
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'ItemListState<$T>.initial'))
+    ;
 }
 
-abstract class ItemListLoadingState<T> implements ItemListState<T> {
-  const factory ItemListLoadingState() = _$ItemListLoadingStateImpl<T>;
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ItemListInitState<T>);
 }
 
-/// @nodoc
-abstract class _$$ItemListErrorStateImplCopyWith<T, $Res> {
-  factory _$$ItemListErrorStateImplCopyWith(_$ItemListErrorStateImpl<T> value,
-          $Res Function(_$ItemListErrorStateImpl<T>) then) =
-      __$$ItemListErrorStateImplCopyWithImpl<T, $Res>;
-  @useResult
-  $Res call({AppErrors error, VoidCallback callback});
 
-  $AppErrorsCopyWith<$Res> get error;
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'ItemListState<$T>.initial()';
 }
 
-/// @nodoc
-class __$$ItemListErrorStateImplCopyWithImpl<T, $Res>
-    extends _$ItemListStateCopyWithImpl<T, $Res, _$ItemListErrorStateImpl<T>>
-    implements _$$ItemListErrorStateImplCopyWith<T, $Res> {
-  __$$ItemListErrorStateImplCopyWithImpl(_$ItemListErrorStateImpl<T> _value,
-      $Res Function(_$ItemListErrorStateImpl<T>) _then)
-      : super(_value, _then);
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? error = null,
-    Object? callback = null,
-  }) {
-    return _then(_$ItemListErrorStateImpl<T>(
-      error: null == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as AppErrors,
-      callback: null == callback
-          ? _value.callback
-          : callback // ignore: cast_nullable_to_non_nullable
-              as VoidCallback,
-    ));
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $AppErrorsCopyWith<$Res> get error {
-    return $AppErrorsCopyWith<$Res>(_value.error, (value) {
-      return _then(_value.copyWith(error: value));
-    });
-  }
 }
+
+
+
 
 /// @nodoc
 
-class _$ItemListErrorStateImpl<T>
-    with DiagnosticableTreeMixin
-    implements ItemListErrorState<T> {
-  const _$ItemListErrorStateImpl({required this.error, required this.callback});
 
-  @override
-  final AppErrors error;
-  @override
-  final VoidCallback callback;
+class ItemListLoadingState<T> with DiagnosticableTreeMixin implements ItemListState<T> {
+  const ItemListLoadingState();
+  
 
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ItemListState<$T>.error(error: $error, callback: $callback)';
-  }
 
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'ItemListState<$T>.error'))
-      ..add(DiagnosticsProperty('error', error))
-      ..add(DiagnosticsProperty('callback', callback));
-  }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ItemListErrorStateImpl<T> &&
-            (identical(other.error, error) || other.error == error) &&
-            (identical(other.callback, callback) ||
-                other.callback == callback));
-  }
 
-  @override
-  int get hashCode => Object.hash(runtimeType, error, callback);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ItemListErrorStateImplCopyWith<T, _$ItemListErrorStateImpl<T>>
-      get copyWith => __$$ItemListErrorStateImplCopyWithImpl<T,
-          _$ItemListErrorStateImpl<T>>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(AppErrors error, VoidCallback callback) error,
-    required TResult Function(List<T> data) loaded,
-  }) {
-    return error(this.error, callback);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(AppErrors error, VoidCallback callback)? error,
-    TResult? Function(List<T> data)? loaded,
-  }) {
-    return error?.call(this.error, callback);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(AppErrors error, VoidCallback callback)? error,
-    TResult Function(List<T> data)? loaded,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(this.error, callback);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ItemListInitState<T> value) initial,
-    required TResult Function(ItemListLoadingState<T> value) loading,
-    required TResult Function(ItemListErrorState<T> value) error,
-    required TResult Function(ItemListLoadedState<T> value) loaded,
-  }) {
-    return error(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ItemListInitState<T> value)? initial,
-    TResult? Function(ItemListLoadingState<T> value)? loading,
-    TResult? Function(ItemListErrorState<T> value)? error,
-    TResult? Function(ItemListLoadedState<T> value)? loaded,
-  }) {
-    return error?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ItemListInitState<T> value)? initial,
-    TResult Function(ItemListLoadingState<T> value)? loading,
-    TResult Function(ItemListErrorState<T> value)? error,
-    TResult Function(ItemListLoadedState<T> value)? loaded,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(this);
-    }
-    return orElse();
-  }
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'ItemListState<$T>.loading'))
+    ;
 }
 
-abstract class ItemListErrorState<T> implements ItemListState<T> {
-  const factory ItemListErrorState(
-      {required final AppErrors error,
-      required final VoidCallback callback}) = _$ItemListErrorStateImpl<T>;
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ItemListLoadingState<T>);
+}
 
-  AppErrors get error;
-  VoidCallback get callback;
-  @JsonKey(ignore: true)
-  _$$ItemListErrorStateImplCopyWith<T, _$ItemListErrorStateImpl<T>>
-      get copyWith => throw _privateConstructorUsedError;
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'ItemListState<$T>.loading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class ItemListErrorState<T> with DiagnosticableTreeMixin implements ItemListState<T> {
+  const ItemListErrorState({required this.error, required this.callback});
+  
+
+ final  AppErrors error;
+ final  VoidCallback callback;
+
+/// Create a copy of ItemListState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ItemListErrorStateCopyWith<T, ItemListErrorState<T>> get copyWith => _$ItemListErrorStateCopyWithImpl<T, ItemListErrorState<T>>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'ItemListState<$T>.error'))
+    ..add(DiagnosticsProperty('error', error))..add(DiagnosticsProperty('callback', callback));
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ItemListErrorState<T>&&(identical(other.error, error) || other.error == error)&&(identical(other.callback, callback) || other.callback == callback));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,error,callback);
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'ItemListState<$T>.error(error: $error, callback: $callback)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$ItemListLoadedStateImplCopyWith<T, $Res> {
-  factory _$$ItemListLoadedStateImplCopyWith(_$ItemListLoadedStateImpl<T> value,
-          $Res Function(_$ItemListLoadedStateImpl<T>) then) =
-      __$$ItemListLoadedStateImplCopyWithImpl<T, $Res>;
-  @useResult
-  $Res call({List<T> data});
+abstract mixin class $ItemListErrorStateCopyWith<T,$Res> implements $ItemListStateCopyWith<T, $Res> {
+  factory $ItemListErrorStateCopyWith(ItemListErrorState<T> value, $Res Function(ItemListErrorState<T>) _then) = _$ItemListErrorStateCopyWithImpl;
+@useResult
+$Res call({
+ AppErrors error, VoidCallback callback
+});
+
+
+$AppErrorsCopyWith<$Res> get error;
+
+}
+/// @nodoc
+class _$ItemListErrorStateCopyWithImpl<T,$Res>
+    implements $ItemListErrorStateCopyWith<T, $Res> {
+  _$ItemListErrorStateCopyWithImpl(this._self, this._then);
+
+  final ItemListErrorState<T> _self;
+  final $Res Function(ItemListErrorState<T>) _then;
+
+/// Create a copy of ItemListState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? error = null,Object? callback = null,}) {
+  return _then(ItemListErrorState<T>(
+error: null == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
+as AppErrors,callback: null == callback ? _self.callback : callback // ignore: cast_nullable_to_non_nullable
+as VoidCallback,
+  ));
 }
 
-/// @nodoc
-class __$$ItemListLoadedStateImplCopyWithImpl<T, $Res>
-    extends _$ItemListStateCopyWithImpl<T, $Res, _$ItemListLoadedStateImpl<T>>
-    implements _$$ItemListLoadedStateImplCopyWith<T, $Res> {
-  __$$ItemListLoadedStateImplCopyWithImpl(_$ItemListLoadedStateImpl<T> _value,
-      $Res Function(_$ItemListLoadedStateImpl<T>) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? data = null,
-  }) {
-    return _then(_$ItemListLoadedStateImpl<T>(
-      data: null == data
-          ? _value._data
-          : data // ignore: cast_nullable_to_non_nullable
-              as List<T>,
-    ));
-  }
+/// Create a copy of ItemListState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AppErrorsCopyWith<$Res> get error {
+  
+  return $AppErrorsCopyWith<$Res>(_self.error, (value) {
+    return _then(_self.copyWith(error: value));
+  });
+}
 }
 
 /// @nodoc
 
-class _$ItemListLoadedStateImpl<T>
-    with DiagnosticableTreeMixin
-    implements ItemListLoadedState<T> {
-  const _$ItemListLoadedStateImpl({required final List<T> data}) : _data = data;
 
-  final List<T> _data;
-  @override
-  List<T> get data {
-    if (_data is EqualUnmodifiableListView) return _data;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_data);
-  }
+class ItemListLoadedState<T> with DiagnosticableTreeMixin implements ItemListState<T> {
+  const ItemListLoadedState({required final  List<T> data}): _data = data;
+  
 
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ItemListState<$T>.loaded(data: $data)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'ItemListState<$T>.loaded'))
-      ..add(DiagnosticsProperty('data', data));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ItemListLoadedStateImpl<T> &&
-            const DeepCollectionEquality().equals(other._data, _data));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_data));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ItemListLoadedStateImplCopyWith<T, _$ItemListLoadedStateImpl<T>>
-      get copyWith => __$$ItemListLoadedStateImplCopyWithImpl<T,
-          _$ItemListLoadedStateImpl<T>>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(AppErrors error, VoidCallback callback) error,
-    required TResult Function(List<T> data) loaded,
-  }) {
-    return loaded(data);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(AppErrors error, VoidCallback callback)? error,
-    TResult? Function(List<T> data)? loaded,
-  }) {
-    return loaded?.call(data);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(AppErrors error, VoidCallback callback)? error,
-    TResult Function(List<T> data)? loaded,
-    required TResult orElse(),
-  }) {
-    if (loaded != null) {
-      return loaded(data);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ItemListInitState<T> value) initial,
-    required TResult Function(ItemListLoadingState<T> value) loading,
-    required TResult Function(ItemListErrorState<T> value) error,
-    required TResult Function(ItemListLoadedState<T> value) loaded,
-  }) {
-    return loaded(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ItemListInitState<T> value)? initial,
-    TResult? Function(ItemListLoadingState<T> value)? loading,
-    TResult? Function(ItemListErrorState<T> value)? error,
-    TResult? Function(ItemListLoadedState<T> value)? loaded,
-  }) {
-    return loaded?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ItemListInitState<T> value)? initial,
-    TResult Function(ItemListLoadingState<T> value)? loading,
-    TResult Function(ItemListErrorState<T> value)? error,
-    TResult Function(ItemListLoadedState<T> value)? loaded,
-    required TResult orElse(),
-  }) {
-    if (loaded != null) {
-      return loaded(this);
-    }
-    return orElse();
-  }
+ final  List<T> _data;
+ List<T> get data {
+  if (_data is EqualUnmodifiableListView) return _data;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_data);
 }
 
-abstract class ItemListLoadedState<T> implements ItemListState<T> {
-  const factory ItemListLoadedState({required final List<T> data}) =
-      _$ItemListLoadedStateImpl<T>;
 
-  List<T> get data;
-  @JsonKey(ignore: true)
-  _$$ItemListLoadedStateImplCopyWith<T, _$ItemListLoadedStateImpl<T>>
-      get copyWith => throw _privateConstructorUsedError;
+/// Create a copy of ItemListState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ItemListLoadedStateCopyWith<T, ItemListLoadedState<T>> get copyWith => _$ItemListLoadedStateCopyWithImpl<T, ItemListLoadedState<T>>(this, _$identity);
+
+
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'ItemListState<$T>.loaded'))
+    ..add(DiagnosticsProperty('data', data));
 }
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ItemListLoadedState<T>&&const DeepCollectionEquality().equals(other._data, _data));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_data));
+
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'ItemListState<$T>.loaded(data: $data)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ItemListLoadedStateCopyWith<T,$Res> implements $ItemListStateCopyWith<T, $Res> {
+  factory $ItemListLoadedStateCopyWith(ItemListLoadedState<T> value, $Res Function(ItemListLoadedState<T>) _then) = _$ItemListLoadedStateCopyWithImpl;
+@useResult
+$Res call({
+ List<T> data
+});
+
+
+
+
+}
+/// @nodoc
+class _$ItemListLoadedStateCopyWithImpl<T,$Res>
+    implements $ItemListLoadedStateCopyWith<T, $Res> {
+  _$ItemListLoadedStateCopyWithImpl(this._self, this._then);
+
+  final ItemListLoadedState<T> _self;
+  final $Res Function(ItemListLoadedState<T>) _then;
+
+/// Create a copy of ItemListState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? data = null,}) {
+  return _then(ItemListLoadedState<T>(
+data: null == data ? _self._data : data // ignore: cast_nullable_to_non_nullable
+as List<T>,
+  ));
+}
+
+
+}
+
+// dart format on

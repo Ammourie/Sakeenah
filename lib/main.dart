@@ -1,30 +1,24 @@
 import 'dart:io';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
-import 'core/common/encryption.dart';
 
 import 'app.dart';
 import 'core/background_task/background_tasks_manager.dart';
 import 'core/common/app_config.dart';
+import 'core/common/encryption.dart';
 import 'core/common/local_storage.dart';
 import 'core/constants/app/app_constants.dart';
 import 'core/constants/app/app_settings.dart';
 import 'core/constants/enums/app_options_enum.dart';
-import 'core/dynamic_link/branch_io_dynamic_link.dart';
 import 'core/errors/error_global_handler/catcher_handler.dart';
-import 'core/errors/error_global_handler/email_manual_handler.dart';
 import 'core/errors/error_global_handler/report.dart';
-import 'core/firebase/firebase_messaging.dart';
 import 'core/localization/localization_provider.dart';
 import 'core/navigation/navigation_service.dart';
 import 'core/net/http_overrides.dart';
 import 'core/ui/error_ui/errors_screens/build_error_screen.dart';
 import 'di/service_locator.dart';
-import 'features/notification/domain/usecase/add_or_update_firebase_token_usecase.dart';
 import 'generated/l10n.dart';
 
 void main() async {
@@ -38,9 +32,6 @@ void main() async {
 Future<void> _initAppConfigs() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalStorage.init();
-  if (AppSettings.enableBranchIO) {
-    BranchIODynamicLink.init();
-  }
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
@@ -67,25 +58,6 @@ Future<void> _initAppConfigs() async {
 
   /// In case of network handshake error
   HttpOverrides.global = new BadCertHttpOverrides();
-
-  if (AppSettings.enableNotification) {
-    await FireBaseMessagingWrapper.notificationLock.acquire();
-
-    /// Init firebase
-    await Firebase.initializeApp();
-
-    /// Init firebase messaging
-    await FireBaseMessagingWrapper().init(
-      onRefreshToken: () async {
-        getIt<AddOrUpdateFirebaseTokenUsecase>()(
-          FireBaseMessagingWrapper.getUpdateTokenParam(),
-        );
-      },
-    );
-
-    if (!await LocalStorage.hasToken)
-      await FireBaseMessagingWrapper().deleteFirebaseToken();
-  }
 
   await BackgroundTasksManager.init();
   await Encryption.init();
@@ -165,12 +137,7 @@ void _initErrorCatcher() {
                         errorDetails: flutterErrorDetails,
                       );
                       if (report != null) {
-                        EmailManualHandler(
-                          ["info@osoustech.com"],
-                          emailHeader: 'StarterApp',
-                          emailTitle:
-                              'Error report ${DateFormat("").format(DateTime.now())}',
-                        ).handle(report);
+                        // TODO: Send report to developer
                       }
                     },
                   ),

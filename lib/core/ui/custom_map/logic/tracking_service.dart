@@ -2,7 +2,7 @@
 // import 'dart:async';
 
 // import 'package:background_location/background_location.dart';
-// import 'package:starter_application/core/ui/custom_map/logic/location_wrapper.dart';
+// import 'package:Sakeenah/core/ui/custom_map/logic/location_wrapper.dart';
 
 // enum TrackingType {
 //   /// Get location on each [duration]

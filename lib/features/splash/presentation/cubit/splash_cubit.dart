@@ -7,7 +7,6 @@ import '../../../../core/common/app_config.dart';
 import '../../../../core/common/local_storage.dart';
 import '../../../../core/common/utils/cubit_utils.dart';
 import '../../../../core/errors/app_errors.dart';
-import '../../../../core/firebase/firebase_messaging.dart';
 import '../../../../core/params/no_params.dart';
 import '../../../../core/results/result.dart';
 import '../../../../di/service_locator.dart';
@@ -16,7 +15,6 @@ import '../../../account/domain/usecase/get_profile_usecase.dart';
 import '../../../more/data/request/param/check_version_param.dart';
 import '../../../more/domain/entity/version_entity.dart';
 import '../../../more/domain/usecase/check_update_app_usecase.dart';
-import '../../../notification/domain/usecase/add_or_update_firebase_token_usecase.dart';
 import '../../domain/entity/splash_entity.dart';
 
 part 'splash_cubit.freezed.dart';
@@ -32,11 +30,6 @@ class SplashCubit extends Cubit<SplashState> {
       // Check Update App.
       getIt<CheckUpdateAppUsecase>()(
         CheckVersionParam(deviceType: AppConfig().os),
-      ),
-
-      // Send FCM token.
-      getIt<AddOrUpdateFirebaseTokenUsecase>()(
-        FireBaseMessagingWrapper.getUpdateTokenParam(),
       ),
 
       if (LocalStorage.hasToken) getIt<GetProfileUsecase>()(NoParams()),

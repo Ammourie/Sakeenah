@@ -14,7 +14,6 @@ import '../../features/home/presentation/screen/people_screen.dart';
 import '../../features/notification/presentation/screen/notifications/notifications_screen.dart';
 import '../../features/pokemon/presentation/screen/pokemons_screen/pokemns_screen.dart';
 import '../constants/enums/route_type.dart';
-import '../dynamic_link/deep_links_test_page.dart';
 import '../ui/screens/base_screen.dart';
 import 'animations/animated_route.dart';
 import 'animations/fade_route.dart';
@@ -84,11 +83,6 @@ class NavigationRoute {
           settings: settings,
           createScreen: (param) => ChatDetailsScreen(param: param),
         );
-      case DeepLinksTestPage.routeName:
-        return _getRoute<DeepLinksTestPageParam>(
-          settings: settings,
-          createScreen: (param) => DeepLinksTestPage(param: param),
-        );
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();
@@ -135,10 +129,9 @@ class NavigationRoute {
     return MaterialPageRoute(
       builder: (_) {
         return Scaffold(
-          backgroundColor:
-              Theme.of(
-                getIt<NavigationService>().getNavigationKey.currentContext!,
-              ).scaffoldBackgroundColor,
+          backgroundColor: Theme.of(
+            getIt<NavigationService>().getNavigationKey.currentContext!,
+          ).scaffoldBackgroundColor,
           appBar: AppBar(title: const Text('Error')),
           body: Center(
             child: Text(
