@@ -140,7 +140,9 @@ dependencies:
   hive_flutter: 1.1.0
   # A Flutter plugin for geocoding and reverse geocoding.
   geocoding: 5.0.0
-  # A Flutter plugin for Google Places Autocomplete Text Field.
+  # A Flutter plugin for showing a skeleton loading effect.
+  skeletonizer: 2.1.3
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

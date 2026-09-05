@@ -34,25 +34,24 @@ class HomeScreenNotifier extends ScreenNotifier<HomeScreenParam> {
 
   bool get isLoading => _isLoading;
 
-  Future<void> initializePrayerTimes({required bool hasInternet}) async {
+  Future<void> getPrayerTimes({required bool hasInternet}) async {
     isLoadingGps = true;
     final location = await GpsLocationFetcher.fetch();
     isLoadingGps = false;
-    if (location == null) showSnackbar(S.current.errorGettingLocation);
+    if (location == null) {
+      showSnackbar(S.current.errorGettingLocation);
+      return;
+    }
+    _gpsLocation = location;
     homeCubit.getPrayerTimes(
-      GetTodayPrayerTimesParams(location: location!, isOffline: !hasInternet),
+      GetTodayPrayerTimesParams(location: location, isOffline: !hasInternet),
     );
   }
 
-  Future<void> pickMapLocation(
-    BuildContext context, {
-
-    required bool hasInternet,
-  }) async {
+  Future<void> pickMapLocation({required bool hasInternet}) async {
     final result = await Nav.to<MapPickResult>(
       MapLocationPickerScreen.routeName,
       arguments: const MapLocationPickerScreenParam(),
-      context: context,
     );
 
     if (result == null) return;
@@ -62,9 +61,13 @@ class HomeScreenNotifier extends ScreenNotifier<HomeScreenParam> {
       longitude: result.longitude,
     );
     isLoadingGps = false;
-    if (location == null) showSnackbar(S.current.errorGettingLocation);
+    if (location == null) {
+      showSnackbar(S.current.errorGettingLocation);
+      return;
+    }
+    _gpsLocation = location;
     homeCubit.getPrayerTimes(
-      GetTodayPrayerTimesParams(location: location!, isOffline: !hasInternet),
+      GetTodayPrayerTimesParams(location: location, isOffline: !hasInternet),
     );
   }
 

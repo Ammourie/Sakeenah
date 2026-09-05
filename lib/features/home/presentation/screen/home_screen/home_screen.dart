@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    provider.initializePrayerTimes(
+    provider.getPrayerTimes(
       hasInternet: context.read<InternetProvider>().hasInternet,
     );
   }
