@@ -54,3 +54,41 @@ class AuthState with _$AuthState {
 
 - Do **not** hand-write `*.freezed.dart` — run codegen later
 - Prefer named params on success factories (`user:`, `data:`) for clarity
+
+## Use cases — resolve via GetIt (not constructor injection)
+
+Cubits must **not** take use cases as constructor parameters. Resolve them
+with `getIt` inside the cubit (field initializer or per call).
+
+```dart
+import '../../../../../di/service_locator.dart';
+
+class PrayerTimesCubit extends Cubit<PrayerTimesState> {
+  PrayerTimesCubit() : super(const PrayerTimesState.initial());
+
+  final GetTodayPrayerTimesUseCase _getTodayPrayerTimes =
+      getIt<GetTodayPrayerTimesUseCase>();
+
+  Future<void> load() async {
+    final result = await _getTodayPrayerTimes(params);
+    // ...
+  }
+}
+```
+
+```dart
+// ❌ BAD — constructor injection
+class PrayerTimesCubit extends Cubit<PrayerTimesState> {
+  PrayerTimesCubit({required GetTodayPrayerTimesUseCase getTodayPrayerTimes});
+}
+
+// ❌ BAD — dependency factory only to pass GetIt into constructor
+PrayerTimesCubit(getTodayPrayerTimes: getIt<GetTodayPrayerTimesUseCase>());
+
+// ✅ GOOD — parameterless constructor + getIt
+final result = await getIt<GetTodayPrayerTimesUseCase>()(params);
+// or private final _useCase = getIt<GetTodayPrayerTimesUseCase>();
+```
+
+Register use cases with `@injectable`; user runs codegen. Screens/widgets
+instantiate cubits with `XxxCubit()` — no manual wiring factories.

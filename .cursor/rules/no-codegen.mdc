@@ -1,35 +1,47 @@
 ---
-description: Never generate or hand-edit codegen files; ignore errors until the user generates them
+description: Never run or write codegen — user generates all build_runner, l10n, and generated files
 alwaysApply: true
 ---
 
-# No codegen — user generates
+# No codegen — user generates everything
 
-Do **not** generate, regenerate, or hand-edit any generated files. The user runs codegen later.
+Do **not** run, regenerate, or hand-edit **any** generated or codegen output. The user runs all generators locally.
 
-## Do not run
+## Never run these commands
 
 - `build_runner` (`fvm dart run build_runner …`, `flutter pub run build_runner …`)
 - `flutter gen-l10n` / intl generate / `flutter_intl` CLI
-- Any other generator (`injectable`, `freezed`, `json_serializable`, etc.)
+- `injectable_generator`, `freezed` codegen, `json_serializable`, or any similar generator CLI
+- Do **not** run codegen to verify work, fix analyzer errors, or “finish” a task
 
-## Do not create or edit
+## Never create or edit generated files
+
+Including but not limited to:
 
 - `*.freezed.dart`, `*.g.dart`
 - `lib/di/service_locator.config.dart`
 - `lib/generated/l10n.dart`, `lib/generated/intl/**`
+- `GeneratedPluginRegistrant.java` / `.m` (Flutter tool output)
+- Stub or partial generated files to silence analyzer errors
 
-Write **source only**: `@freezed` / `@injectable` / `part` directives, `.arb` keys, models. Leave missing generated parts as-is.
+## What to write instead
 
-## Ignore these errors
+- Source only: `@freezed` / `@injectable` / `part` directives, `.arb` keys, models, entities
+- Leave missing generated parts as-is until the user runs codegen
+- Wire dependencies manually (e.g. factory) if injectable output is not yet regenerated
 
-Treat as expected until the user generates:
+## Expected errors until the user generates
+
+Treat as normal — do **not** “fix” by generating or stubbing:
 
 - Missing `part` files (`*.freezed.dart`, `*.g.dart`, `service_locator.config.dart`)
 - Undefined `S.current.<newKey>` after adding `.arb` keys
 - Missing GetIt registrations for newly `@injectable` types
-- Analyzer/IDE errors **only** in generated files or caused solely by stale codegen
+- Analyzer errors **only** in generated files or caused solely by stale codegen
 
-Do **not** "fix" those by writing generated code, stubbing `*.g.dart`, or running codegen.
+## Agent checklist
 
-Continue the task on source files. Mention once that the user should generate when ready.
+- [ ] Did not run `build_runner` or any generator CLI
+- [ ] Did not edit `*.freezed.dart`, `*.g.dart`, or `service_locator.config.dart`
+- [ ] Added only source files + `.arb` keys for new strings
+- [ ] Mentioned once at the end (if relevant): user should run codegen when ready

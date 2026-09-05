@@ -4,11 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../../core/constants/app/app_constants.dart';
 import '../../../../../core/errors/app_errors.dart';
 import '../../../../../core/models/empty_response.dart';
-import '../../../../../core/params/no_params.dart';
-import '../../../../../di/service_locator.dart';
 
 part 'home_cubit.freezed.dart';
 part 'home_state.dart';

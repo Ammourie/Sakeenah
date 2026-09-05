@@ -23,11 +23,15 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(permissionName) =>
       "لاستخدام التطبيق يجب التأكد من إعطاء صلاحية الوصول للموقع.";
 
-  static String m1(url) => "لم يتم إيجاد الصفحة المطلوبة ${url}";
+  static String m1(prayer, time) => "التالية: ${prayer} بعد ${time}";
 
-  static String m2(number) => "الرجاء إدخال الرمز المرسل إلى ${number}";
+  static String m2(url) => "لم يتم إيجاد الصفحة المطلوبة ${url}";
 
-  static String m3(permissionName) =>
+  static String m3(number) => "الرجاء إدخال الرمز المرسل إلى ${number}";
+
+  static String m4(label) => "الموقع: ${label}";
+
+  static String m5(permissionName) =>
       "صلاحية الوصول لل${permissionName} مطلوبة!";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -44,6 +48,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "apply": MessageLookupByLibrary.simpleMessage("تغيير"),
     "audio": MessageLookupByLibrary.simpleMessage("صوت"),
     "badRequest": MessageLookupByLibrary.simpleMessage("إرسال خاطئ"),
+    "cachedPrayerTimes": MessageLookupByLibrary.simpleMessage(
+      "عرض الأوقات المحفوظة",
+    ),
     "camera": MessageLookupByLibrary.simpleMessage("كاميرا"),
     "cameraPermission": MessageLookupByLibrary.simpleMessage("كاميرا"),
     "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
@@ -54,11 +61,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "اختر اللغة، ستتم إعادة تشغيل التطبيق",
     ),
     "changeLanguage": MessageLookupByLibrary.simpleMessage("تغيير اللغة"),
+    "changeLocation": MessageLookupByLibrary.simpleMessage("تغيير الموقع"),
     "chatList": MessageLookupByLibrary.simpleMessage("قائمة المحادثات"),
+    "cityHint": MessageLookupByLibrary.simpleMessage("المدينة"),
     "close": MessageLookupByLibrary.simpleMessage("إغلاق"),
     "closeApp": MessageLookupByLibrary.simpleMessage("إغلاق التطبيق"),
     "codeResent": MessageLookupByLibrary.simpleMessage("تم إعادة إرسال الرمز"),
     "confirm": MessageLookupByLibrary.simpleMessage("تأكيد"),
+    "confirmMapLocation": MessageLookupByLibrary.simpleMessage("تأكيد الموقع"),
     "confirmPassword": MessageLookupByLibrary.simpleMessage(
       "تأكيد كلمة المرور",
     ),
@@ -77,10 +87,24 @@ class MessageLookup extends MessageLookupByLibrary {
     "connectionToServerFaild": MessageLookupByLibrary.simpleMessage(
       "فشل الاتصال بالسيرفر",
     ),
+    "countryHint": MessageLookupByLibrary.simpleMessage("البلد"),
     "createConnectionToTheServer": MessageLookupByLibrary.simpleMessage(
       "إنشاء اتصال مع السيرفر",
     ),
     "customerSupport": MessageLookupByLibrary.simpleMessage("دعم العملاء"),
+    "debugCacheCleared": MessageLookupByLibrary.simpleMessage(
+      "تم مسح الطلبات المخزنة",
+    ),
+    "debugClearCachedRequests": MessageLookupByLibrary.simpleMessage(
+      "مسح جميع الطلبات المخزنة",
+    ),
+    "debugClearFirstStartPreferences": MessageLookupByLibrary.simpleMessage(
+      "إعادة تعيين تفضيلات أول تشغيل",
+    ),
+    "debugFirstStartPreferencesCleared": MessageLookupByLibrary.simpleMessage(
+      "تم إعادة تعيين تفضيلات أول تشغيل",
+    ),
+    "debugMenuTooltip": MessageLookupByLibrary.simpleMessage("قائمة التصحيح"),
     "dialogUpdateMessage": MessageLookupByLibrary.simpleMessage(
       "للحصول على أفضل تجربة ممكنة، يرجى تحديث التطبيق للتمتع بآخر الميزات",
     ),
@@ -121,6 +145,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "getPeople": MessageLookupByLibrary.simpleMessage("الأشخاص"),
     "getPokemons": MessageLookupByLibrary.simpleMessage("البوكيمونات"),
+    "goToMyLocation": MessageLookupByLibrary.simpleMessage(
+      "الانتقال إلى موقعي",
+    ),
     "guetsMessage": MessageLookupByLibrary.simpleMessage(
       "عذراً ، أنت في وضع الزائر ، سجل الدخول للمتابعة.",
     ),
@@ -143,10 +170,20 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "justLog": MessageLookupByLibrary.simpleMessage("السجل"),
     "lastName": MessageLookupByLibrary.simpleMessage("الأسم الأخير"),
+    "loadingYourAddress": MessageLookupByLibrary.simpleMessage(
+      "جاري تحديد موقعك",
+    ),
     "loadingYourMessages": MessageLookupByLibrary.simpleMessage(
       "جاري تحميل رسائلك",
     ),
+    "locationAreaFallback": MessageLookupByLibrary.simpleMessage("منطقتك"),
     "locationPermission": MessageLookupByLibrary.simpleMessage("موقع"),
+    "locationServiceDisabledMessage": MessageLookupByLibrary.simpleMessage(
+      "خدمات الموقع (GPS) متوقفة. فعّلها من إعدادات الجهاز حتى نتمكن من تحديد موقعك.",
+    ),
+    "locationServiceDisabledTitle": MessageLookupByLibrary.simpleMessage(
+      "فعّل الموقع",
+    ),
     "logOut": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
     "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "loginErrorRequired": MessageLookupByLibrary.simpleMessage(
@@ -156,12 +193,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "mapPathError": MessageLookupByLibrary.simpleMessage(
       "لا نستطع تحديد الطريق",
     ),
+    "nextPrayerIn": m1,
     "noDataRefresher": MessageLookupByLibrary.simpleMessage(
       "لم يعد يوجد بيانات",
     ),
+    "noLocationMessage": MessageLookupByLibrary.simpleMessage(
+      "نحتاج موقعك لعرض مواقيت الصلاة.",
+    ),
     "noNotifications": MessageLookupByLibrary.simpleMessage("لا يوجد إشعارات"),
     "noResultFound": MessageLookupByLibrary.simpleMessage("لا يوجد نتائج"),
-    "notFound": m1,
+    "notFound": m2,
     "notValidResponse": MessageLookupByLibrary.simpleMessage(
       "جواب المخدم غير مطابق",
     ),
@@ -171,12 +212,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "openAppSettings": MessageLookupByLibrary.simpleMessage(
       "فتح إعدادات التطبيق",
     ),
+    "openLocationSettings": MessageLookupByLibrary.simpleMessage(
+      "فتح إعدادات الموقع",
+    ),
     "optionalUpdateMessage": MessageLookupByLibrary.simpleMessage(
       "يوجد نسخة جديدة من هذا التطبيق. يرجى التحديث للتمتع بآخر الميزات",
     ),
     "optionalUpdateTitle": MessageLookupByLibrary.simpleMessage("تحديث جديد!"),
     "or": MessageLookupByLibrary.simpleMessage("أو"),
-    "otpText": m2,
+    "otpText": m3,
     "otpVerification": MessageLookupByLibrary.simpleMessage("رمز التحقق"),
     "pageEmpty": MessageLookupByLibrary.simpleMessage("لا يوجد محتوى لعرضه .."),
     "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
@@ -188,6 +232,19 @@ class MessageLookup extends MessageLookupByLibrary {
       "صلاحية الوصول مطلوبة",
     ),
     "phone": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
+    "pickLocationOnMapMessage": MessageLookupByLibrary.simpleMessage(
+      "اسحب الخريطة حتى يقع الدبوس على مدينتك أو منطقتك، ثم أكّد.",
+    ),
+    "pickLocationOnMapTitle": MessageLookupByLibrary.simpleMessage(
+      "اختر من الخريطة",
+    ),
+    "prayerAsr": MessageLookupByLibrary.simpleMessage("العصر"),
+    "prayerDhuhr": MessageLookupByLibrary.simpleMessage("الظهر"),
+    "prayerFajr": MessageLookupByLibrary.simpleMessage("الفجر"),
+    "prayerIsha": MessageLookupByLibrary.simpleMessage("العشاء"),
+    "prayerLocationLabel": m4,
+    "prayerMaghrib": MessageLookupByLibrary.simpleMessage("المغرب"),
+    "prayerTimesTitle": MessageLookupByLibrary.simpleMessage("مواقيت الصلاة"),
     "pressTwiceToExit": MessageLookupByLibrary.simpleMessage(
       "إضغط مرتين للخروج",
     ),
@@ -200,6 +257,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "حدث خطأ أثناء الاتصال بالخادم ، يرجى المحاولة لاحقًا",
     ),
     "retry": MessageLookupByLibrary.simpleMessage("إعادة المحاولة"),
+    "saveLocation": MessageLookupByLibrary.simpleMessage("حفظ الموقع"),
     "search": MessageLookupByLibrary.simpleMessage("بحث"),
     "selectLanguageTitle": MessageLookupByLibrary.simpleMessage("اختر اللغة"),
     "selectThemeMessage": MessageLookupByLibrary.simpleMessage(
@@ -207,8 +265,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "selectThemeTitle": MessageLookupByLibrary.simpleMessage("اختر المظهر"),
     "send": MessageLookupByLibrary.simpleMessage("إرسال"),
+    "setLocationMessage": MessageLookupByLibrary.simpleMessage(
+      "حرّك الخريطة وضع الدبوس على منطقتك.",
+    ),
+    "setLocationTitle": MessageLookupByLibrary.simpleMessage("حدد موقعك"),
     "signUp": MessageLookupByLibrary.simpleMessage("تسجيل حساب"),
-    "specificPermissionRequired": m3,
+    "specificPermissionRequired": m5,
     "switchTheme": MessageLookupByLibrary.simpleMessage("تغيير وضع الالوان"),
     "testErrorScreen": MessageLookupByLibrary.simpleMessage(
       "اختبار كاشف الأخطاء",
@@ -249,6 +311,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "updateTitle": MessageLookupByLibrary.simpleMessage("التحديث مطلوب"),
     "updatedSuccessfully": MessageLookupByLibrary.simpleMessage(
       "تم التحديث بنجاح",
+    ),
+    "useGpsLocation": MessageLookupByLibrary.simpleMessage(
+      "استخدم GPS بدلاً من ذلك",
     ),
     "userDoesNotExist": MessageLookupByLibrary.simpleMessage(
       "المستخدم غير موجود",

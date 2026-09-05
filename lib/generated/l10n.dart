@@ -1044,6 +1044,281 @@ class S {
   String get appName {
     return Intl.message('Sakeenah', name: 'appName', desc: '', args: []);
   }
+
+  /// `Prayer Times`
+  String get prayerTimesTitle {
+    return Intl.message(
+      'Prayer Times',
+      name: 'prayerTimesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fajr`
+  String get prayerFajr {
+    return Intl.message('Fajr', name: 'prayerFajr', desc: '', args: []);
+  }
+
+  /// `Dhuhr`
+  String get prayerDhuhr {
+    return Intl.message('Dhuhr', name: 'prayerDhuhr', desc: '', args: []);
+  }
+
+  /// `Asr`
+  String get prayerAsr {
+    return Intl.message('Asr', name: 'prayerAsr', desc: '', args: []);
+  }
+
+  /// `Maghrib`
+  String get prayerMaghrib {
+    return Intl.message('Maghrib', name: 'prayerMaghrib', desc: '', args: []);
+  }
+
+  /// `Isha`
+  String get prayerIsha {
+    return Intl.message('Isha', name: 'prayerIsha', desc: '', args: []);
+  }
+
+  /// `Next: {prayer} in {time}`
+  String nextPrayerIn(String prayer, String time) {
+    return Intl.message(
+      'Next: $prayer in $time',
+      name: 'nextPrayerIn',
+      desc: '',
+      args: [prayer, time],
+    );
+  }
+
+  /// `Showing saved times`
+  String get cachedPrayerTimes {
+    return Intl.message(
+      'Showing saved times',
+      name: 'cachedPrayerTimes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set your location`
+  String get setLocationTitle {
+    return Intl.message(
+      'Set your location',
+      name: 'setLocationTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Move the map and place the pin on your area.`
+  String get setLocationMessage {
+    return Intl.message(
+      'Move the map and place the pin on your area.',
+      name: 'setLocationMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick on map`
+  String get pickLocationOnMapTitle {
+    return Intl.message(
+      'Pick on map',
+      name: 'pickLocationOnMapTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Drag the map so the pin sits on your city or area, then confirm.`
+  String get pickLocationOnMapMessage {
+    return Intl.message(
+      'Drag the map so the pin sits on your city or area, then confirm.',
+      name: 'pickLocationOnMapMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm location`
+  String get confirmMapLocation {
+    return Intl.message(
+      'Confirm location',
+      name: 'confirmMapLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `City`
+  String get cityHint {
+    return Intl.message('City', name: 'cityHint', desc: '', args: []);
+  }
+
+  /// `Country`
+  String get countryHint {
+    return Intl.message('Country', name: 'countryHint', desc: '', args: []);
+  }
+
+  /// `Use GPS instead`
+  String get useGpsLocation {
+    return Intl.message(
+      'Use GPS instead',
+      name: 'useGpsLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Go to my location`
+  String get goToMyLocation {
+    return Intl.message(
+      'Go to my location',
+      name: 'goToMyLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Turn on location`
+  String get locationServiceDisabledTitle {
+    return Intl.message(
+      'Turn on location',
+      name: 'locationServiceDisabledTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location services (GPS) are off. Enable them in your device settings so we can find your position.`
+  String get locationServiceDisabledMessage {
+    return Intl.message(
+      'Location services (GPS) are off. Enable them in your device settings so we can find your position.',
+      name: 'locationServiceDisabledMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open location settings`
+  String get openLocationSettings {
+    return Intl.message(
+      'Open location settings',
+      name: 'openLocationSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save location`
+  String get saveLocation {
+    return Intl.message(
+      'Save location',
+      name: 'saveLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change location`
+  String get changeLocation {
+    return Intl.message(
+      'Change location',
+      name: 'changeLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We need your location to show prayer times.`
+  String get noLocationMessage {
+    return Intl.message(
+      'We need your location to show prayer times.',
+      name: 'noLocationMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location: {label}`
+  String prayerLocationLabel(String label) {
+    return Intl.message(
+      'Location: $label',
+      name: 'prayerLocationLabel',
+      desc: '',
+      args: [label],
+    );
+  }
+
+  /// `Your area`
+  String get locationAreaFallback {
+    return Intl.message(
+      'Your area',
+      name: 'locationAreaFallback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Debug menu`
+  String get debugMenuTooltip {
+    return Intl.message(
+      'Debug menu',
+      name: 'debugMenuTooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear all cached requests`
+  String get debugClearCachedRequests {
+    return Intl.message(
+      'Clear all cached requests',
+      name: 'debugClearCachedRequests',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cached requests cleared`
+  String get debugCacheCleared {
+    return Intl.message(
+      'Cached requests cleared',
+      name: 'debugCacheCleared',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset first-time preferences`
+  String get debugClearFirstStartPreferences {
+    return Intl.message(
+      'Reset first-time preferences',
+      name: 'debugClearFirstStartPreferences',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `First-time preferences reset`
+  String get debugFirstStartPreferencesCleared {
+    return Intl.message(
+      'First-time preferences reset',
+      name: 'debugFirstStartPreferencesCleared',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Loading your address`
+  String get loadingYourAddress {
+    return Intl.message(
+      'Loading your address',
+      name: 'loadingYourAddress',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

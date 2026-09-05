@@ -170,8 +170,8 @@ class _LanguageScreenState extends State<LanguageScreen> {
       children: [
         Image.asset(
           AppConstants.mainImageForTheme(Theme.of(context).brightness),
-          width: 72.r,
-          height: 72.r,
+          width: 150.r,
+          height: 150.r,
           fit: BoxFit.contain,
         ),
         20.verticalSpace,

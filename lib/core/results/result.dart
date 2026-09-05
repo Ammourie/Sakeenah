@@ -4,9 +4,10 @@ class Result<Error extends AppErrors, Data> {
   final Data? data;
   final Error? error;
 
-  Result({this.data, this.error}) : assert(data != null || error != null);
+  Result({this.data, this.error});
 
-  /// checks whether data is available
+  /// Success with no error (data may be null for void or optional payloads).
+  bool get hasSuccess => error == null;
   bool get hasDataOnly => data != null && error == null;
 
   /// checks whether an error is present
@@ -64,7 +65,7 @@ class Result<Error extends AppErrors, Data> {
       onError.call(error!);
     } else if (hasDataOnly) {
       onData.call(data!);
-    } else {
+    } else if (hasDataAndError) {
       onErrorWithData?.call(data!, error!);
     }
   }

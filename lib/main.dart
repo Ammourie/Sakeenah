@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'app.dart';
 import 'core/common/app_config.dart';
+import 'core/common/hive_helper.dart';
 import 'core/common/local_storage.dart';
 import 'core/constants/app/app_constants.dart';
 import 'core/constants/app/app_settings.dart';
@@ -30,6 +31,7 @@ void main() async {
 Future<void> _initAppConfigs() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalStorage.init();
+  await HiveHelper.init();
 
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 

@@ -134,7 +134,13 @@ dependencies:
   internet_connection_checker_plus: 3.1.1
   # A Flutter plugin to show a beautiful loading widget.
   flutter_spinkit: 5.2.2
-
+  # A Flutter plugin for storing and retrieving data from Hive.
+  hive: 2.2.3
+  # A Flutter plugin for storing and retrieving data from Hive.
+  hive_flutter: 1.1.0
+  # A Flutter plugin for geocoding and reverse geocoding.
+  geocoding: 5.0.0
+  # A Flutter plugin for Google Places Autocomplete Text Field.
 dev_dependencies:
   flutter_test:
     sdk: flutter

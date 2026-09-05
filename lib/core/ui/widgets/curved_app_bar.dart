@@ -1,6 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../common/hive_helper.dart';
+import '../../common/local_storage.dart';
+import '../../../generated/l10n.dart';
+import 'restart_widget.dart';
 
 /// Material 3 top bar with a rounded bottom curve (Sakeenah primary surface).
 ///
@@ -85,10 +91,7 @@ class CurvedAppBar extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-              trailing:
-                  actions == null
-                      ? null
-                      : Row(mainAxisSize: MainAxisSize.min, children: actions!),
+              trailing: _resolveTrailing(context, colorScheme),
             ),
           ),
         ),
@@ -120,6 +123,15 @@ class CurvedAppBar extends StatelessWidget {
     return null;
   }
 
+  Widget? _resolveTrailing(BuildContext context, ColorScheme colorScheme) {
+    final trailingActions = <Widget>[
+      ...?actions,
+      if (kDebugMode) _CurvedAppBarDebugMenu(colorScheme: colorScheme),
+    ];
+    if (trailingActions.isEmpty) return null;
+    return Row(mainAxisSize: MainAxisSize.min, children: trailingActions);
+  }
+
   static SystemUiOverlayStyle _overlayStyleFor(Color background) {
     final iconBrightness =
         ThemeData.estimateBrightnessForColor(background) == Brightness.dark
@@ -133,6 +145,67 @@ class CurvedAppBar extends StatelessWidget {
           iconBrightness == Brightness.light ? Brightness.dark : Brightness.light,
     );
   }
+}
+
+class _CurvedAppBarDebugMenu extends StatelessWidget {
+  const _CurvedAppBarDebugMenu({required this.colorScheme});
+
+  final ColorScheme colorScheme;
+
+  Future<void> _clearCachedRequests(BuildContext context) async {
+    await HiveHelper.clearAllCachedRequests();
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(S.current.debugCacheCleared)),
+    );
+  }
+
+  Future<void> _clearFirstStartPreferences(BuildContext context) async {
+    await LocalStorage.clearFirstStartPreferences();
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(S.current.debugFirstStartPreferencesCleared)),
+    );
+    RestartWidget.restartApp(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton<_CurvedAppBarDebugAction>(
+      icon: Icon(Icons.bug_report_outlined, color: colorScheme.onPrimary),
+      tooltip: S.current.debugMenuTooltip,
+      color: colorScheme.surfaceContainer,
+      onSelected: (action) {
+        switch (action) {
+          case _CurvedAppBarDebugAction.clearCachedRequests:
+            _clearCachedRequests(context);
+          case _CurvedAppBarDebugAction.clearFirstStartPreferences:
+            _clearFirstStartPreferences(context);
+        }
+      },
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          value: _CurvedAppBarDebugAction.clearCachedRequests,
+          child: Text(
+            S.current.debugClearCachedRequests,
+            style: TextStyle(color: colorScheme.onSurface),
+          ),
+        ),
+        PopupMenuItem(
+          value: _CurvedAppBarDebugAction.clearFirstStartPreferences,
+          child: Text(
+            S.current.debugClearFirstStartPreferences,
+            style: TextStyle(color: colorScheme.onSurface),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+enum _CurvedAppBarDebugAction {
+  clearCachedRequests,
+  clearFirstStartPreferences,
 }
 
 /// Stacks [appBar] over [body] with correct top inset so the curve reads clearly.

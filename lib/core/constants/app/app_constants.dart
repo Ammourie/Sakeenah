@@ -73,6 +73,7 @@ class AppConstants {
   static const SVG_ICON_MOON = 'assets/images/svg/icons/moon.svg';
   static const SVG_ICON_SUN_MOON = 'assets/images/svg/icons/sun-moon.svg';
   static const SVG_ICON_GLOBE_2 = 'assets/images/svg/icons/globe-2.svg';
+  static const SVG_ICON_MAP_PIN = 'assets/images/svg/icons/map-pin.svg';
   static const SVG_ICON_BOOK_OPEN_TEXT =
       'assets/images/svg/icons/book-open-text.svg';
 
@@ -105,6 +106,7 @@ class AppConstants {
   static const API_MAP_DISTANCE =
       "https://maps.googleapis.com/maps/api/distancematrix/json";
   static const API_INITIAL_MAP_LOCATION = LatLng(33.510414, 36.278336);
+  static const DEFAULT_MAP_ZOOM = 14.0;
 
   // Verification Code Length.
   static const OTP_LENGTH = 4;

@@ -1,0 +1,87 @@
+---
+description: Data loading and cubits live on the screen/notifier; widgets display only
+globs: lib/**/presentation/**/*.dart
+alwaysApply: false
+---
+
+# Notifier owns data loading — widgets display only
+
+Screens and their `ScreenNotifier` load data, own cubits, and expose
+action methods. Reusable widgets and screen **content** sections render
+passed-in state — they do not fetch, navigate for data, or call cubits
+directly.
+
+## Owns loading / side effects (screen + notifier)
+
+- `ScreenNotifier` fields: cubits, loading flags, cached GPS, init guards
+- `initState` / `didChangeDependencies` on the **screen** shell: one-shot
+  init that delegates to the notifier (e.g. `notifier.initializePrayerTimes`)
+- Notifier methods: GPS fetch, cubit `initialize` / `refresh`, map picker
+  → save location, retry, permission + location-service prompts
+- `BlocListener` / `BlocConsumer` on the **screen content** layer (private
+  host widget), wired to `notifier.someCubit` — not inside feature widgets
+
+## Display only (widgets)
+
+- Receive **state** and **callbacks** as constructor parameters
+- No `context.read<Cubit>()`, `context.read<InternetProvider>()` for loads,
+  `Nav.to` for data flows, or `getIt<UseCase>()` in widgets
+- OK: `Theme.of`, `S.current`, formatting already-loaded entities, pure UI
+  timers that only refresh displayed countdown text (clock passed from parent)
+
+## Example
+
+```dart
+// ❌ BAD — feature widget fetches and drives cubit
+class PrayerTimesSection extends StatefulWidget {
+  @override
+  Widget build(BuildContext context) {
+    final sn = context.read<HomeScreenNotifier>();
+    return BlocConsumer<PrayerTimesCubit, PrayerTimesState>(
+      bloc: sn.prayerTimesCubit,
+      builder: (_, state) => ...,
+    );
+  }
+  Future<void> _openMap() async {
+    final result = await Nav.to(...);
+    context.read<PrayerTimesCubit>().saveMapLocation(...);
+  }
+}
+
+// ✅ GOOD — notifier + screen host; widget is dumb
+class HomeScreenNotifier extends ScreenNotifier<HomeScreenParam> {
+  final PrayerTimesCubit prayerTimesCubit = PrayerTimesCubit();
+
+  Future<void> initializePrayerTimes({required bool hasInternet}) async { ... }
+  Future<void> pickMapLocation(BuildContext context, {required bool hasInternet}) async { ... }
+}
+
+// home_screen_content.dart — private host wires bloc → display widget
+BlocConsumer<PrayerTimesCubit, PrayerTimesState>(
+  bloc: sn.prayerTimesCubit,
+  builder: (_, state) => PrayerTimesSection(
+    state: state,
+    clock: _clock,
+    onPickMapLocation: () => sn.pickMapLocation(context, hasInternet: hasInternet),
+    onRetryGps: () => sn.retryPrayerGps(hasInternet: hasInternet),
+  ),
+);
+
+class PrayerTimesSection extends StatelessWidget {
+  const PrayerTimesSection({
+    required this.state,
+    required this.clock,
+    required this.onPickMapLocation,
+    required this.onRetryGps,
+  });
+  // build from state + callbacks only
+}
+```
+
+## Checklist
+
+- [ ] Cubits instantiated on `ScreenNotifier`, closed in `closeNotifier()`
+- [ ] Screen shell triggers notifier init once (not in display widgets)
+- [ ] `BlocConsumer` / listeners live in screen content, not shared widgets
+- [ ] Feature widgets take state + `VoidCallback`s — no data I/O
+- [ ] Navigation that returns data and triggers saves lives on the notifier

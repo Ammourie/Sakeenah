@@ -7,6 +7,9 @@ class AppSettings {
   // Api Url
   static const BASE_URL = "https://nest-starter.osousdev.com/api/";
 
+  /// AlAdhan Prayer Times API — https://aladhan.com/prayer-times-api
+  static const ALADHAN_BASE_URL = 'https://api.aladhan.com/v1/';
+
   /// Constants
   static const orientation = OrientationOptions.PORTRAIT;
   static const errorViewOption = ErrorWidgetOptions.IMAGE;

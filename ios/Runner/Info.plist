@@ -43,13 +43,13 @@
 		<key>NSCameraUsageDescription</key>
 		<string>We need to take photos for upload necessary documents</string>
 		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-		<string>We need to access your location to show you your position in the map</string>
+		<string>We need your location to show accurate prayer times for where you are.</string>
 		<key>NSLocationAlwaysUsageDescription</key>
-		<string>We need to access your location to show you your position in the map</string>
+		<string>We need your location to show accurate prayer times for where you are.</string>
 		<key>NSLocationUsageDescription</key>
-		<string>We need to access your location to show you your position in the map</string>
+		<string>We need your location to show accurate prayer times for where you are.</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
-		<string>We need to access your location to show you your position in the map</string>
+		<string>We need your location to show accurate prayer times for where you are.</string>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>We need to access your Microphone for video and audio in html viewer</string>
 		<key>NSPhotoLibraryUsageDescription</key>

@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ShowDialog {
+  /// After [Navigator.pop], the dialog route may still be animating out.
+  /// Call this before launching system settings or other full-screen intents.
+  static Future<void> waitForDismissal() async {
+    await WidgetsBinding.instance.endOfFrame;
+    await Future<void>.delayed(const Duration(milliseconds: 450));
+  }
+
   Future<T?> showElasticDialog<T>({
     required BuildContext context,
     bool barrierDismissible = true,

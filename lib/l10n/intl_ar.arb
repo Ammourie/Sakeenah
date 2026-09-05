@@ -122,5 +122,47 @@
   "getPokemons": "البوكيمونات",
   "testErrorScreen": "اختبار كاشف الأخطاء",
   "internetNotAvailable": "الإنترنت غير متوفر",
-  "appName": "سكينة"
+  "appName": "سكينة",
+  "prayerTimesTitle": "مواقيت الصلاة",
+  "prayerFajr": "الفجر",
+  "prayerDhuhr": "الظهر",
+  "prayerAsr": "العصر",
+  "prayerMaghrib": "المغرب",
+  "prayerIsha": "العشاء",
+  "nextPrayerIn": "التالية: {prayer} بعد {time}",
+  "@nextPrayerIn": {
+    "placeholders": {
+      "prayer": {"type": "String"},
+      "time": {"type": "String"}
+    }
+  },
+  "cachedPrayerTimes": "عرض الأوقات المحفوظة",
+  "setLocationTitle": "حدد موقعك",
+  "setLocationMessage": "حرّك الخريطة وضع الدبوس على منطقتك.",
+  "pickLocationOnMapTitle": "اختر من الخريطة",
+  "pickLocationOnMapMessage": "اسحب الخريطة حتى يقع الدبوس على مدينتك أو منطقتك، ثم أكّد.",
+  "confirmMapLocation": "تأكيد الموقع",
+  "cityHint": "المدينة",
+  "countryHint": "البلد",
+  "useGpsLocation": "استخدم GPS بدلاً من ذلك",
+  "goToMyLocation": "الانتقال إلى موقعي",
+  "locationServiceDisabledTitle": "فعّل الموقع",
+  "locationServiceDisabledMessage": "خدمات الموقع (GPS) متوقفة. فعّلها من إعدادات الجهاز حتى نتمكن من تحديد موقعك.",
+  "openLocationSettings": "فتح إعدادات الموقع",
+  "saveLocation": "حفظ الموقع",
+  "changeLocation": "تغيير الموقع",
+  "noLocationMessage": "نحتاج موقعك لعرض مواقيت الصلاة.",
+  "prayerLocationLabel": "الموقع: {label}",
+  "@prayerLocationLabel": {
+    "placeholders": {
+      "label": {"type": "String"}
+    }
+  },
+  "locationAreaFallback": "منطقتك",
+  "debugMenuTooltip": "قائمة التصحيح",
+  "debugClearCachedRequests": "مسح جميع الطلبات المخزنة",
+  "debugCacheCleared": "تم مسح الطلبات المخزنة",
+  "debugClearFirstStartPreferences": "إعادة تعيين تفضيلات أول تشغيل",
+  "debugFirstStartPreferencesCleared": "تم إعادة تعيين تفضيلات أول تشغيل",
+  "loadingYourAddress": "جاري تحديد موقعك"
 }

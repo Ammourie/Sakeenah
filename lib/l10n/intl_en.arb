@@ -122,5 +122,47 @@
   "getPokemons": "Get Pokemons",
   "testErrorScreen": "Test Error Handler",
   "internetNotAvailable": "Internet not available",
-  "appName": "Sakeenah"
+  "appName": "Sakeenah",
+  "prayerTimesTitle": "Prayer Times",
+  "prayerFajr": "Fajr",
+  "prayerDhuhr": "Dhuhr",
+  "prayerAsr": "Asr",
+  "prayerMaghrib": "Maghrib",
+  "prayerIsha": "Isha",
+  "nextPrayerIn": "Next: {prayer} in {time}",
+  "@nextPrayerIn": {
+    "placeholders": {
+      "prayer": {"type": "String"},
+      "time": {"type": "String"}
+    }
+  },
+  "cachedPrayerTimes": "Showing saved times",
+  "setLocationTitle": "Set your location",
+  "setLocationMessage": "Move the map and place the pin on your area.",
+  "pickLocationOnMapTitle": "Pick on map",
+  "pickLocationOnMapMessage": "Drag the map so the pin sits on your city or area, then confirm.",
+  "confirmMapLocation": "Confirm location",
+  "cityHint": "City",
+  "countryHint": "Country",
+  "useGpsLocation": "Use GPS instead",
+  "goToMyLocation": "Go to my location",
+  "locationServiceDisabledTitle": "Turn on location",
+  "locationServiceDisabledMessage": "Location services (GPS) are off. Enable them in your device settings so we can find your position.",
+  "openLocationSettings": "Open location settings",
+  "saveLocation": "Save location",
+  "changeLocation": "Change location",
+  "noLocationMessage": "We need your location to show prayer times.",
+  "prayerLocationLabel": "Location: {label}",
+  "@prayerLocationLabel": {
+    "placeholders": {
+      "label": {"type": "String"}
+    }
+  },
+  "locationAreaFallback": "Your area",
+  "debugMenuTooltip": "Debug menu",
+  "debugClearCachedRequests": "Clear all cached requests",
+  "debugCacheCleared": "Cached requests cleared",
+  "debugClearFirstStartPreferences": "Reset first-time preferences",
+  "debugFirstStartPreferencesCleared": "First-time preferences reset",
+  "loadingYourAddress": "Loading your address"
 }

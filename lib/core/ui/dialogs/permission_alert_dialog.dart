@@ -1,145 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../generated/l10n.dart';
 import '../../navigation/nav.dart';
 import '../widgets/restart_widget.dart';
+import 'app_themed_alert_dialog.dart';
+import 'show_dialog.dart';
 
 class PermissionAlertDialog extends StatelessWidget {
+  const PermissionAlertDialog({required this.permissionName, super.key});
+
   final String? permissionName;
 
-  const PermissionAlertDialog({required this.permissionName, Key? key})
-      : super(key: key);
+  String get _message {
+    final name = permissionName;
+    if (name == null) {
+      return '${S.current.permissionRequiredTitle}\n\n'
+          '${S.current.permissionRequiredMessage}\n\n'
+          '${S.current.tryEnablingItFromYourPhoneSettings}';
+    }
+    return '${S.current.specificPermissionRequired(name)}\n\n'
+        '${S.current.makeSureSpecificPermissionGranted(name)}\n\n'
+        '${S.current.tryEnablingItFromYourPhoneSettings}';
+  }
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
+    return AppThemedAlertDialog(
       canPop: false,
-      child: AlertDialog(
-        titlePadding: EdgeInsets.zero,
-        shape: const RoundedRectangleBorder(
-          borderRadius: const BorderRadius.all(
-            const Radius.circular(24),
-          ),
-        ),
-        title: Container(
-          padding: const EdgeInsets.all(24),
-          decoration: const BoxDecoration(
-            color: Color(0xffF2F1F2),
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(24),
-              topRight: Radius.circular(24),
-            ),
-          ),
-          child: RichText(
-            text: TextSpan(
-              text: S.current.accessDenied,
-              style: TextStyle(
-                fontSize: 50.sp,
-                color: const Color(0xff222222),
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-        ),
-        content: Container(
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(25)),
-          ),
-          padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: permissionName == null
-                            ? S.current.permissionRequiredTitle
-                            : S.current
-                                .specificPermissionRequired(permissionName!),
-                      ),
-                      const TextSpan(text: '\n'),
-                      TextSpan(
-                        text: permissionName == null
-                            ? S.current.permissionRequiredMessage
-                            : S.current.makeSureSpecificPermissionGranted(
-                                permissionName!),
-                      ),
-                      const TextSpan(text: '\n'),
-                      TextSpan(
-                          text: S.current.tryEnablingItFromYourPhoneSettings),
-                    ],
-                    style: TextStyle(
-                      fontSize: 35.sp,
-                      color: const Color(0xff8594AB),
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ),
-              64.verticalSpace,
-              Align(
-                alignment: AlignmentDirectional.bottomCenter,
-                child: SizedBox(
-                  width: 1.sw,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      TextButton(
-                        style: TextButton.styleFrom(
-                          splashFactory: NoSplash.splashFactory,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                              ScreenUtil().setWidth(35),
-                            ),
-                          ),
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primary,
-                        ),
-                        child: Text(
-                          S.current.closeApp,
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontSize: 35.sp,
-                          ),
-                        ),
-                        onPressed: () {
-                          Nav.pop();
-                          SystemNavigator.pop();
-                        },
-                      ),
-                      MaterialButton(
-                        color: Theme.of(context).colorScheme.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(35.r),
-                        ),
-                        child: Text(
-                          S.current.openAppSettings,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 35.sp,
-                          ),
-                        ),
-                        onPressed: () async {
-                          Nav.pop();
-                          await openAppSettings();
-                          RestartWidget.restartApp(context);
-                        },
-                        textColor: Theme.of(context).primaryColor,
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+      icon: Icons.lock_outline_rounded,
+      title: S.current.accessDenied,
+      message: _message,
+      primaryLabel: S.current.openAppSettings,
+      onPrimary: () async {
+        Nav.pop(context);
+        await ShowDialog.waitForDismissal();
+        await openAppSettings();
+        if (context.mounted) {
+          RestartWidget.restartApp(context);
+        }
+      },
+      secondaryLabel: S.current.closeApp,
+      onSecondary: () {
+        Nav.pop(context);
+        SystemNavigator.pop();
+      },
     );
   }
 }

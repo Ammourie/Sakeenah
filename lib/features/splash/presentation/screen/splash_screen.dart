@@ -46,8 +46,8 @@ class _SplashScreenState extends State<SplashScreen> {
                 children: [
                   Image.asset(
                     AppConstants.mainImageForTheme(Theme.of(context).brightness),
-                    width: 120.r,
-                    height: 120.r,
+                    width: 150.r,
+                    height: 150.r,
                     fit: BoxFit.contain,
                   ),
                   24.verticalSpace,

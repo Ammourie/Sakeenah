@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import '../../di/service_locator.dart';
 import '../../features/home/presentation/screen/app_main_screen/app_main_screen.dart';
 import '../../features/home/presentation/screen/home_screen/home_screen.dart';
+import '../../features/prayer_times/presentation/screen/map_location_picker_screen.dart';
 import '../constants/enums/route_type.dart';
 import '../ui/screens/base_screen.dart';
 import '../ui/screens/language_screen.dart';
@@ -42,6 +43,8 @@ class NavigationRoute {
           settings: settings,
           createScreen: (param) => ThemeScreen(param: param),
         );
+      case MapLocationPickerScreen.routeName:
+        return _getMapLocationPickerRoute(settings);
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();
@@ -82,6 +85,19 @@ class NavigationRoute {
     }
 
     return _errorRoute(argumentError: true);
+  }
+
+  Route<MapPickResult> _getMapLocationPickerRoute(RouteSettings settings) {
+    final args = settings.arguments;
+    if (args is MapLocationPickerScreenParam) {
+      return SwipeablePageRoute<MapPickResult>(
+        canOnlySwipeFromEdge: true,
+        builder: (context) => MapLocationPickerScreen(param: args),
+        settings: settings,
+      );
+    }
+
+    return _errorRoute(argumentError: true) as Route<MapPickResult>;
   }
 
   Route<dynamic> _errorRoute({bool argumentError = false}) {

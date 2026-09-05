@@ -1,5 +1,9 @@
+import 'dart:async';
+
+import 'package:Sakeenah/core/theme/text_theme_styles.dart';
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
@@ -7,11 +11,15 @@ import 'package:provider/provider.dart';
 import '../../../../../core/common/app_config.dart';
 import '../../../../../core/constants/app/app_constants.dart';
 import '../../../../../core/localization/localization_provider.dart';
+import '../../../../../core/providers/internet_provider.dart';
 import '../../../../../core/providers/theme_mode_provider.dart';
 import '../../../../../core/theme/theme_extensions.dart';
 import '../../../../../core/ui/widgets/curved_app_bar.dart';
 import '../../../../../core/ui/widgets/custom_image.dart';
+import '../../../../../core/ui/widgets/waiting_widget.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../../prayer_times/presentation/state_m/cubit/prayer_times_cubit.dart';
+import '../../../../prayer_times/presentation/widgets/prayer_times_section.dart';
 import '../../state_m/provider/home_screen_notifier.dart';
 
 class HomeScreenContent extends StatelessWidget {
@@ -19,24 +27,104 @@ class HomeScreenContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sn = Provider.of<HomeScreenNotifier>(context);
-
     return ThemeSwitchingArea(
-      child: ModalProgressHUD(
-        inAsyncCall: sn.isLoading,
-        child: Scaffold(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          drawer: const _AppDrawer(),
-          body: CurvedAppBarLayout(
-            appBar: CurvedAppBar(
-              title: sn.getHomeScreenTitle(context),
-              showDrawerMenu: true,
-              automaticallyImplyLeading: false,
+      child: Builder(
+        builder: (context) {
+          context.select<HomeScreenNotifier, bool>(
+            (n) => n.isLoading || n.isLoadingGps,
+          );
+
+          final sn = context.read<HomeScreenNotifier>();
+
+          return ModalProgressHUD(
+            inAsyncCall: sn.isLoading || sn.isLoadingGps,
+            progressIndicator: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const WaitingWidget(),
+                if (sn.isLoadingGps) ...[
+                  12.verticalSpace,
+                  Text(
+                    S.current.loadingYourAddress,
+                    style: TextThemeStyles.bodyMedium,
+                  ),
+                ],
+              ],
             ),
-            body: const SizedBox.shrink(),
-          ),
-        ),
+            child: Scaffold(
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              drawer: const _AppDrawer(),
+              body: CurvedAppBarLayout(
+                appBar: CurvedAppBar(
+                  title: sn.getHomeScreenTitle(context),
+                  showDrawerMenu: true,
+                  automaticallyImplyLeading: false,
+                ),
+                body: SingleChildScrollView(
+                  padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 24.h),
+                  child: const _HomePrayerTimesSection(),
+                ),
+              ),
+            ),
+          );
+        },
       ),
+    );
+  }
+}
+
+class _HomePrayerTimesSection extends StatefulWidget {
+  const _HomePrayerTimesSection();
+
+  @override
+  State<_HomePrayerTimesSection> createState() =>
+      _HomePrayerTimesSectionState();
+}
+
+class _HomePrayerTimesSectionState extends State<_HomePrayerTimesSection> {
+  Timer? _countdownTimer;
+  DateTime _clock = DateTime.now();
+
+  @override
+  void dispose() {
+    _countdownTimer?.cancel();
+    super.dispose();
+  }
+
+  void _startCountdownTicker() {
+    _countdownTimer?.cancel();
+    _countdownTimer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (mounted) {
+        setState(() => _clock = DateTime.now());
+      }
+    });
+  }
+
+  bool _hasInternet(BuildContext context) =>
+      context.read<InternetProvider>().hasInternet;
+
+  @override
+  Widget build(BuildContext context) {
+    final sn = context.read<HomeScreenNotifier>();
+    final hasInternet = _hasInternet(context);
+
+    return BlocConsumer<PrayerTimesCubit, PrayerTimesState>(
+      bloc: sn.prayerTimesCubit,
+      listener: (context, state) {
+        state.maybeWhen(
+          loaded: (_, __, ___) => _startCountdownTicker(),
+          orElse: () => _countdownTimer?.cancel(),
+        );
+      },
+      builder: (context, state) {
+        return PrayerTimesSection(
+          state: state,
+          clock: _clock,
+          onPickMapLocation: () =>
+              sn.pickMapLocation(context, hasInternet: hasInternet),
+          onRetryGps: () => sn.retryPrayerGps(hasInternet: hasInternet),
+        );
+      },
     );
   }
 }
@@ -134,13 +222,9 @@ class _DrawerHeader extends StatelessWidget {
     return DecoratedBox(
       decoration: BoxDecoration(
         color: isLight ? colorScheme.surfaceContainerHigh : colorScheme.primary,
-        borderRadius: BorderRadius.vertical(
-          bottom: Radius.circular(28.r),
-        ),
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(28.r)),
         border: isLight
-            ? Border(
-                bottom: BorderSide(color: colorScheme.outlineVariant),
-              )
+            ? Border(bottom: BorderSide(color: colorScheme.outlineVariant))
             : null,
       ),
       child: SafeArea(
@@ -216,7 +300,6 @@ class _DrawerMenuTile extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final appColors = context.appColors;
-    final isRtl = Directionality.of(context) == TextDirection.rtl;
 
     return Semantics(
       button: true,
@@ -240,9 +323,7 @@ class _DrawerMenuTile extends StatelessWidget {
                     width: 48.r,
                     height: 48.r,
                     decoration: BoxDecoration(
-                      color: colorScheme.primaryContainer.withValues(
-                        alpha: 0.55,
-                      ),
+                      color: colorScheme.primaryContainer,
                       borderRadius: BorderRadius.circular(14.r),
                     ),
                     alignment: Alignment.center,
@@ -250,7 +331,7 @@ class _DrawerMenuTile extends StatelessWidget {
                       iconAsset,
                       width: 24.r,
                       height: 24.r,
-                      color: colorScheme.primary,
+                      color: colorScheme.onPrimaryContainer,
                     ),
                   ),
                   14.horizontalSpace,
@@ -281,9 +362,7 @@ class _DrawerMenuTile extends StatelessWidget {
                   ),
                   8.horizontalSpace,
                   Icon(
-                    isRtl
-                        ? Icons.chevron_left_rounded
-                        : Icons.chevron_right_rounded,
+                    Icons.chevron_right_rounded,
                     color: appColors.muted,
                     size: 24.r,
                   ),
