@@ -3,10 +3,7 @@ import '../entity/prayer_name.dart';
 import '../entity/prayer_time_entity.dart';
 
 class NextPrayerInfo {
-  const NextPrayerInfo({
-    required this.prayer,
-    required this.remaining,
-  });
+  const NextPrayerInfo({required this.prayer, required this.remaining});
 
   final PrayerTimeEntity prayer;
   final Duration remaining;
@@ -18,10 +15,10 @@ class PrayerTimesUtils {
     DateTime now,
   ) {
     final sorted = List<PrayerTimeEntity>.from(schedule.prayers)
-      ..sort((a, b) => a.time.compareTo(b.time));
+      ..sort((a, b) => a.time?.compareTo(b.time!) ?? 0);
 
     for (final prayer in sorted) {
-      if (prayer.time.isAfter(now)) {
+      if (prayer.time?.isAfter(now) ?? false) {
         return prayer;
       }
     }
@@ -33,20 +30,21 @@ class PrayerTimesUtils {
     DateTime now,
   ) {
     final sorted = List<PrayerTimeEntity>.from(schedule.prayers)
-      ..sort((a, b) => a.time.compareTo(b.time));
+      ..sort((a, b) => a.time?.compareTo(b.time!) ?? 0);
 
     for (final prayer in sorted) {
-      if (prayer.time.isAfter(now)) {
+      if (prayer.time?.isAfter(now) ?? false) {
         return NextPrayerInfo(
           prayer: prayer,
-          remaining: prayer.time.difference(now),
+          remaining: prayer.time?.difference(now) ?? Duration.zero,
         );
       }
     }
 
     if (sorted.isEmpty) return null;
 
-    final tomorrowFajr = sorted.first.time.add(const Duration(days: 1));
+    final tomorrowFajr =
+        sorted.first.time?.add(const Duration(days: 1)) ?? DateTime.now();
     return NextPrayerInfo(
       prayer: PrayerTimeEntity(name: PrayerName.fajr, time: tomorrowFajr),
       remaining: tomorrowFajr.difference(now),

@@ -2,8 +2,8 @@ import '../../../../core/entities/base_entity.dart';
 import 'prayer_name.dart';
 
 class PrayerTimeEntity extends BaseEntity {
-  final PrayerName name;
-  final DateTime time;
+  final PrayerName? name;
+  final DateTime? time;
 
   PrayerTimeEntity({
     required this.name,

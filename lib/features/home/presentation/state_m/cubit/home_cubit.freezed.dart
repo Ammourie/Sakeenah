@@ -55,14 +55,15 @@ extension HomeStatePatterns on HomeState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( HomeInitState value)?  homeInitState,TResult Function( HomeLoadingState value)?  homeLoadingState,TResult Function( HomeLoadedState value)?  homeLoadedState,TResult Function( HomeErrorInitState value)?  homeErrorState,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( HomeInitState value)?  homeInitState,TResult Function( HomeLoadingState value)?  homeLoadingState,TResult Function( HomeLoadedState value)?  homeLoadedState,TResult Function( HomeErrorInitState value)?  homeErrorState,TResult Function( PrayerTimesLoadedState value)?  prayerTimesLoadedState,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case HomeInitState() when homeInitState != null:
 return homeInitState(_that);case HomeLoadingState() when homeLoadingState != null:
 return homeLoadingState(_that);case HomeLoadedState() when homeLoadedState != null:
 return homeLoadedState(_that);case HomeErrorInitState() when homeErrorState != null:
-return homeErrorState(_that);case _:
+return homeErrorState(_that);case PrayerTimesLoadedState() when prayerTimesLoadedState != null:
+return prayerTimesLoadedState(_that);case _:
   return orElse();
 
 }
@@ -80,14 +81,15 @@ return homeErrorState(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( HomeInitState value)  homeInitState,required TResult Function( HomeLoadingState value)  homeLoadingState,required TResult Function( HomeLoadedState value)  homeLoadedState,required TResult Function( HomeErrorInitState value)  homeErrorState,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( HomeInitState value)  homeInitState,required TResult Function( HomeLoadingState value)  homeLoadingState,required TResult Function( HomeLoadedState value)  homeLoadedState,required TResult Function( HomeErrorInitState value)  homeErrorState,required TResult Function( PrayerTimesLoadedState value)  prayerTimesLoadedState,}){
 final _that = this;
 switch (_that) {
 case HomeInitState():
 return homeInitState(_that);case HomeLoadingState():
 return homeLoadingState(_that);case HomeLoadedState():
 return homeLoadedState(_that);case HomeErrorInitState():
-return homeErrorState(_that);case _:
+return homeErrorState(_that);case PrayerTimesLoadedState():
+return prayerTimesLoadedState(_that);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -104,14 +106,15 @@ return homeErrorState(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( HomeInitState value)?  homeInitState,TResult? Function( HomeLoadingState value)?  homeLoadingState,TResult? Function( HomeLoadedState value)?  homeLoadedState,TResult? Function( HomeErrorInitState value)?  homeErrorState,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( HomeInitState value)?  homeInitState,TResult? Function( HomeLoadingState value)?  homeLoadingState,TResult? Function( HomeLoadedState value)?  homeLoadedState,TResult? Function( HomeErrorInitState value)?  homeErrorState,TResult? Function( PrayerTimesLoadedState value)?  prayerTimesLoadedState,}){
 final _that = this;
 switch (_that) {
 case HomeInitState() when homeInitState != null:
 return homeInitState(_that);case HomeLoadingState() when homeLoadingState != null:
 return homeLoadingState(_that);case HomeLoadedState() when homeLoadedState != null:
 return homeLoadedState(_that);case HomeErrorInitState() when homeErrorState != null:
-return homeErrorState(_that);case _:
+return homeErrorState(_that);case PrayerTimesLoadedState() when prayerTimesLoadedState != null:
+return prayerTimesLoadedState(_that);case _:
   return null;
 
 }
@@ -128,13 +131,14 @@ return homeErrorState(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  homeInitState,TResult Function()?  homeLoadingState,TResult Function( EmptyResponse emptyResponse)?  homeLoadedState,TResult Function( AppErrors error,  VoidCallback callback)?  homeErrorState,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  homeInitState,TResult Function()?  homeLoadingState,TResult Function( EmptyResponse emptyResponse)?  homeLoadedState,TResult Function( AppErrors error,  VoidCallback callback)?  homeErrorState,TResult Function( DailyPrayerScheduleEntity schedule)?  prayerTimesLoadedState,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case HomeInitState() when homeInitState != null:
 return homeInitState();case HomeLoadingState() when homeLoadingState != null:
 return homeLoadingState();case HomeLoadedState() when homeLoadedState != null:
 return homeLoadedState(_that.emptyResponse);case HomeErrorInitState() when homeErrorState != null:
-return homeErrorState(_that.error,_that.callback);case _:
+return homeErrorState(_that.error,_that.callback);case PrayerTimesLoadedState() when prayerTimesLoadedState != null:
+return prayerTimesLoadedState(_that.schedule);case _:
   return orElse();
 
 }
@@ -152,13 +156,14 @@ return homeErrorState(_that.error,_that.callback);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  homeInitState,required TResult Function()  homeLoadingState,required TResult Function( EmptyResponse emptyResponse)  homeLoadedState,required TResult Function( AppErrors error,  VoidCallback callback)  homeErrorState,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  homeInitState,required TResult Function()  homeLoadingState,required TResult Function( EmptyResponse emptyResponse)  homeLoadedState,required TResult Function( AppErrors error,  VoidCallback callback)  homeErrorState,required TResult Function( DailyPrayerScheduleEntity schedule)  prayerTimesLoadedState,}) {final _that = this;
 switch (_that) {
 case HomeInitState():
 return homeInitState();case HomeLoadingState():
 return homeLoadingState();case HomeLoadedState():
 return homeLoadedState(_that.emptyResponse);case HomeErrorInitState():
-return homeErrorState(_that.error,_that.callback);case _:
+return homeErrorState(_that.error,_that.callback);case PrayerTimesLoadedState():
+return prayerTimesLoadedState(_that.schedule);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -175,13 +180,14 @@ return homeErrorState(_that.error,_that.callback);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  homeInitState,TResult? Function()?  homeLoadingState,TResult? Function( EmptyResponse emptyResponse)?  homeLoadedState,TResult? Function( AppErrors error,  VoidCallback callback)?  homeErrorState,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  homeInitState,TResult? Function()?  homeLoadingState,TResult? Function( EmptyResponse emptyResponse)?  homeLoadedState,TResult? Function( AppErrors error,  VoidCallback callback)?  homeErrorState,TResult? Function( DailyPrayerScheduleEntity schedule)?  prayerTimesLoadedState,}) {final _that = this;
 switch (_that) {
 case HomeInitState() when homeInitState != null:
 return homeInitState();case HomeLoadingState() when homeLoadingState != null:
 return homeLoadingState();case HomeLoadedState() when homeLoadedState != null:
 return homeLoadedState(_that.emptyResponse);case HomeErrorInitState() when homeErrorState != null:
-return homeErrorState(_that.error,_that.callback);case _:
+return homeErrorState(_that.error,_that.callback);case PrayerTimesLoadedState() when prayerTimesLoadedState != null:
+return prayerTimesLoadedState(_that.schedule);case _:
   return null;
 
 }
@@ -394,6 +400,72 @@ $AppErrorsCopyWith<$Res> get error {
     return _then(_self.copyWith(error: value));
   });
 }
+}
+
+/// @nodoc
+
+
+class PrayerTimesLoadedState implements HomeState {
+  const PrayerTimesLoadedState(this.schedule);
+  
+
+ final  DailyPrayerScheduleEntity schedule;
+
+/// Create a copy of HomeState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$PrayerTimesLoadedStateCopyWith<PrayerTimesLoadedState> get copyWith => _$PrayerTimesLoadedStateCopyWithImpl<PrayerTimesLoadedState>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PrayerTimesLoadedState&&(identical(other.schedule, schedule) || other.schedule == schedule));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,schedule);
+
+@override
+String toString() {
+  return 'HomeState.prayerTimesLoadedState(schedule: $schedule)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $PrayerTimesLoadedStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
+  factory $PrayerTimesLoadedStateCopyWith(PrayerTimesLoadedState value, $Res Function(PrayerTimesLoadedState) _then) = _$PrayerTimesLoadedStateCopyWithImpl;
+@useResult
+$Res call({
+ DailyPrayerScheduleEntity schedule
+});
+
+
+
+
+}
+/// @nodoc
+class _$PrayerTimesLoadedStateCopyWithImpl<$Res>
+    implements $PrayerTimesLoadedStateCopyWith<$Res> {
+  _$PrayerTimesLoadedStateCopyWithImpl(this._self, this._then);
+
+  final PrayerTimesLoadedState _self;
+  final $Res Function(PrayerTimesLoadedState) _then;
+
+/// Create a copy of HomeState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? schedule = null,}) {
+  return _then(PrayerTimesLoadedState(
+null == schedule ? _self.schedule : schedule // ignore: cast_nullable_to_non_nullable
+as DailyPrayerScheduleEntity,
+  ));
+}
+
+
 }
 
 // dart format on

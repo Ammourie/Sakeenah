@@ -7,10 +7,7 @@ class PrayerTimeModel extends BaseModel<PrayerTimeEntity> {
   final String name;
   final String timeIso;
 
-  PrayerTimeModel({
-    required this.name,
-    required this.timeIso,
-  });
+  PrayerTimeModel({required this.name, required this.timeIso});
 
   factory PrayerTimeModel.fromMap(Map<String, dynamic> json) {
     return PrayerTimeModel(
@@ -19,10 +16,7 @@ class PrayerTimeModel extends BaseModel<PrayerTimeEntity> {
     );
   }
 
-  Map<String, dynamic> toMap() => {
-        'name': name,
-        'timeIso': timeIso,
-      };
+  Map<String, dynamic> toMap() => {'name': name, 'timeIso': timeIso};
 
   @override
   PrayerTimeEntity toEntity() {
@@ -32,13 +26,6 @@ class PrayerTimeModel extends BaseModel<PrayerTimeEntity> {
         orElse: () => PrayerName.fajr,
       ),
       time: DateTime.parse(timeIso),
-    );
-  }
-
-  factory PrayerTimeModel.fromEntity(PrayerTimeEntity entity) {
-    return PrayerTimeModel(
-      name: entity.name.name,
-      timeIso: entity.time.toIso8601String(),
     );
   }
 }

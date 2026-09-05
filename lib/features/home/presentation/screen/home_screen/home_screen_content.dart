@@ -1,30 +1,19 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../core/common/utils/date_utils.dart';
 import '../../../../../core/constants/app/app_constants.dart';
 import '../../../../../core/localization/localization_provider.dart';
-import '../../../../../core/providers/internet_provider.dart';
 import '../../../../../core/providers/theme_mode_provider.dart';
 import '../../../../../core/theme/theme_extensions.dart';
-import '../../../../../core/ui/widgets/animated_wrapper.dart';
 import '../../../../../core/ui/widgets/curved_app_bar.dart';
 import '../../../../../core/ui/widgets/custom_image.dart';
 import '../../../../../core/ui/widgets/waiting_widget.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../domain/entity/daily_prayer_schedule_entity.dart';
-import '../../../domain/entity/location_preference_entity.dart';
-import '../../../domain/utils/location_label_utils.dart';
-import '../../../domain/utils/prayer_times_utils.dart';
-import '../../state_m/cubit/prayer_times_cubit.dart';
+import '../../state_m/cubit/home_cubit.dart';
 import '../../state_m/provider/home_screen_notifier.dart';
-import '../../utils/prayer_name_l10n.dart';
-import '../../widgets/prayer_row.dart';
 
 class HomeScreenContent extends StatelessWidget {
   const HomeScreenContent({super.key});
@@ -49,10 +38,7 @@ class HomeScreenContent extends StatelessWidget {
           const WaitingWidget(),
           if (isLoadingGps) ...[
             12.verticalSpace,
-            Text(
-              S.current.loadingYourAddress,
-              style: textTheme.bodyMedium,
-            ),
+            Text(S.current.loadingYourAddress, style: textTheme.bodyMedium),
           ],
         ],
       ),
@@ -67,305 +53,318 @@ class HomeScreenContent extends StatelessWidget {
           ),
           body: SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(16.w, 0, 16.w, 24.h),
-            child: const _HomePrayerTimesCard(),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _HomePrayerTimesCard extends StatefulWidget {
-  const _HomePrayerTimesCard();
-
-  @override
-  State<_HomePrayerTimesCard> createState() => _HomePrayerTimesCardState();
-}
-
-class _HomePrayerTimesCardState extends State<_HomePrayerTimesCard> {
-  Timer? _countdownTimer;
-  DateTime _clock = DateTime.now();
-  bool _countdownRefreshInFlight = false;
-
-  @override
-  void dispose() {
-    _countdownTimer?.cancel();
-    super.dispose();
-  }
-
-  void _startCountdownTicker() {
-    _countdownTimer?.cancel();
-    _countdownTimer = Timer.periodic(const Duration(seconds: 1), (_) {
-      _handleCountdownTick();
-    });
-  }
-
-  void _handleCountdownTick() {
-    if (!mounted) return;
-
-    final previousClock = _clock;
-    final now = DateTime.now();
-    final sn = context.read<HomeScreenNotifier>();
-    final hasInternet = context.read<InternetProvider>().hasInternet;
-
-    sn.prayerTimesCubit.state.maybeWhen(
-      loaded: (schedule, _, __) {
-        final nextInfo =
-            PrayerTimesUtils.nextPrayerInfo(schedule, previousClock);
-        if (nextInfo == null) return;
-
-        final target = nextInfo.prayer.time;
-        if (previousClock.isBefore(target) && !now.isBefore(target)) {
-          _refreshPrayerTimesAfterCountdown(sn, hasInternet);
-        }
-      },
-      orElse: () {},
-    );
-
-    setState(() => _clock = now);
-  }
-
-  Future<void> _refreshPrayerTimesAfterCountdown(
-    HomeScreenNotifier sn,
-    bool hasInternet,
-  ) async {
-    if (_countdownRefreshInFlight) return;
-    _countdownRefreshInFlight = true;
-    try {
-      await sn.refreshPrayerTimesOnCountdownEnd(hasInternet: hasInternet);
-    } finally {
-      _countdownRefreshInFlight = false;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final sn = context.read<HomeScreenNotifier>();
-    final hasInternet = context.read<InternetProvider>().hasInternet;
-
-    return BlocConsumer<PrayerTimesCubit, PrayerTimesState>(
-      bloc: sn.prayerTimesCubit,
-      listener: (context, state) {
-        state.maybeWhen(
-          loaded: (_, __, ___) => _startCountdownTicker(),
-          orElse: () => _countdownTimer?.cancel(),
-        );
-      },
-      builder: (context, state) {
-        return _buildPrayerTimesCard(
-          context,
-          state: state,
-          clock: _clock,
-          onPickMapLocation: () =>
-              sn.pickMapLocation(context, hasInternet: hasInternet),
-          onRetryGps: () => sn.retryPrayerGps(hasInternet: hasInternet),
-        );
-      },
-    );
-  }
-
-  Widget _buildPrayerTimesCard(
-    BuildContext context, {
-    required PrayerTimesState state,
-    required DateTime clock,
-    required VoidCallback onPickMapLocation,
-    required VoidCallback onRetryGps,
-  }) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: colorScheme.surfaceContainer,
-        borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: colorScheme.outlineVariant),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  S.current.prayerTimesTitle,
-                  style: textTheme.titleLarge?.copyWith(
-                    color: colorScheme.onSurface,
-                    fontWeight: FontWeight.w700,
+            child: BlocBuilder<HomeCubit, HomeState>(
+              bloc: sn.homeCubit,
+              builder: (context, state) {
+                return state.maybeWhen(
+                  prayerTimesLoadedState: (schedule) => Text(
+                    'Prayer Times Loaded ${schedule.prayers.map((e) => e.name).join(', ')}',
                   ),
-                ),
-              ),
-              TextButton(
-                onPressed: onPickMapLocation,
-                child: Text(S.current.pickLocationOnMapTitle),
-              ),
-            ],
+                  orElse: () => const SizedBox.shrink(),
+                );
+              },
+            ),
+            // child: const _HomePrayerTimesCard(),
           ),
-          state.maybeWhen(
-            initial: () => const SizedBox.shrink(),
-            loading: () => Padding(
-              padding: EdgeInsets.symmetric(vertical: 32.h),
-              child: const WaitingWidget(),
-            ),
-            noLocation: () => _buildNoLocation(
-              context,
-              onPickMapLocation: onPickMapLocation,
-              onRetryGps: onRetryGps,
-            ),
-            error: (error, callback) => _buildError(context, callback),
-            loaded: (schedule, location, isCached) => _buildLoadedPrayerTimes(
-              context,
-              schedule: schedule,
-              location: location,
-              isCached: isCached,
-              clock: clock,
-            ),
-            orElse: () => const SizedBox.shrink(),
-          ),
-        ],
+        ),
       ),
     );
   }
-
-  Widget _buildNoLocation(
-    BuildContext context, {
-    required VoidCallback onPickMapLocation,
-    required VoidCallback onRetryGps,
-  }) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        8.verticalSpace,
-        Text(
-          S.current.noLocationMessage,
-          style: textTheme.bodyMedium?.copyWith(
-            color: colorScheme.onSurfaceVariant,
-          ),
-        ),
-        16.verticalSpace,
-        FilledButton(
-          onPressed: onPickMapLocation,
-          child: Text(S.current.pickLocationOnMapTitle),
-        ),
-        8.verticalSpace,
-        OutlinedButton(
-          onPressed: onRetryGps,
-          child: Text(S.current.useGpsLocation),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildError(BuildContext context, VoidCallback callback) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        8.verticalSpace,
-        Text(
-          S.current.faildToFetchData,
-          style: textTheme.bodyMedium?.copyWith(color: colorScheme.error),
-        ),
-        16.verticalSpace,
-        FilledButton(
-          onPressed: callback,
-          child: Text(S.current.retry),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildLoadedPrayerTimes(
-    BuildContext context, {
-    required DailyPrayerScheduleEntity schedule,
-    required LocationPreferenceEntity location,
-    required bool isCached,
-    required DateTime clock,
-  }) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-    final locale = Localizations.localeOf(context).languageCode;
-    final use24Hour = MediaQuery.alwaysUse24HourFormatOf(context);
-    final nextInfo = PrayerTimesUtils.nextPrayerInfo(schedule, clock);
-    final nextName = nextInfo?.prayer.name;
-
-    final sortedPrayers = List.from(schedule.prayers)
-      ..sort((a, b) => a.time.compareTo(b.time));
-
-    return AnimatedWrapper(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        4.verticalSpace,
-        Text(
-          DateUtility.formatLocalFullDate(schedule.date, locale: locale),
-          style: textTheme.labelLarge?.copyWith(
-            color: colorScheme.onSurfaceVariant,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        4.verticalSpace,
-        Text(
-          S.current.prayerLocationLabel(
-            LocationLabelUtils.readableLabel(
-              location,
-              fallback: S.current.locationAreaFallback,
-            ),
-          ),
-          style: textTheme.bodySmall?.copyWith(
-            color: colorScheme.onSurfaceVariant,
-          ),
-        ),
-        if (isCached) ...[
-          4.verticalSpace,
-          Text(
-            S.current.cachedPrayerTimes,
-            style: textTheme.labelMedium?.copyWith(
-              color: colorScheme.secondary,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-        if (nextInfo != null) ...[
-          16.verticalSpace,
-          NextPrayerBanner(
-            countdownLabel: S.current.nextPrayerIn(
-              nextInfo.prayer.name.localized(),
-              DateUtility.formatLocalDuration(
-                nextInfo.remaining,
-                locale: locale,
-                hourUnitOne: S.current.durationHourUnitOne,
-                hourUnitOther: S.current.durationHourUnitOther,
-                minuteUnitOne: S.current.durationMinuteUnitOne,
-                minuteUnitOther: S.current.durationMinuteUnitOther,
-              ),
-            ),
-          ),
-        ],
-        16.verticalSpace,
-        ...sortedPrayers.map((prayer) {
-          return Padding(
-            padding: EdgeInsets.only(bottom: 8.h),
-            child: PrayerRow(
-              name: prayer.name,
-              timeLabel: DateUtility.formatLocalTime(
-                prayer.time,
-                locale: locale,
-                use24HourFormat: use24Hour,
-              ),
-              isNext: prayer.name == nextName,
-            ),
-          );
-        }),
-      ],
-    );
-  }
 }
+
+// class _HomePrayerTimesCard extends StatefulWidget {
+//   const _HomePrayerTimesCard();
+
+//   @override
+//   State<_HomePrayerTimesCard> createState() => _HomePrayerTimesCardState();
+// }
+
+// class _HomePrayerTimesCardState extends State<_HomePrayerTimesCard> {
+//   Timer? _countdownTimer;
+//   DateTime _clock = DateTime.now();
+//   bool _countdownRefreshInFlight = false;
+
+//   @override
+//   void dispose() {
+//     _countdownTimer?.cancel();
+//     super.dispose();
+//   }
+
+//   void _startCountdownTicker() {
+//     _countdownTimer?.cancel();
+//     _countdownTimer = Timer.periodic(const Duration(seconds: 1), (_) {
+//       _handleCountdownTick();
+//     });
+//   }
+
+//   void _handleCountdownTick() {
+//     if (!mounted) return;
+
+//     final previousClock = _clock;
+//     final now = DateTime.now();
+//     final sn = context.read<HomeScreenNotifier>();
+//     final hasInternet = context.read<InternetProvider>().hasInternet;
+
+//     sn.prayerTimesCubit.state.maybeWhen(
+//       loaded: (schedule, _, __) {
+//         final nextInfo = PrayerTimesUtils.nextPrayerInfo(
+//           schedule,
+//           previousClock,
+//         );
+//         if (nextInfo == null) return;
+
+//         final target = nextInfo.prayer.time;
+//         if (target != null &&
+//             previousClock.isBefore(target) &&
+//             !now.isBefore(target)) {
+//           _refreshPrayerTimesAfterCountdown(sn, hasInternet);
+//         }
+//       },
+//       orElse: () {},
+//     );
+
+//     setState(() => _clock = now);
+//   }
+
+//   Future<void> _refreshPrayerTimesAfterCountdown(
+//     HomeScreenNotifier sn,
+//     bool hasInternet,
+//   ) async {
+//     if (_countdownRefreshInFlight) return;
+//     _countdownRefreshInFlight = true;
+//     try {
+//       // await sn.refreshPrayerTimesOnCountdownEnd(hasInternet: hasInternet);
+//     } finally {
+//       _countdownRefreshInFlight = false;
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final sn = context.read<HomeScreenNotifier>();
+//     final hasInternet = context.read<InternetProvider>().hasInternet;
+
+//     return BlocConsumer<PrayerTimesCubit, PrayerTimesState>(
+//       bloc: sn.prayerTimesCubit,
+//       listener: (context, state) {
+//         state.maybeWhen(
+//           loaded: (_, __, ___) => _startCountdownTicker(),
+//           orElse: () => _countdownTimer?.cancel(),
+//         );
+//       },
+//       builder: (context, state) {
+//         return _buildPrayerTimesCard(
+//           context,
+//           state: state,
+//           clock: _clock,
+//           onPickMapLocation: () =>
+//               sn.pickMapLocation(context, hasInternet: hasInternet),
+//           // onRetryGps: () => sn.retryPrayerGps(hasInternet: hasInternet),
+//           onRetryGps: () {},
+//         );
+//       },
+//     );
+//   }
+
+//   Widget _buildPrayerTimesCard(
+//     BuildContext context, {
+//     required PrayerTimesState state,
+//     required DateTime clock,
+//     required VoidCallback onPickMapLocation,
+//     required VoidCallback onRetryGps,
+//   }) {
+//     final colorScheme = Theme.of(context).colorScheme;
+//     final textTheme = Theme.of(context).textTheme;
+
+//     return Container(
+//       width: double.infinity,
+//       padding: EdgeInsets.all(16.w),
+//       decoration: BoxDecoration(
+//         color: colorScheme.surfaceContainer,
+//         borderRadius: BorderRadius.circular(20.r),
+//         border: Border.all(color: colorScheme.outlineVariant),
+//       ),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.stretch,
+//         children: [
+//           Row(
+//             children: [
+//               Expanded(
+//                 child: Text(
+//                   S.current.prayerTimesTitle,
+//                   style: textTheme.titleLarge?.copyWith(
+//                     color: colorScheme.onSurface,
+//                     fontWeight: FontWeight.w700,
+//                   ),
+//                 ),
+//               ),
+//               TextButton(
+//                 onPressed: onPickMapLocation,
+//                 child: Text(S.current.pickLocationOnMapTitle),
+//               ),
+//             ],
+//           ),
+//           state.maybeWhen(
+//             initial: () => const SizedBox.shrink(),
+//             loading: () => Padding(
+//               padding: EdgeInsets.symmetric(vertical: 32.h),
+//               child: const WaitingWidget(),
+//             ),
+//             noLocation: () => _buildNoLocation(
+//               context,
+//               onPickMapLocation: onPickMapLocation,
+//               onRetryGps: onRetryGps,
+//             ),
+//             error: (error, callback) => _buildError(context, callback),
+//             loaded: (schedule, location, isCached) => _buildLoadedPrayerTimes(
+//               context,
+//               schedule: schedule,
+//               location: location,
+//               isCached: isCached,
+//               clock: clock,
+//             ),
+//             orElse: () => const SizedBox.shrink(),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+
+//   Widget _buildNoLocation(
+//     BuildContext context, {
+//     required VoidCallback onPickMapLocation,
+//     required VoidCallback onRetryGps,
+//   }) {
+//     final colorScheme = Theme.of(context).colorScheme;
+//     final textTheme = Theme.of(context).textTheme;
+
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.stretch,
+//       children: [
+//         8.verticalSpace,
+//         Text(
+//           S.current.noLocationMessage,
+//           style: textTheme.bodyMedium?.copyWith(
+//             color: colorScheme.onSurfaceVariant,
+//           ),
+//         ),
+//         16.verticalSpace,
+//         FilledButton(
+//           onPressed: onPickMapLocation,
+//           child: Text(S.current.pickLocationOnMapTitle),
+//         ),
+//         8.verticalSpace,
+//         OutlinedButton(
+//           onPressed: onRetryGps,
+//           child: Text(S.current.useGpsLocation),
+//         ),
+//       ],
+//     );
+//   }
+
+//   Widget _buildError(BuildContext context, VoidCallback callback) {
+//     final colorScheme = Theme.of(context).colorScheme;
+//     final textTheme = Theme.of(context).textTheme;
+
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.stretch,
+//       children: [
+//         8.verticalSpace,
+//         Text(
+//           S.current.faildToFetchData,
+//           style: textTheme.bodyMedium?.copyWith(color: colorScheme.error),
+//         ),
+//         16.verticalSpace,
+//         FilledButton(onPressed: callback, child: Text(S.current.retry)),
+//       ],
+//     );
+//   }
+
+//   Widget _buildLoadedPrayerTimes(
+//     BuildContext context, {
+//     required DailyPrayerScheduleEntity schedule,
+//     required LocationPreferenceEntity location,
+//     required bool isCached,
+//     required DateTime clock,
+//   }) {
+//     final colorScheme = Theme.of(context).colorScheme;
+//     final textTheme = Theme.of(context).textTheme;
+//     final locale = Localizations.localeOf(context).languageCode;
+//     final use24Hour = MediaQuery.alwaysUse24HourFormatOf(context);
+//     final nextInfo = PrayerTimesUtils.nextPrayerInfo(schedule, clock);
+//     final nextName = nextInfo?.prayer.name;
+
+//     final sortedPrayers = List.from(schedule.prayers)
+//       ..sort((a, b) => a.time.compareTo(b.time));
+
+//     return AnimatedWrapper(
+//       crossAxisAlignment: CrossAxisAlignment.stretch,
+//       children: [
+//         4.verticalSpace,
+//         Text(
+//           DateUtility.formatLocalFullDate(schedule.date, locale: locale),
+//           style: textTheme.labelLarge?.copyWith(
+//             color: colorScheme.onSurfaceVariant,
+//             fontWeight: FontWeight.w600,
+//           ),
+//         ),
+//         4.verticalSpace,
+//         Text(
+//           S.current.prayerLocationLabel(
+//             LocationLabelUtils.readableLabel(
+//               location,
+//               fallback: S.current.locationAreaFallback,
+//             ),
+//           ),
+//           style: textTheme.bodySmall?.copyWith(
+//             color: colorScheme.onSurfaceVariant,
+//           ),
+//         ),
+//         if (isCached) ...[
+//           4.verticalSpace,
+//           Text(
+//             S.current.cachedPrayerTimes,
+//             style: textTheme.labelMedium?.copyWith(
+//               color: colorScheme.secondary,
+//               fontWeight: FontWeight.w600,
+//             ),
+//           ),
+//         ],
+//         if (nextInfo != null) ...[
+//           16.verticalSpace,
+//           NextPrayerBanner(
+//             countdownLabel: S.current.nextPrayerIn(
+//               nextInfo.prayer.name?.localized() ?? '',
+//               DateUtility.formatLocalDuration(
+//                 nextInfo.remaining,
+//                 locale: locale,
+//                 hourUnitOne: S.current.durationHourUnitOne,
+//                 hourUnitOther: S.current.durationHourUnitOther,
+//                 minuteUnitOne: S.current.durationMinuteUnitOne,
+//                 minuteUnitOther: S.current.durationMinuteUnitOther,
+//               ),
+//             ),
+//           ),
+//         ],
+//         16.verticalSpace,
+//         ...sortedPrayers.map((prayer) {
+//           return Padding(
+//             padding: EdgeInsets.only(bottom: 8.h),
+//             child: PrayerRow(
+//               name: prayer.name,
+//               timeLabel: DateUtility.formatLocalTime(
+//                 prayer.time,
+//                 locale: locale,
+//                 use24HourFormat: use24Hour,
+//               ),
+//               isNext: prayer.name == nextName,
+//             ),
+//           );
+//         }),
+//       ],
+//     );
+//   }
+// }
 
 class _AppDrawer extends StatelessWidget {
   const _AppDrawer();

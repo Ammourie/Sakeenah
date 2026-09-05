@@ -131,6 +131,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorFetchDistance": MessageLookupByLibrary.simpleMessage(
       "فشل في تقدير الوقت والمسافة",
     ),
+    "errorGettingLocation": MessageLookupByLibrary.simpleMessage(
+      "فشل في تحديد موقعك",
+    ),
     "errorOccurred": MessageLookupByLibrary.simpleMessage("حدث خطأ ما 😢"),
     "errorTxt": MessageLookupByLibrary.simpleMessage(
       "لا يمكن أن يكون هذا الحقل فارغ",

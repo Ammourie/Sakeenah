@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../core/providers/internet_provider.dart';
 
+import '../../../../../core/ui/error_ui/error_viewer/error_viewer.dart';
 import '../../../../../core/ui/screens/base_screen.dart';
 
 import '../../state_m/cubit/home_cubit.dart';
@@ -59,14 +60,22 @@ class _HomeScreenState extends State<HomeScreen> {
       child: BlocListener<HomeCubit, HomeState>(
         bloc: provider.homeCubit,
         listener: (context, state) {
-          state.when(
+          state.maybeWhen(
+            orElse: () {},
             homeInitState: () {},
-            homeLoadingState: provider.homeLoadingStateListener,
+            homeLoadingState: () {
+              provider.isLoading = true;
+            },
             homeLoadedState: (s) {
-              provider.homeLoadedStateListener(s);
+              provider.isLoading = false;
             },
             homeErrorState: (error, callback) {
-              provider.homeErrorStateListener(context, error, callback);
+              provider.isLoading = false;
+              ErrorViewer.showError(
+                context: context,
+                error: error,
+                callback: callback,
+              );
             },
           );
         },

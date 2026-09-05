@@ -57,4 +57,40 @@ class GpsLocationFetcher {
       return null;
     }
   }
+
+  static Future<LocationPreferenceEntity?> fetchFromLatLng({
+    required double latitude,
+    required double longitude,
+  }) async {
+    try {
+      final resolved = await LocationLabelUtils.resolveMapPlace(
+        latitude: latitude,
+        longitude: longitude,
+        locale: AppConfig().appLanguage,
+      );
+
+      if (resolved == null) {
+        return LocationPreferenceEntity(
+          source: LocationSource.gps,
+          latitude: latitude,
+          longitude: longitude,
+          displayLabel: '',
+        );
+      }
+
+      return LocationPreferenceEntity(
+        source: LocationSource.gps,
+        latitude: latitude,
+        longitude: longitude,
+        city: resolved.city,
+        country: resolved.country,
+        displayLabel: resolved.displayLabel,
+        labelLanguageCode: AppConfig().appLanguage.languageCode,
+      );
+    } catch (e) {
+      log('GpsLocationFetcher fetchFromLatLng failed: $e');
+
+      return null;
+    }
+  }
 }

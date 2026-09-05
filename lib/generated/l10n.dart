@@ -1359,6 +1359,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Failed to get location`
+  String get errorGettingLocation {
+    return Intl.message(
+      'Failed to get location',
+      name: 'errorGettingLocation',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

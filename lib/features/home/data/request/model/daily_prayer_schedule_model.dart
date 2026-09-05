@@ -24,12 +24,20 @@ class DailyPrayerScheduleModel extends BaseModel<DailyPrayerScheduleEntity> {
     return DailyPrayerScheduleModel(
       dateIso: stringV(json['dateIso']),
       locationKey: stringV(json['locationKey']),
-      prayers: prayerMaps is List
-          ? prayerMaps
-              .whereType<Map>()
-              .map((e) => PrayerTimeModel.fromMap(Map<String, dynamic>.from(e)))
-              .toList()
-          : [],
+      prayers: listV(
+        (prayerMaps is List
+                ? prayerMaps
+                      .whereType<Map>()
+                      .map(
+                        (e) => PrayerTimeModel.fromMap(
+                          Map<String, dynamic>.from(e),
+                        ),
+                      )
+                      .toList()
+                : [])
+            as List<PrayerTimeModel?>?,
+      ),
+
       fetchedAtIso: stringV(json['fetchedAtIso']),
       isFromCache: boolV(json['isFromCache']),
     );
@@ -71,10 +79,7 @@ class DailyPrayerScheduleModel extends BaseModel<DailyPrayerScheduleEntity> {
         minute,
       );
       prayers.add(
-        PrayerTimeModel(
-          name: name.name,
-          timeIso: prayerTime.toIso8601String(),
-        ),
+        PrayerTimeModel(name: name.name, timeIso: prayerTime.toIso8601String()),
       );
     }
 
@@ -88,12 +93,12 @@ class DailyPrayerScheduleModel extends BaseModel<DailyPrayerScheduleEntity> {
   }
 
   Map<String, dynamic> toMap() => {
-        'dateIso': dateIso,
-        'locationKey': locationKey,
-        'prayers': prayers.map((e) => e.toMap()).toList(),
-        'fetchedAtIso': fetchedAtIso,
-        'isFromCache': isFromCache,
-      };
+    'dateIso': dateIso,
+    'locationKey': locationKey,
+    'prayers': prayers.map((e) => e.toMap()).toList(),
+    'fetchedAtIso': fetchedAtIso,
+    'isFromCache': isFromCache,
+  };
 
   @override
   DailyPrayerScheduleEntity toEntity() {
@@ -102,21 +107,6 @@ class DailyPrayerScheduleModel extends BaseModel<DailyPrayerScheduleEntity> {
       locationKey: locationKey,
       prayers: prayers.map((e) => e.toEntity()).toList(),
       fetchedAt: DateTime.parse(fetchedAtIso),
-      isFromCache: isFromCache,
-    );
-  }
-
-  factory DailyPrayerScheduleModel.fromEntity(
-    DailyPrayerScheduleEntity entity,
-  ) {
-    return DailyPrayerScheduleModel(
-      dateIso: entity.date.toIso8601String(),
-      locationKey: entity.locationKey,
-      prayers: entity.prayers
-          .map((e) => PrayerTimeModel.fromEntity(e))
-          .toList(),
-      fetchedAtIso: entity.fetchedAt.toIso8601String(),
-      isFromCache: entity.isFromCache,
     );
   }
 }

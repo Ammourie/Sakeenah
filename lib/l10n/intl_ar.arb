@@ -168,5 +168,6 @@
   "debugCacheCleared": "تم مسح الطلبات المخزنة",
   "debugClearFirstStartPreferences": "إعادة تعيين تفضيلات أول تشغيل",
   "debugFirstStartPreferencesCleared": "تم إعادة تعيين تفضيلات أول تشغيل",
-  "loadingYourAddress": "جاري تحديد موقعك"
+  "loadingYourAddress": "جاري تحديد موقعك",
+  "errorGettingLocation": "فشل في تحديد موقعك"
 }

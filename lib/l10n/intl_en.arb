@@ -168,5 +168,6 @@
   "debugCacheCleared": "Cached requests cleared",
   "debugClearFirstStartPreferences": "Reset first-time preferences",
   "debugFirstStartPreferencesCleared": "First-time preferences reset",
-  "loadingYourAddress": "Loading your address"
+  "loadingYourAddress": "Loading your address",
+  "errorGettingLocation": "Failed to get location"
 }

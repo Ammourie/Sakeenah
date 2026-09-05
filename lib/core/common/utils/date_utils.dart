@@ -68,7 +68,8 @@ class DateUtility {
   }
 
   /// Full date, e.g. "Saturday, 5 September 2026" (localized).
-  static String formatLocalFullDate(DateTime date, {String? locale}) {
+  static String formatLocalFullDate(DateTime? date, {String? locale}) {
+    if (date == null) return '';
     return DateFormat.yMMMMEEEEd(resolveLocale(locale)).format(date);
   }
 

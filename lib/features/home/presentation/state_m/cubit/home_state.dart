@@ -14,6 +14,7 @@ class HomeState with _$HomeState {
     VoidCallback callback,
   ) = HomeErrorInitState;
 
-  
+  const factory HomeState.prayerTimesLoadedState(
+    DailyPrayerScheduleEntity schedule,
+  ) = PrayerTimesLoadedState;
 }
-

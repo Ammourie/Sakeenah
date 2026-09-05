@@ -134,6 +134,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorFetchDistance": MessageLookupByLibrary.simpleMessage(
       "Could not fetch distance",
     ),
+    "errorGettingLocation": MessageLookupByLibrary.simpleMessage(
+      "Failed to get location",
+    ),
     "errorOccurred": MessageLookupByLibrary.simpleMessage("Error Occured 😢"),
     "errorTxt": MessageLookupByLibrary.simpleMessage(
       "This field can\'t be empty",
