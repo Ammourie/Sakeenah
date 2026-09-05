@@ -70,7 +70,6 @@ class AppConstants {
   /// Languages
   static const LANG_AR = 'ar';
   static const LANG_EN = 'en';
-  static const LANG_KU = 'ku';
 
   /// Languages code & output
   static const LANG_AR_CODE = 'AR';
@@ -78,7 +77,6 @@ class AppConstants {
 
   static const LANG_AR_OUTPUT = 'العربية';
   static const LANG_EN_OUTPUT = 'English';
-  static const LANG_KU_OUTPUT = 'كردى';
 
   /// APP constants
   static const MENU_CHANGE_LANG = "assets/png/menu/change_lang.png";

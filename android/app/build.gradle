@@ -32,7 +32,7 @@ if (flutterVersionName == null) {
 android {
     namespace 'com.ammourie.sakeenah'
     compileSdkVersion 36
-
+    ndkVersion = "28.2.13676358"
     compileOptions {
         coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8

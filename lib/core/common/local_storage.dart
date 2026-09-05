@@ -127,4 +127,20 @@ class LocalStorage {
     if (token == null) return ThemeMode.light;
     return ThemeMode.values[token];
   }
+
+  /// Persist LanguageFirstStartSelected
+  static Future<void> persistLanguageFirstStartSelected(bool value) async {
+    await _sp.setBool(
+      SharedPreferenceKeys.KEY_LANGUAGE_FIRST_START_SELECTED,
+      value,
+    );
+  }
+
+  /// check if the user already selected a language on first app start
+  static bool get languageFirstStartSelected {
+    return _sp.getBool(
+          SharedPreferenceKeys.KEY_LANGUAGE_FIRST_START_SELECTED,
+        ) ??
+        false;
+  }
 }

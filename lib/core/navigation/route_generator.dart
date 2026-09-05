@@ -11,6 +11,7 @@ import '../../features/home/presentation/screen/map_screen.dart';
 import '../../features/home/presentation/screen/people_screen.dart';
 import '../constants/enums/route_type.dart';
 import '../ui/screens/base_screen.dart';
+import '../ui/screens/language_screen.dart';
 import 'animations/animated_route.dart';
 import 'animations/fade_route.dart';
 import 'animations/swipeable_page_route.dart';
@@ -58,6 +59,11 @@ class NavigationRoute {
         return _getRoute<MapScreenParam>(
           settings: settings,
           createScreen: (param) => MapScreen(param: param),
+        );
+      case LanguageScreen.routeName:
+        return _getRoute<LanguageScreenParam>(
+          settings: settings,
+          createScreen: (param) => LanguageScreen(param: param),
         );
       default:
         // If there is no such named route in the switch statement, e.g. /third

@@ -11,14 +11,14 @@ import '../../../../../core/ui/widgets/restart_widget.dart';
 import '../../../../../generated/l10n.dart';
 import '../../state_m/provider/home_screen_notifier.dart';
 
-class HomeScreenMobile extends StatefulWidget {
-  const HomeScreenMobile({Key? key}) : super(key: key);
+class HomeScreenContent extends StatefulWidget {
+  const HomeScreenContent({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreenMobile> createState() => _HomeScreenMobileState();
+  State<HomeScreenContent> createState() => _HomeScreenContentState();
 }
 
-class _HomeScreenMobileState extends State<HomeScreenMobile> {
+class _HomeScreenContentState extends State<HomeScreenContent> {
   @override
   Widget build(BuildContext context) {
     return ThemeSwitchingArea(
@@ -245,7 +245,7 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
                   provider(
                     context,
                     listen: false,
-                  ).onChangeLanguageDialogTap(context);
+                  ).onChangeLanguageTap(context);
                 },
                 trailing: const Icon(Icons.language),
               ),

@@ -8,14 +8,15 @@ import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:statusbarz/statusbarz.dart';
 
 import 'core/common/app_config.dart';
+import 'core/common/local_storage.dart';
 import 'core/common/provider_list.dart';
 import 'core/constants/app/app_constants.dart';
 import 'core/localization/flutter_localization.dart';
 import 'core/localization/global_widgets_with_kurdish_localization_delegate.dart';
-import 'core/localization/kurdish/flutter_kurdish_localization.dart';
 import 'core/navigation/navigation_service.dart';
 import 'core/navigation/route_generator.dart';
 import 'core/ui/error_ui/error_widgets/global_error_widget.dart';
+import 'core/ui/screens/language_screen.dart';
 import 'core/ui/widgets/restart_widget.dart';
 import 'di/service_locator.dart';
 import 'features/splash/presentation/screen/splash_screen.dart';
@@ -84,8 +85,6 @@ class _AppState extends State<App> {
 
                           localizationsDelegates: [
                             S.delegate,
-                            KurdishMaterialLocalizations.delegate,
-                            KurdishCupertinoLocalizations.delegate,
 
                             // Built-in localization of basic text for Material widgets
                             GlobalMaterialLocalizations.delegate,
@@ -132,7 +131,13 @@ class _AppState extends State<App> {
                               : ThemeMode.dark,
 
                           /// Init screen
-                          home: SplashScreen(),
+                          home: LocalStorage.languageFirstStartSelected
+                              ? SplashScreen()
+                              : const LanguageScreen(
+                                  param: LanguageScreenParam(
+                                    isFirstStart: true,
+                                  ),
+                                ),
 
                           // builder: DevicePreview.appBuilder,
                           builder: (context, widget) {

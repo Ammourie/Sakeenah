@@ -68,9 +68,7 @@ class LocalizationProvider extends ChangeNotifier {
       await prefs.setString(SharedPreferenceKeys.KEY_LANGUAGE, AppConstants.LANG_AR);
     } else if (type == const Locale(AppConstants.LANG_EN)) {
       await prefs.setString(SharedPreferenceKeys.KEY_LANGUAGE, AppConstants.LANG_EN);
-    } else {
-      await prefs.setString(SharedPreferenceKeys.KEY_LANGUAGE, AppConstants.LANG_KU);
-    }
+    } 
     notifyListeners();
   }
 }
