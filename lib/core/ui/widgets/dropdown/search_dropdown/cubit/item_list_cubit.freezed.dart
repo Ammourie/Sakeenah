@@ -12,17 +12,11 @@ part of 'item_list_cubit.dart';
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
-mixin _$ItemListState<T> implements DiagnosticableTreeMixin {
+mixin _$ItemListState<T> {
 
 
 
 
-@override
-void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
-    ..add(DiagnosticsProperty('type', 'ItemListState<$T>'))
-    ;
-}
 
 @override
 bool operator ==(Object other) {
@@ -34,7 +28,7 @@ bool operator ==(Object other) {
 int get hashCode => runtimeType.hashCode;
 
 @override
-String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+String toString() {
   return 'ItemListState<$T>()';
 }
 
@@ -198,7 +192,7 @@ return loaded(_that.data);case _:
 /// @nodoc
 
 
-class ItemListInitState<T> with DiagnosticableTreeMixin implements ItemListState<T> {
+class ItemListInitState<T> implements ItemListState<T> {
   const ItemListInitState();
   
 
@@ -206,12 +200,6 @@ class ItemListInitState<T> with DiagnosticableTreeMixin implements ItemListState
 
 
 
-@override
-void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
-    ..add(DiagnosticsProperty('type', 'ItemListState<$T>.initial'))
-    ;
-}
 
 @override
 bool operator ==(Object other) {
@@ -223,7 +211,7 @@ bool operator ==(Object other) {
 int get hashCode => runtimeType.hashCode;
 
 @override
-String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+String toString() {
   return 'ItemListState<$T>.initial()';
 }
 
@@ -236,7 +224,7 @@ String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
 /// @nodoc
 
 
-class ItemListLoadingState<T> with DiagnosticableTreeMixin implements ItemListState<T> {
+class ItemListLoadingState<T> implements ItemListState<T> {
   const ItemListLoadingState();
   
 
@@ -244,12 +232,6 @@ class ItemListLoadingState<T> with DiagnosticableTreeMixin implements ItemListSt
 
 
 
-@override
-void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
-    ..add(DiagnosticsProperty('type', 'ItemListState<$T>.loading'))
-    ;
-}
 
 @override
 bool operator ==(Object other) {
@@ -261,7 +243,7 @@ bool operator ==(Object other) {
 int get hashCode => runtimeType.hashCode;
 
 @override
-String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+String toString() {
   return 'ItemListState<$T>.loading()';
 }
 
@@ -274,7 +256,7 @@ String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
 /// @nodoc
 
 
-class ItemListErrorState<T> with DiagnosticableTreeMixin implements ItemListState<T> {
+class ItemListErrorState<T> implements ItemListState<T> {
   const ItemListErrorState({required this.error, required this.callback});
   
 
@@ -288,12 +270,6 @@ class ItemListErrorState<T> with DiagnosticableTreeMixin implements ItemListStat
 $ItemListErrorStateCopyWith<T, ItemListErrorState<T>> get copyWith => _$ItemListErrorStateCopyWithImpl<T, ItemListErrorState<T>>(this, _$identity);
 
 
-@override
-void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
-    ..add(DiagnosticsProperty('type', 'ItemListState<$T>.error'))
-    ..add(DiagnosticsProperty('error', error))..add(DiagnosticsProperty('callback', callback));
-}
 
 @override
 bool operator ==(Object other) {
@@ -305,7 +281,7 @@ bool operator ==(Object other) {
 int get hashCode => Object.hash(runtimeType,error,callback);
 
 @override
-String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+String toString() {
   return 'ItemListState<$T>.error(error: $error, callback: $callback)';
 }
 
@@ -357,7 +333,7 @@ $AppErrorsCopyWith<$Res> get error {
 /// @nodoc
 
 
-class ItemListLoadedState<T> with DiagnosticableTreeMixin implements ItemListState<T> {
+class ItemListLoadedState<T> implements ItemListState<T> {
   const ItemListLoadedState({required final  List<T> data}): _data = data;
   
 
@@ -376,12 +352,6 @@ class ItemListLoadedState<T> with DiagnosticableTreeMixin implements ItemListSta
 $ItemListLoadedStateCopyWith<T, ItemListLoadedState<T>> get copyWith => _$ItemListLoadedStateCopyWithImpl<T, ItemListLoadedState<T>>(this, _$identity);
 
 
-@override
-void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
-    ..add(DiagnosticsProperty('type', 'ItemListState<$T>.loaded'))
-    ..add(DiagnosticsProperty('data', data));
-}
 
 @override
 bool operator ==(Object other) {
@@ -393,7 +363,7 @@ bool operator ==(Object other) {
 int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_data));
 
 @override
-String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+String toString() {
   return 'ItemListState<$T>.loaded(data: $data)';
 }
 

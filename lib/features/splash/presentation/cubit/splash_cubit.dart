@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../core/common/app_config.dart';
 import '../../../../core/common/local_storage.dart';
 import '../../../../core/common/utils/cubit_utils.dart';
 import '../../../../core/errors/app_errors.dart';
@@ -12,9 +11,6 @@ import '../../../../core/results/result.dart';
 import '../../../../di/service_locator.dart';
 import '../../../account/domain/entity/profile_entity.dart';
 import '../../../account/domain/usecase/get_profile_usecase.dart';
-import '../../../more/data/request/param/check_version_param.dart';
-import '../../../more/domain/entity/version_entity.dart';
-import '../../../more/domain/usecase/check_update_app_usecase.dart';
 import '../../domain/entity/splash_entity.dart';
 
 part 'splash_cubit.freezed.dart';
@@ -26,38 +22,24 @@ class SplashCubit extends Cubit<SplashState> {
   void getSplash({CancelToken? cancelToken}) async {
     emit(const SplashState.loading());
 
-    final List<Result> results = await Future.wait([
-      // Check Update App.
-      getIt<CheckUpdateAppUsecase>()(
-        CheckVersionParam(deviceType: AppConfig().os),
-      ),
+    if (!LocalStorage.hasToken) {
+      emit(SplashState.loaded(SplashEntity(profile: null)));
+      return;
+    }
 
-      if (LocalStorage.hasToken) getIt<GetProfileUsecase>()(NoParams()),
+    final List<Result> results = await Future.wait([
+      getIt<GetProfileUsecase>()(NoParams()),
     ]);
     final error = CubitUtils.checkError(results);
 
     if (error != null) {
       emit(SplashState.error(error: error, callback: () => this.getSplash()));
     } else {
-      if (LocalStorage.hasToken) {
-        emit(
-          SplashState.loaded(
-            SplashEntity(
-              version: results[0].data as VersionEntity,
-              profile: results[2].data as ProfileEntity?,
-            ),
-          ),
-        );
-      } else {
-        emit(
-          SplashState.loaded(
-            SplashEntity(
-              version: results[0].data as VersionEntity,
-              profile: null,
-            ),
-          ),
-        );
-      }
+      emit(
+        SplashState.loaded(
+          SplashEntity(profile: results[0].data as ProfileEntity?),
+        ),
+      );
     }
   }
 

@@ -5,12 +5,10 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../core/common/app_config.dart';
-import '../../../../../core/navigation/nav.dart';
 import '../../../../../core/theme/custom_theme_colors.dart';
 import '../../../../../core/ui/clippers/theme_circle_clipper.dart';
 import '../../../../../core/ui/widgets/restart_widget.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../../notification/presentation/screen/notifications/notifications_screen.dart';
 import '../../state_m/provider/home_screen_notifier.dart';
 
 class HomeScreenMobile extends StatefulWidget {
@@ -42,17 +40,6 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
           provider(context).getHomeScreenTitle(context),
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Nav.to(
-                NotificationsScreen.routeName,
-                arguments: NotificationsScreenParam(),
-              );
-            },
-            icon: const Icon(Icons.notifications_none_rounded),
-          ),
-        ],
       ),
       body: _buildHomeScreenBody(context),
       drawer: _drawerList(context),
@@ -338,17 +325,6 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
               const Divider(),
               ListTile(
                 title: Text(
-                  S.current.getPokemons,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                onTap: () {
-                  provider(context, listen: false).onGetPokemonsTap(context);
-                },
-                trailing: const Icon(Icons.catching_pokemon),
-              ),
-              const Divider(),
-              ListTile(
-                title: Text(
                   S.current.testErrorScreen,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
@@ -359,15 +335,6 @@ class _HomeScreenMobileState extends State<HomeScreenMobile> {
                   ).push(MaterialPageRoute(builder: (context) => null!));
                 },
                 trailing: const Icon(Icons.report_gmailerrorred_outlined),
-              ),
-              const Divider(),
-              ListTile(
-                title: Text(
-                  S.current.chatList,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                onTap: () => provider(context, listen: false).onChatListTap(),
-                trailing: const Icon(Icons.chat),
               ),
               const Divider(),
               ListTile(

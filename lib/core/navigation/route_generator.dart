@@ -4,15 +4,11 @@ import 'package:injectable/injectable.dart';
 import '../../di/service_locator.dart';
 import '../../features/account/presentation/screen/login_screen.dart';
 import '../../features/account/presentation/screen/register_screen.dart';
-import '../../features/chat/presentation/screen/chat_details/chat_details_screen.dart';
-import '../../features/chat/presentation/screen/chat_list/chat_list_screen.dart';
 import '../../features/home/presentation/screen/app_main_screen/app_main_screen.dart';
 import '../../features/home/presentation/screen/comments_screen.dart';
 import '../../features/home/presentation/screen/home_screen/home_screen.dart';
 import '../../features/home/presentation/screen/map_screen.dart';
 import '../../features/home/presentation/screen/people_screen.dart';
-import '../../features/notification/presentation/screen/notifications/notifications_screen.dart';
-import '../../features/pokemon/presentation/screen/pokemons_screen/pokemns_screen.dart';
 import '../constants/enums/route_type.dart';
 import '../ui/screens/base_screen.dart';
 import 'animations/animated_route.dart';
@@ -43,11 +39,6 @@ class NavigationRoute {
           createScreen: (param) => RegisterScreen(param: param),
           type: RouteType.ANIMATED,
         );
-      case NotificationsScreen.routeName:
-        return _getRoute<NotificationsScreenParam>(
-          settings: settings,
-          createScreen: (param) => NotificationsScreen(param: param),
-        );
       case HomeScreen.routeName:
         return _getRoute<HomeScreenParam>(
           settings: settings,
@@ -58,11 +49,6 @@ class NavigationRoute {
           settings: settings,
           createScreen: (param) => PeopleScreen(param: param),
         );
-      case PokemonsScreen.routeName:
-        return _getRoute<PokemonsScreenParam>(
-          settings: settings,
-          createScreen: (param) => PokemonsScreen(param: param),
-        );
       case CommentsScreen.routeName:
         return _getRoute<CommentsScreenParam>(
           settings: settings,
@@ -72,16 +58,6 @@ class NavigationRoute {
         return _getRoute<MapScreenParam>(
           settings: settings,
           createScreen: (param) => MapScreen(param: param),
-        );
-      case ChatListScreen.routeName:
-        return _getRoute<ChatListScreenParam>(
-          settings: settings,
-          createScreen: (param) => ChatListScreen(param: param),
-        );
-      case ChatDetailsScreen.routeName:
-        return _getRoute<ChatDetailsScreenParam>(
-          settings: settings,
-          createScreen: (param) => ChatDetailsScreen(param: param),
         );
       default:
         // If there is no such named route in the switch statement, e.g. /third

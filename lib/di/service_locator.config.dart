@@ -41,12 +41,6 @@ import 'package:Sakeenah/features/account/domain/usecase/resend_delete_my_accoun
     as _i824;
 import 'package:Sakeenah/features/account/domain/usecase/resend_new_phone_number_code_usecase.dart'
     as _i1062;
-import 'package:Sakeenah/features/chat/data/datasource/ichat_remote.dart'
-    as _i651;
-import 'package:Sakeenah/features/chat/domain/repository/ichat_repository.dart'
-    as _i651;
-import 'package:Sakeenah/features/chat/domain/usecase/get_message_list_usecase.dart'
-    as _i520;
 import 'package:Sakeenah/features/home/data/datasource/ihome_remote.dart'
     as _i835;
 import 'package:Sakeenah/features/home/domain/repository/ihome_repository.dart'
@@ -61,40 +55,6 @@ import 'package:Sakeenah/features/home/domain/usecase/test_success_usecase.dart'
     as _i592;
 import 'package:Sakeenah/features/home/domain/usecase/test_validator_usecase.dart'
     as _i361;
-import 'package:Sakeenah/features/more/data/datasource/imore_remote.dart'
-    as _i772;
-import 'package:Sakeenah/features/more/domain/repository/imore_repository.dart'
-    as _i878;
-import 'package:Sakeenah/features/more/domain/usecase/check_update_app_usecase.dart'
-    as _i1063;
-import 'package:Sakeenah/features/more/domain/usecase/report_problem_usecase.dart'
-    as _i434;
-import 'package:Sakeenah/features/notification/data/datasource/inotification_remote.dart'
-    as _i441;
-import 'package:Sakeenah/features/notification/domain/repository/inotification_repository.dart'
-    as _i433;
-import 'package:Sakeenah/features/notification/domain/usecase/add_or_update_firebase_token_usecase.dart'
-    as _i765;
-import 'package:Sakeenah/features/notification/domain/usecase/change_notification_status_usecase.dart'
-    as _i860;
-import 'package:Sakeenah/features/notification/domain/usecase/get_notifications_usecase.dart'
-    as _i745;
-import 'package:Sakeenah/features/pokemon/data/datasource/ipokemon_remote.dart'
-    as _i264;
-import 'package:Sakeenah/features/pokemon/data/datasource/pokemon_remote.dart'
-    as _i834;
-import 'package:Sakeenah/features/pokemon/data/repository/pokemon_repository.dart'
-    as _i122;
-import 'package:Sakeenah/features/pokemon/domain/repository/irepository.dart'
-    as _i371;
-import 'package:Sakeenah/features/pokemon/domain/usecase/get_pokemons_usecase.dart'
-    as _i13;
-import 'package:Sakeenah/features/upload/data/datasource/iupload_remote.dart'
-    as _i281;
-import 'package:Sakeenah/features/upload/domain/repository/iupload_repository.dart'
-    as _i795;
-import 'package:Sakeenah/features/upload/domain/usecase/upload_file_usecase.dart'
-    as _i588;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -114,39 +74,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1067.NavigationRoute>(() => _i1067.NavigationRoute());
     gh.lazySingleton<_i46.HttpClient>(() => _i46.HttpClient());
     gh.lazySingleton<_i974.Logger>(() => loggerModule.logger);
-    gh.singleton<_i441.INotificationRemoteSource>(
-      () => _i441.NotificationRemoteSource(),
-    );
-    gh.factory<_i264.IPokemonRemoteSource>(() => _i834.PokemonRemoteSource());
     gh.factory<_i1064.IAccountRemoteSource>(() => _i1064.AccountRemoteSource());
-    gh.singleton<_i772.IMoreRemoteSource>(() => _i772.MoreRemoteSource());
-    gh.singleton<_i281.IUploadRemoteSource>(() => _i281.UploadRemoteSource());
     gh.factory<_i835.IHomeRemoteSource>(() => _i835.HomeRemoteSource());
-    gh.singleton<_i651.IChatRemoteSource>(() => _i651.ChatRemoteSource());
-    gh.singleton<_i433.INotificationRepository>(
-      () => _i433.NotificationRepository(gh<_i441.INotificationRemoteSource>()),
-    );
-    gh.singleton<_i651.IChatRepository>(
-      () => _i651.ChatRepository(gh<_i651.IChatRemoteSource>()),
-    );
-    gh.singleton<_i520.GetMessageListUsecase>(
-      () =>
-          _i520.GetMessageListUsecase(repository: gh<_i651.IChatRepository>()),
-    );
-    gh.factory<_i371.IPokemonRepository>(
-      () => _i122.PokemonRepository(gh<_i264.IPokemonRemoteSource>()),
-    );
     gh.factory<_i713.IAccountRepository>(
       () => _i713.AccountRepository(gh<_i1064.IAccountRemoteSource>()),
-    );
-    gh.singleton<_i795.IUploadRepository>(
-      () => _i795.UploadRepository(gh<_i281.IUploadRemoteSource>()),
-    );
-    gh.singleton<_i878.IMoreRepository>(
-      () => _i878.MoreRepository(gh<_i772.IMoreRemoteSource>()),
-    );
-    gh.singleton<_i588.UploadFileUsecase>(
-      () => _i588.UploadFileUsecase(gh<_i795.IUploadRepository>()),
     );
     gh.factory<_i1015.ConfirmCodeUsecase>(
       () => _i1015.ConfirmCodeUsecase(gh<_i713.IAccountRepository>()),
@@ -179,30 +110,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i713.IAccountRepository>(),
       ),
     );
-    gh.factory<_i434.ReportProblemUsecase>(
-      () => _i434.ReportProblemUsecase(gh<_i878.IMoreRepository>()),
-    );
-    gh.singleton<_i1063.CheckUpdateAppUsecase>(
-      () => _i1063.CheckUpdateAppUsecase(gh<_i878.IMoreRepository>()),
-    );
-    gh.singleton<_i765.AddOrUpdateFirebaseTokenUsecase>(
-      () => _i765.AddOrUpdateFirebaseTokenUsecase(
-        gh<_i433.INotificationRepository>(),
-      ),
-    );
-    gh.singleton<_i860.ChangeNotificationStatusUsecase>(
-      () => _i860.ChangeNotificationStatusUsecase(
-        gh<_i433.INotificationRepository>(),
-      ),
-    );
-    gh.singleton<_i745.GetNotificationsUsecase>(
-      () => _i745.GetNotificationsUsecase(gh<_i433.INotificationRepository>()),
-    );
     gh.factory<_i329.IHomeRepository>(
       () => _i329.HomeRepository(gh<_i835.IHomeRemoteSource>()),
-    );
-    gh.factory<_i13.GetPokemonsUseCase>(
-      () => _i13.GetPokemonsUseCase(gh<_i371.IPokemonRepository>()),
     );
     gh.singleton<_i995.RefreshTokenUsecase>(
       () => _i995.RefreshTokenUsecase(gh<_i713.IAccountRepository>()),

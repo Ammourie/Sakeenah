@@ -12,8 +12,6 @@ import '../../../../../core/ui/error_ui/error_viewer/error_viewer.dart';
 import '../../../../../core/ui/error_ui/error_viewer/snack_bar/errv_snack_bar_options.dart';
 import '../../../../../core/ui/show_toast.dart';
 import '../../../../../generated/l10n.dart';
-import '../../../../chat/presentation/screen/chat_list/chat_list_screen.dart';
-import '../../../../pokemon/presentation/screen/pokemons_screen/pokemns_screen.dart';
 import '../../screen/comments_screen.dart';
 import '../../screen/map_screen.dart';
 import '../../screen/people_screen.dart';
@@ -63,20 +61,12 @@ class HomeScreenNotifier extends ScreenNotifier {
     context.read<AppMainScreenNotifier>().logout();
   }
 
-  void onGetPokemonsTap(BuildContext context) {
-    Nav.to(PokemonsScreen.routeName, arguments: PokemonsScreenParam());
-  }
-
   void onGetPeopleTap(BuildContext context) {
     Nav.to(PeopleScreen.routeName, arguments: PeopleScreenParam());
   }
 
   void onGetCommentsTap(BuildContext context) {
     Nav.to(CommentsScreen.routeName, arguments: CommentsScreenParam());
-  }
-
-  void onChatListTap() {
-    Nav.to(ChatListScreen.routeName, arguments: ChatListScreenParam());
   }
 
   void onMapTap() {

@@ -152,15 +152,6 @@ class HomeScreenTablet extends StatelessWidget {
           _buildOptionsIcon(
             context: context,
             onPressed: () {
-              provider(context, listen: false).onGetPokemonsTap(context);
-            },
-            icon: Icons.catching_pokemon,
-            titleMessage: S.current.getPokemons,
-          ),
-          const Divider(),
-          _buildOptionsIcon(
-            context: context,
-            onPressed: () {
               provider(context, listen: false).onMapTap();
             },
             icon: Icons.map,

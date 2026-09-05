@@ -7,13 +7,11 @@ import '../../../../core/constants/app/app_settings.dart';
 import '../../../../core/navigation/nav.dart';
 import '../../../../core/providers/session_data.dart';
 import '../../../../core/ui/custom_map/logic/location_wrapper.dart';
-import '../../../../core/ui/dialogs/update_app_dialog.dart';
 import '../../../../core/ui/error_ui/error_viewer/dialog/errv_dialog_options.dart';
 import '../../../../core/ui/error_ui/error_viewer/error_viewer.dart';
 import '../../../../generated/l10n.dart';
 import '../../../account/presentation/screen/login_screen.dart';
 import '../../../home/presentation/screen/app_main_screen/app_main_screen.dart';
-import '../../../more/domain/entity/version_entity.dart';
 import '../cubit/splash_cubit.dart';
 import 'splash_screen_content.dart';
 
@@ -25,7 +23,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   final splashCubit = SplashCubit();
   bool canGo = false;
-  VersionEntity? versionInfo;
 
   @override
   void initState() {
@@ -78,7 +75,6 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void _splashScreenLoaded(BuildContext context, LoadedState state) async {
-    versionInfo = state.splashEntity.version;
     context.read<SessionData>().profile = state.splashEntity.profile;
 
     if (canGo) {
@@ -104,10 +100,6 @@ class _SplashScreenState extends State<SplashScreen> {
       Nav.off(AppMainScreen.routeName, arguments: AppMainScreenParam());
     else
       Nav.off(LoginScreen.routeName, arguments: LoginScreenParam());
-
-    // Check if there is a new version.
-    if (versionInfo?.needUpdate ?? false)
-      showUpdateAppDialog(versionInfo!.forceUpdate, versionInfo!.appLink);
   }
 
   @override
