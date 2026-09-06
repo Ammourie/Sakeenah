@@ -31,7 +31,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m4(label) => "Location: ${label}";
 
-  static String m5(permissionName) => "${permissionName} permission required!";
+  static String m5(position, buffered) => "${position} / ${buffered}";
+
+  static String m6(permissionName) => "${permissionName} permission required!";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -68,12 +70,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "changeLocation": MessageLookupByLibrary.simpleMessage("Change location"),
     "chatList": MessageLookupByLibrary.simpleMessage("Chat List"),
     "cityHint": MessageLookupByLibrary.simpleMessage("City"),
-    "cityInputModeLabel": MessageLookupByLibrary.simpleMessage("City"),
-    "cityInputModeManual": MessageLookupByLibrary.simpleMessage(
-      "Enter address",
+    "cityInputModeLabel": MessageLookupByLibrary.simpleMessage(
+      "How to set location",
     ),
+    "cityInputModeManual": MessageLookupByLibrary.simpleMessage("Full address"),
     "cityInputModePicker": MessageLookupByLibrary.simpleMessage(
-      "Pick from list",
+      "Country & city",
     ),
     "close": MessageLookupByLibrary.simpleMessage("Close"),
     "closeApp": MessageLookupByLibrary.simpleMessage("Close App"),
@@ -103,7 +105,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Choose your country and city from a list.",
     ),
     "countryCityPickerMessage": MessageLookupByLibrary.simpleMessage(
-      "Select your country first, then pick a city from the list or enter your full address for prayer times.",
+      "Pick country and city from the list, or enter your full address including country.",
     ),
     "countryCityPickerTitle": MessageLookupByLibrary.simpleMessage(
       "Choose country & city",
@@ -143,7 +145,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "empty": MessageLookupByLibrary.simpleMessage("Empty"),
     "emptyScreen": MessageLookupByLibrary.simpleMessage("This page is empty"),
     "enterAddressManuallyHint": MessageLookupByLibrary.simpleMessage(
-      "Street, district, city…",
+      "Street, city, country…",
     ),
     "enterCodeText": MessageLookupByLibrary.simpleMessage(
       "please type the verification code send to",
@@ -183,6 +185,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Sorry, you are a guest, login to continue.",
     ),
     "homePage": MessageLookupByLibrary.simpleMessage("Home Page"),
+    "hoursShort": MessageLookupByLibrary.simpleMessage("h"),
     "ignoreForNow": MessageLookupByLibrary.simpleMessage("Ignore"),
     "internalServerErrorMessage": MessageLookupByLibrary.simpleMessage(
       "The server encountered an internal error or misconfigurtion and was unable to complete your request.",
@@ -225,6 +228,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "makeSureSpecificPermissionGranted": m0,
     "mapPathError": MessageLookupByLibrary.simpleMessage("Couldn\'t find path"),
+    "minutesShort": MessageLookupByLibrary.simpleMessage("m"),
     "nextPrayerIn": m1,
     "noDataRefresher": MessageLookupByLibrary.simpleMessage("No data"),
     "noLocationMessage": MessageLookupByLibrary.simpleMessage(
@@ -286,6 +290,32 @@ class MessageLookup extends MessageLookupByLibrary {
     "pressTwiceToExit": MessageLookupByLibrary.simpleMessage(
       "Press twice to exit",
     ),
+    "quranRadioBufferLoading": MessageLookupByLibrary.simpleMessage(
+      "Buffering stream…",
+    ),
+    "quranRadioBufferProgress": m5,
+    "quranRadioConnecting": MessageLookupByLibrary.simpleMessage("Connecting…"),
+    "quranRadioError": MessageLookupByLibrary.simpleMessage(
+      "Unable to play the stream",
+    ),
+    "quranRadioIdleHint": MessageLookupByLibrary.simpleMessage(
+      "Start the live Quran stream",
+    ),
+    "quranRadioLive": MessageLookupByLibrary.simpleMessage("Live"),
+    "quranRadioMute": MessageLookupByLibrary.simpleMessage("Mute"),
+    "quranRadioPause": MessageLookupByLibrary.simpleMessage("Paused"),
+    "quranRadioPlay": MessageLookupByLibrary.simpleMessage("Play"),
+    "quranRadioRetry": MessageLookupByLibrary.simpleMessage("Retry"),
+    "quranRadioSkipBackward": MessageLookupByLibrary.simpleMessage(
+      "Skip back 10 seconds",
+    ),
+    "quranRadioSkipForward": MessageLookupByLibrary.simpleMessage(
+      "Skip forward 10 seconds",
+    ),
+    "quranRadioStop": MessageLookupByLibrary.simpleMessage("Stop"),
+    "quranRadioTitle": MessageLookupByLibrary.simpleMessage("Quran Radio"),
+    "quranRadioUnmute": MessageLookupByLibrary.simpleMessage("Unmute"),
+    "quranRadioVolume": MessageLookupByLibrary.simpleMessage("Volume"),
     "refresh": MessageLookupByLibrary.simpleMessage("Refresh"),
     "reportError": MessageLookupByLibrary.simpleMessage(
       "An error has been occurred, please click send to help us fixing the problem",
@@ -297,6 +327,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "retry": MessageLookupByLibrary.simpleMessage("Retry"),
     "saveLocation": MessageLookupByLibrary.simpleMessage("Save location"),
     "search": MessageLookupByLibrary.simpleMessage("Search"),
+    "secondsShort": MessageLookupByLibrary.simpleMessage("s"),
     "selectCityHint": MessageLookupByLibrary.simpleMessage("Select a city"),
     "selectCountryFirstHint": MessageLookupByLibrary.simpleMessage(
       "Select a country first",
@@ -321,7 +352,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Set your location",
     ),
     "signUp": MessageLookupByLibrary.simpleMessage("Signup"),
-    "specificPermissionRequired": m5,
+    "specificPermissionRequired": m6,
     "switchTheme": MessageLookupByLibrary.simpleMessage("Switch theme"),
     "testErrorScreen": MessageLookupByLibrary.simpleMessage(
       "Test Error Handler",

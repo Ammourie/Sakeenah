@@ -30,6 +30,8 @@ class HomeScreen extends BaseScreen<HomeScreenParam> {
 
 class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   late final HomeScreenNotifier provider;
+  InternetProvider? _internetProvider;
+  bool? _lastHasInternet;
 
   @override
   void initState() {
@@ -43,13 +45,30 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
+    final internet = context.read<InternetProvider>();
+    if (_internetProvider != internet) {
+      _internetProvider?.removeListener(_onInternetChanged);
+      _internetProvider = internet;
+      _lastHasInternet = internet.hasInternet;
+      _internetProvider!.addListener(_onInternetChanged);
+    }
+
     provider.getPrayerTimes(
       hasInternet: context.read<InternetProvider>().hasInternet,
     );
   }
 
+  void _onInternetChanged() {
+    final hasInternet = _internetProvider?.hasInternet ?? true;
+    if (_lastHasInternet == hasInternet) return;
+
+    _lastHasInternet = hasInternet;
+    provider.onInternetConnectivityChanged(hasInternet: hasInternet);
+  }
+
   @override
   void dispose() {
+    _internetProvider?.removeListener(_onInternetChanged);
     WidgetsBinding.instance.removeObserver(this);
     provider.closeNotifier();
 
@@ -76,19 +95,15 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
         listener: (context, state) {
           state.maybeWhen(
             orElse: () {},
-            homeInitState: () {},
-            homeLoadingState: () {
+            prayerTimesLoading: () {
               provider.isLoading = true;
             },
-            homeLoadedState: (s) {
-              provider.isLoading = false;
-            },
-            homeErrorState: (error, callback) {
-              provider.isLoading = false;
-            },
-            prayerTimesLoadedState: (schedule) {
+            prayerTimesLoaded: (schedule) {
               provider.isLoading = false;
               _cachePrayerTimes(schedule);
+            },
+            prayerTimesError: (_, __) {
+              provider.isLoading = false;
             },
           );
         },

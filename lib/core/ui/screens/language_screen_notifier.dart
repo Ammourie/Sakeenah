@@ -49,12 +49,14 @@ class LanguageScreenNotifier extends ScreenNotifier<LanguageScreenParam> {
 
     if (!LocalStorage.languageFirstStartSelected) {
       await LocalStorage.persistLanguageFirstStartSelected(true);
-      RestartWidget.restartApp(context);
+      // RestartWidget.restartApp(context);
+      Nav.pop();
       return;
     }
 
     if (hasChanges && AppSettings.changeLangRestart) {
-      RestartWidget.restartApp(context);
+      // RestartWidget.restartApp(context);
+      Nav.pop();
     } else {
       Nav.pop();
     }

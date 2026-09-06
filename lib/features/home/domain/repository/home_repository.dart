@@ -37,4 +37,66 @@ class HomeRepository extends IHomeRepository {
       remoteResult: await _remoteDataSource.getCitiesByCountry(params),
     );
   }
+
+  @override
+  Stream<RadioPlayerEntity> watchQuranRadio() =>
+      _remoteDataSource.watchQuranRadio();
+
+  @override
+  Future<Result<AppErrors, RadioPlayerEntity>> playQuranRadio() async {
+    return executeForNoEntity(
+      remoteResult: await _remoteDataSource.playQuranRadio(),
+    );
+  }
+
+  @override
+  Future<Result<AppErrors, RadioPlayerEntity>> pauseQuranRadio() async {
+    return executeForNoEntity(
+      remoteResult: await _remoteDataSource.pauseQuranRadio(),
+    );
+  }
+
+  @override
+  Future<Result<AppErrors, RadioPlayerEntity>> setQuranRadioVolume(
+    double volume,
+  ) async {
+    return executeForNoEntity(
+      remoteResult: await _remoteDataSource.setQuranRadioVolume(volume),
+    );
+  }
+
+  @override
+  Future<Result<AppErrors, RadioPlayerEntity>> seekQuranRadio(
+    Duration offset,
+  ) async {
+    return executeForNoEntity(
+      remoteResult: await _remoteDataSource.seekQuranRadio(offset),
+    );
+  }
+
+  @override
+  Future<Result<AppErrors, RadioPlayerEntity>> seekQuranRadioTo(
+    int positionSeconds,
+  ) async {
+    return executeForNoEntity(
+      remoteResult: await _remoteDataSource.seekQuranRadioTo(positionSeconds),
+    );
+  }
+
+  @override
+  Future<Result<AppErrors, RadioPlayerEntity>> retryQuranRadio() async {
+    return executeForNoEntity(
+      remoteResult: await _remoteDataSource.retryQuranRadio(),
+    );
+  }
+
+  @override
+  Future<Result<AppErrors, RadioPlayerEntity>> stopQuranRadio() async {
+    return executeForNoEntity(
+      remoteResult: await _remoteDataSource.stopQuranRadio(),
+    );
+  }
+
+  @override
+  Future<void> disposeQuranRadio() => _remoteDataSource.disposeQuranRadio();
 }

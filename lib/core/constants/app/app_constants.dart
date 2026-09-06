@@ -74,6 +74,19 @@ class AppConstants {
   static const SVG_ICON_MAP_PIN = 'assets/images/svg/icons/map-pin.svg';
   static const SVG_ICON_BOOK_OPEN_TEXT =
       'assets/images/svg/icons/book-open-text.svg';
+  static const SVG_ICON_PLAY = 'assets/images/svg/icons/play.svg';
+  static const SVG_ICON_PAUSE = 'assets/images/svg/icons/pause.svg';
+  static const SVG_ICON_VOLUME_2 = 'assets/images/svg/icons/volume-2.svg';
+  static const SVG_ICON_VOLUME_X = 'assets/images/svg/icons/volume-x.svg';
+  static const SVG_ICON_SKIP_BACK = 'assets/images/svg/icons/skip-back.svg';
+  static const SVG_ICON_SKIP_FORWARD = 'assets/images/svg/icons/skip-forward.svg';
+  static const SVG_ICON_SQUARE = 'assets/images/svg/icons/square.svg';
+
+  /// Quran radio live stream
+  static const QURAN_RADIO_STREAM_URL =
+      'https://stream.radiojar.com/8s5u5tpdtwzuv';
+  static const QURAN_RADIO_SEEK_STEP_SECONDS = 10;
+  static const QURAN_RADIO_MAX_BUFFER_DURATION_SECONDS = 24 * 60 * 60; // 1 day of seconds
 
   /// ERROR IMAGES
   static const ERROR_403_401 = "assets/images/png/error/403.png";

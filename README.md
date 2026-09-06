@@ -66,7 +66,7 @@ A short branded screen (~2.2s) with the app illustration, name, and loading indi
 
 #### 5. Home, prayer times & navigation drawer
 
-The main screen has a **curved emerald app bar**, a **prayer times card**, and a **drawer** for settings.
+The main screen has a **curved emerald app bar**, a **prayer times card**, a **Quran radio player**, and a **drawer** for settings.
 
 **Prayer times**
 - Loads today's salah times from the **AlAdhan API** using GPS coordinates, a map-picked location, or a **manual country/city** selection.
@@ -111,6 +111,24 @@ The main screen has a **curved emerald app bar**, a **prayer times card**, and a
   - Searchable dropdown UI: `lib/core/ui/widgets/dropdown/search_dropdown/custom_search_dropdown.dart`
   - Bar: `CurvedAppBar` inside `CurvedAppBarLayout` (body `Stack`, not `Scaffold.appBar`)
   - Drawer theme resolved via `AppConfig().resolveThemeDataForMode` so light/dark colors apply correctly.
+
+**Quran radio**
+- Live stream from RadioJar (`AppConstants.QURAN_RADIO_STREAM_URL`).
+- **Play / pause**, **volume slider** (0–1, SoLoud engine max), and **mute toggle** (restores last volume).
+- **Stop** — tears down HTTP stream, clears buffer, returns to idle (play starts fresh).
+- **Skip back / forward** (±10 seconds) within audio already buffered in memory — not a full broadcast rewind.
+- **Seekable playback slider** — scrub within the buffered window; label shows `{position} / {buffered}` (e.g. `1:23 / 4:56`).
+- Connecting spinner, error message, and **Retry** when the stream fails.
+- **Engine:** [`flutter_soloud`](https://pub.dev/packages/flutter_soloud) `^4.1.7` with `BufferingType.preserved` (~10 min RAM cap) + Dio HTTP ingest (Icecast MP3, `Icy-MetaData` header).
+- **Architecture:** single home stack only — `HomeCubit` → use cases → `HomeRepository` → `QuranRadioPlayer` (`@lazySingleton` in `data/datasource/`). No separate radio feature module (see `.cursor/rules/home-single-layers.mdc`).
+
+- **How it works:**
+  - UI: `lib/features/home/presentation/widgets/quran_radio_section.dart`
+  - Player: `lib/features/home/data/datasource/quran_radio_player.dart`
+  - State slice: `RadioPlayerEntity` on composite `HomeState.radio`
+  - Use cases (one file each under `domain/usecase/`): `PlayQuranRadioUseCase`, `PauseQuranRadioUseCase`, `StopQuranRadioUseCase`, `SetQuranRadioVolumeUseCase`, `SeekQuranRadioUseCase`, `SeekQuranRadioToUseCase`, `RetryQuranRadioUseCase`, `WatchQuranRadioUseCase`
+
+**Note:** Background playback and lock-screen controls are **not** implemented yet (planned Phase 5). iOS requires deployment target **13.0+** for `flutter_soloud`.
 
 ---
 
@@ -419,7 +437,7 @@ Release APK:
 fvm flutter build apk --release
 ```
 
-Run your usual local codegen only when generated files need to be refreshed after editing `@freezed`, `@injectable`, or `.arb` source files. After native config changes (Android/iOS), **fully restart** the app.
+Run your usual local codegen when generated files need refreshing after editing `@freezed`, `@injectable`, or `.arb` source files (e.g. `StopQuranRadioUseCase`, `SeekQuranRadioToUseCase`). After adding `flutter_soloud` or changing iOS deployment target, **fully restart** the app (not hot reload).
 
 ---
 
@@ -435,7 +453,7 @@ lib/
 │   └── common/utils/    # DateUtility (locale-aware dates/times)
 ├── features/
 │   ├── splash/
-│   └── home/
+│   └── home/            # prayer times + Quran radio (single cubit/repo stack)
 ├── l10n/                # intl_en.arb, intl_ar.arb
 ├── generated/           # l10n.dart (auto-generated — do not edit)
 └── di/
@@ -514,7 +532,7 @@ Full product spec: [`docs/prayer_quran_app_requirements.md`](docs/prayer_quran_a
 
 #### 5. الرئيسية ومواقيت الصلاة
 
-**شريط علوي منحنٍ** + **بطاقة مواقيت الصلاة** + **قائمة جانبية**.
+**شريط علوي منحنٍ** + **بطاقة مواقيت الصلاة** + **مشغّل راديو القرآن** + **قائمة جانبية**.
 
 **مواقيت الصلاة**
 - جلب الأوقات من **AlAdhan** عبر GPS أو الخريطة أو **اختيار البلد/المدينة يدوياً**.
@@ -526,6 +544,18 @@ Full product spec: [`docs/prayer_quran_app_requirements.md`](docs/prayer_quran_a
 - **من الخريطة** — Google Maps مع نمط داكن متوافق مع السمة.
 - **البلد / المدينة** — قوائم قابلة للبحث عبر **CountriesNow** (أسماء إنجليزية لـ AlAdhan).
 - تخزين مؤقت: Hive + `CountriesSessionProvider` (تحميل الدول في Splash).
+
+**راديو القرآن**
+- بث مباشر من RadioJar.
+- **تشغيل / إيقاف مؤقت**، **شريط الصوت** (0–1)، **كتم** (يستعيد آخر مستوى).
+- **إيقاف** — يوقف البث ويمسح المخزن المؤقت ويعيد الحالة إلى idle.
+- **رجوع / تقديم 10 ثوانٍ** ضمن الصوت المخزّن في الذاكرة — وليس إعادة بث كاملة.
+- **شريط تمرير قابل للسحب** — للانتقال داخل نافذة المخزن؛ النص `{position} / {buffered}` (مثل `1:23 / 4:56`).
+- حالة اتصال، رسالة خطأ، و**إعادة المحاولة**.
+- المحرك: `flutter_soloud` `^4.1.7` مع `BufferingType.preserved` + Dio.
+- البنية: `HomeCubit` → use cases (ملف لكل use case) → `QuranRadioPlayer`.
+
+**ملاحظة:** التشغيل في الخلفية وعناصر التحكم من شاشة القفل **لم تُنفَّذ بعد** (المرحلة 5). iOS يتطلب **13.0+**.
 
 **القائمة الجانبية**
 - رأس: اسم التطبيق والشعار (متكيف مع الفاتح والداكن).
@@ -700,7 +730,7 @@ fvm flutter run
 fvm flutter build apk --release
 ```
 
-شغّل codegen بعد تعديل `@freezed` أو `@injectable` أو ملفات `.arb`. بعد تغيير إعدادات Android/iOS، **أعد تشغيل التطبيق بالكامل**.
+شغّل codegen بعد تعديل `@freezed` أو `@injectable` أو ملفات `.arb`. بعد إضافة `flutter_soloud` أو تغيير iOS deployment target، **أعد تشغيل التطبيق بالكامل**.
 
 ---
 

@@ -1,0 +1,34 @@
+---
+description: Home feature uses one cubit, repository, and datasource stack
+globs: lib/features/home/**
+alwaysApply: false
+---
+
+# Home single layers
+
+Everything under [`lib/features/home/`](lib/features/home/) shares **one** repository/datasource stack:
+
+- `HomeCubit` + `HomeState` (prayer times)
+- `QuranRadioCubit` + `QuranRadioState` (Quran radio)
+- `IHomeRepository` / `HomeRepository`
+- `IHomeRemoteSource` / `IHomeLocalSource`
+
+## Do not
+
+- Create `lib/features/quran_radio/` or other parallel home feature modules
+- Add `IRadioRepository` or duplicate remote/local datasources for home sections
+- Wire audio engine (e.g. `flutter_soloud`) directly from widgets or `HomeScreenNotifier`
+
+## Do
+
+- Extend home via **entities, models, use cases, and presentation widgets**
+- Add player/helpers under `data/datasource/` (e.g. `quran_radio_player.dart`) consumed only through `HomeRepository` / `IHomeRemoteSource`
+- Keep prayer and radio state in their own cubits with flat union states (`HomeState.prayerTimesLoaded`, `QuranRadioState.loaded`, …)
+
+```dart
+// ✅ GOOD — radio play goes through QuranRadioCubit → use case → repository → datasource
+void onPlayRadio() => quranRadioCubit.playRadio();
+
+// ❌ BAD — parallel repo stack or direct player in UI
+await audioPlayer.play();
+```

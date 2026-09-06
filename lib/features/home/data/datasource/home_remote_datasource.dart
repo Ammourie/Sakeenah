@@ -2,9 +2,10 @@ part of 'ihome_remote_datasource.dart';
 
 @Injectable(as: IHomeRemoteSource)
 class HomeRemoteSource extends IHomeRemoteSource {
-  HomeRemoteSource(this._localDataSource);
+  HomeRemoteSource(this._localDataSource, this._quranRadioPlayer);
 
   final IHomeLocalSource _localDataSource;
+  final QuranRadioPlayer _quranRadioPlayer;
 
   @override
   Future<Either<AppErrors, DailyPrayerScheduleModel>> getTodayPrayerTimes(
@@ -49,10 +50,7 @@ class HomeRemoteSource extends IHomeRemoteSource {
     }
 
     final cached = await _localDataSource.getTodayPrayerTimes(params);
-    return cached.fold(
-      (_) => remote,
-      Right.new,
-    );
+    return cached.fold((_) => remote, Right.new);
   }
 
   @override
@@ -75,8 +73,9 @@ class HomeRemoteSource extends IHomeRemoteSource {
     );
 
     if (remote.isRight()) {
-      final countries =
-          remote.getOrElse(() => CountryListModel(countries: const []));
+      final countries = remote.getOrElse(
+        () => CountryListModel(countries: const []),
+      );
       await _localDataSource.saveCountries(countries);
       return Right(countries);
     }
@@ -115,4 +114,97 @@ class HomeRemoteSource extends IHomeRemoteSource {
 
     return cached;
   }
+
+  @override
+  Stream<RadioPlayerEntity> watchQuranRadio() async* {
+    yield _quranRadioPlayer.currentState;
+    yield* _quranRadioPlayer.stream;
+  }
+
+  @override
+  Future<Either<AppErrors, RadioPlayerEntity>> playQuranRadio() async {
+    // return Left(AppErrors.customError(message: 'something went wrong'));
+
+    try {
+      final state = await _quranRadioPlayer.play();
+      if (state.status == RadioPlayerStatus.error) {
+        return Left(AppErrors.customError(message: state.errorMessage ?? ''));
+      }
+      return Right(state);
+    } catch (error) {
+      return Left(AppErrors.customError(message: error.toString()));
+    }
+  }
+
+  @override
+  Future<Either<AppErrors, RadioPlayerEntity>> pauseQuranRadio() async {
+    try {
+      final state = await _quranRadioPlayer.pause();
+      return Right(state);
+    } catch (error) {
+      return Left(AppErrors.customError(message: error.toString()));
+    }
+  }
+
+  @override
+  Future<Either<AppErrors, RadioPlayerEntity>> setQuranRadioVolume(
+    double volume,
+  ) async {
+    try {
+      final state = await _quranRadioPlayer.setVolume(volume);
+      return Right(state);
+    } catch (error) {
+      return Left(AppErrors.customError(message: error.toString()));
+    }
+  }
+
+  @override
+  Future<Either<AppErrors, RadioPlayerEntity>> seekQuranRadio(
+    Duration offset,
+  ) async {
+    try {
+      final state = await _quranRadioPlayer.seekBy(offset);
+      return Right(state);
+    } catch (error) {
+      return Left(AppErrors.customError(message: error.toString()));
+    }
+  }
+
+  @override
+  Future<Either<AppErrors, RadioPlayerEntity>> seekQuranRadioTo(
+    int positionSeconds,
+  ) async {
+    try {
+      final state = await _quranRadioPlayer.seekTo(positionSeconds);
+      return Right(state);
+    } catch (error) {
+      return Left(AppErrors.customError(message: error.toString()));
+    }
+  }
+
+  @override
+  Future<Either<AppErrors, RadioPlayerEntity>> retryQuranRadio() async {
+    try {
+      final state = await _quranRadioPlayer.retry();
+      if (state.status == RadioPlayerStatus.error) {
+        return Left(AppErrors.customError(message: state.errorMessage ?? ''));
+      }
+      return Right(state);
+    } catch (error) {
+      return Left(AppErrors.customError(message: error.toString()));
+    }
+  }
+
+  @override
+  Future<Either<AppErrors, RadioPlayerEntity>> stopQuranRadio() async {
+    try {
+      final state = await _quranRadioPlayer.stop();
+      return Right(state);
+    } catch (error) {
+      return Left(AppErrors.customError(message: error.toString()));
+    }
+  }
+
+  @override
+  Future<void> disposeQuranRadio() => _quranRadioPlayer.dispose();
 }

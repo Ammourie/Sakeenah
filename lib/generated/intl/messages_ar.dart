@@ -31,7 +31,9 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m4(label) => "الموقع: ${label}";
 
-  static String m5(permissionName) =>
+  static String m5(position, buffered) => "${position} / ${buffered}";
+
+  static String m6(permissionName) =>
       "صلاحية الوصول لل${permissionName} مطلوبة!";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -65,10 +67,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "changeLocation": MessageLookupByLibrary.simpleMessage("تغيير الموقع"),
     "chatList": MessageLookupByLibrary.simpleMessage("قائمة المحادثات"),
     "cityHint": MessageLookupByLibrary.simpleMessage("المدينة"),
-    "cityInputModeLabel": MessageLookupByLibrary.simpleMessage("المدينة"),
-    "cityInputModeManual": MessageLookupByLibrary.simpleMessage("أدخل العنوان"),
+    "cityInputModeLabel": MessageLookupByLibrary.simpleMessage(
+      "طريقة تحديد الموقع",
+    ),
+    "cityInputModeManual": MessageLookupByLibrary.simpleMessage(
+      "العنوان الكامل",
+    ),
     "cityInputModePicker": MessageLookupByLibrary.simpleMessage(
-      "اختر من القائمة",
+      "البلد والمدينة",
     ),
     "close": MessageLookupByLibrary.simpleMessage("إغلاق"),
     "closeApp": MessageLookupByLibrary.simpleMessage("إغلاق التطبيق"),
@@ -100,7 +106,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "اختر بلدك ومدينتك من قائمة.",
     ),
     "countryCityPickerMessage": MessageLookupByLibrary.simpleMessage(
-      "اختر بلدك أولاً، ثم اختر المدينة من القائمة أو أدخل عنوانك الكامل لعرض مواقيت الصلاة.",
+      "اختر البلد والمدينة من القائمة، أو أدخل عنوانك الكامل بما في ذلك البلد.",
     ),
     "countryCityPickerTitle": MessageLookupByLibrary.simpleMessage(
       "اختر البلد والمدينة",
@@ -138,7 +144,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "empty": MessageLookupByLibrary.simpleMessage("لا يوجد معلومات لعرضها"),
     "emptyScreen": MessageLookupByLibrary.simpleMessage("هذه الصفحة فارغة"),
     "enterAddressManuallyHint": MessageLookupByLibrary.simpleMessage(
-      "الشارع، الحي، المدينة…",
+      "الشارع، المدينة، البلد…",
     ),
     "enterCodeText": MessageLookupByLibrary.simpleMessage(
       "من فضلك ادخل الكود المرسل إلى ",
@@ -180,6 +186,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "عذراً ، أنت في وضع الزائر ، سجل الدخول للمتابعة.",
     ),
     "homePage": MessageLookupByLibrary.simpleMessage("الرئيسية"),
+    "hoursShort": MessageLookupByLibrary.simpleMessage("س"),
     "ignoreForNow": MessageLookupByLibrary.simpleMessage("تجاهل"),
     "internalServerErrorMessage": MessageLookupByLibrary.simpleMessage(
       "واجه الخادم خطأ أو تهيئة خاطئة ولم يتمكن من إكمال طلبك سيتم إصلاح المشكلة في أقرب وقت.",
@@ -224,6 +231,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "mapPathError": MessageLookupByLibrary.simpleMessage(
       "لا نستطع تحديد الطريق",
     ),
+    "minutesShort": MessageLookupByLibrary.simpleMessage("د"),
     "nextPrayerIn": m1,
     "noDataRefresher": MessageLookupByLibrary.simpleMessage(
       "لم يعد يوجد بيانات",
@@ -283,6 +291,32 @@ class MessageLookup extends MessageLookupByLibrary {
     "pressTwiceToExit": MessageLookupByLibrary.simpleMessage(
       "إضغط مرتين للخروج",
     ),
+    "quranRadioBufferLoading": MessageLookupByLibrary.simpleMessage(
+      "جاري تخزين البث…",
+    ),
+    "quranRadioBufferProgress": m5,
+    "quranRadioConnecting": MessageLookupByLibrary.simpleMessage(
+      "جاري الاتصال…",
+    ),
+    "quranRadioError": MessageLookupByLibrary.simpleMessage("تعذر تشغيل البث"),
+    "quranRadioIdleHint": MessageLookupByLibrary.simpleMessage(
+      "ابدأ بث القرآن المباشر",
+    ),
+    "quranRadioLive": MessageLookupByLibrary.simpleMessage("مباشر"),
+    "quranRadioMute": MessageLookupByLibrary.simpleMessage("كتم الصوت"),
+    "quranRadioPause": MessageLookupByLibrary.simpleMessage("متوقف"),
+    "quranRadioPlay": MessageLookupByLibrary.simpleMessage("تشغيل"),
+    "quranRadioRetry": MessageLookupByLibrary.simpleMessage("إعادة المحاولة"),
+    "quranRadioSkipBackward": MessageLookupByLibrary.simpleMessage(
+      "رجوع 10 ثوانٍ",
+    ),
+    "quranRadioSkipForward": MessageLookupByLibrary.simpleMessage(
+      "تقديم 10 ثوانٍ",
+    ),
+    "quranRadioStop": MessageLookupByLibrary.simpleMessage("إيقاف"),
+    "quranRadioTitle": MessageLookupByLibrary.simpleMessage("إذاعة القرآن"),
+    "quranRadioUnmute": MessageLookupByLibrary.simpleMessage("إلغاء الكتم"),
+    "quranRadioVolume": MessageLookupByLibrary.simpleMessage("مستوى الصوت"),
     "refresh": MessageLookupByLibrary.simpleMessage("تحديث"),
     "reportError": MessageLookupByLibrary.simpleMessage(
       "حدث خطأ ما، الرجاء الضغط على إرسال لمساعدتنا بحل المشكلة",
@@ -294,6 +328,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "retry": MessageLookupByLibrary.simpleMessage("إعادة المحاولة"),
     "saveLocation": MessageLookupByLibrary.simpleMessage("حفظ الموقع"),
     "search": MessageLookupByLibrary.simpleMessage("بحث"),
+    "secondsShort": MessageLookupByLibrary.simpleMessage("ث"),
     "selectCityHint": MessageLookupByLibrary.simpleMessage("اختر المدينة"),
     "selectCountryFirstHint": MessageLookupByLibrary.simpleMessage(
       "اختر البلد أولاً",
@@ -310,7 +345,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "setLocationTitle": MessageLookupByLibrary.simpleMessage("حدد موقعك"),
     "signUp": MessageLookupByLibrary.simpleMessage("تسجيل حساب"),
-    "specificPermissionRequired": m5,
+    "specificPermissionRequired": m6,
     "switchTheme": MessageLookupByLibrary.simpleMessage("تغيير وضع الالوان"),
     "testErrorScreen": MessageLookupByLibrary.simpleMessage(
       "اختبار كاشف الأخطاء",

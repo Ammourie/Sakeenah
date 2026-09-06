@@ -11,6 +11,7 @@ import '../../data/request/param/get_countries_params.dart';
 import '../../data/request/param/get_today_prayer_times_params.dart';
 import '../entity/country_entity.dart';
 import '../entity/daily_prayer_schedule_entity.dart';
+import '../entity/radio_player_entity.dart';
 
 part 'home_repository.dart';
 
@@ -26,4 +27,28 @@ abstract class IHomeRepository extends Repository {
   Future<Result<AppErrors, CityListEntity>> getCitiesByCountry(
     GetCitiesByCountryParams params,
   );
+
+  Stream<RadioPlayerEntity> watchQuranRadio();
+
+  Future<Result<AppErrors, RadioPlayerEntity>> playQuranRadio();
+
+  Future<Result<AppErrors, RadioPlayerEntity>> pauseQuranRadio();
+
+  Future<Result<AppErrors, RadioPlayerEntity>> setQuranRadioVolume(
+    double volume,
+  );
+
+  Future<Result<AppErrors, RadioPlayerEntity>> seekQuranRadio(
+    Duration offset,
+  );
+
+  Future<Result<AppErrors, RadioPlayerEntity>> seekQuranRadioTo(
+    int positionSeconds,
+  );
+
+  Future<Result<AppErrors, RadioPlayerEntity>> retryQuranRadio();
+
+  Future<Result<AppErrors, RadioPlayerEntity>> stopQuranRadio();
+
+  Future<void> disposeQuranRadio();
 }

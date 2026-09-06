@@ -8,7 +8,7 @@
   "forbidden": "Forbidden",
   "notFound": "{url} not Found",
   "conflictError": "Conflict Error",
-  "notValidResponse":"Not valid response",
+  "notValidResponse": "Not valid response",
   "connectionTimeOut": "Connection time out",
   "unknownError": "Unknown error occurred, please try again",
   "internalServerErrorMessage": "The server encountered an internal error or misconfigurtion and was unable to complete your request.",
@@ -132,8 +132,12 @@
   "nextPrayerIn": "Next is {prayer} after {time}",
   "@nextPrayerIn": {
     "placeholders": {
-      "prayer": {"type": "String"},
-      "time": {"type": "String"}
+      "prayer": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
     }
   },
   "durationHourUnitOne": "hour",
@@ -159,7 +163,9 @@
   "prayerLocationLabel": "Location: {label}",
   "@prayerLocationLabel": {
     "placeholders": {
-      "label": {"type": "String"}
+      "label": {
+        "type": "String"
+      }
     }
   },
   "locationAreaFallback": "Your area",
@@ -184,5 +190,34 @@
   "cityInputModePicker": "Country & city",
   "cityInputModeManual": "Full address",
   "addressHint": "Address",
-  "enterAddressManuallyHint": "Street, city, country…"
+  "enterAddressManuallyHint": "Street, city, country…",
+  "quranRadioTitle": "Quran Radio",
+  "quranRadioPlay": "Play",
+  "quranRadioPause": "Paused",
+  "quranRadioConnecting": "Connecting…",
+  "quranRadioError": "Unable to play the stream",
+  "quranRadioRetry": "Retry",
+  "quranRadioVolume": "Volume",
+  "quranRadioMute": "Mute",
+  "quranRadioUnmute": "Unmute",
+  "quranRadioSkipBackward": "Skip back 10 seconds",
+  "quranRadioSkipForward": "Skip forward 10 seconds",
+  "quranRadioStop": "Stop",
+  "quranRadioLive": "Live",
+  "quranRadioIdleHint": "Start the live Quran stream",
+  "quranRadioBufferLoading": "Buffering stream…",
+  "quranRadioBufferProgress": "{position} / {buffered}",
+  "@quranRadioBufferProgress": {
+    "placeholders": {
+      "position": {
+        "type": "String"
+      },
+      "buffered": {
+        "type": "String"
+      }
+    }
+  },
+  "hoursShort": "h",
+  "minutesShort": "m",
+  "secondsShort": "s"
 }

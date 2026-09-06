@@ -2,19 +2,16 @@ part of 'home_cubit.dart';
 
 @freezed
 class HomeState with _$HomeState {
-  const factory HomeState.homeInitState() = HomeInitState;
+  const factory HomeState.initial() = HomeInitialState;
 
-  const factory HomeState.homeLoadingState() = HomeLoadingState;
+  const factory HomeState.prayerTimesLoading() = HomePrayerTimesLoadingState;
 
-  const factory HomeState.homeLoadedState(EmptyResponse emptyResponse) =
-      HomeLoadedState;
+  const factory HomeState.prayerTimesLoaded({
+    required DailyPrayerScheduleEntity schedule,
+  }) = HomePrayerTimesLoadedState;
 
-  const factory HomeState.homeErrorState(
-    AppErrors error,
-    VoidCallback callback,
-  ) = HomeErrorInitState;
-
-  const factory HomeState.prayerTimesLoadedState(
-    DailyPrayerScheduleEntity schedule,
-  ) = PrayerTimesLoadedState;
+  const factory HomeState.prayerTimesError({
+    required AppErrors error,
+    required VoidCallback callback,
+  }) = HomePrayerTimesErrorState;
 }

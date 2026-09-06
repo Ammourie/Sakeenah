@@ -1430,10 +1430,10 @@ class S {
     );
   }
 
-  /// `Select your country first, then pick a city from the list or enter your full address for prayer times.`
+  /// `Pick country and city from the list, or enter your full address including country.`
   String get countryCityPickerMessage {
     return Intl.message(
-      'Select your country first, then pick a city from the list or enter your full address for prayer times.',
+      'Pick country and city from the list, or enter your full address including country.',
       name: 'countryCityPickerMessage',
       desc: '',
       args: [],
@@ -1470,25 +1470,30 @@ class S {
     );
   }
 
-  /// `City`
+  /// `How to set location`
   String get cityInputModeLabel {
-    return Intl.message('City', name: 'cityInputModeLabel', desc: '', args: []);
+    return Intl.message(
+      'How to set location',
+      name: 'cityInputModeLabel',
+      desc: '',
+      args: [],
+    );
   }
 
-  /// `Pick from list`
+  /// `Country & city`
   String get cityInputModePicker {
     return Intl.message(
-      'Pick from list',
+      'Country & city',
       name: 'cityInputModePicker',
       desc: '',
       args: [],
     );
   }
 
-  /// `Enter address`
+  /// `Full address`
   String get cityInputModeManual {
     return Intl.message(
-      'Enter address',
+      'Full address',
       name: 'cityInputModeManual',
       desc: '',
       args: [],
@@ -1500,14 +1505,149 @@ class S {
     return Intl.message('Address', name: 'addressHint', desc: '', args: []);
   }
 
-  /// `Street, district, city…`
+  /// `Street, city, country…`
   String get enterAddressManuallyHint {
     return Intl.message(
-      'Street, district, city…',
+      'Street, city, country…',
       name: 'enterAddressManuallyHint',
       desc: '',
       args: [],
     );
+  }
+
+  /// `Quran Radio`
+  String get quranRadioTitle {
+    return Intl.message(
+      'Quran Radio',
+      name: 'quranRadioTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Play`
+  String get quranRadioPlay {
+    return Intl.message('Play', name: 'quranRadioPlay', desc: '', args: []);
+  }
+
+  /// `Paused`
+  String get quranRadioPause {
+    return Intl.message('Paused', name: 'quranRadioPause', desc: '', args: []);
+  }
+
+  /// `Connecting…`
+  String get quranRadioConnecting {
+    return Intl.message(
+      'Connecting…',
+      name: 'quranRadioConnecting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unable to play the stream`
+  String get quranRadioError {
+    return Intl.message(
+      'Unable to play the stream',
+      name: 'quranRadioError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retry`
+  String get quranRadioRetry {
+    return Intl.message('Retry', name: 'quranRadioRetry', desc: '', args: []);
+  }
+
+  /// `Volume`
+  String get quranRadioVolume {
+    return Intl.message('Volume', name: 'quranRadioVolume', desc: '', args: []);
+  }
+
+  /// `Mute`
+  String get quranRadioMute {
+    return Intl.message('Mute', name: 'quranRadioMute', desc: '', args: []);
+  }
+
+  /// `Unmute`
+  String get quranRadioUnmute {
+    return Intl.message('Unmute', name: 'quranRadioUnmute', desc: '', args: []);
+  }
+
+  /// `Skip back 10 seconds`
+  String get quranRadioSkipBackward {
+    return Intl.message(
+      'Skip back 10 seconds',
+      name: 'quranRadioSkipBackward',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Skip forward 10 seconds`
+  String get quranRadioSkipForward {
+    return Intl.message(
+      'Skip forward 10 seconds',
+      name: 'quranRadioSkipForward',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Stop`
+  String get quranRadioStop {
+    return Intl.message('Stop', name: 'quranRadioStop', desc: '', args: []);
+  }
+
+  /// `Live`
+  String get quranRadioLive {
+    return Intl.message('Live', name: 'quranRadioLive', desc: '', args: []);
+  }
+
+  /// `Start the live Quran stream`
+  String get quranRadioIdleHint {
+    return Intl.message(
+      'Start the live Quran stream',
+      name: 'quranRadioIdleHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Buffering stream…`
+  String get quranRadioBufferLoading {
+    return Intl.message(
+      'Buffering stream…',
+      name: 'quranRadioBufferLoading',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{position} / {buffered}`
+  String quranRadioBufferProgress(String position, String buffered) {
+    return Intl.message(
+      '$position / $buffered',
+      name: 'quranRadioBufferProgress',
+      desc: '',
+      args: [position, buffered],
+    );
+  }
+
+  /// `h`
+  String get hoursShort {
+    return Intl.message('h', name: 'hoursShort', desc: '', args: []);
+  }
+
+  /// `m`
+  String get minutesShort {
+    return Intl.message('m', name: 'minutesShort', desc: '', args: []);
+  }
+
+  /// `s`
+  String get secondsShort {
+    return Intl.message('s', name: 'secondsShort', desc: '', args: []);
   }
 }
 
