@@ -44,7 +44,7 @@ class HomeScreenContent extends StatelessWidget {
         ],
       ),
       child: Scaffold(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Colors.transparent,
         drawer: const HomeDrawer(),
         body: CurvedAppBarLayout(
           appBar: CurvedAppBar(

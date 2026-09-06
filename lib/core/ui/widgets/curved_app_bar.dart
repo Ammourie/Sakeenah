@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../common/hive_helper.dart';
 import '../../common/local_storage.dart';
 import '../../../generated/l10n.dart';
+import 'app_wallpaper.dart';
 import 'restart_widget.dart';
 
 /// Material 3 top bar with a rounded bottom curve (Sakeenah primary surface).
@@ -208,13 +209,14 @@ enum _CurvedAppBarDebugAction {
   clearFirstStartPreferences,
 }
 
-/// Stacks [appBar] over [body] with correct top inset so the curve reads clearly.
+/// Stacks [AppWallpaper], [appBar], and [body] so the curve and circles show.
 class CurvedAppBarLayout extends StatelessWidget {
   const CurvedAppBarLayout({
     super.key,
     required this.appBar,
     required this.body,
     this.bodyTopGap = 12,
+    this.showWallpaper = true,
   });
 
   final CurvedAppBar appBar;
@@ -222,6 +224,9 @@ class CurvedAppBarLayout extends StatelessWidget {
 
   /// Extra space between the bar curve and the first line of body content.
   final double bodyTopGap;
+
+  /// Soft circle/grid canvas behind the body. Leave on for standard screens.
+  final bool showWallpaper;
 
   @override
   Widget build(BuildContext context) {
@@ -234,6 +239,7 @@ class CurvedAppBarLayout extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: [
+        if (showWallpaper) const AppWallpaper(),
         Padding(
           padding: EdgeInsets.only(top: topPadding),
           child: body,

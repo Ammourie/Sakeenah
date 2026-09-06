@@ -1,28 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// Minimal grid + blob wallpaper for onboarding screens (language, theme).
-class OnboardingWallpaper extends StatelessWidget {
-  const OnboardingWallpaper({super.key});
+/// Shared screen canvas: surface fill, soft primary/secondary circles, light grid.
+///
+/// [CurvedAppBarLayout] paints this automatically. Onboarding and splash
+/// (no curved bar) still place it as the first child of a full-screen [Stack].
+class AppWallpaper extends StatelessWidget {
+  const AppWallpaper({super.key});
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
     return CustomPaint(
-      painter: _OnboardingWallpaperPainter(
+      painter: _AppWallpaperPainter(
         surface: colorScheme.surface,
         primary: colorScheme.primary,
         secondary: colorScheme.secondary,
         outlineVariant: colorScheme.outlineVariant,
         gridStep: 48.w,
       ),
+      child: const SizedBox.expand(),
     );
   }
 }
 
-class _OnboardingWallpaperPainter extends CustomPainter {
-  _OnboardingWallpaperPainter({
+class _AppWallpaperPainter extends CustomPainter {
+  _AppWallpaperPainter({
     required this.surface,
     required this.primary,
     required this.secondary,
@@ -81,7 +85,7 @@ class _OnboardingWallpaperPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _OnboardingWallpaperPainter oldDelegate) {
+  bool shouldRepaint(covariant _AppWallpaperPainter oldDelegate) {
     return surface != oldDelegate.surface ||
         primary != oldDelegate.primary ||
         secondary != oldDelegate.secondary ||

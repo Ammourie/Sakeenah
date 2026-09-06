@@ -35,8 +35,9 @@ class MapLocationPickerScreenContent extends StatelessWidget {
     final sn = context.read<MapLocationPickerNotifier>();
 
     return Scaffold(
-      backgroundColor: colorScheme.surface,
+      backgroundColor: Colors.transparent,
       body: CurvedAppBarLayout(
+        showWallpaper: false,
         appBar: CurvedAppBar(
           title: S.current.pickLocationOnMapTitle,
           automaticallyImplyLeading: true,

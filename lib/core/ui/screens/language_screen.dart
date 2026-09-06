@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -9,9 +7,10 @@ import '../../common/local_storage.dart';
 import '../../constants/app/app_constants.dart';
 import '../../constants/enums/languages_enum.dart';
 import '../../navigation/nav.dart';
+import '../../theme/text_theme_styles.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_image.dart';
-import '../widgets/onboarding_wallpaper.dart';
+import '../widgets/app_wallpaper.dart';
 import '../widgets/animated_wrapper.dart';
 import '../widgets/themed_system_overlay.dart';
 import 'base_screen.dart';
@@ -56,7 +55,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
             body: Stack(
               fit: StackFit.expand,
               children: [
-                const OnboardingWallpaper(),
+                const AppWallpaper(),
                 SafeArea(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -94,7 +93,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                                     32.verticalSpace,
                                     AnimatedWrapper.scaleIn(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.center,
+                                          CrossAxisAlignment.stretch,
                                       delay: const Duration(milliseconds: 120),
                                       interval: const Duration(
                                         milliseconds: 100,
@@ -203,75 +202,50 @@ class _LanguageScreenState extends State<LanguageScreen> {
           (n) => n.selectedLanguage,
         );
 
-        return LayoutBuilder(
-          builder: (context, constraints) {
-            final gap = 16.w;
-            final maxSide = math.min(
-              (constraints.maxWidth - gap) / 2,
-              156.r,
-            );
-            final rowWidth = maxSide * 2 + gap;
-
-            return Align(
-              alignment: Alignment.center,
-              child: SizedBox(
-                width: rowWidth,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: maxSide,
-                      height: maxSide,
-                      child: _buildLanguageCard(
-                        context: context,
-                        value: LanguagesEnum.english,
-                        label: AppConstants.LANG_EN_OUTPUT,
-                        iconAsset: AppConstants.SVG_ICON_CASE_SENSITIVE,
-                        selected: selected == LanguagesEnum.english,
-                      ),
-                    ),
-                    gap.horizontalSpace,
-                    SizedBox(
-                      width: maxSide,
-                      height: maxSide,
-                      child: _buildLanguageCard(
-                        context: context,
-                        value: LanguagesEnum.arabic,
-                        label: AppConstants.LANG_AR_OUTPUT,
-                        iconAsset: AppConstants.SVG_ICON_ALIGN_RIGHT,
-                        selected: selected == LanguagesEnum.arabic,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _buildLanguageTile(
+              context: context,
+              value: LanguagesEnum.english,
+              label: AppConstants.LANG_EN_OUTPUT,
+              code: AppConstants.LANG_EN_CODE,
+              languageCode: AppConstants.LANG_EN,
+              selected: selected == LanguagesEnum.english,
+            ),
+            12.verticalSpace,
+            _buildLanguageTile(
+              context: context,
+              value: LanguagesEnum.arabic,
+              label: AppConstants.LANG_AR_OUTPUT,
+              code: AppConstants.LANG_AR_CODE,
+              languageCode: AppConstants.LANG_AR,
+              selected: selected == LanguagesEnum.arabic,
+            ),
+          ],
         );
       },
     );
   }
 
-  Widget _buildLanguageCard({
+  Widget _buildLanguageTile({
     required BuildContext context,
     required LanguagesEnum value,
     required String label,
-    required String iconAsset,
+    required String code,
+    required String languageCode,
     required bool selected,
   }) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final isArabic = languageCode == AppConstants.LANG_AR;
 
-    final cardColor = selected
-        ? colorScheme.primaryContainer.withValues(alpha: 0.55)
+    final tileColor = selected
+        ? colorScheme.primaryContainer.withValues(alpha: 0.45)
         : colorScheme.surfaceContainer;
     final borderColor =
         selected ? colorScheme.primary : colorScheme.outlineVariant;
-    final iconBackground = selected
-        ? colorScheme.primary
-        : colorScheme.surfaceContainerHigh;
-    final iconColor =
-        selected ? colorScheme.onPrimary : colorScheme.onSurfaceVariant;
 
     return Semantics(
       button: true,
@@ -281,96 +255,83 @@ class _LanguageScreenState extends State<LanguageScreen> {
         duration: const Duration(milliseconds: 220),
         curve: Curves.easeOut,
         decoration: BoxDecoration(
-          color: cardColor,
-          borderRadius: BorderRadius.circular(20.r),
-          border: Border.all(
-            color: borderColor,
-            width: selected ? 2 : 1,
-          ),
-          boxShadow: selected
-              ? [
-                  BoxShadow(
-                    color: colorScheme.primary.withValues(alpha: 0.14),
-                    blurRadius: 16.r,
-                    offset: Offset(0, 6.h),
-                  ),
-                ]
-              : null,
+          color: tileColor,
+          borderRadius: BorderRadius.circular(16.r),
+          border: Border.all(color: borderColor, width: selected ? 2 : 1),
         ),
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            borderRadius: BorderRadius.circular(20.r),
+            borderRadius: BorderRadius.circular(16.r),
             onTap: () => sn.selectedLanguage = value,
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.w,
-                    vertical: 14.h,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 56.r,
-                        height: 56.r,
-                        decoration: BoxDecoration(
-                          color: iconBackground,
-                          borderRadius: BorderRadius.circular(16.r),
-                        ),
-                        alignment: Alignment.center,
-                        child: CustomImage.asset(
-                          iconAsset,
-                          width: 28.r,
-                          height: 28.r,
-                          color: iconColor,
-                        ),
-                      ),
-                      12.verticalSpace,
-                      FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
                           label,
-                          textAlign: TextAlign.center,
                           maxLines: 1,
-                          style: textTheme.titleSmall?.copyWith(
+                          overflow: TextOverflow.ellipsis,
+                          textDirection: isArabic
+                              ? TextDirection.rtl
+                              : TextDirection.ltr,
+                          locale: Locale(languageCode),
+                          style: textTheme.titleMedium?.copyWith(
                             color: colorScheme.onSurface,
-                            fontWeight:
-                                selected ? FontWeight.w700 : FontWeight.w600,
+                            fontWeight: selected
+                                ? FontWeight.w700
+                                : FontWeight.w600,
+                            fontFamily: TextThemeStyles.fontFamily(
+                              languageCode: languageCode,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                if (selected)
-                  PositionedDirectional(
-                    top: 10.h,
-                    end: 10.w,
-                    child: Container(
-                      width: 22.r,
-                      height: 22.r,
-                      decoration: BoxDecoration(
-                        color: colorScheme.secondary,
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: colorScheme.surface,
-                          width: 1.5,
+                        4.verticalSpace,
+                        Text(
+                          code,
+                          style: textTheme.bodySmall?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                            fontWeight: FontWeight.w500,
+                            letterSpacing: 0.8,
+                          ),
                         ),
-                      ),
-                      child: Center(
-                        child: CustomImage.asset(
-                          AppConstants.SVG_ICON_CHECK,
-                          width: 12.r,
-                          height: 12.r,
-                          color: colorScheme.onSecondary,
-                        ),
-                      ),
+                      ],
                     ),
                   ),
-              ],
+                  12.horizontalSpace,
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    width: 24.r,
+                    height: 24.r,
+                    decoration: BoxDecoration(
+                      color: selected
+                          ? colorScheme.secondary
+                          : Colors.transparent,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: selected
+                            ? colorScheme.secondary
+                            : colorScheme.outline,
+                        width: selected ? 0 : 1.5,
+                      ),
+                    ),
+                    child: selected
+                        ? Center(
+                            child: CustomImage.asset(
+                              AppConstants.SVG_ICON_CHECK,
+                              width: 13.r,
+                              height: 13.r,
+                              color: colorScheme.onSecondary,
+                            ),
+                          )
+                        : null,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

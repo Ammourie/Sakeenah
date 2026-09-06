@@ -5,14 +5,13 @@ import '../../ui/dialogs/permission_alert_dialog.dart';
 import '../../ui/dialogs/show_dialog.dart';
 import '../app_config.dart';
 
-enum PermissionOption {
-  NoPermission,
-  ForcePermission,
-  DefaultPermission,
-}
+enum PermissionOption { NoPermission, ForcePermission, DefaultPermission }
+
+bool alreadyShowingDialog = false;
 
 Future<Map<Permission, PermissionStatus>> requestPermission(
-    RequestPermissionsParam param) async {
+  RequestPermissionsParam param,
+) async {
   Map<Permission, PermissionStatus> result = {};
   final permissionsList = Permission.values;
   for (int i = 0; i < permissionsList.length; i++) {
@@ -29,7 +28,9 @@ Future<Map<Permission, PermissionStatus>> requestPermission(
 }
 
 Future<PermissionStatus> _requestPermission(
-    Permission permission, bool isForce) async {
+  Permission permission,
+  bool isForce,
+) async {
   if (await permission.isGranted) return PermissionStatus.granted;
 
   if (await permission.isPermanentlyDenied) {
@@ -47,6 +48,8 @@ Future<PermissionStatus> _requestPermission(
 }
 
 Future<void> _showDialog(Permission permission) async {
+  if (alreadyShowingDialog) return;
+  alreadyShowingDialog = true;
   await ShowDialog().showElasticDialog(
     context: AppConfig().appContext!,
     barrierDismissible: false,
@@ -54,6 +57,7 @@ Future<void> _showDialog(Permission permission) async {
       permissionName: _getTranslatedPermissionName(permission),
     ),
   );
+  alreadyShowingDialog = false;
 }
 
 class RequestPermissionsParam {
@@ -124,38 +128,38 @@ class RequestPermissionsParam {
   });
 
   Map<Permission, PermissionOption> get toMap => {
-        Permission.calendarFullAccess: calendarFullAccess,
-        Permission.calendarWriteOnly: calendarWriteOnly,
-        Permission.camera: camera,
-        Permission.contacts: contacts,
-        Permission.location: location,
-        Permission.locationAlways: locationAlways,
-        Permission.locationWhenInUse: locationWhenInUse,
-        Permission.mediaLibrary: mediaLibrary,
-        Permission.microphone: microphone,
-        Permission.phone: phone,
-        Permission.photos: photos,
-        Permission.photosAddOnly: photosAddOnly,
-        Permission.reminders: reminders,
-        Permission.sensors: sensors,
-        Permission.sms: sms,
-        Permission.speech: speech,
-        Permission.storage: storage,
-        Permission.ignoreBatteryOptimizations: ignoreBatteryOptimizations,
-        Permission.notification: notification,
-        Permission.accessMediaLocation: accessMediaLocation,
-        Permission.activityRecognition: activityRecognition,
-        Permission.bluetooth: bluetooth,
-        Permission.manageExternalStorage: manageExternalStorage,
-        Permission.systemAlertWindow: systemAlertWindow,
-        Permission.requestInstallPackages: requestInstallPackages,
-        Permission.appTrackingTransparency: appTrackingTransparency,
-        Permission.criticalAlerts: criticalAlerts,
-        Permission.accessNotificationPolicy: accessNotificationPolicy,
-        Permission.bluetoothScan: bluetoothScan,
-        Permission.bluetoothAdvertise: bluetoothAdvertise,
-        Permission.bluetoothConnect: bluetoothConnect,
-      };
+    Permission.calendarFullAccess: calendarFullAccess,
+    Permission.calendarWriteOnly: calendarWriteOnly,
+    Permission.camera: camera,
+    Permission.contacts: contacts,
+    Permission.location: location,
+    Permission.locationAlways: locationAlways,
+    Permission.locationWhenInUse: locationWhenInUse,
+    Permission.mediaLibrary: mediaLibrary,
+    Permission.microphone: microphone,
+    Permission.phone: phone,
+    Permission.photos: photos,
+    Permission.photosAddOnly: photosAddOnly,
+    Permission.reminders: reminders,
+    Permission.sensors: sensors,
+    Permission.sms: sms,
+    Permission.speech: speech,
+    Permission.storage: storage,
+    Permission.ignoreBatteryOptimizations: ignoreBatteryOptimizations,
+    Permission.notification: notification,
+    Permission.accessMediaLocation: accessMediaLocation,
+    Permission.activityRecognition: activityRecognition,
+    Permission.bluetooth: bluetooth,
+    Permission.manageExternalStorage: manageExternalStorage,
+    Permission.systemAlertWindow: systemAlertWindow,
+    Permission.requestInstallPackages: requestInstallPackages,
+    Permission.appTrackingTransparency: appTrackingTransparency,
+    Permission.criticalAlerts: criticalAlerts,
+    Permission.accessNotificationPolicy: accessNotificationPolicy,
+    Permission.bluetoothScan: bluetoothScan,
+    Permission.bluetoothAdvertise: bluetoothAdvertise,
+    Permission.bluetoothConnect: bluetoothConnect,
+  };
 }
 
 String? _getTranslatedPermissionName(Permission permission) {
@@ -165,7 +169,7 @@ String? _getTranslatedPermissionName(Permission permission) {
     return S.current.locationPermission;
   else if (permission == Permission.camera)
     return S.current.cameraPermission;
-  // TODO: translate other permissions  
+  // TODO: translate other permissions
   // else if (permission == Permission.microphone)
   //   return S.current.microphonePermission;
   // else if (permission == Permission.photos)

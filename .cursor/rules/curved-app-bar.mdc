@@ -29,6 +29,7 @@ bottom edge and the curve stays visible.
 import '../widgets/curved_app_bar.dart';
 
 Scaffold(
+  backgroundColor: Colors.transparent,
   drawer: myDrawer, // optional
   body: CurvedAppBarLayout(
     appBar: CurvedAppBar(
@@ -41,22 +42,10 @@ Scaffold(
 )
 ```
 
-Full-screen background + bar overlay:
-
-```dart
-Scaffold(
-  body: Stack(
-    fit: StackFit.expand,
-    children: [
-      const MyBackground(),
-      CurvedAppBarLayout(
-        appBar: CurvedAppBar(title: S.current.someTitle),
-        body: _ScreenContent(),
-      ),
-    ],
-  ),
-)
-```
+`CurvedAppBarLayout` already paints [`AppWallpaper`](lib/core/ui/widgets/app_wallpaper.dart)
+(circles + grid). Do not wrap another wallpaper around it — see rule
+`app-wallpaper.mdc`. Onboarding/splash without a bar still add `AppWallpaper`
+in their own `Stack`.
 
 Optional: `titleWidget`, `leading`, `actions`, `centerTitle`, `bottomCurveRadius`,
 `bodyTopGap` on `CurvedAppBarLayout` (default `12` logical gap below the curve).

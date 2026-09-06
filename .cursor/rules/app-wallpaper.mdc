@@ -1,0 +1,60 @@
+---
+description: Paint AppWallpaper (soft circles + grid) on every screen canvas
+alwaysApply: true
+---
+
+# App wallpaper (circles)
+
+Every screen uses the shared canvas from
+[`AppWallpaper`](lib/core/ui/widgets/app_wallpaper.dart) — surface fill,
+primary/secondary blobs, and a light grid. It is dual-theme (Material roles).
+
+## Standard screens (`CurvedAppBarLayout`)
+
+Do **not** wrap the wallpaper yourself. [`CurvedAppBarLayout`](lib/core/ui/widgets/curved_app_bar.dart)
+already paints `AppWallpaper` behind the body and bar.
+
+```dart
+Scaffold(
+  backgroundColor: Colors.transparent,
+  body: CurvedAppBarLayout(
+    appBar: CurvedAppBar(title: S.current.homePage, showDrawerMenu: true),
+    body: _Content(),
+  ),
+)
+```
+
+- Set `Scaffold.backgroundColor` to `Colors.transparent` so the circles show
+- Do **not** stack a second `AppWallpaper` around `CurvedAppBarLayout`
+- Opt out only when the canvas is fully replaced (e.g. a full-bleed map):
+  `CurvedAppBarLayout(..., showWallpaper: false)`
+
+## Onboarding / splash (no curved bar)
+
+Place wallpaper as the first child of a full-screen `Stack`:
+
+```dart
+Scaffold(
+  backgroundColor: Colors.transparent,
+  body: Stack(
+    fit: StackFit.expand,
+    children: [
+      const AppWallpaper(),
+      SafeArea(child: _Content()),
+    ],
+  ),
+)
+```
+
+## Do / don't
+
+```dart
+// ❌ BAD — opaque scaffold hides the circles
+backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+
+// ❌ BAD — duplicate wallpaper on a CurvedAppBarLayout screen
+Stack(children: [const AppWallpaper(), CurvedAppBarLayout(...)])
+
+// ✅ GOOD — layout paints it
+body: CurvedAppBarLayout(appBar: CurvedAppBar(title: ...), body: ...),
+```

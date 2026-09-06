@@ -65,13 +65,11 @@ class AppConstants {
   static const SVG_ICON_LANGUAGES = 'assets/images/svg/icons/languages.svg';
   static const SVG_ICON_CHECK = 'assets/images/svg/icons/check.svg';
   static const SVG_ICON_WIFI_OFF = 'assets/images/svg/icons/wifi-off.svg';
-  static const SVG_ICON_CASE_SENSITIVE =
-      'assets/images/svg/icons/case-sensitive.svg';
-  static const SVG_ICON_ALIGN_RIGHT =
-      'assets/images/svg/icons/align-right.svg';
   static const SVG_ICON_SUN = 'assets/images/svg/icons/sun.svg';
   static const SVG_ICON_MOON = 'assets/images/svg/icons/moon.svg';
   static const SVG_ICON_SUN_MOON = 'assets/images/svg/icons/sun-moon.svg';
+  static const SVG_ICON_SMARTPHONE =
+      'assets/images/svg/icons/smartphone.svg';
   static const SVG_ICON_GLOBE_2 = 'assets/images/svg/icons/globe-2.svg';
   static const SVG_ICON_MAP_PIN = 'assets/images/svg/icons/map-pin.svg';
   static const SVG_ICON_BOOK_OPEN_TEXT =

@@ -8,7 +8,7 @@ import '../../../../core/navigation/nav.dart';
 import '../../../../core/providers/countries_session_provider.dart';
 import '../../../../generated/l10n.dart';
 import '../../../home/presentation/screen/app_main_screen/app_main_screen.dart';
-import '../../../../core/ui/widgets/onboarding_wallpaper.dart';
+import '../../../../core/ui/widgets/app_wallpaper.dart';
 import '../../../../core/ui/widgets/themed_system_overlay.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
         body: Stack(
           fit: StackFit.expand,
           children: [
-            const OnboardingWallpaper(),
+            const AppWallpaper(),
             SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

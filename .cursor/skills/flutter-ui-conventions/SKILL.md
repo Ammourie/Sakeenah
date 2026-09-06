@@ -213,6 +213,7 @@ inside [`CurvedAppBarLayout`](lib/core/ui/widgets/curved_app_bar.dart) on
 
 ```dart
 Scaffold(
+  backgroundColor: Colors.transparent,
   body: CurvedAppBarLayout(
     appBar: CurvedAppBar(title: S.current.homePage, showDrawerMenu: true),
     body: _Content(),
@@ -223,8 +224,10 @@ Scaffold(
 - Body content must start below the bar (`bodyTopGap` default `12`) so the
   curved bottom edge stays visible
 - Drawer host: `showDrawerMenu: true`
+- `CurvedAppBarLayout` paints `AppWallpaper` (circles + grid). Do not add a
+  second wallpaper. See rule `app-wallpaper.mdc`.
 - Onboarding without a bar (language/theme first start): exception — inline
-  back button on wallpaper, no `CurvedAppBar`
+  back button on `AppWallpaper`, no `CurvedAppBar`
 
 ### Rendering states — `BlocBuilder` + `maybeWhen`, scoped narrowly
 

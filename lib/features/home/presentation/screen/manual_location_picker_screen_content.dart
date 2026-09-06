@@ -21,7 +21,7 @@ class ManualLocationPickerScreenContent extends StatelessWidget {
     );
 
     return Scaffold(
-      backgroundColor: colorScheme.surface,
+      backgroundColor: Colors.transparent,
       body: CurvedAppBarLayout(
         appBar: CurvedAppBar(
           title: S.current.countryCityPickerTitle,

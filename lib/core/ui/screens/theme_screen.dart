@@ -9,7 +9,7 @@ import '../../constants/app/app_constants.dart';
 import '../../navigation/nav.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_image.dart';
-import '../widgets/onboarding_wallpaper.dart';
+import '../widgets/app_wallpaper.dart';
 import '../widgets/animated_wrapper.dart';
 import '../widgets/themed_system_overlay.dart';
 import '../../../features/splash/presentation/screen/splash_screen.dart';
@@ -66,7 +66,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
                     body: Stack(
                       fit: StackFit.expand,
                       children: [
-                        const OnboardingWallpaper(),
+                        const AppWallpaper(),
                         SafeArea(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -234,7 +234,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
           context: context,
           value: ThemeMode.system,
           label: S.current.themeSystem,
-          iconAsset: AppConstants.SVG_ICON_SUN_MOON,
+          iconAsset: AppConstants.SVG_ICON_SMARTPHONE,
           selected: selected == ThemeMode.system,
         ),
       ],

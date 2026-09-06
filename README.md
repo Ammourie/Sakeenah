@@ -60,7 +60,7 @@ Pick **Light**, **Dark**, or **System** with a live preview — the screen updat
 
 A short branded screen (~2.2s) with the app illustration, name, and loading indicator, then navigation to home. While visible, the app **prefetches the country list** for the manual location picker so the picker opens faster.
 
-- **How it works:** `lib/features/splash/presentation/screen/splash_screen.dart` — uses `OnboardingWallpaper`, theme-aware logo, and `WaitingWidget`; calls `CountriesSessionProvider.prefetchCountries()` on first frame.
+- **How it works:** `lib/features/splash/presentation/screen/splash_screen.dart` — uses `AppWallpaper`, theme-aware logo, and `WaitingWidget`; calls `CountriesSessionProvider.prefetchCountries()` on first frame.
 
 ---
 
@@ -135,7 +135,7 @@ Calm, warm palette across the whole app:
 
 Shared background for language, theme, and splash screens — cream/dark surface with a subtle grid and soft emerald/gold shapes.
 
-- **How it works:** `lib/core/ui/widgets/onboarding_wallpaper.dart` — `CustomPaint` using `colorScheme` roles so it adapts to light and dark.
+- **How it works:** `lib/core/ui/widgets/app_wallpaper.dart` — `CustomPaint` using `colorScheme` roles so it adapts to light and dark.
 
 ---
 
@@ -378,7 +378,7 @@ Project conventions (see `.cursor/rules/dual-theme-ui.mdc`):
 2. Text: `onSurface` / `onSurfaceVariant` (via `appColors.ink` / `muted`).
 3. Primary actions: `primary` / `onPrimary`; accents/highlights: `secondary` / `onSecondary`.
 4. Borders: `outline` / `outlineVariant`.
-5. Shared onboarding background **`OnboardingWallpaper`** reads from `colorScheme` so language/theme/splash screens adapt automatically.
+5. Shared screen background **`AppWallpaper`** reads from `colorScheme` so language/theme/splash and `CurvedAppBarLayout` screens adapt automatically.
 6. **`CurvedAppBar`** reads `colorScheme.primary` / `onPrimary` internally — do not duplicate status-bar styling on body screens.
 
 #### Resolving theme outside a themed subtree
@@ -558,7 +558,7 @@ Full product spec: [`docs/prayer_quran_app_requirements.md`](docs/prayer_quran_a
 
 خلفية مشتركة لشاشات اللغة والمظهر والافتتاح — شبكة خفيفة وأشكال زمردية/ذهبية.
 
-- **كيف يعمل:** `onboarding_wallpaper.dart` — يرسم من ألوان `ColorScheme` الحالية.
+- **كيف يعمل:** `app_wallpaper.dart` — يرسم من ألوان `ColorScheme` الحالية.
 
 ---
 
@@ -679,7 +679,7 @@ themeMode: themeProvider.themeMode,
 1. استخدم أدوار M3: `primary`, `surfaceContainer`, `onSurface`, `outline`…
 2. **`context.appColors`** للأسماء الدلالية
 3. لا تفرّع على `isLight` للألوان في الواجهات
-4. **`OnboardingWallpaper`** و **`CurvedAppBar`** يقرآن من `colorScheme` تلقائياً
+4. **`AppWallpaper`** و **`CurvedAppBar`** يقرآن من `colorScheme` تلقائياً
 
 #### أول تشغيل
 

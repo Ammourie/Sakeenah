@@ -93,16 +93,15 @@ class DrawerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final brightness = Theme.of(context).brightness;
-    final isLight = brightness == Brightness.light;
+    final onPrimary = colorScheme.onPrimary;
+    final logoBrightness = ThemeData.estimateBrightnessForColor(
+      colorScheme.primary,
+    );
 
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: isLight ? colorScheme.surfaceContainerHigh : colorScheme.primary,
+        color: colorScheme.primary,
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(28.r)),
-        border: isLight
-            ? Border(bottom: BorderSide(color: colorScheme.outlineVariant))
-            : null,
       ),
       child: SafeArea(
         bottom: false,
@@ -114,14 +113,12 @@ class DrawerHeader extends StatelessWidget {
                 width: 56.r,
                 height: 56.r,
                 decoration: BoxDecoration(
-                  color: isLight
-                      ? colorScheme.primaryContainer.withValues(alpha: 0.65)
-                      : colorScheme.onPrimary.withValues(alpha: 0.12),
+                  color: onPrimary.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(16.r),
                 ),
                 padding: EdgeInsets.all(10.r),
                 child: Image.asset(
-                  AppConstants.appLogoForTheme(brightness),
+                  AppConstants.appLogoForTheme(logoBrightness),
                   fit: BoxFit.contain,
                 ),
               ),
@@ -133,9 +130,7 @@ class DrawerHeader extends StatelessWidget {
                     Text(
                       AppConstants.TITLE_APP_NAME,
                       style: textTheme.titleLarge?.copyWith(
-                        color: isLight
-                            ? colorScheme.onSurface
-                            : colorScheme.onPrimary,
+                        color: onPrimary,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -143,9 +138,7 @@ class DrawerHeader extends StatelessWidget {
                     Text(
                       S.current.drawerPreferences,
                       style: textTheme.bodyMedium?.copyWith(
-                        color: isLight
-                            ? colorScheme.onSurfaceVariant
-                            : colorScheme.onPrimary.withValues(alpha: 0.82),
+                        color: onPrimary.withValues(alpha: 0.82),
                       ),
                     ),
                   ],
