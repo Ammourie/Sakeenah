@@ -35,8 +35,9 @@ class LanguageScreenNotifier extends ScreenNotifier<LanguageScreenParam> {
 
   bool get hasChanges => _selectedLanguage != _initialLanguage;
 
-  /// methods
-  Future<void> confirm(BuildContext context) async {
+  /// Applies the selected language. Returns `true` when first-start onboarding
+  /// should navigate to [ThemeScreen].
+  Future<bool> confirm(BuildContext context) async {
     if (hasChanges) {
       await Provider.of<LocalizationProvider>(
         context,
@@ -49,17 +50,15 @@ class LanguageScreenNotifier extends ScreenNotifier<LanguageScreenParam> {
 
     if (!LocalStorage.languageFirstStartSelected) {
       await LocalStorage.persistLanguageFirstStartSelected(true);
-      // RestartWidget.restartApp(context);
-      Nav.pop();
-      return;
+      return true;
     }
 
     if (hasChanges && AppSettings.changeLangRestart) {
-      // RestartWidget.restartApp(context);
-      Nav.pop();
+      RestartWidget.restartApp(context);
     } else {
       Nav.pop();
     }
+    return false;
   }
 
   @override

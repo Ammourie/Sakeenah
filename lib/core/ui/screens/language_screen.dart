@@ -15,6 +15,7 @@ import '../widgets/animated_wrapper.dart';
 import '../widgets/themed_system_overlay.dart';
 import 'base_screen.dart';
 import 'language_screen_notifier.dart';
+import 'theme_screen.dart';
 
 class LanguageScreenParam {
   const LanguageScreenParam();
@@ -347,7 +348,16 @@ class _LanguageScreenState extends State<LanguageScreen> {
       backgroundColor: colorScheme.primary,
       padding: EdgeInsets.symmetric(vertical: 16.h),
       borderRadius: Radius.circular(16.r),
-      onPressed: () => sn.confirm(context),
+      onPressed: () async {
+        final goToTheme = await sn.confirm(context);
+        if (goToTheme && context.mounted) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (_) => const ThemeScreen(param: ThemeScreenParam()),
+            ),
+          );
+        }
+      },
       child: Text(
         S.current.confirm,
         style: textTheme.titleSmall?.copyWith(
