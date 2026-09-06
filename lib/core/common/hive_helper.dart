@@ -10,6 +10,8 @@ class HiveHelper {
   static const String keyPrayerSchedule = 'prayer_schedule';
   static const String keyPrayerScheduleDate = 'prayer_schedule_date';
   static const String keyGeocodingCache = 'geocoding_cache_entries';
+  static const String keyCountriesList = 'countries_list';
+  static const String keyCitiesByCountry = 'cities_by_country';
 
   static bool _initialized = false;
 
@@ -76,11 +78,52 @@ class HiveHelper {
     await prayerTimesBox.put(keyGeocodingCache, entries);
   }
 
+  static List<Map<String, dynamic>>? getCountriesList() {
+    final raw = prayerTimesBox.get(keyCountriesList);
+    if (raw is! List) return null;
+
+    return raw
+        .whereType<Map>()
+        .map((entry) => Map<String, dynamic>.from(entry))
+        .toList();
+  }
+
+  static Future<void> putCountriesList(
+    List<Map<String, dynamic>> countries,
+  ) async {
+    await prayerTimesBox.put(keyCountriesList, countries);
+  }
+
+  static List<String>? getCitiesForCountry(String country) {
+    final raw = prayerTimesBox.get(keyCitiesByCountry);
+    if (raw is! Map) return null;
+
+    final cities = raw[country];
+    if (cities is! List) return null;
+
+    return cities.map((city) => city.toString()).toList();
+  }
+
+  static Future<void> putCitiesForCountry(
+    String country,
+    List<String> cities,
+  ) async {
+    final box = prayerTimesBox;
+    final raw = box.get(keyCitiesByCountry);
+    final cache = raw is Map
+        ? Map<String, dynamic>.from(raw)
+        : <String, dynamic>{};
+    cache[country] = cities;
+    await box.put(keyCitiesByCountry, cache);
+  }
+
   static Future<void> clearPrayerCache() async {
     await prayerTimesBox.delete(keyPrayerLocation);
     await prayerTimesBox.delete(keyPrayerSchedule);
     await prayerTimesBox.delete(keyPrayerScheduleDate);
     await prayerTimesBox.delete(keyGeocodingCache);
+    await prayerTimesBox.delete(keyCountriesList);
+    await prayerTimesBox.delete(keyCitiesByCountry);
   }
 
   /// Clears all locally cached API / datasource responses.

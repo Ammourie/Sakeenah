@@ -169,5 +169,20 @@
   "debugClearFirstStartPreferences": "إعادة تعيين تفضيلات أول تشغيل",
   "debugFirstStartPreferencesCleared": "تم إعادة تعيين تفضيلات أول تشغيل",
   "loadingYourAddress": "جاري تحديد موقعك",
-  "errorGettingLocation": "فشل في تحديد موقعك"
+  "errorGettingLocation": "فشل في تحديد موقعك",
+  "locationSourceChooserMessage": "اختر طريقة تحديد موقعك لعرض مواقيت الصلاة.",
+  "pickFromMap": "اختر من الخريطة",
+  "pickFromMapDescription": "اسحب الخريطة وضع الدبوس على منطقتك.",
+  "countryCityPicker": "اختيار البلد والمدينة",
+  "countryCityPickerDescription": "اختر بلدك ومدينتك من قائمة.",
+  "countryCityPickerTitle": "اختر البلد والمدينة",
+  "countryCityPickerMessage": "اختر البلد والمدينة من القائمة، أو أدخل عنوانك الكامل بما في ذلك البلد.",
+  "selectCountryHint": "اختر البلد",
+  "selectCityHint": "اختر المدينة",
+  "selectCountryFirstHint": "اختر البلد أولاً",
+  "cityInputModeLabel": "طريقة تحديد الموقع",
+  "cityInputModePicker": "البلد والمدينة",
+  "cityInputModeManual": "العنوان الكامل",
+  "addressHint": "العنوان",
+  "enterAddressManuallyHint": "الشارع، المدينة، البلد…"
 }

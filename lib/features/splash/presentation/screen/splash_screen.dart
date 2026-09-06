@@ -1,9 +1,11 @@
 import 'package:Sakeenah/core/ui/widgets/waiting_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/constants/app/app_constants.dart';
 import '../../../../core/navigation/nav.dart';
+import '../../../../core/providers/countries_session_provider.dart';
 import '../../../../generated/l10n.dart';
 import '../../../home/presentation/screen/app_main_screen/app_main_screen.dart';
 import '../../../../core/ui/widgets/onboarding_wallpaper.dart';
@@ -20,6 +22,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      context.read<CountriesSessionProvider>().prefetchCountries();
+    });
     Future.delayed(const Duration(milliseconds: 2200), _goToMain);
   }
 

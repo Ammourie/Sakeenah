@@ -4,7 +4,9 @@ import 'package:injectable/injectable.dart';
 import '../../di/service_locator.dart';
 import '../../features/home/presentation/screen/app_main_screen/app_main_screen.dart';
 import '../../features/home/presentation/screen/home_screen/home_screen.dart';
+import '../../features/home/presentation/screen/manual_location_picker_screen.dart';
 import '../../features/home/presentation/screen/map_location_picker_screen.dart';
+import '../../features/home/domain/entity/location_preference_entity.dart';
 import '../constants/enums/route_type.dart';
 import '../ui/screens/base_screen.dart';
 import '../ui/screens/language_screen.dart';
@@ -45,6 +47,8 @@ class NavigationRoute {
         );
       case MapLocationPickerScreen.routeName:
         return _getMapLocationPickerRoute(settings);
+      case ManualLocationPickerScreen.routeName:
+        return _getManualLocationPickerRoute(settings);
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();
@@ -98,6 +102,21 @@ class NavigationRoute {
     }
 
     return _errorRoute(argumentError: true) as Route<MapPickResult>;
+  }
+
+  Route<LocationPreferenceEntity> _getManualLocationPickerRoute(
+    RouteSettings settings,
+  ) {
+    final args = settings.arguments;
+    if (args is ManualLocationPickerScreenParam) {
+      return SwipeablePageRoute<LocationPreferenceEntity>(
+        canOnlySwipeFromEdge: true,
+        builder: (context) => ManualLocationPickerScreen(param: args),
+        settings: settings,
+      );
+    }
+
+    return _errorRoute(argumentError: true) as Route<LocationPreferenceEntity>;
   }
 
   Route<dynamic> _errorRoute({bool argumentError = false}) {

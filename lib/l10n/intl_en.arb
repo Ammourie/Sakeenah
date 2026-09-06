@@ -169,5 +169,20 @@
   "debugClearFirstStartPreferences": "Reset first-time preferences",
   "debugFirstStartPreferencesCleared": "First-time preferences reset",
   "loadingYourAddress": "Loading your address",
-  "errorGettingLocation": "Failed to get location"
+  "errorGettingLocation": "Failed to get location",
+  "locationSourceChooserMessage": "Choose how you want to set your location for prayer times.",
+  "pickFromMap": "Pick from map",
+  "pickFromMapDescription": "Drag the map and pin your area.",
+  "countryCityPicker": "Country / city picker",
+  "countryCityPickerDescription": "Choose your country and city from a list.",
+  "countryCityPickerTitle": "Choose country & city",
+  "countryCityPickerMessage": "Pick country and city from the list, or enter your full address including country.",
+  "selectCountryHint": "Select a country",
+  "selectCityHint": "Select a city",
+  "selectCountryFirstHint": "Select a country first",
+  "cityInputModeLabel": "How to set location",
+  "cityInputModePicker": "Country & city",
+  "cityInputModeManual": "Full address",
+  "addressHint": "Address",
+  "enterAddressManuallyHint": "Street, city, country…"
 }

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../generated/l10n.dart';
 import '../../navigation/nav.dart';
-import '../widgets/restart_widget.dart';
 import 'app_themed_alert_dialog.dart';
 import 'show_dialog.dart';
 
@@ -37,14 +35,10 @@ class PermissionAlertDialog extends StatelessWidget {
         Nav.pop(context);
         await ShowDialog.waitForDismissal();
         await openAppSettings();
-        if (context.mounted) {
-          RestartWidget.restartApp(context);
-        }
       },
-      secondaryLabel: S.current.closeApp,
+      secondaryLabel: S.current.cancel,
       onSecondary: () {
         Nav.pop(context);
-        SystemNavigator.pop();
       },
     );
   }

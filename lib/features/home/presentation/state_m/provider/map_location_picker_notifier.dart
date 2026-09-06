@@ -156,7 +156,7 @@ class MapLocationPickerNotifier extends ScreenNotifier<MapLocationPickerScreenPa
       _log('goToCurrentLocation requesting getCurrentPosition…');
       final position = await Geolocator.getCurrentPosition(
         locationSettings: const LocationSettings(
-          accuracy: LocationAccuracy.medium,
+          accuracy: LocationAccuracy.best,
         ),
       );
 

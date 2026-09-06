@@ -7,9 +7,11 @@ class PrayerTimesErrorWidget extends StatelessWidget {
   const PrayerTimesErrorWidget({
     super.key,
     required this.onRefresh,
+    required this.onChangeLocation,
   });
 
   final VoidCallback onRefresh;
+  final VoidCallback onChangeLocation;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,11 @@ class PrayerTimesErrorWidget extends StatelessWidget {
           FilledButton(
             onPressed: onRefresh,
             child: Text(S.current.retry),
+          ),
+          8.verticalSpace,
+          OutlinedButton(
+            onPressed: onChangeLocation,
+            child: Text(S.current.changeLocation),
           ),
         ],
       ),

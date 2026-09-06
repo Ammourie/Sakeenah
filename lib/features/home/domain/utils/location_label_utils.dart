@@ -220,6 +220,12 @@ abstract final class LocationLabelUtils {
     required String fallback,
   }) {
     if (location.source == LocationSource.manual) {
+      final address = location.address?.trim();
+      if (address != null && address.isNotEmpty) {
+        return location.displayLabel.trim().isNotEmpty
+            ? location.displayLabel.trim()
+            : address;
+      }
       final city = location.city?.trim();
       if (city != null && city.isNotEmpty) {
         return city;

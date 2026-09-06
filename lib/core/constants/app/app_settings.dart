@@ -10,6 +10,9 @@ class AppSettings {
   /// AlAdhan Prayer Times API — https://aladhan.com/prayer-times-api
   static const ALADHAN_BASE_URL = 'https://api.aladhan.com/v1/';
 
+  /// CountriesNow — https://countriesnow.space
+  static const COUNTRIES_NOW_BASE_URL = 'https://countriesnow.space/api/v0.1/';
+
   /// Constants
   static const orientation = OrientationOptions.PORTRAIT;
   static const errorViewOption = ErrorWidgetOptions.IMAGE;

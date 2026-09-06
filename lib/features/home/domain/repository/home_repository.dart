@@ -19,4 +19,22 @@ class HomeRepository extends IHomeRepository {
       remoteResult: result,
     );
   }
+
+  @override
+  Future<Result<AppErrors, CountryListEntity>> getCountries(
+    GetCountriesParams params,
+  ) async {
+    return execute<CountryListModel, CountryListEntity>(
+      remoteResult: await _remoteDataSource.getCountries(params),
+    );
+  }
+
+  @override
+  Future<Result<AppErrors, CityListEntity>> getCitiesByCountry(
+    GetCitiesByCountryParams params,
+  ) async {
+    return execute<CityListModel, CityListEntity>(
+      remoteResult: await _remoteDataSource.getCitiesByCountry(params),
+    );
+  }
 }

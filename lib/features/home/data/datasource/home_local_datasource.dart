@@ -1,4 +1,4 @@
-part of 'ihome_local_datasource.dart';
+part of 'ihome_remote_datasource.dart';
 
 @Injectable(as: IHomeLocalSource)
 class HomeLocalSource implements IHomeLocalSource {
@@ -47,5 +47,52 @@ class HomeLocalSource implements IHomeLocalSource {
     } catch (e) {
       return Left(AppErrors.customError(message: e.toString()));
     }
+  }
+
+  @override
+  Future<Either<AppErrors, CountryListModel>> getCountries() async {
+    try {
+      final cached = HiveHelper.getCountriesList();
+      if (cached == null || cached.isEmpty) {
+        return const Left(
+          AppErrors.customError(message: 'No cached countries'),
+        );
+      }
+
+      return Right(CountryListModel.fromCachedList(cached));
+    } catch (e) {
+      return Left(AppErrors.customError(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<void> saveCountries(CountryListModel countries) async {
+    await HiveHelper.putCountriesList(countries.toCachedList());
+  }
+
+  @override
+  Future<Either<AppErrors, CityListModel>> getCitiesByCountry(
+    String country,
+  ) async {
+    try {
+      final cached = HiveHelper.getCitiesForCountry(country);
+      if (cached == null || cached.isEmpty) {
+        return const Left(
+          AppErrors.customError(message: 'No cached cities'),
+        );
+      }
+
+      return Right(CityListModel(cities: cached));
+    } catch (e) {
+      return Left(AppErrors.customError(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<void> saveCitiesByCountry({
+    required String country,
+    required CityListModel cities,
+  }) async {
+    await HiveHelper.putCitiesForCountry(country, cities.cities);
   }
 }

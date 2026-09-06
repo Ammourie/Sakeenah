@@ -40,6 +40,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "accountNotVerifiedErrorMessage": MessageLookupByLibrary.simpleMessage(
       "لم يتم التحقق من الحساب",
     ),
+    "addressHint": MessageLookupByLibrary.simpleMessage("العنوان"),
     "anErrorOccurredWhileDisplayingTheAudio":
         MessageLookupByLibrary.simpleMessage("حدث خطأ في عرض الصوت"),
     "anErrorOccurredWhileDisplayingTheVideo":
@@ -64,6 +65,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "changeLocation": MessageLookupByLibrary.simpleMessage("تغيير الموقع"),
     "chatList": MessageLookupByLibrary.simpleMessage("قائمة المحادثات"),
     "cityHint": MessageLookupByLibrary.simpleMessage("المدينة"),
+    "cityInputModeLabel": MessageLookupByLibrary.simpleMessage("المدينة"),
+    "cityInputModeManual": MessageLookupByLibrary.simpleMessage("أدخل العنوان"),
+    "cityInputModePicker": MessageLookupByLibrary.simpleMessage(
+      "اختر من القائمة",
+    ),
     "close": MessageLookupByLibrary.simpleMessage("إغلاق"),
     "closeApp": MessageLookupByLibrary.simpleMessage("إغلاق التطبيق"),
     "codeResent": MessageLookupByLibrary.simpleMessage("تم إعادة إرسال الرمز"),
@@ -86,6 +92,18 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "connectionToServerFaild": MessageLookupByLibrary.simpleMessage(
       "فشل الاتصال بالسيرفر",
+    ),
+    "countryCityPicker": MessageLookupByLibrary.simpleMessage(
+      "اختيار البلد والمدينة",
+    ),
+    "countryCityPickerDescription": MessageLookupByLibrary.simpleMessage(
+      "اختر بلدك ومدينتك من قائمة.",
+    ),
+    "countryCityPickerMessage": MessageLookupByLibrary.simpleMessage(
+      "اختر بلدك أولاً، ثم اختر المدينة من القائمة أو أدخل عنوانك الكامل لعرض مواقيت الصلاة.",
+    ),
+    "countryCityPickerTitle": MessageLookupByLibrary.simpleMessage(
+      "اختر البلد والمدينة",
     ),
     "countryHint": MessageLookupByLibrary.simpleMessage("البلد"),
     "createConnectionToTheServer": MessageLookupByLibrary.simpleMessage(
@@ -119,6 +137,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "durationMinuteUnitOther": MessageLookupByLibrary.simpleMessage("دقائق"),
     "empty": MessageLookupByLibrary.simpleMessage("لا يوجد معلومات لعرضها"),
     "emptyScreen": MessageLookupByLibrary.simpleMessage("هذه الصفحة فارغة"),
+    "enterAddressManuallyHint": MessageLookupByLibrary.simpleMessage(
+      "الشارع، الحي، المدينة…",
+    ),
     "enterCodeText": MessageLookupByLibrary.simpleMessage(
       "من فضلك ادخل الكود المرسل إلى ",
     ),
@@ -191,6 +212,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "locationServiceDisabledTitle": MessageLookupByLibrary.simpleMessage(
       "فعّل الموقع",
     ),
+    "locationSourceChooserMessage": MessageLookupByLibrary.simpleMessage(
+      "اختر طريقة تحديد موقعك لعرض مواقيت الصلاة.",
+    ),
     "logOut": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
     "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
     "loginErrorRequired": MessageLookupByLibrary.simpleMessage(
@@ -239,6 +263,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "صلاحية الوصول مطلوبة",
     ),
     "phone": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
+    "pickFromMap": MessageLookupByLibrary.simpleMessage("اختر من الخريطة"),
+    "pickFromMapDescription": MessageLookupByLibrary.simpleMessage(
+      "اسحب الخريطة وضع الدبوس على منطقتك.",
+    ),
     "pickLocationOnMapMessage": MessageLookupByLibrary.simpleMessage(
       "اسحب الخريطة حتى يقع الدبوس على مدينتك أو منطقتك، ثم أكّد.",
     ),
@@ -266,6 +294,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "retry": MessageLookupByLibrary.simpleMessage("إعادة المحاولة"),
     "saveLocation": MessageLookupByLibrary.simpleMessage("حفظ الموقع"),
     "search": MessageLookupByLibrary.simpleMessage("بحث"),
+    "selectCityHint": MessageLookupByLibrary.simpleMessage("اختر المدينة"),
+    "selectCountryFirstHint": MessageLookupByLibrary.simpleMessage(
+      "اختر البلد أولاً",
+    ),
+    "selectCountryHint": MessageLookupByLibrary.simpleMessage("اختر البلد"),
     "selectLanguageTitle": MessageLookupByLibrary.simpleMessage("اختر اللغة"),
     "selectThemeMessage": MessageLookupByLibrary.simpleMessage(
       "اختر الوضع الفاتح أو الداكن أو اتبع إعداد الجهاز",

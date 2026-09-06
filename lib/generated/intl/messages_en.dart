@@ -39,6 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "accountNotVerifiedErrorMessage": MessageLookupByLibrary.simpleMessage(
       "Account Not Verified",
     ),
+    "addressHint": MessageLookupByLibrary.simpleMessage("Address"),
     "anErrorOccurredWhileDisplayingTheAudio":
         MessageLookupByLibrary.simpleMessage(
           "An error occurred while displaying the aduio",
@@ -67,6 +68,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "changeLocation": MessageLookupByLibrary.simpleMessage("Change location"),
     "chatList": MessageLookupByLibrary.simpleMessage("Chat List"),
     "cityHint": MessageLookupByLibrary.simpleMessage("City"),
+    "cityInputModeLabel": MessageLookupByLibrary.simpleMessage("City"),
+    "cityInputModeManual": MessageLookupByLibrary.simpleMessage(
+      "Enter address",
+    ),
+    "cityInputModePicker": MessageLookupByLibrary.simpleMessage(
+      "Pick from list",
+    ),
     "close": MessageLookupByLibrary.simpleMessage("Close"),
     "closeApp": MessageLookupByLibrary.simpleMessage("Close App"),
     "codeResent": MessageLookupByLibrary.simpleMessage("Code resent"),
@@ -87,6 +95,18 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "connectionToServerFaild": MessageLookupByLibrary.simpleMessage(
       "Failed connect to server.",
+    ),
+    "countryCityPicker": MessageLookupByLibrary.simpleMessage(
+      "Country / city picker",
+    ),
+    "countryCityPickerDescription": MessageLookupByLibrary.simpleMessage(
+      "Choose your country and city from a list.",
+    ),
+    "countryCityPickerMessage": MessageLookupByLibrary.simpleMessage(
+      "Select your country first, then pick a city from the list or enter your full address for prayer times.",
+    ),
+    "countryCityPickerTitle": MessageLookupByLibrary.simpleMessage(
+      "Choose country & city",
     ),
     "countryHint": MessageLookupByLibrary.simpleMessage("Country"),
     "createConnectionToTheServer": MessageLookupByLibrary.simpleMessage(
@@ -122,6 +142,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "durationMinuteUnitOther": MessageLookupByLibrary.simpleMessage("minutes"),
     "empty": MessageLookupByLibrary.simpleMessage("Empty"),
     "emptyScreen": MessageLookupByLibrary.simpleMessage("This page is empty"),
+    "enterAddressManuallyHint": MessageLookupByLibrary.simpleMessage(
+      "Street, district, city…",
+    ),
     "enterCodeText": MessageLookupByLibrary.simpleMessage(
       "please type the verification code send to",
     ),
@@ -192,6 +215,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "locationServiceDisabledTitle": MessageLookupByLibrary.simpleMessage(
       "Turn on location",
     ),
+    "locationSourceChooserMessage": MessageLookupByLibrary.simpleMessage(
+      "Choose how you want to set your location for prayer times.",
+    ),
     "logOut": MessageLookupByLibrary.simpleMessage("Logout"),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
     "loginErrorRequired": MessageLookupByLibrary.simpleMessage(
@@ -240,6 +266,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "The previous permission is required!",
     ),
     "phone": MessageLookupByLibrary.simpleMessage("Phone Number"),
+    "pickFromMap": MessageLookupByLibrary.simpleMessage("Pick from map"),
+    "pickFromMapDescription": MessageLookupByLibrary.simpleMessage(
+      "Drag the map and pin your area.",
+    ),
     "pickLocationOnMapMessage": MessageLookupByLibrary.simpleMessage(
       "Drag the map so the pin sits on your city or area, then confirm.",
     ),
@@ -267,6 +297,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "retry": MessageLookupByLibrary.simpleMessage("Retry"),
     "saveLocation": MessageLookupByLibrary.simpleMessage("Save location"),
     "search": MessageLookupByLibrary.simpleMessage("Search"),
+    "selectCityHint": MessageLookupByLibrary.simpleMessage("Select a city"),
+    "selectCountryFirstHint": MessageLookupByLibrary.simpleMessage(
+      "Select a country first",
+    ),
+    "selectCountryHint": MessageLookupByLibrary.simpleMessage(
+      "Select a country",
+    ),
     "selectLanguageTitle": MessageLookupByLibrary.simpleMessage(
       "Select language",
     ),

@@ -73,6 +73,9 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     // border radius
     final borderRadius = BorderRadius.circular(widget.borderRadius ?? 0);
 
@@ -81,8 +84,8 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
       displayOverlayBottom
           ? Icons.keyboard_arrow_up_rounded
           : Icons.keyboard_arrow_down_rounded,
-      color: widget.iconColor ?? Colors.black,
-      size: 20,
+      color: widget.iconColor ?? colorScheme.onSurfaceVariant,
+      size: 20.r,
     );
 
     // overlay offset
@@ -119,15 +122,9 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
       padding: widget.overlayOuterPadding,
       child: DecoratedBox(
         decoration: BoxDecoration(
-          color: widget.backgroundColor ?? Colors.white,
+          color: widget.backgroundColor ?? colorScheme.surfaceContainerHigh,
           borderRadius: borderRadius,
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 24.0,
-              color: Colors.black.withValues(alpha: .08),
-              offset: widget.overlayShadowOffset,
-            ),
-          ],
+          border: Border.all(color: colorScheme.outlineVariant),
         ),
         child: Material(
           color: Colors.transparent,
@@ -151,9 +148,11 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
                     data: Theme.of(context).copyWith(
                       scrollbarTheme: ScrollbarThemeData(
                         thumbVisibility: WidgetStateProperty.all(true),
-                        thickness: WidgetStateProperty.all(5),
-                        radius: const Radius.circular(4),
-                        thumbColor: WidgetStateProperty.all(Colors.grey[300]),
+                        thickness: WidgetStateProperty.all(4),
+                        radius: Radius.circular(4.r),
+                        thumbColor: WidgetStateProperty.all(
+                          colorScheme.outlineVariant,
+                        ),
                       ),
                     ),
                     child: Column(
@@ -171,9 +170,8 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
                                       '',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 38.sp,
+                                      style: textTheme.bodyMedium?.copyWith(
+                                        color: colorScheme.onSurfaceVariant,
                                       ),
                                     ),
                               ),
@@ -273,6 +271,8 @@ class _ItemsList<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final colorScheme = Theme.of(context).colorScheme;
+
     return Scrollbar(
       controller: scrollController,
       child: ListView.builder(
@@ -282,15 +282,11 @@ class _ItemsList<T> extends StatelessWidget {
         padding: padding,
         itemCount: itemsWidget.length,
         itemBuilder: (_, index) {
-          final selected = !excludeSelected;
           return Material(
             color: Colors.transparent,
             child: InkWell(
-              splashColor: Colors.transparent,
-              highlightColor: Colors.grey[200],
               onTap: () => onItemSelect(itemsWidget[index].value!),
               child: Container(
-                color: selected ? Colors.grey[100] : Colors.transparent,
                 padding: listItemPadding,
                 child: itemsWidget[index],
               ),
@@ -327,9 +323,15 @@ class _SearchFieldState<T> extends State<_SearchField<T>> {
   final searchCtrl = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    searchCtrl.addListener(() => setState(() {}));
+  }
+
+  @override
   void dispose() {
-    super.dispose();
     searchCtrl.dispose();
+    super.dispose();
   }
 
   void onSearch(String str) {
@@ -354,50 +356,54 @@ class _SearchFieldState<T> extends State<_SearchField<T>> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+      padding: EdgeInsets.symmetric(horizontal: 8.w),
       child: TextField(
         focusNode: widget.searchFocusNode,
         controller: searchCtrl,
         onChanged: onSearch,
         onTap: widget.onSearchTap,
-        style: widget.searchStyle,
+        style: widget.searchStyle ??
+            textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface),
         decoration: InputDecoration(
+          isDense: true,
           filled: true,
-          fillColor: Colors.grey[50],
-          constraints: const BoxConstraints.tightFor(height: 40),
-          contentPadding: EdgeInsets.zero,
-          // hintText: 'Search',
+          fillColor: colorScheme.surfaceContainer,
+          constraints: BoxConstraints.tightFor(height: 40.h),
+          contentPadding: EdgeInsets.symmetric(horizontal: 12.w),
           hintText: S.current.search,
-          hintStyle:
-              widget.searchStyle ??
-              TextStyle(color: Colors.grey, fontSize: 40.sp),
-
-          prefixIcon: const Icon(Icons.search, color: Colors.grey, size: 22),
-          suffixIcon: GestureDetector(
-            onTap: onClear,
-            child: const Icon(Icons.close, color: Colors.grey, size: 20),
+          hintStyle: textTheme.bodyMedium?.copyWith(
+            color: colorScheme.onSurfaceVariant,
           ),
+          prefixIcon: Icon(
+            Icons.search_rounded,
+            color: colorScheme.onSurfaceVariant,
+            size: 20.r,
+          ),
+          suffixIcon: searchCtrl.text.isEmpty
+              ? null
+              : IconButton(
+                  onPressed: onClear,
+                  icon: Icon(
+                    Icons.close_rounded,
+                    color: colorScheme.onSurfaceVariant,
+                    size: 18.r,
+                  ),
+                ),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(
-              color: Colors.grey.withValues(alpha: .25),
-              width: 1,
-            ),
+            borderRadius: BorderRadius.circular(10.r),
+            borderSide: BorderSide(color: colorScheme.outlineVariant),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(
-              color: Colors.grey.withValues(alpha: .25),
-              width: 1,
-            ),
+            borderRadius: BorderRadius.circular(10.r),
+            borderSide: BorderSide(color: colorScheme.outlineVariant),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(
-              color: Colors.grey.withValues(alpha: .25),
-              width: 1,
-            ),
+            borderRadius: BorderRadius.circular(10.r),
+            borderSide: BorderSide(color: colorScheme.primary, width: 1.5),
           ),
         ),
       ),

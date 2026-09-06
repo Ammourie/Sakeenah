@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../generated/l10n.dart';
 import '../../../../errors/app_errors.dart';
 import '../../../../results/result.dart';
+import '../../waiting_widget.dart';
 import 'cubit/item_list_cubit.dart';
 
 part 'animated_section.dart';
@@ -21,6 +22,45 @@ class DropdownController {
 }
 
 class CustomSearchDropdown<T> extends StatefulWidget {
+  const CustomSearchDropdown({
+    super.key,
+    this.controller,
+    this.initValue,
+    this.enabled = true,
+    this.enableSearch = true,
+    this.items,
+    this.fetchItemsFromAPI,
+    required this.getStringFromItem,
+    required this.onChanged,
+    this.onTap,
+    this.hint,
+    this.menuHint,
+    this.border,
+    this.enabledBorder,
+    this.disabledBorder,
+    this.focusedBorder,
+    this.errorBorder,
+    this.focusedErrorBorder,
+    this.menuBorderRadius,
+    this.icon,
+    this.prefixIcon,
+    this.fillColor,
+    this.contentPadding,
+    this.menuHeaderPadding,
+    this.menuItemsPadding,
+    this.overlayOuterPadding,
+    this.menuBackgroundColor,
+    this.menuIconColor,
+    this.onSearchTap,
+    this.validator,
+    this.style,
+    this.errorStyle,
+    this.searchTextStyle,
+    this.searchFocusNode,
+    this.label,
+    this.labelStyle,
+  }) : assert((items == null) ^ (fetchItemsFromAPI == null));
+
   final bool enabled;
   final bool enableSearch;
   final DropdownController? controller;
@@ -40,62 +80,22 @@ class CustomSearchDropdown<T> extends StatefulWidget {
   final InputBorder? errorBorder;
   final InputBorder? focusedErrorBorder;
   final double? menuBorderRadius;
-  final Widget icon;
+  final Widget? icon;
   final Widget? prefixIcon;
   final Color? fillColor;
   final EdgeInsetsGeometry? contentPadding;
-  final EdgeInsetsGeometry menuHeaderPadding;
-  final EdgeInsetsGeometry menuItemsPadding;
-  final EdgeInsetsGeometry overlayOuterPadding;
+  final EdgeInsetsGeometry? menuHeaderPadding;
+  final EdgeInsetsGeometry? menuItemsPadding;
+  final EdgeInsetsGeometry? overlayOuterPadding;
   final Color? menuBackgroundColor;
   final Color? menuIconColor;
   final VoidCallback? onSearchTap;
   final String? Function(T?)? validator;
+  final String? label;
   final TextStyle? errorStyle;
   final TextStyle? searchTextStyle;
+  final TextStyle? labelStyle;
   final FocusNode? searchFocusNode;
-
-  CustomSearchDropdown({
-    Key? key,
-    this.controller,
-    this.initValue,
-    this.enabled = true,
-    this.enableSearch = true,
-    this.items,
-    this.fetchItemsFromAPI,
-    required this.getStringFromItem,
-    required this.onChanged,
-    this.onTap,
-    this.hint,
-    this.menuHint,
-    this.border,
-    this.enabledBorder,
-    this.disabledBorder,
-    this.focusedBorder,
-    this.errorBorder,
-    this.focusedErrorBorder,
-    this.menuBorderRadius,
-    this.icon =
-        const Icon(Icons.keyboard_arrow_down_rounded, color: Colors.black),
-    this.prefixIcon,
-    this.fillColor = Colors.white,
-    this.contentPadding,
-    this.menuHeaderPadding =
-        const EdgeInsets.only(left: 16.0, top: 16, bottom: 16, right: 14),
-    this.menuItemsPadding =
-        const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-    this.overlayOuterPadding =
-        const EdgeInsets.only(bottom: 12, left: 5, right: 5),
-    this.menuBackgroundColor,
-    this.menuIconColor,
-    this.onSearchTap,
-    this.validator,
-    this.style,
-    this.errorStyle,
-    this.searchTextStyle,
-    this.searchFocusNode,
-  })  : assert((items == null) ^ (fetchItemsFromAPI == null)),
-        super(key: key);
 
   @override
   State<CustomSearchDropdown<T>> createState() =>
@@ -103,12 +103,14 @@ class CustomSearchDropdown<T> extends StatefulWidget {
 }
 
 class _CustomSearchDropdownState<T> extends State<CustomSearchDropdown<T>> {
-  final layerLink = LayerLink();
   final _selectValueNotifier = ValueNotifier<T?>(null);
   late List<T> _items;
-  bool _isLoading = false, _isError = false;
+  bool _isLoading = false;
+  bool _isError = false;
+  bool _isOpen = false;
   ItemListCubit<T>? _itemListCubit;
   final _dropdownKey = GlobalKey<FormFieldState>();
+  final _panelKey = GlobalKey();
 
   @override
   void initState() {
@@ -116,16 +118,14 @@ class _CustomSearchDropdownState<T> extends State<CustomSearchDropdown<T>> {
     _items = widget.items ?? [];
     if (widget.fetchItemsFromAPI != null) {
       _itemListCubit = ItemListCubit<T>(() => widget.fetchItemsFromAPI!()!);
-      if (widget.controller?.loadingItemOnBuild ?? true)
+      if (widget.controller?.loadingItemOnBuild ?? true) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _itemListCubit!.fetchItems();
         });
-      if (widget.controller != null)
-        widget.controller!.itemListCubit = _itemListCubit;
-    } else {
-      if (widget.initValue != null) {
-        _selectValueNotifier.value = widget.initValue;
       }
+      widget.controller?.itemListCubit = _itemListCubit;
+    } else if (widget.initValue != null) {
+      _selectValueNotifier.value = widget.initValue;
     }
   }
 
@@ -136,21 +136,15 @@ class _CustomSearchDropdownState<T> extends State<CustomSearchDropdown<T>> {
         bloc: _itemListCubit,
         listener: (_, state) {
           state.maybeWhen(
-            loading: () {
-              setState(() {
-                _isLoading = true;
-              });
-            },
-            error: (error, callback) {
+            loading: () => setState(() => _isLoading = true),
+            error: (_, __) => setState(() {
+              _isLoading = false;
+              _isError = true;
+            }),
+            loaded: (data) {
               setState(() {
                 _isLoading = false;
-                _isError = true;
-              });
-            },
-            loaded: (data) {
-              _isLoading = false;
-              _isError = false;
-              setState(() {
+                _isError = false;
                 _items = data;
               });
               _selectValueNotifier.value = widget.initValue;
@@ -158,103 +152,188 @@ class _CustomSearchDropdownState<T> extends State<CustomSearchDropdown<T>> {
             orElse: () {},
           );
         },
-        child: _buildDropdown(),
+        child: _buildDropdown(context),
       );
     }
-    return _buildDropdown();
+    return _buildDropdown(context);
   }
 
   @override
   void didUpdateWidget(covariant CustomSearchDropdown<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
     _selectValueNotifier.value = widget.initValue;
+    if (widget.items != null) _items = widget.items!;
   }
 
-  Widget _buildDropdown() {
-    return _OverlayBuilder(
-      overlay: (size, hideCallback) {
-        return _DropdownOverlay<T>(
-          enableSearch: widget.enableSearch,
-          selectValueNotifier: _selectValueNotifier,
-          items: _getDropdownItems(),
-          getStringFromItem: widget.getStringFromItem,
-          onChanged: (value) {
-            widget.onChanged.call(value);
-            // wait until dropdown set new value then make validate.
-            Future.delayed(const Duration(milliseconds: 100), () {
-              _dropdownKey.currentState?.validate();
-            });
-          },
-          size: size,
-          layerLink: layerLink,
-          hideOverlay: hideCallback,
-          headerHint: widget.menuHint,
-          canCloseOutsideBounds: true,
-          borderRadius: widget.menuBorderRadius,
-          listItemPadding: widget.menuItemsPadding,
-          headerPadding: widget.menuHeaderPadding,
-          overlayOuterPadding: widget.overlayOuterPadding,
-          onSearchTap: widget.onSearchTap,
-          backgroundColor: widget.menuBackgroundColor,
-          iconColor: widget.menuIconColor,
-          searchTextStyle: widget.searchTextStyle,
-          searchFocusNode: widget.searchFocusNode,
-        );
-      },
-      child: (showCallback) {
-        return CompositedTransformTarget(
-          link: layerLink,
-          child: _DropDownField(
-            dropdownKey: _dropdownKey,
-            value: _selectValueNotifier.value,
-            items: _getDropdownItems(),
-            onTap: () {
-              showCallback.call();
-              widget.onTap?.call();
-            },
-            validator: widget.validator,
-            icon: _isLoading
-                ? _loadingIcon
-                : _isError
-                    ? _errorButton
-                    : widget.icon,
-            hint: _isError
-                ? Text(
-                    S.current.errorOccurred,
-                    style: TextStyle(color: Colors.red, fontSize: 38.sp),
-                  )
-                : widget.hint,
-            decoration: InputDecoration(
-              enabled: !(_isLoading || _isError) && widget.enabled,
-              border: widget.border,
-              enabledBorder: _selectValueNotifier.value != null
-                  ? widget.focusedBorder
-                  : widget.enabledBorder,
-              disabledBorder: widget.disabledBorder,
-              focusedBorder: widget.focusedBorder,
-              errorBorder: widget.errorBorder,
-              focusedErrorBorder: widget.focusedErrorBorder,
-              fillColor: widget.fillColor,
-              filled: widget.fillColor != null,
-              contentPadding: widget.contentPadding,
-              errorStyle: widget.errorStyle,
-              errorMaxLines: 2,
-              prefixIcon: widget.prefixIcon,
-            ),
-          ),
-        );
-      },
+  Widget _buildDropdown(BuildContext context) {
+    return _DropDownField<T>(
+      dropdownKey: _dropdownKey,
+      value: _selectValueNotifier.value,
+      items: _getDropdownItems(context),
+      isExpanded: _isOpen,
+      expanded: _isOpen ? _buildExpandedPanel(context) : null,
+      onTap: _onFieldTap,
+      validator: widget.validator,
+      style: _itemStyle(context),
+      decoration: _fieldDecoration(context),
+      icon: _trailingIcon(context),
+      hint: _hint(context),
+      label: widget.label,
+      labelStyle: widget.labelStyle,
     );
   }
 
-  List<DropdownMenuItem<T>> _getDropdownItems() {
+  Widget _buildExpandedPanel(BuildContext context) {
+    return KeyedSubtree(
+      key: _panelKey,
+      child: _DropdownExpandPanel<T>(
+        items: _getDropdownItems(context),
+        selectedValue: _selectValueNotifier.value,
+        getStringFromItem: widget.getStringFromItem,
+        enableSearch: widget.enableSearch,
+        borderRadius: widget.menuBorderRadius ?? 12.r,
+        listItemPadding: widget.menuItemsPadding,
+        onSearchTap: widget.onSearchTap,
+        backgroundColor: widget.menuBackgroundColor,
+        searchTextStyle: widget.searchTextStyle,
+        searchFocusNode: widget.searchFocusNode,
+        onChanged: _onItemSelected,
+      ),
+    );
+  }
+
+  InputDecoration _fieldDecoration(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final radius = BorderRadius.circular(12.r);
+    final enabled = !(_isLoading || _isError) && widget.enabled;
+
+    OutlineInputBorder themedBorder(Color color, {double width = 1}) {
+      return OutlineInputBorder(
+        borderRadius: radius,
+        borderSide: BorderSide(color: color, width: width),
+      );
+    }
+
+    return InputDecoration(
+      enabled: enabled,
+      filled: true,
+      fillColor: widget.fillColor ?? colorScheme.surfaceContainer,
+      contentPadding: widget.contentPadding ??
+          EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+      prefixIcon: widget.prefixIcon,
+      border: widget.border ?? themedBorder(colorScheme.outlineVariant),
+      enabledBorder:
+          widget.enabledBorder ?? themedBorder(colorScheme.outlineVariant),
+      disabledBorder: widget.disabledBorder ??
+          themedBorder(
+            colorScheme.outlineVariant.withValues(alpha: 0.5),
+          ),
+      focusedBorder: widget.focusedBorder ??
+          themedBorder(colorScheme.primary, width: 1.5),
+      errorBorder: widget.errorBorder ?? themedBorder(colorScheme.error),
+      focusedErrorBorder: widget.focusedErrorBorder ??
+          themedBorder(colorScheme.error, width: 1.5),
+      errorStyle: widget.errorStyle ??
+          Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: colorScheme.error,
+              ),
+    );
+  }
+
+  void _onFieldTap() {
+    if (!widget.enabled || _isLoading || _isError) return;
+    _setOpen(!_isOpen);
+    widget.onTap?.call();
+  }
+
+  void _setOpen(bool open) {
+    if (_isOpen == open) return;
+    setState(() => _isOpen = open);
+    if (!open) {
+      FocusManager.instance.primaryFocus?.unfocus();
+      return;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final ctx = _panelKey.currentContext;
+      if (ctx == null) return;
+      Scrollable.ensureVisible(
+        ctx,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOutCubic,
+        alignment: 0.15,
+      );
+    });
+  }
+
+  void _onItemSelected(T? value) {
+    _selectValueNotifier.value = value;
+    (_dropdownKey.currentState as FormFieldState<T>?)?.didChange(value);
+    widget.onChanged.call(value);
+    _setOpen(false);
+    Future.delayed(const Duration(milliseconds: 100), () {
+      _dropdownKey.currentState?.validate();
+    });
+  }
+
+  Widget _trailingIcon(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    if (_isLoading) return _loadingIcon;
+    if (_isError) return _errorButton(context);
+
+    final icon = widget.icon ??
+        Icon(
+          Icons.keyboard_arrow_down_rounded,
+          size: 22.r,
+          color: colorScheme.onSurfaceVariant,
+        );
+
+    return AnimatedRotation(
+      turns: _isOpen ? 0.5 : 0,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeOut,
+      child: icon,
+    );
+  }
+
+  TextStyle _itemStyle(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return widget.style ??
+        Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: colorScheme.onSurface,
+            );
+  }
+
+  Widget? _hint(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    if (_isError) {
+      return Text(
+        S.current.errorOccurred,
+        style: textTheme.bodyLarge?.copyWith(color: colorScheme.error),
+      );
+    }
+    if (widget.hint == null) return null;
+
+    return DefaultTextStyle(
+      style: textTheme.bodyLarge!.copyWith(
+        color: colorScheme.onSurfaceVariant,
+      ),
+      child: widget.hint!,
+    );
+  }
+
+  List<DropdownMenuItem<T>> _getDropdownItems(BuildContext context) {
+    final style = _itemStyle(context);
+
     return _items
         .map(
           (item) => DropdownMenuItem<T>(
             value: item,
             child: Text(
               widget.getStringFromItem.call(item),
-              style: widget.style,
+              style: style,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
@@ -264,17 +343,27 @@ class _CustomSearchDropdownState<T> extends State<CustomSearchDropdown<T>> {
   }
 
   SizedBox get _loadingIcon => SizedBox(
-        width: 50.w,
-        height: 50.w,
-        child: const CircularProgressIndicator(strokeWidth: 3),
+        width: 22.w,
+        height: 22.w,
+        child: const FittedBox(child: WaitingWidget()),
       );
-  InkWell get _errorButton => InkWell(
-        onTap: () {
-          print("error");
-          _itemListCubit!.fetchItems();
-        },
-        child: Icon(Icons.replay, size: 60.w, color: Colors.red),
-      );
+
+  Widget _errorButton(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: _itemListCubit?.fetchItems,
+        borderRadius: BorderRadius.circular(999.r),
+        child: Icon(
+          Icons.refresh_rounded,
+          size: 22.r,
+          color: colorScheme.error,
+        ),
+      ),
+    );
+  }
 
   @override
   void dispose() {

@@ -23,7 +23,6 @@ Future<Map<Permission, PermissionStatus>> requestPermission(
     if (permissionOption != PermissionOption.NoPermission) {
       final isForce = permissionOption == PermissionOption.ForcePermission;
       result[permission] = await _requestPermission(permission, isForce);
-      print(result[Permission.location]);
     }
   }
   return result;
@@ -40,16 +39,10 @@ Future<PermissionStatus> _requestPermission(
 
   PermissionStatus status = await permission.request();
 
-  if (!isForce || status.isGranted) return status;
-
-  while (!status.isGranted) {
-    status = await permission.request();
-
-    if (status.isPermanentlyDenied) {
-      await _showDialog(permission);
-      break;
-    }
+  if (status.isPermanentlyDenied && isForce) {
+    await _showDialog(permission);
   }
+
   return status;
 }
 

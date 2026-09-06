@@ -58,9 +58,9 @@ Pick **Light**, **Dark**, or **System** with a live preview — the screen updat
 
 #### 4. Splash screen
 
-A short branded screen (~2.2s) with the app illustration, name, and loading indicator, then navigation to home.
+A short branded screen (~2.2s) with the app illustration, name, and loading indicator, then navigation to home. While visible, the app **prefetches the country list** for the manual location picker so the picker opens faster.
 
-- **How it works:** `lib/features/splash/presentation/screen/splash_screen.dart` — uses `OnboardingWallpaper`, theme-aware logo, and `WaitingWidget`; no network calls.
+- **How it works:** `lib/features/splash/presentation/screen/splash_screen.dart` — uses `OnboardingWallpaper`, theme-aware logo, and `WaitingWidget`; calls `CountriesSessionProvider.prefetchCountries()` on first frame.
 
 ---
 
@@ -69,11 +69,24 @@ A short branded screen (~2.2s) with the app illustration, name, and loading indi
 The main screen has a **curved emerald app bar**, a **prayer times card**, and a **drawer** for settings.
 
 **Prayer times**
-- Loads today's salah times from the **AlAdhan API** using GPS coordinates or the picked map location.
+- Loads today's salah times from the **AlAdhan API** using GPS coordinates, a map-picked location, or a **manual country/city** selection.
 - Highlights the next prayer and shows a countdown banner.
 - Supports **offline mode** by reading the cached daily schedule from Hive.
-- Shows a skeleton prayer card while loading and an inline retry card on error.
+- Shows a skeleton prayer card while loading and an inline error card with **Retry** and **Change location**.
 - Caches successful loaded schedules from the home screen listener.
+
+**Change location**
+- Tapping **Change location** (on the prayer card or error state) opens a bottom sheet:
+  - **Pick from map** — Google Maps pin picker with theme-aware dark map style.
+  - **Country / city picker** — searchable dropdowns backed by **CountriesNow** (English names; used directly for AlAdhan `timingsByCity`).
+- Selected location is stored in `HomeScreenNotifier` as `_selectedLocation` and reused until the user changes it again.
+- If GPS is denied, the user can still set location manually without the app closing.
+
+**Location data & caching**
+- Countries prefetched on splash into `CountriesSessionProvider` (in-memory session cache).
+- Countries and per-country cities cached in **Hive** after first successful fetch.
+- Remote datasource is **cache-first**: if Hive has data, the network is skipped (online or offline).
+- Cities endpoint: `GET /countries/cities/q?country={name}` (CountriesNow v0.1).
 
 **App bar**
 - Title bar with rounded bottom curve, stacked over the body so the curve stays visible.
@@ -87,10 +100,15 @@ The main screen has a **curved emerald app bar**, a **prayer times card**, and a
 - **How it works:**
   - `lib/features/home/presentation/screen/home_screen/home_screen_content.dart`
   - Prayer card: `lib/features/home/presentation/widgets/prayer_times_card.dart`
+  - Error card: `lib/features/home/presentation/widgets/prayer_times_error_widget.dart`
+  - Location chooser: `lib/features/home/presentation/widgets/location_source_chooser_sheet.dart`
+  - Map picker: `lib/features/home/presentation/screen/map_location_picker_screen.dart`
+  - Manual picker: `lib/features/home/presentation/screen/manual_location_picker_screen.dart`
   - State: `lib/features/home/presentation/state_m/cubit/home_cubit.dart` + `home_screen_notifier.dart`
-  - Repository: `lib/features/home/domain/repository/home_repository.dart`
-  - Remote datasource: `lib/features/home/data/datasource/home_remote_datasource.dart`
-  - Local datasource: `lib/features/home/data/datasource/home_local_datasource.dart`
+  - Prayer + location repository: `lib/features/home/domain/repository/home_repository.dart`
+  - Remote/local datasources: `lib/features/home/data/datasource/ihome_remote_datasource.dart`
+  - Session cache: `lib/core/providers/countries_session_provider.dart`
+  - Searchable dropdown UI: `lib/core/ui/widgets/dropdown/search_dropdown/custom_search_dropdown.dart`
   - Bar: `CurvedAppBar` inside `CurvedAppBarLayout` (body `Stack`, not `Scaffold.appBar`)
   - Drawer theme resolved via `AppConfig().resolveThemeDataForMode` so light/dark colors apply correctly.
 
@@ -123,14 +141,15 @@ Shared background for language, theme, and splash screens — cream/dark surface
 
 #### 8. Prayer times data flow
 
-The prayer-times feature now uses a thin repository and keeps the detailed behavior in the datasource and presentation layers.
+The prayer-times feature uses a thin repository and keeps detailed behavior in datasources and presentation.
 
 - `GetTodayPrayerTimesUseCase` is the only prayer-times use case.
 - `HomeRepository` only chooses **local** when `isOffline == true`, otherwise **remote**.
-- `HomeRemoteSource` builds the AlAdhan request and falls back to local cache if the request fails.
+- `HomeRemoteSource` calls AlAdhan by **coordinates** (`/timings`) or **city/country** (`/timingsByCity`) based on `LocationPreferenceEntity.source`.
 - `HomeLocalSource` validates cached `locationKey` and cached day before returning data.
 - `HomeScreen` writes the loaded schedule to Hive when `prayerTimesLoadedState` is emitted.
-- Prayer-times request constants live in `lib/features/home/data/request/param/get_today_prayer_times_params.dart`.
+- Prayer-times request constants live in `get_today_prayer_times_params.dart`.
+- Manual picker uses `GetCountriesUseCase` / `GetCitiesByCountryUseCase` → `HomeRepository` / `HomeRemoteSource` → CountriesNow → Hive + session cache.
 
 ---
 
@@ -412,7 +431,7 @@ lib/
 ├── core/
 │   ├── theme/           # ColorScheme, ThemeData, CustomThemeColors
 │   ├── localization/    # LocalizationProvider
-│   ├── providers/       # ThemeModeProvider, InternetProvider
+│   ├── providers/       # ThemeModeProvider, InternetProvider, CountriesSessionProvider
 │   └── common/utils/    # DateUtility (locale-aware dates/times)
 ├── features/
 │   ├── splash/
@@ -487,19 +506,26 @@ Full product spec: [`docs/prayer_quran_app_requirements.md`](docs/prayer_quran_a
 
 #### 4. شاشة الافتتاح (Splash)
 
-شاشة قصيرة (~2.2 ثانية) بالشعار والاسم ومؤشر تحميل، ثم الانتقال للرئيسية.
+شاشة قصيرة (~2.2 ثانية) بالشعار والاسم ومؤشر تحميل، ثم الانتقال للرئيسية. أثناء عرضها يُحمَّل **قائمة الدول** مسبقاً لتسريع اختيار الموقع اليدوي.
 
-- **كيف يعمل:** `splash_screen.dart` — خلفية wallpaper، بدون اتصال بالشبكة.
+- **كيف يعمل:** `splash_screen.dart` — يستدعي `CountriesSessionProvider.prefetchCountries()` في الإطار الأول.
 
 ---
 
-#### 5. الرئيسية والقائمة الجانبية
+#### 5. الرئيسية ومواقيت الصلاة
 
-**شريط علوي منحنٍ** بلون الزمرد + **قائمة جانبية** للإعدادات.
+**شريط علوي منحنٍ** + **بطاقة مواقيت الصلاة** + **قائمة جانبية**.
 
-**الشريط العلوي**
-- منحنى سفلي واضح فوق المحتوى.
-- أيقونة القائمة تفتح الدرج.
+**مواقيت الصلاة**
+- جلب الأوقات من **AlAdhan** عبر GPS أو الخريطة أو **اختيار البلد/المدينة يدوياً**.
+- تمييز الصلاة التالية وعدّ تنازلي.
+- **وضع offline** من Hive.
+- بطاقة skeleton أثناء التحميل؛ بطاقة خطأ مع **إعادة المحاولة** و**تغيير الموقع**.
+
+**تغيير الموقع**
+- **من الخريطة** — Google Maps مع نمط داكن متوافق مع السمة.
+- **البلد / المدينة** — قوائم قابلة للبحث عبر **CountriesNow** (أسماء إنجليزية لـ AlAdhan).
+- تخزين مؤقت: Hive + `CountriesSessionProvider` (تحميل الدول في Splash).
 
 **القائمة الجانبية**
 - رأس: اسم التطبيق والشعار (متكيف مع الفاتح والداكن).

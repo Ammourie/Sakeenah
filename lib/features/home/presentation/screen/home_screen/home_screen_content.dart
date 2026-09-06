@@ -61,7 +61,7 @@ class HomeScreenContent extends StatelessWidget {
                   homeInitState: () => const SizedBox.shrink(),
                   homeLoadingState: () => PrayerTimesCard.dummy(),
                   prayerTimesLoadedState: (schedule) {
-                    final location = sn.gpsLocation;
+                    final location = sn.selectedLocation;
                     final label = location != null
                         ? LocationLabelUtils.readableLabel(
                             location,
@@ -73,7 +73,8 @@ class HomeScreenContent extends StatelessWidget {
                       schedule: schedule,
                       clock: DateTime.now(),
                       label: label,
-                      onChangeLocation: () => sn.pickMapLocation(
+                      onChangeLocation: () => sn.changeLocation(
+                        context: context,
                         hasInternet: context
                             .read<InternetProvider>()
                             .hasInternet,
@@ -84,6 +85,10 @@ class HomeScreenContent extends StatelessWidget {
                     onRefresh: () {
                       sn.getPrayerTimes(hasInternet: hasInternet);
                     },
+                    onChangeLocation: () => sn.changeLocation(
+                      context: context,
+                      hasInternet: hasInternet,
+                    ),
                   ),
                   orElse: () => const ScreenNotImplementedErrorWidget(),
                 );

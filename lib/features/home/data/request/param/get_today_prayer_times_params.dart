@@ -4,6 +4,7 @@ import '../../../domain/entity/location_preference_entity.dart';
 class GetTodayPrayerTimesParams extends BaseParams {
   static const aladhanTimingsPath = 'timings';
   static const aladhanTimingsByCityPath = 'timingsByCity';
+  static const aladhanTimingsByAddressPath = 'timingsByAddress';
   static const aladhanCalculationMethod = 2;
 
   final LocationPreferenceEntity location;
@@ -23,5 +24,6 @@ class GetTodayPrayerTimesParams extends BaseParams {
         if (location.longitude != null) 'longitude': location.longitude,
         if (location.city != null) 'city': location.city,
         if (location.country != null) 'country': location.country,
+        if (location.address != null) 'address': location.address,
       };
 }

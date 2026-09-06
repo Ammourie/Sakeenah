@@ -6,8 +6,6 @@ import 'package:provider/provider.dart';
 
 import '../../../../../core/common/hive_helper.dart';
 import '../../../../../core/providers/internet_provider.dart';
-
-import '../../../../../core/ui/error_ui/error_viewer/error_viewer.dart';
 import '../../../../../core/ui/screens/base_screen.dart';
 
 import '../../../data/request/model/daily_prayer_schedule_model.dart';
@@ -30,13 +28,14 @@ class HomeScreen extends BaseScreen<HomeScreenParam> {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   late final HomeScreenNotifier provider;
 
   @override
   void initState() {
     super.initState();
 
+    WidgetsBinding.instance.addObserver(this);
     provider = HomeScreenNotifier(widget.param);
   }
 
@@ -51,9 +50,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     provider.closeNotifier();
 
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state != AppLifecycleState.resumed) return;
+    if (provider.selectedLocation != null) return;
+
+    provider.getPrayerTimes(
+      hasInternet: context.read<InternetProvider>().hasInternet,
+    );
   }
 
   @override
@@ -74,11 +85,6 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             homeErrorState: (error, callback) {
               provider.isLoading = false;
-              ErrorViewer.showError(
-                context: context,
-                error: error,
-                callback: callback,
-              );
             },
             prayerTimesLoadedState: (schedule) {
               provider.isLoading = false;

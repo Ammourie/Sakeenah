@@ -18,11 +18,11 @@ import 'package:Sakeenah/core/net/http_client.dart' as _i46;
 import 'package:Sakeenah/di/modules/logger_module.dart' as _i319;
 import 'package:Sakeenah/di/modules/shared_preferences_module.dart' as _i349;
 import 'package:Sakeenah/features/home/data/datasource/ihome_remote_datasource.dart'
-    as _i835;
-import 'package:Sakeenah/features/home/data/datasource/ihome_local_datasource.dart'
-    as _i661;
+    as _i627;
 import 'package:Sakeenah/features/home/domain/repository/ihome_repository.dart'
     as _i329;
+import 'package:Sakeenah/features/home/domain/usecase/get_manual_location_usecases.dart'
+    as _i1034;
 import 'package:Sakeenah/features/home/domain/usecase/get_today_prayer_times_usecase.dart'
     as _i26;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
@@ -44,15 +44,21 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1067.NavigationRoute>(() => _i1067.NavigationRoute());
     gh.lazySingleton<_i46.HttpClient>(() => _i46.HttpClient());
     gh.lazySingleton<_i974.Logger>(() => loggerModule.logger);
-    gh.factory<_i661.IHomeLocalSource>(() => _i661.HomeLocalSource());
-    gh.factory<_i835.IHomeRemoteSource>(
-      () => _i835.HomeRemoteSource(gh<_i661.IHomeLocalSource>()),
+    gh.factory<_i627.IHomeLocalSource>(() => _i627.HomeLocalSource());
+    gh.factory<_i627.IHomeRemoteSource>(
+      () => _i627.HomeRemoteSource(gh<_i627.IHomeLocalSource>()),
     );
     gh.factory<_i329.IHomeRepository>(
       () => _i329.HomeRepository(
-        gh<_i835.IHomeRemoteSource>(),
-        gh<_i661.IHomeLocalSource>(),
+        gh<_i627.IHomeRemoteSource>(),
+        gh<_i627.IHomeLocalSource>(),
       ),
+    );
+    gh.singleton<_i1034.GetCountriesUseCase>(
+      () => _i1034.GetCountriesUseCase(gh<_i329.IHomeRepository>()),
+    );
+    gh.singleton<_i1034.GetCitiesByCountryUseCase>(
+      () => _i1034.GetCitiesByCountryUseCase(gh<_i329.IHomeRepository>()),
     );
     gh.factory<_i26.GetTodayPrayerTimesUseCase>(
       () => _i26.GetTodayPrayerTimesUseCase(gh<_i329.IHomeRepository>()),

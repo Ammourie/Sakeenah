@@ -22,6 +22,9 @@ class HomeRemoteSource extends IHomeRemoteSource {
       url = GetTodayPrayerTimesParams.aladhanTimingsPath;
       queryParameters['latitude'] = location.latitude;
       queryParameters['longitude'] = location.longitude;
+    } else if (location.usesAddressLookup) {
+      url = GetTodayPrayerTimesParams.aladhanTimingsByAddressPath;
+      queryParameters['address'] = location.address!.trim();
     } else {
       url = GetTodayPrayerTimesParams.aladhanTimingsByCityPath;
       queryParameters['city'] = location.city;
@@ -50,5 +53,66 @@ class HomeRemoteSource extends IHomeRemoteSource {
       (_) => remote,
       Right.new,
     );
+  }
+
+  @override
+  Future<Either<AppErrors, CountryListModel>> getCountries(
+    GetCountriesParams params,
+  ) async {
+    final cached = await _localDataSource.getCountries();
+    if (cached.isRight()) {
+      return cached;
+    }
+
+    final remote = await request<CountryListModel>(
+      method: HttpMethod.GET,
+      url: GetCountriesParams.countriesNowCountriesPath,
+      baseUrl: AppSettings.COUNTRIES_NOW_BASE_URL,
+      cancelToken: params.cancelToken,
+      responseValidator: CountriesNowResponseValidator(),
+      createModelInterceptor: const CountriesNowCreateModelInterceptor(),
+      converter: CountryListModel.fromMap,
+    );
+
+    if (remote.isRight()) {
+      final countries =
+          remote.getOrElse(() => CountryListModel(countries: const []));
+      await _localDataSource.saveCountries(countries);
+      return Right(countries);
+    }
+
+    return cached;
+  }
+
+  @override
+  Future<Either<AppErrors, CityListModel>> getCitiesByCountry(
+    GetCitiesByCountryParams params,
+  ) async {
+    final cached = await _localDataSource.getCitiesByCountry(params.country);
+    if (cached.isRight()) {
+      return cached;
+    }
+
+    final remote = await request<CityListModel>(
+      method: HttpMethod.GET,
+      url: GetCitiesByCountryParams.countriesNowCitiesPath,
+      baseUrl: AppSettings.COUNTRIES_NOW_BASE_URL,
+      queryParameters: params.toQueryParameters(),
+      cancelToken: params.cancelToken,
+      responseValidator: CountriesNowResponseValidator(),
+      createModelInterceptor: const CountriesNowCreateModelInterceptor(),
+      converter: CityListModel.fromMap,
+    );
+
+    if (remote.isRight()) {
+      final cities = remote.getOrElse(() => CityListModel(cities: const []));
+      await _localDataSource.saveCitiesByCountry(
+        country: params.country,
+        cities: cities,
+      );
+      return Right(cities);
+    }
+
+    return cached;
   }
 }

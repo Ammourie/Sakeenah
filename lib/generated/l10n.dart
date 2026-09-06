@@ -1369,6 +1369,146 @@ class S {
       args: [],
     );
   }
+
+  /// `Choose how you want to set your location for prayer times.`
+  String get locationSourceChooserMessage {
+    return Intl.message(
+      'Choose how you want to set your location for prayer times.',
+      name: 'locationSourceChooserMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick from map`
+  String get pickFromMap {
+    return Intl.message(
+      'Pick from map',
+      name: 'pickFromMap',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Drag the map and pin your area.`
+  String get pickFromMapDescription {
+    return Intl.message(
+      'Drag the map and pin your area.',
+      name: 'pickFromMapDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Country / city picker`
+  String get countryCityPicker {
+    return Intl.message(
+      'Country / city picker',
+      name: 'countryCityPicker',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose your country and city from a list.`
+  String get countryCityPickerDescription {
+    return Intl.message(
+      'Choose your country and city from a list.',
+      name: 'countryCityPickerDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose country & city`
+  String get countryCityPickerTitle {
+    return Intl.message(
+      'Choose country & city',
+      name: 'countryCityPickerTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select your country first, then pick a city from the list or enter your full address for prayer times.`
+  String get countryCityPickerMessage {
+    return Intl.message(
+      'Select your country first, then pick a city from the list or enter your full address for prayer times.',
+      name: 'countryCityPickerMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select a country`
+  String get selectCountryHint {
+    return Intl.message(
+      'Select a country',
+      name: 'selectCountryHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select a city`
+  String get selectCityHint {
+    return Intl.message(
+      'Select a city',
+      name: 'selectCityHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select a country first`
+  String get selectCountryFirstHint {
+    return Intl.message(
+      'Select a country first',
+      name: 'selectCountryFirstHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `City`
+  String get cityInputModeLabel {
+    return Intl.message('City', name: 'cityInputModeLabel', desc: '', args: []);
+  }
+
+  /// `Pick from list`
+  String get cityInputModePicker {
+    return Intl.message(
+      'Pick from list',
+      name: 'cityInputModePicker',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter address`
+  String get cityInputModeManual {
+    return Intl.message(
+      'Enter address',
+      name: 'cityInputModeManual',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Address`
+  String get addressHint {
+    return Intl.message('Address', name: 'addressHint', desc: '', args: []);
+  }
+
+  /// `Street, district, city…`
+  String get enterAddressManuallyHint {
+    return Intl.message(
+      'Street, district, city…',
+      name: 'enterAddressManuallyHint',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -8,6 +8,7 @@ class LocationPreferenceModel extends BaseModel<LocationPreferenceEntity> {
   final double? longitude;
   final String? city;
   final String? country;
+  final String? address;
   final String displayLabel;
   final String? labelLanguageCode;
 
@@ -17,6 +18,7 @@ class LocationPreferenceModel extends BaseModel<LocationPreferenceEntity> {
     this.longitude,
     this.city,
     this.country,
+    this.address,
     required this.displayLabel,
     this.labelLanguageCode,
   });
@@ -28,6 +30,7 @@ class LocationPreferenceModel extends BaseModel<LocationPreferenceEntity> {
       longitude: numV<double>(json['longitude']),
       city: stringV(json['city']).isEmpty ? null : stringV(json['city']),
       country: stringV(json['country']).isEmpty ? null : stringV(json['country']),
+      address: stringV(json['address']).isEmpty ? null : stringV(json['address']),
       displayLabel: stringV(json['displayLabel']),
       labelLanguageCode: _optionalString(json['labelLanguageCode']),
     );
@@ -44,6 +47,7 @@ class LocationPreferenceModel extends BaseModel<LocationPreferenceEntity> {
         if (longitude != null) 'longitude': longitude,
         if (city != null) 'city': city,
         if (country != null) 'country': country,
+        if (address != null) 'address': address,
         'displayLabel': displayLabel,
         if (labelLanguageCode != null) 'labelLanguageCode': labelLanguageCode,
       };
@@ -56,6 +60,7 @@ class LocationPreferenceModel extends BaseModel<LocationPreferenceEntity> {
       longitude: longitude,
       city: city,
       country: country,
+      address: address,
       displayLabel: displayLabel,
       labelLanguageCode: labelLanguageCode,
     );
@@ -68,6 +73,7 @@ class LocationPreferenceModel extends BaseModel<LocationPreferenceEntity> {
       longitude: entity.longitude,
       city: entity.city,
       country: entity.country,
+      address: entity.address,
       displayLabel: entity.displayLabel,
       labelLanguageCode: entity.labelLanguageCode,
     );
