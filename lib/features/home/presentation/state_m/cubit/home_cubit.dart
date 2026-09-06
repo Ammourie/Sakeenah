@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../../core/errors/app_errors.dart';
-import '../../../../../core/results/result.dart';
 import '../../../../../di/service_locator.dart';
 import '../../../data/request/param/get_today_prayer_times_params.dart';
 import '../../../domain/usecase/get_today_prayer_times_usecase.dart';

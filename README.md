@@ -104,7 +104,7 @@ The main screen has a **curved emerald app bar**, a **prayer times card**, a **Q
   - Location chooser: `lib/features/home/presentation/widgets/location_source_chooser_sheet.dart`
   - Map picker: `lib/features/home/presentation/screen/map_location_picker_screen.dart`
   - Manual picker: `lib/features/home/presentation/screen/manual_location_picker_screen.dart`
-  - State: `lib/features/home/presentation/state_m/cubit/home_cubit.dart` + `home_screen_notifier.dart`
+  - State: `HomeCubit` + `HomeScreenNotifier` (prayer times); `QuranRadioCubit` (radio) — both created in `home_screen_notifier.dart`
   - Prayer + location repository: `lib/features/home/domain/repository/home_repository.dart`
   - Remote/local datasources: `lib/features/home/data/datasource/ihome_remote_datasource.dart`
   - Session cache: `lib/core/providers/countries_session_provider.dart`
@@ -118,15 +118,20 @@ The main screen has a **curved emerald app bar**, a **prayer times card**, a **Q
 - **Stop** — tears down HTTP stream, clears buffer, returns to idle (play starts fresh).
 - **Skip back / forward** (±10 seconds) within audio already buffered in memory — not a full broadcast rewind.
 - **Seekable playback slider** — scrub within the buffered window; label shows `{position} / {buffered}` (e.g. `1:23 / 4:56`).
-- Connecting spinner, error message, and **Retry** when the stream fails.
+- Connecting spinner, inline error overlay on the player card, and **Retry** when the stream fails.
+- **Full-section error card** (`QuranRadioErrorWidget`) for action/bootstrap failures — handled in `home_screen_content.dart` via `QuranRadioState.error`.
+- **Auto-restart:** if playback was active when the network dropped (or the buffer ran out offline), the stream **retries automatically** when `InternetProvider` reports connectivity restored.
+- **Home init:** opening home stops/resets any prior radio session before subscribing to player updates.
 - **Engine:** [`flutter_soloud`](https://pub.dev/packages/flutter_soloud) `^4.1.7` with `BufferingType.preserved` (~10 min RAM cap) + Dio HTTP ingest (Icecast MP3, `Icy-MetaData` header).
-- **Architecture:** single home stack only — `HomeCubit` → use cases → `HomeRepository` → `QuranRadioPlayer` (`@lazySingleton` in `data/datasource/`). No separate radio feature module (see `.cursor/rules/home-single-layers.mdc`).
+- **Architecture:** single repository/datasource stack — `HomeCubit` (prayer) + `QuranRadioCubit` (radio) → use cases → `HomeRepository` → `QuranRadioPlayer` (`@lazySingleton` in `data/datasource/`). No separate radio feature module (see `.cursor/rules/home-single-layers.mdc`).
 
 - **How it works:**
   - UI: `lib/features/home/presentation/widgets/quran_radio_section.dart`
+  - Error card: `lib/features/home/presentation/widgets/quran_radio_error_widget.dart`
   - Player: `lib/features/home/data/datasource/quran_radio_player.dart`
-  - State slice: `RadioPlayerEntity` on composite `HomeState.radio`
+  - State: flat Freezed unions — `HomeState` (`initial`, `prayerTimesLoading`, `prayerTimesLoaded`, `prayerTimesError`) and `QuranRadioState` (`initial`, `loaded`, `error`); entity payload in `RadioPlayerEntity`
   - Use cases (one file each under `domain/usecase/`): `PlayQuranRadioUseCase`, `PauseQuranRadioUseCase`, `StopQuranRadioUseCase`, `SetQuranRadioVolumeUseCase`, `SeekQuranRadioUseCase`, `SeekQuranRadioToUseCase`, `RetryQuranRadioUseCase`, `WatchQuranRadioUseCase`
+  - Connectivity: `HomeScreen` listens to `InternetProvider` → `HomeScreenNotifier.onInternetConnectivityChanged` → `QuranRadioCubit`
 
 **Note:** Background playback and lock-screen controls are **not** implemented yet (planned Phase 5). iOS requires deployment target **13.0+** for `flutter_soloud`.
 
@@ -165,7 +170,7 @@ The prayer-times feature uses a thin repository and keeps detailed behavior in d
 - `HomeRepository` only chooses **local** when `isOffline == true`, otherwise **remote**.
 - `HomeRemoteSource` calls AlAdhan by **coordinates** (`/timings`) or **city/country** (`/timingsByCity`) based on `LocationPreferenceEntity.source`.
 - `HomeLocalSource` validates cached `locationKey` and cached day before returning data.
-- `HomeScreen` writes the loaded schedule to Hive when `prayerTimesLoadedState` is emitted.
+- `HomeScreen` writes the loaded schedule to Hive when `HomeState.prayerTimesLoaded` is emitted.
 - Prayer-times request constants live in `get_today_prayer_times_params.dart`.
 - Manual picker uses `GetCountriesUseCase` / `GetCitiesByCountryUseCase` → `HomeRepository` / `HomeRemoteSource` → CountriesNow → Hive + session cache.
 
@@ -173,9 +178,9 @@ The prayer-times feature uses a thin repository and keeps detailed behavior in d
 
 #### 9. Internet connection banner
 
-When the device goes offline, a bottom banner appears; it hides again when connection returns.
+When the device goes offline, a bottom banner appears; it hides again when connection returns. While on home, **Quran radio** that was playing before disconnect auto-retries when connectivity is restored (manual pause/stop cancels auto-retry).
 
-- **How it works:** `InternetProvider` listens for connectivity changes; `InternetBanner` is overlaid in `MaterialApp.builder` (`lib/app.dart`).
+- **How it works:** `InternetProvider` listens for connectivity changes; `InternetBanner` is overlaid in `MaterialApp.builder` (`lib/app.dart`). `HomeScreen` forwards connectivity changes to `QuranRadioCubit`.
 
 ---
 
@@ -453,7 +458,7 @@ lib/
 │   └── common/utils/    # DateUtility (locale-aware dates/times)
 ├── features/
 │   ├── splash/
-│   └── home/            # prayer times + Quran radio (single cubit/repo stack)
+│   └── home/            # prayer times + Quran radio (shared repo; HomeCubit + QuranRadioCubit)
 ├── l10n/                # intl_en.arb, intl_ar.arb
 ├── generated/           # l10n.dart (auto-generated — do not edit)
 └── di/
@@ -551,9 +556,11 @@ Full product spec: [`docs/prayer_quran_app_requirements.md`](docs/prayer_quran_a
 - **إيقاف** — يوقف البث ويمسح المخزن المؤقت ويعيد الحالة إلى idle.
 - **رجوع / تقديم 10 ثوانٍ** ضمن الصوت المخزّن في الذاكرة — وليس إعادة بث كاملة.
 - **شريط تمرير قابل للسحب** — للانتقال داخل نافذة المخزن؛ النص `{position} / {buffered}` (مثل `1:23 / 4:56`).
-- حالة اتصال، رسالة خطأ، و**إعادة المحاولة**.
+- حالة اتصال، خطأ داخل البطاقة، **بطاقة خطأ كاملة** (`QuranRadioErrorWidget`)، و**إعادة المحاولة**.
+- **إعادة تشغيل تلقائية** عند عودة الإنترنت إذا كان البث يعمل قبل الانقطاع (الإيقاف/الإيقاف المؤقت اليدوي يلغي ذلك).
+- **عند فتح الرئيسية:** إعادة تعيين أي جلسة رادio سابقة.
 - المحرك: `flutter_soloud` `^4.1.7` مع `BufferingType.preserved` + Dio.
-- البنية: `HomeCubit` → use cases (ملف لكل use case) → `QuranRadioPlayer`.
+- البنية: `HomeCubit` (مواقيت) + `QuranRadioCubit` (رادio) → use cases → `HomeRepository` → `QuranRadioPlayer`.
 
 **ملاحظة:** التشغيل في الخلفية وعناصر التحكم من شاشة القفل **لم تُنفَّذ بعد** (المرحلة 5). iOS يتطلب **13.0+**.
 
@@ -594,9 +601,9 @@ Full product spec: [`docs/prayer_quran_app_requirements.md`](docs/prayer_quran_a
 
 #### 8. تنبيه انقطاع الإنترنت
 
-بانر في الأسفل عند فقدان الاتصال؛ يختفي عند عودته.
+بانر في الأسفل عند فقدان الاتصال؛ يختفي عند عودته. على الشاشة الرئيسية، يُعاد تشغيل الرادio تلقائياً عند عودة الشبكة إذا كان يعمل قبل الانقطاع.
 
-- **كيف يعمل:** `InternetProvider` + `InternetBanner` في `app.dart`.
+- **كيف يعمل:** `InternetProvider` + `InternetBanner` في `app.dart`؛ `HomeScreen` → `QuranRadioCubit`.
 
 ---
 
