@@ -274,6 +274,13 @@ class _RadioHeroStageState extends State<_RadioHeroStage>
             padding: EdgeInsetsDirectional.fromSTEB(20.w, 20.h, 20.w, 12.h),
             child: Column(
               children: [
+                if (showLiveBadge) ...[
+                  Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: _LiveBadge(status: widget.radio.status),
+                  ),
+                  8.verticalSpace,
+                ],
                 Expanded(
                   child: Stack(
                     alignment: Alignment.center,
@@ -284,15 +291,15 @@ class _RadioHeroStageState extends State<_RadioHeroStage>
                           builder: (context, child) {
                             final scale =
                                 1 +
-                                (0.08 *
+                                (0.2 *
                                     math.sin(
                                       _pulseController.value * math.pi * 2,
                                     ));
                             return Transform.scale(
                               scale: scale,
                               child: Container(
-                                width: 118.w,
-                                height: 118.w,
+                                width: 160.w,
+                                height: 160.w,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   border: Border.all(
@@ -321,12 +328,6 @@ class _RadioHeroStageState extends State<_RadioHeroStage>
                           color: colorScheme.onPrimaryContainer,
                         ),
                       ),
-                      if (showLiveBadge)
-                        PositionedDirectional(
-                          top: 0,
-                          end: 0,
-                          child: _LiveBadge(status: widget.radio.status),
-                        ),
                     ],
                   ),
                 ),
@@ -759,40 +760,43 @@ class _RadioPlayerBarState extends State<_RadioPlayerBar> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Stack(
-                alignment: Alignment.center,
+              Row(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _SkipSeekButton(
-                        tooltip: S.current.quranRadioSkipBackward,
-                        iconPath: AppConstants.SVG_ICON_SKIP_BACK,
-                        enabled:
-                            widget.canUseSeekControls &&
-                            widget.radio.canSeekBackward,
-                        onPressed: widget.onSeekBackward,
-                      ),
-                      8.horizontalSpace,
-                      _InlinePlayButton(
-                        isPlaying: widget.isPlaying,
-                        isLoading: widget.isLoading,
-                        onPlay: widget.onPlay,
-                        onPause: widget.onPause,
-                      ),
-                      8.horizontalSpace,
-                      _SkipSeekButton(
-                        tooltip: S.current.quranRadioSkipForward,
-                        iconPath: AppConstants.SVG_ICON_SKIP_FORWARD,
-                        enabled:
-                            widget.canUseSeekControls &&
-                            widget.radio.canSeekForward,
-                        onPressed: widget.onSeekForward,
-                      ),
-                    ],
+                  SizedBox(width: 36.w, height: 36.h),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _SkipSeekButton(
+                          tooltip: S.current.quranRadioSkipBackward,
+                          iconPath: AppConstants.SVG_ICON_SKIP_BACK,
+                          enabled:
+                              widget.canUseSeekControls &&
+                              widget.radio.canSeekBackward,
+                          onPressed: widget.onSeekBackward,
+                        ),
+                        8.horizontalSpace,
+                        _InlinePlayButton(
+                          isPlaying: widget.isPlaying,
+                          isLoading: widget.isLoading,
+                          onPlay: widget.onPlay,
+                          onPause: widget.onPause,
+                        ),
+                        8.horizontalSpace,
+                        _SkipSeekButton(
+                          tooltip: S.current.quranRadioSkipForward,
+                          iconPath: AppConstants.SVG_ICON_SKIP_FORWARD,
+                          enabled:
+                              widget.canUseSeekControls &&
+                              widget.radio.canSeekForward,
+                          onPressed: widget.onSeekForward,
+                        ),
+                      ],
+                    ),
                   ),
-                  Align(
-                    alignment: AlignmentDirectional.centerEnd,
+                  SizedBox(
+                    width: 36.w,
+                    height: 36.h,
                     child: CompositedTransformTarget(
                       link: _volumeLayerLink,
                       child: _BarIconButton(
