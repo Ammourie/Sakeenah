@@ -29,6 +29,7 @@
 | Themes | [Themes](#themes-en) |
 | Routing | [Routing](#routing-en) |
 | Prayer times feature | [Prayer times](#prayer-times-en) |
+| Quran radio & background playback | [Quran radio](#quran-radio-en) |
 | Documentation phases | [Phases](#phases-en) |
 
 ---
@@ -49,6 +50,7 @@
 | الموضوعات | [الموضوعات](#themes-ar) |
 | التوجيه | [التوجيه](#routing-ar) |
 | مواقيت الصلاة | [مواقيت الصلاة](#prayer-times-ar) |
+| راديو القرآن والتشغيل بالخلفية | [راديو القرآن](#quran-radio-ar) |
 | مراحل التوثيق | [المراحل](#phases-ar) |
 
 ---
@@ -973,7 +975,7 @@ Location-based daily salah times on the home screen, powered by the **[AlAdhan P
 - Five daily prayers (Fajr → Isha) for **today**
 - **Next prayer** highlight and countdown
 - Location from **GPS**, **map pick**, or **manual country/city**
-- Offline fallback when a cached schedule exists for the same location and date
+- Offline fallback when a cached schedule exists for the same place
 
 ### API request format
 
@@ -1022,7 +1024,7 @@ AlAdhan returns `{ "code": 200, "status": "OK", "data": { "timings": {...}, "dat
 - [`AlAdhanCreateModelInterceptor`](lib/core/net/create_model_interceptor/aladhan_create_model_interceptor.dart) unwraps `data`.
 - [`DailyPrayerScheduleModel.fromAladhanData()`](lib/features/home/data/request/model/daily_prayer_schedule_model.dart) maps Fajr–Isha and the gregorian date.
 
-On success, the schedule is cached in Hive (`HomeScreen._cachePrayerTimes`) keyed by location and `YYYY-MM-DD` for offline use.
+On success, the schedule and its location are cached in Hive via `HomeScreenNotifier.cachePrayerTimesAndLocation()`. Offline fallback now reuses the latest cached schedule for the same place (exact manual match, or GPS within the configured radius).
 
 ---
 
@@ -1037,7 +1039,7 @@ On success, the schedule is cached in Hive (`HomeScreen._cachePrayerTimes`) keye
 - خمس صلوات يومية (الفجر → العشاء) **لليوم الحالي**
 - تمييز **الصلاة القادمة** مع عدّ تنازلي
 - الموقع عبر **GPS** أو **الخريطة** أو **الدولة/المدينة يدوياً**
-- عمل دون اتصال عند وجود جدول مخزّن لنفس الموقع والتاريخ
+- عمل دون اتصال عند وجود جدول مخزّن لنفس الموقع
 
 ### صيغة طلب API
 
@@ -1071,7 +1073,272 @@ AlAdhan يُرجع `{ "code": 200, "data": { "timings": {...}, "date": {...} } }
 
 - التحقق عبر `AlAdhanResponseValidator`
 - فك التغليف `data` عبر `AlAdhanCreateModelInterceptor`
-- التحويل إلى `DailyPrayerScheduleModel` ثم التخزين في Hive للاستخدام دون اتصال
+- التحويل إلى `DailyPrayerScheduleModel` ثم التخزين في Hive عبر `HomeScreenNotifier.cachePrayerTimesAndLocation()` للاستخدام دون اتصال
+
+---
+
+## Quran radio {#quran-radio-en}
+
+Live Quran recitation with an in-app player, preserved buffer seeking, and true background playback through `audio_service`.
+
+**Deep technical doc:** [`docs/quran_radio_background_playback.md`](docs/quran_radio_background_playback.md)
+
+### What the user gets
+
+- Play, pause, stop, volume, and seek within the preserved stream buffer
+- **Background playback** when the app is minimized or the screen is locked
+- Android **media notification** controls
+- iOS **lock-screen / Control Center** media controls
+- Friendly inline error state with retry / stop
+- Auto-retry after temporary connectivity loss
+
+### High-level architecture
+
+```mermaid
+flowchart TD
+  HomeUi["QuranRadioSection"] --> Notifier["HomeScreenNotifier"]
+  Notifier --> Cubit["QuranRadioCubit"]
+  Cubit --> UseCases["Play/Pause/Seek/Retry use cases"]
+  UseCases --> Repo["HomeRepository"]
+  Repo --> Remote["HomeRemoteSource"]
+  Remote --> Player["QuranRadioPlayer"]
+  Player --> Stream["RadioPlayerEntity stream"]
+  Stream --> Cubit
+  Stream --> Handler["QuranRadioAudioHandler"]
+  Handler --> System["Notification / lock screen / headset"]
+```
+
+### Core pieces
+
+| Piece | File | Responsibility |
+|-------|------|----------------|
+| Bootstrap | [`lib/core/audio/quran_radio_audio_service.dart`](lib/core/audio/quran_radio_audio_service.dart) | Starts `AudioService`, loads localized notification strings, exposes global handler |
+| Background handler | [`lib/features/home/data/datasource/quran_radio_audio_handler.dart`](lib/features/home/data/datasource/quran_radio_audio_handler.dart) | Maps player state to system media session / notification |
+| Audio engine | [`lib/features/home/data/datasource/quran_radio_player.dart`](lib/features/home/data/datasource/quran_radio_player.dart) | Dio stream ingest + SoLoud preserved buffer + seek + volume |
+| Foreground state | [`lib/features/home/presentation/state_m/cubit/quran_radio_cubit.dart`](lib/features/home/presentation/state_m/cubit/quran_radio_cubit.dart) | UI-facing player state, retry hooks, reconnection handling |
+| UI | [`lib/features/home/presentation/widgets/quran_radio_section.dart`](lib/features/home/presentation/widgets/quran_radio_section.dart) | Hero card, controls, buffer slider, inline errors |
+
+### Startup sequence
+
+In [`lib/main.dart`](lib/main.dart), background audio is initialized before `runApp`:
+
+1. `configureInjection()`
+2. `LocalizationProvider().fetchLocale()`
+3. `initQuranRadioAudioService()`
+4. `AppConfig().initApp()`
+
+This order matters because notification labels use `S.current`, and the handler needs the shared `QuranRadioPlayer` from DI.
+
+### How playback works
+
+[`QuranRadioPlayer`](lib/features/home/data/datasource/quran_radio_player.dart) keeps the live radio engine in one place:
+
+- Uses **Dio** to open the Icecast stream at `AppConstants.QURAN_RADIO_STREAM_URL`
+- Feeds audio bytes into **SoLoud** with `BufferingType.preserved`
+- Stores a local RAM buffer up to `QURAN_RADIO_MAX_BUFFER_DURATION_SECONDS`
+- Supports:
+  - `play()` / `pause()`
+  - `stop()` to tear down HTTP + buffer and return to idle
+  - `retry()` to rebuild the stream
+  - `seekBy()` and `seekTo()` inside the preserved buffer only
+  - volume `0..1`
+
+This means the seek bar is **not** a full broadcast timeline. It is only the buffered window that already exists in memory.
+
+### Background playback and notification
+
+[`QuranRadioAudioHandler`](lib/features/home/data/datasource/quran_radio_audio_handler.dart) wraps the player with `audio_service`:
+
+- Publishes a `MediaItem` for system UI
+- Maps `RadioPlayerStatus` to `PlaybackState`
+- Exposes notification / lock-screen actions:
+  - rewind `10s`
+  - play / pause
+  - fast-forward `10s`
+  - stop
+
+Android details:
+
+- Foreground service via `AudioService`
+- Notification channel ID: `com.ammourie.sakeenah.quran_radio`
+- Small status-bar icon: `ic_stat_name`
+- Action icons: `ic_radio_play`, `ic_radio_pause`, `ic_radio_skip_back`, `ic_radio_skip_forward`, `ic_radio_stop`
+- `androidStopForegroundOnPause: false` keeps the session visible while paused
+- `android/app/src/main/res/raw/keep.xml` protects notification drawables from release shrinking
+
+iOS details:
+
+- `UIBackgroundModes -> audio` in [`ios/Runner/Info.plist`](ios/Runner/Info.plist)
+- Uses standard lock-screen / Control Center transport controls
+
+### Audio focus, interruptions, and reconnection
+
+The app uses [`audio_session`](https://pub.dev/packages/audio_session) with the music profile:
+
+- phone call / interruption begins -> pause
+- interruption ends -> resume if playback was active before
+
+For connectivity:
+
+- foreground UI path: `InternetProvider` -> `HomeScreenNotifier` -> `QuranRadioCubit`
+- background path: `QuranRadioAudioHandler` listens to `InternetConnection().onStatusChange`
+- if the stream drops while playing, the handler marks it for auto-retry and retries with backoff (`3` attempts, `2s` delay)
+
+### Notification artwork
+
+[`lib/core/audio/quran_radio_notification_art.dart`](lib/core/audio/quran_radio_notification_art.dart) copies the Flutter logo asset to the app support directory and returns a file `Uri`.
+
+This is needed because Android media notifications cannot read a Flutter asset path directly for `MediaItem.artUri`.
+
+### Error handling
+
+The current Quran radio UX uses **one** error surface inside the same card:
+
+- `QuranRadioSection` keeps the hero visible
+- `_RadioErrorPanel` shows the message, retry, and stop
+- `QuranRadioErrorMessage` maps raw playback / connectivity errors to friendly localized strings
+- the old separate `QuranRadioErrorWidget` is no longer used
+
+### Native setup summary
+
+| Platform | Required setup |
+|----------|----------------|
+| Android | `WAKE_LOCK`, `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_MEDIA_PLAYBACK`, `AudioService` service, `MediaButtonReceiver`, `MainActivity : AudioServiceActivity` |
+| iOS | `UIBackgroundModes` includes `audio` |
+
+After any native package or manifest / plist change, do a **full app restart** or reinstall. Hot reload is not enough.
+
+---
+
+## راديو القرآن {#quran-radio-ar}
+
+بث مباشر لتلاوة القرآن مع مشغل داخل التطبيق، وإمكانية التقديم داخل الـ buffer، وتشغيل حقيقي في الخلفية عبر `audio_service`.
+
+**التوثيق التقني المفصل:** [`docs/quran_radio_background_playback.md`](docs/quran_radio_background_playback.md)
+
+### ما الذي يحصل عليه المستخدم
+
+- تشغيل، إيقاف مؤقت، إيقاف، تحكم بالصوت، وتقديم داخل الـ buffer المحفوظ
+- **تشغيل في الخلفية** عند تصغير التطبيق أو قفل الشاشة
+- عناصر تحكم وسائط في إشعار Android
+- عناصر تحكم شاشة القفل / Control Center في iOS
+- حالة خطأ داخل نفس البطاقة مع إعادة المحاولة / الإيقاف
+- إعادة محاولة تلقائية عند انقطاع الإنترنت مؤقتاً
+
+### البنية العامة
+
+```mermaid
+flowchart TD
+  HomeUi["QuranRadioSection"] --> Notifier["HomeScreenNotifier"]
+  Notifier --> Cubit["QuranRadioCubit"]
+  Cubit --> UseCases["Use cases"]
+  UseCases --> Repo["HomeRepository"]
+  Repo --> Remote["HomeRemoteSource"]
+  Remote --> Player["QuranRadioPlayer"]
+  Player --> Stream["RadioPlayerEntity stream"]
+  Stream --> Cubit
+  Stream --> Handler["QuranRadioAudioHandler"]
+  Handler --> System["Notification / lock screen"]
+```
+
+### الأجزاء الأساسية
+
+| الجزء | الملف | الدور |
+|------|-------|-------|
+| التهيئة | [`lib/core/audio/quran_radio_audio_service.dart`](lib/core/audio/quran_radio_audio_service.dart) | تشغيل `AudioService` وتحميل نصوص الإشعار |
+| معالج الخلفية | [`lib/features/home/data/datasource/quran_radio_audio_handler.dart`](lib/features/home/data/datasource/quran_radio_audio_handler.dart) | ربط حالة المشغل مع جلسة الوسائط في النظام |
+| محرك الصوت | [`lib/features/home/data/datasource/quran_radio_player.dart`](lib/features/home/data/datasource/quran_radio_player.dart) | بث Dio + buffer محفوظ في SoLoud + seek + volume |
+| حالة الواجهة | [`lib/features/home/presentation/state_m/cubit/quran_radio_cubit.dart`](lib/features/home/presentation/state_m/cubit/quran_radio_cubit.dart) | حالة اللاعب في الواجهة وإعادة المحاولة |
+| الواجهة | [`lib/features/home/presentation/widgets/quran_radio_section.dart`](lib/features/home/presentation/widgets/quran_radio_section.dart) | البطاقة، الأزرار، شريط الـ buffer، الأخطاء |
+
+### تسلسل التشغيل
+
+في [`lib/main.dart`](lib/main.dart) يتم تهيئة صوت الخلفية قبل `runApp`:
+
+1. `configureInjection()`
+2. `LocalizationProvider().fetchLocale()`
+3. `initQuranRadioAudioService()`
+4. `AppConfig().initApp()`
+
+وهذا مهم لأن نصوص الإشعار تعتمد على `S.current`، كما أن المعالج يحتاج `QuranRadioPlayer` من DI.
+
+### آلية التشغيل
+
+[`QuranRadioPlayer`](lib/features/home/data/datasource/quran_radio_player.dart):
+
+- يفتح بث Icecast عبر Dio من `QURAN_RADIO_STREAM_URL`
+- يمرر البيانات إلى SoLoud باستخدام `BufferingType.preserved`
+- يحتفظ بذاكرة buffer في RAM
+- يدعم:
+  - `play()` / `pause()`
+  - `stop()`
+  - `retry()`
+  - `seekBy()` و `seekTo()` داخل الـ buffer فقط
+  - مستوى صوت `0..1`
+
+هذا يعني أن شريط التقديم ليس timeline كامل للبث، بل فقط الجزء المحفوظ في الذاكرة.
+
+### التشغيل في الخلفية والإشعارات
+
+[`QuranRadioAudioHandler`](lib/features/home/data/datasource/quran_radio_audio_handler.dart):
+
+- ينشر `MediaItem` للنظام
+- يحول `RadioPlayerStatus` إلى `PlaybackState`
+- يوفّر الأوامر:
+  - رجوع `10` ثوانٍ
+  - تشغيل / إيقاف مؤقت
+  - تقديم `10` ثوانٍ
+  - إيقاف
+
+تفاصيل Android:
+
+- Foreground service عبر `AudioService`
+- قناة الإشعار: `com.ammourie.sakeenah.quran_radio`
+- الأيقونة الصغيرة: `ic_stat_name`
+- أيقونات الأزرار: `ic_radio_play`, `ic_radio_pause`, `ic_radio_skip_back`, `ic_radio_skip_forward`, `ic_radio_stop`
+- `androidStopForegroundOnPause: false`
+- الملف `android/app/src/main/res/raw/keep.xml` يمنع حذف أيقونات الإشعار في release
+
+تفاصيل iOS:
+
+- `UIBackgroundModes -> audio` في [`ios/Runner/Info.plist`](ios/Runner/Info.plist)
+- استخدام عناصر تحكم النظام في شاشة القفل و Control Center
+
+### المقاطعات وإعادة الاتصال
+
+باستخدام `audio_session`:
+
+- عند بدء المكالمة / المقاطعة -> pause
+- عند انتهاء المقاطعة -> resume إذا كان التشغيل فعالاً قبلها
+
+وعند الشبكة:
+
+- في الواجهة: `InternetProvider` -> `HomeScreenNotifier` -> `QuranRadioCubit`
+- في الخلفية: `QuranRadioAudioHandler` يراقب تغيّر الاتصال
+- عند فشل البث أثناء التشغيل، تتم إعادة المحاولة تلقائياً مع backoff (`3` محاولات، تأخير `2` ثانية)
+
+### Artwork الإشعار
+
+[`lib/core/audio/quran_radio_notification_art.dart`](lib/core/audio/quran_radio_notification_art.dart) ينسخ شعار التطبيق من Flutter assets إلى ملف محلي ثم يمرره كـ `Uri`.
+
+والسبب أن Android لا يستطيع استخدام مسار Flutter asset مباشرةً في `MediaItem.artUri`.
+
+### معالجة الأخطاء
+
+التعامل الحالي مع الخطأ داخل نفس بطاقة الراديو:
+
+- تبقى الـ hero ظاهرة
+- تظهر لوحة خطأ مع retry و stop
+- `QuranRadioErrorMessage` يحول الأخطاء إلى رسائل مترجمة وواضحة
+
+### ملخص الإعدادات الأصلية
+
+| المنصة | المطلوب |
+|--------|---------|
+| Android | صلاحيات `WAKE_LOCK`, `FOREGROUND_SERVICE`, `FOREGROUND_SERVICE_MEDIA_PLAYBACK` + خدمة `AudioService` + `MediaButtonReceiver` + `AudioServiceActivity` |
+| iOS | تفعيل `audio` داخل `UIBackgroundModes` |
+
+بعد أي تعديل native، يلزم **إعادة تشغيل كاملة** للتطبيق. Hot reload لا يكفي.
 
 ---
 
@@ -1084,8 +1351,8 @@ This README is being rebuilt **in phases**. Current status:
 | **1** | Overview, FVM, install, download, run | ✅ Done |
 | **2** | TDD architecture, Cursor skills & rules, key packages | ✅ Done |
 | **3** | Localization, themes, routing | ✅ Done |
-| **4** | Features — prayer times (Quran radio pending) | 🟡 In progress |
-| **5** | Background audio & notifications | 🔜 Coming soon |
+| **4** | Features — prayer times + Quran radio | ✅ Done |
+| **5** | Background audio & notifications | ✅ Done |
 | **6** | Build, release & submission | 🔜 Coming soon |
 
 Detailed implementation tracking: [`docs/implementation_plan.md`](docs/implementation_plan.md)
@@ -1101,8 +1368,8 @@ Detailed implementation tracking: [`docs/implementation_plan.md`](docs/implement
 | **1** | نظرة عامة، FVM، التثبيت، التحميل، التشغيل | ✅ مكتمل |
 | **2** | بنية TDD، مهارات وقواعد Cursor، الحزم الرئيسية | ✅ مكتمل |
 | **3** | الترجمة، الموضوعات، التوجيه | ✅ مكتمل |
-| **4** | الميزات — مواقيت الصلاة (راديو القرآن قيد الإكمال) | 🟡 جاري |
-| **5** | التشغيل في الخلفية والإشعارات | 🔜 قريباً |
+| **4** | الميزات — مواقيت الصلاة + راديو القرآن | ✅ مكتمل |
+| **5** | التشغيل في الخلفية والإشعارات | ✅ مكتمل |
 | **6** | البناء والإصدار والتسليم | 🔜 قريباً |
 
 تتبع التنفيذ التفصيلي: [`docs/implementation_plan.md`](docs/implementation_plan.md)

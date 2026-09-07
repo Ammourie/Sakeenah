@@ -735,11 +735,16 @@ class _RadioPlayerBarState extends State<_RadioPlayerBar> {
     final positionSeconds = canSeek
         ? (progress * widget.radio.bufferedSeconds).round()
         : widget.radio.positionSeconds;
-    final progressLabel = widget.isLoading
-        ? '--:-- / --:--'
+    final currentProgressLabel = widget.isLoading
+        ? '--:--'
         : widget.showPlaybackProgress
-        ? '${_formatRadioSeconds(positionSeconds)} / ${_formatRadioSeconds(widget.radio.bufferedSeconds)}'
-        : '--:-- / --:--';
+        ? _formatRadioSeconds(positionSeconds)
+        : '--:--';
+    final totalProgressLabel = widget.isLoading
+        ? '--:--'
+        : widget.showPlaybackProgress
+        ? _formatRadioSeconds(widget.radio.bufferedSeconds)
+        : '--:--';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -754,91 +759,126 @@ class _RadioPlayerBarState extends State<_RadioPlayerBar> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+              Stack(
+                alignment: Alignment.center,
                 children: [
-                  _SkipSeekButton(
-                    tooltip: S.current.quranRadioSkipBackward,
-                    iconPath: AppConstants.SVG_ICON_SKIP_BACK,
-                    enabled:
-                        widget.canUseSeekControls &&
-                        widget.radio.canSeekBackward,
-                    onPressed: widget.onSeekBackward,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _SkipSeekButton(
+                        tooltip: S.current.quranRadioSkipBackward,
+                        iconPath: AppConstants.SVG_ICON_SKIP_BACK,
+                        enabled:
+                            widget.canUseSeekControls &&
+                            widget.radio.canSeekBackward,
+                        onPressed: widget.onSeekBackward,
+                      ),
+                      8.horizontalSpace,
+                      _InlinePlayButton(
+                        isPlaying: widget.isPlaying,
+                        isLoading: widget.isLoading,
+                        onPlay: widget.onPlay,
+                        onPause: widget.onPause,
+                      ),
+                      8.horizontalSpace,
+                      _SkipSeekButton(
+                        tooltip: S.current.quranRadioSkipForward,
+                        iconPath: AppConstants.SVG_ICON_SKIP_FORWARD,
+                        enabled:
+                            widget.canUseSeekControls &&
+                            widget.radio.canSeekForward,
+                        onPressed: widget.onSeekForward,
+                      ),
+                    ],
                   ),
-                  8.horizontalSpace,
-                  _InlinePlayButton(
-                    isPlaying: widget.isPlaying,
-                    isLoading: widget.isLoading,
-                    onPlay: widget.onPlay,
-                    onPause: widget.onPause,
-                  ),
-                  8.horizontalSpace,
-                  _SkipSeekButton(
-                    tooltip: S.current.quranRadioSkipForward,
-                    iconPath: AppConstants.SVG_ICON_SKIP_FORWARD,
-                    enabled:
-                        widget.canUseSeekControls &&
-                        widget.radio.canSeekForward,
-                    onPressed: widget.onSeekForward,
-                  ),
-                  const Spacer(),
-                  CompositedTransformTarget(
-                    link: _volumeLayerLink,
-                    child: _BarIconButton(
-                      tooltip: S.current.quranRadioVolume,
-                      iconPath: isMuted
-                          ? AppConstants.SVG_ICON_VOLUME_X
-                          : AppConstants.SVG_ICON_VOLUME_2,
-                      enabled: true,
-                      onPressed: _toggleVolumePopup,
-                      iconColor: volumePopupOpen ? colorScheme.primary : null,
+                  Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: CompositedTransformTarget(
+                      link: _volumeLayerLink,
+                      child: _BarIconButton(
+                        tooltip: S.current.quranRadioVolume,
+                        iconPath: isMuted
+                            ? AppConstants.SVG_ICON_VOLUME_X
+                            : AppConstants.SVG_ICON_VOLUME_2,
+                        enabled: true,
+                        onPressed: _toggleVolumePopup,
+                        iconColor: volumePopupOpen ? colorScheme.primary : null,
+                      ),
                     ),
                   ),
                 ],
               ),
               10.verticalSpace,
-              SliderTheme(
-                data: SliderTheme.of(context).copyWith(
-                  trackHeight: 4.h,
-                  thumbShape: RoundSliderThumbShape(enabledThumbRadius: 6.r),
-                  overlayShape: SliderComponentShape.noOverlay,
-                  inactiveTrackColor: tokens.waveInactive,
-                  activeTrackColor: colorScheme.primary,
-                  disabledInactiveTrackColor: tokens.waveInactive,
-                  disabledActiveTrackColor: colorScheme.primary.withValues(
-                    alpha: 0.45,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: SliderTheme(
+                          data: SliderTheme.of(context).copyWith(
+                            trackHeight: 4.h,
+                            thumbShape: RoundSliderThumbShape(
+                              enabledThumbRadius: 6.r,
+                            ),
+                            overlayShape: SliderComponentShape.noOverlay,
+                            inactiveTrackColor: tokens.waveInactive,
+                            activeTrackColor: colorScheme.primary,
+                            disabledInactiveTrackColor: tokens.waveInactive,
+                            disabledActiveTrackColor:
+                                colorScheme.primary.withValues(alpha: 0.45),
+                            thumbColor: colorScheme.primary,
+                            disabledThumbColor: colorScheme.primary.withValues(
+                              alpha: 0.45,
+                            ),
+                          ),
+                          child: Slider(
+                            value: progress.clamp(0.0, 1.0),
+                            onChanged: canSeek
+                                ? (value) => setState(() => _dragProgress = value)
+                                : null,
+                            onChangeEnd: canSeek
+                                ? (value) {
+                                    widget.onSeekToProgress(value);
+                                    setState(() => _dragProgress = null);
+                                  }
+                                : null,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  thumbColor: colorScheme.primary,
-                  disabledThumbColor: colorScheme.primary.withValues(
-                    alpha: 0.45,
+                  Padding(
+                    padding: EdgeInsetsDirectional.only(
+                      start: 4.w,
+                      end: 4.w,
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          currentProgressLabel,
+                          style: textTheme.labelSmall?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w600,
+                            fontFeatures: const [FontFeature.tabularFigures()],
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          totalProgressLabel,
+                          style: textTheme.labelSmall?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w600,
+                            fontFeatures: const [FontFeature.tabularFigures()],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                child: Slider(
-                  value: progress.clamp(0.0, 1.0),
-                  onChanged: canSeek
-                      ? (value) => setState(() => _dragProgress = value)
-                      : null,
-                  onChangeEnd: canSeek
-                      ? (value) {
-                          widget.onSeekToProgress(value);
-                          setState(() => _dragProgress = null);
-                        }
-                      : null,
-                ),
-              ),
-              4.verticalSpace,
-              Align(
-                alignment: AlignmentDirectional.centerEnd,
-                child: Text(
-                  progressLabel,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: textTheme.labelSmall?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                    fontWeight: FontWeight.w600,
-                    fontFeatures: const [FontFeature.tabularFigures()],
-                  ),
-                ),
+                ],
               ),
             ],
           ),
