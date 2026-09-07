@@ -190,7 +190,6 @@ class QuranRadioCubit extends Cubit<QuranRadioState> {
     _radioSession++;
     await _radioSubscription?.cancel();
     _radioSubscription = null;
-    await getIt<StopQuranRadioUseCase>()(EmptyQuranRadioParams());
     return super.close();
   }
 }

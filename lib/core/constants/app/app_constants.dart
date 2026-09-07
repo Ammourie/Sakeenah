@@ -45,11 +45,27 @@ class AppConstants {
   // connection, not found
 
   /// Image
+  /// Asset path for app logo PNG (light / dark).
   static String appLogoForTheme(Brightness brightness) {
     return brightness == Brightness.light
         ? "assets/images/png/logo_light.png"
         : "assets/images/png/logo_dark.png";
   }
+
+  /// Large notification / lock-screen artwork (always the light logo).
+  static const QURAN_RADIO_NOTIFICATION_ART_ASSET =
+      'assets/images/png/logo_light.png';
+
+  /// Android status-bar notification icon (copy of [QURAN_RADIO_NOTIFICATION_ART_ASSET]).
+  static const QURAN_RADIO_NOTIFICATION_ICON = 'drawable/logo_light';
+
+  /// Android media-notification action icons (Lucide, matches home radio bar).
+  static const QURAN_RADIO_NOTIF_ICON_PLAY = 'drawable/ic_radio_play';
+  static const QURAN_RADIO_NOTIF_ICON_PAUSE = 'drawable/ic_radio_pause';
+  static const QURAN_RADIO_NOTIF_ICON_SKIP_BACK = 'drawable/ic_radio_skip_back';
+  static const QURAN_RADIO_NOTIF_ICON_SKIP_FORWARD =
+      'drawable/ic_radio_skip_forward';
+  static const QURAN_RADIO_NOTIF_ICON_STOP = 'drawable/ic_radio_stop';
   static String mainImageForTheme(Brightness brightness) {
     return brightness == Brightness.light
         ? "assets/images/png/main_image_light.png"
@@ -87,6 +103,9 @@ class AppConstants {
       'https://stream.radiojar.com/8s5u5tpdtwzuv';
   static const QURAN_RADIO_SEEK_STEP_SECONDS = 10;
   static const QURAN_RADIO_MAX_BUFFER_DURATION_SECONDS = 24 * 60 * 60; // 1 day of seconds
+  static const QURAN_RADIO_MEDIA_ID = 'quran_radio';
+  static const QURAN_RADIO_NOTIFICATION_CHANNEL_ID =
+      'com.ammourie.sakeenah.quran_radio';
 
   /// ERROR IMAGES
   static const ERROR_403_401 = "assets/images/png/error/403.png";

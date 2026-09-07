@@ -873,21 +873,24 @@ class _VolumeVerticalPopup extends StatelessWidget {
             SizedBox(
               height: 120.h,
               width: 36.w,
-              child: RotatedBox(
-                quarterTurns: 3,
-                child: SliderTheme(
-                  data: SliderTheme.of(context).copyWith(
-                    trackHeight: 4.h,
-                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 6.r),
-                    overlayShape: SliderComponentShape.noOverlay,
-                    inactiveTrackColor: tokens.waveInactive,
-                    activeTrackColor: colorScheme.primary,
-                    thumbColor: colorScheme.primary,
-                  ),
-                  child: Slider(
-                    value: volume,
-                    onChanged: onVolumeChanged,
-                    label: S.current.quranRadioVolume,
+              child: Directionality(
+                textDirection: TextDirection.ltr,
+                child: RotatedBox(
+                  quarterTurns: 3,
+                  child: SliderTheme(
+                    data: SliderTheme.of(context).copyWith(
+                      trackHeight: 4.h,
+                      thumbShape: RoundSliderThumbShape(enabledThumbRadius: 6.r),
+                      overlayShape: SliderComponentShape.noOverlay,
+                      inactiveTrackColor: tokens.waveInactive,
+                      activeTrackColor: colorScheme.primary,
+                      thumbColor: colorScheme.primary,
+                    ),
+                    child: Slider(
+                      value: volume,
+                      onChanged: onVolumeChanged,
+                      label: S.current.quranRadioVolume,
+                    ),
                   ),
                 ),
               ),
@@ -1021,7 +1024,6 @@ class _InlinePlayButton extends StatelessWidget {
                       width: 18.w,
                       height: 18.w,
                       color: colorScheme.onPrimary,
-                      mirrorInRtl: !isPlaying,
                     ),
             ),
           ),
@@ -1080,14 +1082,14 @@ class _BarIconButton extends StatelessWidget {
   }
 }
 
-/// Mirrors directional media icons (skip, play) when the app locale is RTL.
+/// Mirrors skip forward/back icons in RTL when [mirrorInRtl] is true.
 class _RadioDirectionalIcon extends StatelessWidget {
   const _RadioDirectionalIcon({
     required this.iconPath,
     required this.width,
     required this.height,
     required this.color,
-    this.mirrorInRtl = true,
+    this.mirrorInRtl = false,
   });
 
   final String iconPath;

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'app.dart';
+import 'core/audio/quran_radio_audio_service.dart';
 import 'core/common/app_config.dart';
 import 'core/common/hive_helper.dart';
 import 'core/common/local_storage.dart';
@@ -45,6 +46,9 @@ Future<void> _initAppConfigs() async {
 
   /// Init Language.
   await LocalizationProvider().fetchLocale();
+
+  /// Background Quran Radio (notification + lock-screen controls).
+  await initQuranRadioAudioService();
 
   /// Init app config
   await AppConfig().initApp();

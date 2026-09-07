@@ -55,6 +55,7 @@ class QuranRadioPlayer {
   Timer? _positionTimer;
   bool _icyMetaIntSent = false;
   bool _httpDisconnected = false;
+  Future<void>? _teardownInProgress;
 
   /// Broadcast of the latest [RadioPlayerEntity] (position, buffer, status, volume).
   Stream<RadioPlayerEntity> get stream => _stateController.stream;
@@ -249,7 +250,9 @@ class QuranRadioPlayer {
 
     if (_initialized) {
       try {
-        SoLoud.instance.deinit();
+        if (SoLoud.instance.isInitialized) {
+          await SoLoud.instance.deinitAsync();
+        }
       } catch (_) {}
       _initialized = false;
     }
@@ -257,7 +260,9 @@ class QuranRadioPlayer {
 
   /// One-time [SoLoud.instance.init]; skipped after first call or [dispose].
   Future<void> _ensureInitialized() async {
-    if (_initialized || _disposed) return;
+    if (_disposed) return;
+    if (_initialized && SoLoud.instance.isInitialized) return;
+
     await SoLoud.instance.init();
     _initialized = true;
   }
@@ -462,6 +467,24 @@ class QuranRadioPlayer {
 
   /// Cancels HTTP/timer, disposes SoLoud sources; optionally keeps the engine.
   Future<void> _teardownStream({bool keepEngine = false}) async {
+    while (_teardownInProgress != null) {
+      try {
+        await _teardownInProgress;
+      } catch (_) {}
+    }
+
+    final operation = _teardownStreamImpl(keepEngine: keepEngine);
+    _teardownInProgress = operation;
+    try {
+      await operation;
+    } finally {
+      if (_teardownInProgress == operation) {
+        _teardownInProgress = null;
+      }
+    }
+  }
+
+  Future<void> _teardownStreamImpl({bool keepEngine = false}) async {
     _positionTimer?.cancel();
     _positionTimer = null;
 
@@ -471,17 +494,26 @@ class QuranRadioPlayer {
     _cancelToken?.cancel('teardown');
     _cancelToken = null;
 
+    final sourceToDispose = _source;
     _source = null;
     _handle = null;
     _icyMetaIntSent = false;
     _isBuffering = false;
     _httpDisconnected = false;
 
-    if (_initialized) {
-      try {
-        SoLoud.instance.disposeAllSources();
-      } catch (_) {}
+    if (!_initialized || _disposed || !SoLoud.instance.isInitialized) {
+      if (!SoLoud.instance.isInitialized) {
+        _initialized = false;
+      }
+      return;
     }
+
+    try {
+      if (sourceToDispose != null &&
+          SoLoud.instance.isValidAudioSource(sourceToDispose)) {
+        await SoLoud.instance.disposeSource(sourceToDispose);
+      }
+    } catch (_) {}
   }
 
   void _emit(RadioPlayerEntity next) {

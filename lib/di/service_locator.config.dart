@@ -85,9 +85,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i26.GetTodayPrayerTimesUseCase>(
       () => _i26.GetTodayPrayerTimesUseCase(gh<_i329.IHomeRepository>()),
     );
-    gh.factory<_i233.WatchQuranRadioUseCase>(
-      () => _i233.WatchQuranRadioUseCase(gh<_i329.IHomeRepository>()),
-    );
     gh.factory<_i833.PauseQuranRadioUseCase>(
       () => _i833.PauseQuranRadioUseCase(gh<_i329.IHomeRepository>()),
     );
@@ -108,6 +105,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i966.StopQuranRadioUseCase>(
       () => _i966.StopQuranRadioUseCase(gh<_i329.IHomeRepository>()),
+    );
+    gh.factory<_i233.WatchQuranRadioUseCase>(
+      () => _i233.WatchQuranRadioUseCase(gh<_i329.IHomeRepository>()),
     );
     return this;
   }

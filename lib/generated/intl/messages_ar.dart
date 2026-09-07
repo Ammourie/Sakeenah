@@ -304,6 +304,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "quranRadioLive": MessageLookupByLibrary.simpleMessage("مباشر"),
     "quranRadioMute": MessageLookupByLibrary.simpleMessage("كتم الصوت"),
+    "quranRadioNotificationChannelName": MessageLookupByLibrary.simpleMessage(
+      "إذاعة القرآن",
+    ),
     "quranRadioPause": MessageLookupByLibrary.simpleMessage("متوقف"),
     "quranRadioPlay": MessageLookupByLibrary.simpleMessage("تشغيل"),
     "quranRadioRetry": MessageLookupByLibrary.simpleMessage("إعادة المحاولة"),

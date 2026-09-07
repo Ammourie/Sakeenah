@@ -217,6 +217,8 @@
       }
     }
   },
+  "quranRadioNotificationChannelName": "Quran Radio",
+  "quranRadioNotificationChannelDescription": "Live Quran radio playback controls",
   "hoursShort": "h",
   "minutesShort": "m",
   "secondsShort": "s"

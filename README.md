@@ -120,20 +120,23 @@ The main screen has a **curved emerald app bar**, a **prayer times card**, a **Q
 - **Seekable playback slider** — scrub within the buffered window; label shows `{position} / {buffered}` (e.g. `1:23 / 4:56`).
 - Connecting spinner, inline error overlay on the player card, and **Retry** when the stream fails.
 - **Full-section error card** (`QuranRadioErrorWidget`) for action/bootstrap failures — handled in `home_screen_content.dart` via `QuranRadioState.error`.
-- **Auto-restart:** if playback was active when the network dropped (or the buffer ran out offline), the stream **retries automatically** when `InternetProvider` reports connectivity restored.
-- **Home init:** opening home stops/resets any prior radio session before subscribing to player updates.
+- **Auto-restart:** if playback was active when the network dropped (or the buffer ran out offline), the stream **retries automatically** when connectivity returns (`InternetProvider` in foreground; `QuranRadioAudioHandler` in background).
+- **Background playback:** `audio_service` + `audio_session` — media notification and lock-screen play/pause/stop/skip; audio-focus pause on calls; handler-level reconnect with backoff.
+- **Home init:** opening home stops/resets any prior radio session before subscribing to player updates; cubit `close()` no longer stops active playback.
 - **Engine:** [`flutter_soloud`](https://pub.dev/packages/flutter_soloud) `^4.1.7` with `BufferingType.preserved` (~10 min RAM cap) + Dio HTTP ingest (Icecast MP3, `Icy-MetaData` header).
-- **Architecture:** single repository/datasource stack — `HomeCubit` (prayer) + `QuranRadioCubit` (radio) → use cases → `HomeRepository` → `QuranRadioPlayer` (`@lazySingleton` in `data/datasource/`). No separate radio feature module (see `.cursor/rules/home-single-layers.mdc`).
+- **Architecture:** single repository/datasource stack — `HomeCubit` (prayer) + `QuranRadioCubit` (radio) → use cases → `HomeRepository` → `QuranRadioPlayer` (`@lazySingleton` in `data/datasource/`). Background layer: `QuranRadioAudioHandler` wraps the same player. No separate radio feature module (see `.cursor/rules/home-single-layers.mdc`).
 
 - **How it works:**
   - UI: `lib/features/home/presentation/widgets/quran_radio_section.dart`
   - Error card: `lib/features/home/presentation/widgets/quran_radio_error_widget.dart`
   - Player: `lib/features/home/data/datasource/quran_radio_player.dart`
+  - Background handler: `lib/features/home/data/datasource/quran_radio_audio_handler.dart`
+  - Bootstrap: `lib/core/audio/quran_radio_audio_service.dart` (called from `main.dart`)
   - State: flat Freezed unions — `HomeState` (`initial`, `prayerTimesLoading`, `prayerTimesLoaded`, `prayerTimesError`) and `QuranRadioState` (`initial`, `loaded`, `error`); entity payload in `RadioPlayerEntity`
   - Use cases (one file each under `domain/usecase/`): `PlayQuranRadioUseCase`, `PauseQuranRadioUseCase`, `StopQuranRadioUseCase`, `SetQuranRadioVolumeUseCase`, `SeekQuranRadioUseCase`, `SeekQuranRadioToUseCase`, `RetryQuranRadioUseCase`, `WatchQuranRadioUseCase`
-  - Connectivity: `HomeScreen` listens to `InternetProvider` → `HomeScreenNotifier.onInternetConnectivityChanged` → `QuranRadioCubit`
+  - Connectivity: `HomeScreen` → `InternetProvider` → `QuranRadioCubit`; background reconnect in `QuranRadioAudioHandler`
 
-**Note:** Background playback and lock-screen controls are **not** implemented yet (planned Phase 5). iOS requires deployment target **13.0+** for `flutter_soloud`.
+**Note:** After native changes, do a **full app restart** (not hot reload). iOS requires deployment target **13.0+** for `flutter_soloud`. Android requires foreground service permissions (see `AndroidManifest.xml`).
 
 ---
 

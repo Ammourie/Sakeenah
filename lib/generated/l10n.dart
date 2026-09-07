@@ -1635,6 +1635,16 @@ class S {
     );
   }
 
+  /// `Quran Radio`
+  String get quranRadioNotificationChannelName {
+    return Intl.message(
+      'Quran Radio',
+      name: 'quranRadioNotificationChannelName',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `h`
   String get hoursShort {
     return Intl.message('h', name: 'hoursShort', desc: '', args: []);
