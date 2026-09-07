@@ -4,11 +4,9 @@ import 'package:provider/provider.dart';
 
 import '../../common/custom_modules/screen_notifier.dart';
 import '../../common/local_storage.dart';
-import '../../constants/app/app_settings.dart';
 import '../../constants/enums/languages_enum.dart';
 import '../../localization/flutter_localization.dart';
 import '../../navigation/nav.dart';
-import '../widgets/restart_widget.dart';
 import 'language_screen.dart';
 
 class LanguageScreenNotifier extends ScreenNotifier<LanguageScreenParam> {
@@ -53,11 +51,7 @@ class LanguageScreenNotifier extends ScreenNotifier<LanguageScreenParam> {
       return true;
     }
 
-    if (hasChanges && AppSettings.changeLangRestart) {
-      RestartWidget.restartApp(context);
-    } else {
-      Nav.pop();
-    }
+    Nav.pop();
     return false;
   }
 

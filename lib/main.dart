@@ -2,31 +2,22 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'app.dart';
 import 'core/audio/quran_radio_audio_service.dart';
 import 'core/common/app_config.dart';
 import 'core/common/hive_helper.dart';
 import 'core/common/local_storage.dart';
-import 'core/constants/app/app_constants.dart';
 import 'core/constants/app/app_settings.dart';
 import 'core/constants/enums/app_options_enum.dart';
-import 'core/errors/error_global_handler/catcher_handler.dart';
-import 'core/errors/error_global_handler/report.dart';
 import 'core/localization/localization_provider.dart';
-import 'core/navigation/navigation_service.dart';
 import 'core/net/http_overrides.dart';
-import 'core/ui/error_ui/errors_screens/build_error_screen.dart';
 import 'di/service_locator.dart';
-import 'generated/l10n.dart';
 
 void main() async {
   await _initAppConfigs();
 
   runApp(const App());
-
-  AppConfig.clearNotificationSystemCount();
 }
 
 Future<void> _initAppConfigs() async {
@@ -56,10 +47,6 @@ Future<void> _initAppConfigs() async {
   /// Init rotation of app (Should be called after [AppConfig.initApp()])
   await _initAppRotation();
 
-  /// Init error catcher to catch any red screen error and add ability to send
-  /// a report to developer e-mail
-  _initErrorCatcher();
-
   /// In case of network handshake error
   HttpOverrides.global = new BadCertHttpOverrides();
 
@@ -88,67 +75,5 @@ Future<void> _initAppRotation() async {
         DeviceOrientation.landscapeRight,
       ]);
       break;
-  }
-}
-
-void _initErrorCatcher() {
-  if (AppSettings.enableErrorCatcher) {
-    /// Initialize the error screen with our custom error catcher
-    ErrorWidget.builder = (flutterErrorDetails) {
-      final _catcherHandler = CatcherHandler();
-
-      /// We must init the catcher handler parameters
-      _catcherHandler.init();
-
-      final context = getIt<NavigationService>().appContext;
-
-      return Scaffold(
-        backgroundColor: Colors.white,
-        body: Padding(
-          padding: EdgeInsets.only(bottom: ScreenUtil().setHeight(140)),
-          child: Center(
-            child: FittedBox(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  buildErrorScreen(
-                    disableRetryButton: true,
-                    title: S.of(context!).errorOccurred,
-                    content: S.current.reportError,
-                    imageUrl: AppConstants.ERROR_UNKNOWING,
-                    callback: null,
-                    context: context,
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                    ),
-                    child: Text(
-                      S.current.send,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    onPressed: () {
-                      Report? report = _catcherHandler.createReport(
-                        flutterErrorDetails.exception,
-                        flutterErrorDetails.stack,
-                        errorDetails: flutterErrorDetails,
-                      );
-                      if (report != null) {
-                        // TODO: Send report to developer
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
-    };
   }
 }

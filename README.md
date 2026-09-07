@@ -1,775 +1,1114 @@
-# Sakeenah | سكينة
+# Sakeenah · سكينة
 
-Flutter app for daily prayer times and Quran radio — built with Material 3, Arabic/English support, and a calm emerald & gold visual identity.
+<p align="center">
+  <a href="https://github.com/Ammourie/Mobile/releases/latest">
+    <img src="https://img.shields.io/github/v/release/Ammourie/Mobile?label=Download%20APK&style=for-the-badge&color=0F4C3A" alt="Download latest release" />
+  </a>
+</p>
 
-تطبيق Flutter لمواقيت الصلاة والراديو القرآني — بتصميم Material 3، دعم العربية والإنجليزية، وهوية بصرية هادئة بالزمردي والذهبي.
-
----
-
-## English
-
-### About the app
-
-**Sakeenah** (سكينة — *tranquility*) opens with a short setup, then lands on a home screen ready for prayer times and Quran radio. The features below are **live in the app today**.
-
----
-
-### Features
-
-#### 1. First launch journey
-
-On the very first open, the app guides the user through:
-
-**Language** → **Appearance** → **Splash** → **Home**
-
-After that, every launch goes **Splash** → **Home**.
-
-- **How it works:** `lib/app.dart` checks `LocalStorage` flags (`languageFirstStartSelected`, `themeFirstStartSelected`) and picks the first screen. Navigation uses named routes in `lib/core/navigation/route_generator.dart`.
+<p align="center">
+  <strong>English</strong> · <a href="#table-of-contents-en">Contents</a> ·
+  <strong>العربية</strong> · <a href="#table-of-contents-ar">المحتويات</a>
+</p>
 
 ---
 
-#### 2. Language selection
+## Table of contents {#table-of-contents-en}
 
-Choose **English** or **Arabic (العربية)** with a centered card layout on a soft wallpaper background.
-
-- **First launch:** full-screen onboarding; user must confirm to continue.
-- **From the drawer:** same screen with a back button; the app restarts to apply the new locale.
-- **How it works:**
-  - UI: `lib/core/ui/screens/language_screen.dart`
-  - State: `LanguageScreenNotifier` + `LocalizationProvider`
-  - Strings: `lib/l10n/intl_en.arb`, `lib/l10n/intl_ar.arb` → `S.current.*`
-  - Arabic enables **RTL** automatically via `flutter_localizations`.
-
----
-
-#### 3. Appearance (light / dark / system)
-
-Pick **Light**, **Dark**, or **System** with a live preview — the screen updates instantly as you tap an option.
-
-- **First launch:** confirm to save and continue to splash.
-- **From the drawer:** back button returns to home; confirm saves without restarting the app.
-- **How it works:**
-  - UI: `lib/core/ui/screens/theme_screen.dart`
-  - State: `ThemeScreenNotifier` + `ThemeModeProvider`
-  - Persistence: `LocalStorage.persistThemeMode`
-  - `MaterialApp.themeMode` updates immediately; optional smooth transition via `animated_theme_switcher`.
+| Section | Link |
+|---------|------|
+| About the app | [About](#about-en) |
+| Flutter & FVM | [Flutter & FVM](#flutter-fvm-en) |
+| Installation | [Install](#install-en) |
+| Download APK | [Download](#download-en) |
+| Run the app | [Run](#run-en) |
+| TDD feature structure | [Architecture](#architecture-en) |
+| Cursor skills & rules | [Cursor reference](#cursor-en) |
+| Key packages | [Packages](#packages-en) |
+| Localization | [Localization](#localization-en) |
+| Themes | [Themes](#themes-en) |
+| Routing | [Routing](#routing-en) |
+| Prayer times feature | [Prayer times](#prayer-times-en) |
+| Documentation phases | [Phases](#phases-en) |
 
 ---
 
-#### 4. Splash screen
+## جدول المحتويات {#table-of-contents-ar}
 
-A short branded screen (~2.2s) with the app illustration, name, and loading indicator, then navigation to home. While visible, the app **prefetches the country list** for the manual location picker so the picker opens faster.
-
-- **How it works:** `lib/features/splash/presentation/screen/splash_screen.dart` — uses `AppWallpaper`, theme-aware logo, and `WaitingWidget`; calls `CountriesSessionProvider.prefetchCountries()` on first frame.
-
----
-
-#### 5. Home, prayer times & navigation drawer
-
-The main screen has a **curved emerald app bar**, a **prayer times card**, a **Quran radio player**, and a **drawer** for settings.
-
-**Prayer times**
-- Loads today's salah times from the **AlAdhan API** using GPS coordinates, a map-picked location, or a **manual country/city** selection.
-- Highlights the next prayer and shows a countdown banner.
-- Supports **offline mode** by reading the cached daily schedule from Hive.
-- Shows a skeleton prayer card while loading and an inline error card with **Retry** and **Change location**.
-- Caches successful loaded schedules from the home screen listener.
-
-**Change location**
-- Tapping **Change location** (on the prayer card or error state) opens a bottom sheet:
-  - **Pick from map** — Google Maps pin picker with theme-aware dark map style.
-  - **Country / city picker** — searchable dropdowns backed by **CountriesNow** (English names; used directly for AlAdhan `timingsByCity`).
-- Selected location is stored in `HomeScreenNotifier` as `_selectedLocation` and reused until the user changes it again.
-- If GPS is denied, the user can still set location manually without the app closing.
-
-**Location data & caching**
-- Countries prefetched on splash into `CountriesSessionProvider` (in-memory session cache).
-- Countries and per-country cities cached in **Hive** after first successful fetch.
-- Remote datasource is **cache-first**: if Hive has data, the network is skipped (online or offline).
-- Cities endpoint: `GET /countries/cities/q?country={name}` (CountriesNow v0.1).
-
-**App bar**
-- Title bar with rounded bottom curve, stacked over the body so the curve stays visible.
-- Menu icon opens the drawer.
-
-**Drawer**
-- Header with app name and logo (styled for light and dark).
-- **Change language** — shows current language (English / العربية).
-- **Switch theme** — shows current mode (Light / Dark / System).
-
-- **How it works:**
-  - `lib/features/home/presentation/screen/home_screen/home_screen_content.dart`
-  - Prayer card: `lib/features/home/presentation/widgets/prayer_times_card.dart`
-  - Error card: `lib/features/home/presentation/widgets/prayer_times_error_widget.dart`
-  - Location chooser: `lib/features/home/presentation/widgets/location_source_chooser_sheet.dart`
-  - Map picker: `lib/features/home/presentation/screen/map_location_picker_screen.dart`
-  - Manual picker: `lib/features/home/presentation/screen/manual_location_picker_screen.dart`
-  - State: `HomeCubit` + `HomeScreenNotifier` (prayer times); `QuranRadioCubit` (radio) — both created in `home_screen_notifier.dart`
-  - Prayer + location repository: `lib/features/home/domain/repository/home_repository.dart`
-  - Remote/local datasources: `lib/features/home/data/datasource/ihome_remote_datasource.dart`
-  - Session cache: `lib/core/providers/countries_session_provider.dart`
-  - Searchable dropdown UI: `lib/core/ui/widgets/dropdown/search_dropdown/custom_search_dropdown.dart`
-  - Bar: `CurvedAppBar` inside `CurvedAppBarLayout` (body `Stack`, not `Scaffold.appBar`)
-  - Drawer theme resolved via `AppConfig().resolveThemeDataForMode` so light/dark colors apply correctly.
-
-**Quran radio**
-- Live stream from RadioJar (`AppConstants.QURAN_RADIO_STREAM_URL`).
-- **Play / pause**, **volume slider** (0–1, SoLoud engine max), and **mute toggle** (restores last volume).
-- **Stop** — tears down HTTP stream, clears buffer, returns to idle (play starts fresh).
-- **Skip back / forward** (±10 seconds) within audio already buffered in memory — not a full broadcast rewind.
-- **Seekable playback slider** — scrub within the buffered window; label shows `{position} / {buffered}` (e.g. `1:23 / 4:56`).
-- Connecting spinner, inline error overlay on the player card, and **Retry** when the stream fails.
-- **Full-section error card** (`QuranRadioErrorWidget`) for action/bootstrap failures — handled in `home_screen_content.dart` via `QuranRadioState.error`.
-- **Auto-restart:** if playback was active when the network dropped (or the buffer ran out offline), the stream **retries automatically** when connectivity returns (`InternetProvider` in foreground; `QuranRadioAudioHandler` in background).
-- **Background playback:** `audio_service` + `audio_session` — media notification and lock-screen play/pause/stop/skip; audio-focus pause on calls; handler-level reconnect with backoff.
-- **Home init:** opening home stops/resets any prior radio session before subscribing to player updates; cubit `close()` no longer stops active playback.
-- **Engine:** [`flutter_soloud`](https://pub.dev/packages/flutter_soloud) `^4.1.7` with `BufferingType.preserved` (~10 min RAM cap) + Dio HTTP ingest (Icecast MP3, `Icy-MetaData` header).
-- **Architecture:** single repository/datasource stack — `HomeCubit` (prayer) + `QuranRadioCubit` (radio) → use cases → `HomeRepository` → `QuranRadioPlayer` (`@lazySingleton` in `data/datasource/`). Background layer: `QuranRadioAudioHandler` wraps the same player. No separate radio feature module (see `.cursor/rules/home-single-layers.mdc`).
-
-- **How it works:**
-  - UI: `lib/features/home/presentation/widgets/quran_radio_section.dart`
-  - Error card: `lib/features/home/presentation/widgets/quran_radio_error_widget.dart`
-  - Player: `lib/features/home/data/datasource/quran_radio_player.dart`
-  - Background handler: `lib/features/home/data/datasource/quran_radio_audio_handler.dart`
-  - Bootstrap: `lib/core/audio/quran_radio_audio_service.dart` (called from `main.dart`)
-  - State: flat Freezed unions — `HomeState` (`initial`, `prayerTimesLoading`, `prayerTimesLoaded`, `prayerTimesError`) and `QuranRadioState` (`initial`, `loaded`, `error`); entity payload in `RadioPlayerEntity`
-  - Use cases (one file each under `domain/usecase/`): `PlayQuranRadioUseCase`, `PauseQuranRadioUseCase`, `StopQuranRadioUseCase`, `SetQuranRadioVolumeUseCase`, `SeekQuranRadioUseCase`, `SeekQuranRadioToUseCase`, `RetryQuranRadioUseCase`, `WatchQuranRadioUseCase`
-  - Connectivity: `HomeScreen` → `InternetProvider` → `QuranRadioCubit`; background reconnect in `QuranRadioAudioHandler`
-
-**Note:** After native changes, do a **full app restart** (not hot reload). iOS requires deployment target **13.0+** for `flutter_soloud`. Android requires foreground service permissions (see `AndroidManifest.xml`).
+| القسم | الرابط |
+|-------|--------|
+| عن التطبيق | [عن التطبيق](#about-ar) |
+| Flutter و FVM | [Flutter و FVM](#flutter-fvm-ar) |
+| التثبيت | [التثبيت](#install-ar) |
+| تحميل APK | [التحميل](#download-ar) |
+| تشغيل التطبيق | [التشغيل](#run-ar) |
+| بنية TDD للميزات | [البنية](#architecture-ar) |
+| مهارات وقواعد Cursor | [مرجع Cursor](#cursor-ar) |
+| الحزم الرئيسية | [الحزم](#packages-ar) |
+| الترجمة | [الترجمة](#localization-ar) |
+| الموضوعات | [الموضوعات](#themes-ar) |
+| التوجيه | [التوجيه](#routing-ar) |
+| مواقيت الصلاة | [مواقيت الصلاة](#prayer-times-ar) |
+| مراحل التوثيق | [المراحل](#phases-ar) |
 
 ---
 
-#### 6. Visual design & themes
+## About {#about-en}
 
-Calm, warm palette across the whole app:
+**Sakeenah** is a simple, reliable Flutter mobile app for daily Islamic use. It combines:
 
-| Role | Light | Dark |
-|------|-------|------|
-| Primary | Deep emerald `#0F4C3A` | Same emerald on dark surfaces |
-| Accent | Warm gold `#C9A24B` | Same gold |
-| Background | Warm cream `#FAF6EE` | Deep charcoal green `#0B1512` |
-| Text | Charcoal `#1F2622` | Light gray-green |
+- **Prayer times** — accurate, location-based salah times with next-prayer highlight and offline-friendly caching.
+- **Quran Radio** — live recitation stream with play/pause, volume, skip, seek within the buffer, and **background playback** with lock-screen / notification controls.
 
-- **Typography:** Plus Jakarta Sans (English), Tajawal (Arabic) — `lib/core/theme/text_theme_styles.dart`
-- **Semantic colors:** `context.appColors` (gold, ink, muted, card) from `CustomThemeColors`
-- **How it works:** `lib/core/theme/app_color_schemes.dart`, `themes_data.dart`, Material 3 `ColorScheme`
+The app supports **English and Arabic (RTL)**, **light and dark themes**, and a clean Material 3 interface built on Clean Architecture (data / domain / presentation).
 
----
-
-#### 7. Onboarding wallpaper
-
-Shared background for language, theme, and splash screens — cream/dark surface with a subtle grid and soft emerald/gold shapes.
-
-- **How it works:** `lib/core/ui/widgets/app_wallpaper.dart` — `CustomPaint` using `colorScheme` roles so it adapts to light and dark.
+| | |
+|---|---|
+| **Package name** | `com.ammourie.sakeenah` |
+| **Version** | `1.0.0+1` |
+| **Repository** | [github.com/Ammourie/Mobile](https://github.com/Ammourie/Mobile) |
 
 ---
 
-#### 8. Prayer times data flow
+## عن التطبيق {#about-ar}
 
-The prayer-times feature uses a thin repository and keeps detailed behavior in datasources and presentation.
+**سكينة (Sakeenah)** تطبيق Flutter بسيط وموثوق للاستخدام اليومي. يجمع بين:
 
-- `GetTodayPrayerTimesUseCase` is the only prayer-times use case.
-- `HomeRepository` only chooses **local** when `isOffline == true`, otherwise **remote**.
-- `HomeRemoteSource` calls AlAdhan by **coordinates** (`/timings`) or **city/country** (`/timingsByCity`) based on `LocationPreferenceEntity.source`.
-- `HomeLocalSource` validates cached `locationKey` and cached day before returning data.
-- `HomeScreen` writes the loaded schedule to Hive when `HomeState.prayerTimesLoaded` is emitted.
-- Prayer-times request constants live in `get_today_prayer_times_params.dart`.
-- Manual picker uses `GetCountriesUseCase` / `GetCitiesByCountryUseCase` → `HomeRepository` / `HomeRemoteSource` → CountriesNow → Hive + session cache.
+- **مواقيت الصلاة** — أوقات صلاة دقيقة حسب الموقع مع تمييز الصلاة القادمة ودعم التخزين المؤقت للعمل دون اتصال.
+- **راديو القرآن** — بث مباشر للتلاوة مع تشغيل/إيقاف مؤقت، التحكم بالصوت، التخطي، والتقديم ضمن الذاكرة المؤقتة، مع **تشغيل في الخلفية** وعناصر تحكم في شاشة القفل والإشعارات.
 
----
+يدعم التطبيق **الإنجليزية والعربية (RTL)** و**الوضع الفاتح والداكن**، وواجهة Material 3 نظيفة مبنية على Clean Architecture (data / domain / presentation).
 
-#### 9. Internet connection banner
-
-When the device goes offline, a bottom banner appears; it hides again when connection returns. While on home, **Quran radio** that was playing before disconnect auto-retries when connectivity is restored (manual pause/stop cancels auto-retry).
-
-- **How it works:** `InternetProvider` listens for connectivity changes; `InternetBanner` is overlaid in `MaterialApp.builder` (`lib/app.dart`). `HomeScreen` forwards connectivity changes to `QuranRadioCubit`.
+| | |
+|---|---|
+| **اسم الحزمة** | `com.ammourie.sakeenah` |
+| **الإصدار** | `1.0.0+1` |
+| **المستودع** | [github.com/Ammourie/Mobile](https://github.com/Ammourie/Mobile) |
 
 ---
 
-#### 10. Responsive layout
+## Flutter & FVM {#flutter-fvm-en}
 
-UI scales from a **390×844** design canvas on all phone sizes.
+This project uses **[FVM](https://fvm.app/)** (Flutter Version Management) so everyone builds with the same Flutter SDK.
 
-- **How it works:** global `ScreenUtilInit` in `lib/app.dart` with `AppConfig.screenUtilDesignSize()`; widgets use `.w`, `.h`, `.sp`, `.r`.
+| Tool | Version / note |
+|------|----------------|
+| **Flutter** | `3.44.0` (see [`.fvmrc`](.fvmrc)) |
+| **Dart SDK** | `^3.10.0` (see [`pubspec.yaml`](pubspec.yaml)) |
+| **Package manager** | Always use `fvm flutter` / `fvm dart` — not bare `flutter` |
+
+**Why FVM?** Pinning the SDK avoids “works on my machine” issues when teammates or CI use a different Flutter version.
+
+**Install FVM** (once per machine):
+
+```bash
+dart pub global activate fvm
+```
+
+Then in the project root:
+
+```bash
+fvm install 3.44.0
+fvm use 3.44.0
+```
 
 ---
 
-### Localization — architecture & workflow
+## Flutter و FVM {#flutter-fvm-ar}
 
-Sakeenah ships in **English** and **Arabic**. All user-facing copy lives in `.arb` files and is consumed through the generated `S` class — never hardcoded in widgets.
+يستخدم هذا المشروع **[FVM](https://fvm.app/)** (إدارة إصدارات Flutter) لضمان بناء التطبيق بنفس إصدار Flutter لدى الجميع.
 
-#### Stack
+| الأداة | الإصدار / ملاحظة |
+|--------|-------------------|
+| **Flutter** | `3.44.0` (راجع [`.fvmrc`](.fvmrc)) |
+| **Dart SDK** | `^3.10.0` (راجع [`pubspec.yaml`](pubspec.yaml)) |
+| **مدير الحزم** | استخدم دائماً `fvm flutter` / `fvm dart` — وليس `flutter` مباشرة |
 
-| Piece | Role |
-|-------|------|
-| **`flutter_intl`** (`pubspec.yaml`) | IDE plugin config; generates `lib/generated/l10n.dart` |
-| **`lib/l10n/intl_en.arb`** | English source strings |
-| **`lib/l10n/intl_ar.arb`** | Arabic translations (same keys) |
-| **`lib/generated/l10n.dart`** | Generated `S` class — `S.current.myKey`, `S.current.myKey(arg)` |
-| **`LocalizationProvider`** | Singleton `ChangeNotifier`; holds active `Locale`, persists choice |
-| **`flutter_localizations`** | Material/Cupertino delegates for built-in widget strings + **RTL** |
+**لماذا FVM؟** تثبيت الإصدار يمنع مشاكل “يعمل عندي فقط” عندما يستخدم الزملاء أو CI إصدار Flutter مختلف.
 
-#### Wiring in `MaterialApp` (`lib/app.dart`)
+**تثبيت FVM** (مرة واحدة على الجهاز):
+
+```bash
+dart pub global activate fvm
+```
+
+ثم من جذر المشروع:
+
+```bash
+fvm install 3.44.0
+fvm use 3.44.0
+```
+
+---
+
+## Install {#install-en}
+
+### Prerequisites
+
+- [Git](https://git-scm.com/)
+- [FVM](https://fvm.app/documentation/getting-started/installation) + Flutter `3.44.0` (via `fvm install` above)
+- **Android:** Android Studio, SDK, and a device or emulator
+- **iOS (macOS only):** Xcode, CocoaPods
+
+### Steps
+
+```bash
+# 1. Clone
+git clone https://github.com/Ammourie/Mobile.git
+cd Mobile
+
+# 2. Flutter SDK (FVM)
+fvm install
+fvm use
+
+# 3. Dependencies
+fvm flutter pub get
+
+# 4. Code generation (required after clone or model/DI changes)
+fvm dart run build_runner build --delete-conflicting-outputs
+fvm dart run intl_utils:generate
+
+# 5. iOS only
+cd ios && pod install && cd ..
+```
+
+> **Note:** Native changes (Android manifest, iOS plist, new plugins) require a **full app restart** — hot reload is not enough.
+
+---
+
+## التثبيت {#install-ar}
+
+### المتطلبات
+
+- [Git](https://git-scm.com/)
+- [FVM](https://fvm.app/documentation/getting-started/installation) + Flutter `3.44.0` (عبر `fvm install` أعلاه)
+- **Android:** Android Studio و SDK وجهاز أو محاكي
+- **iOS (macOS فقط):** Xcode و CocoaPods
+
+### الخطوات
+
+```bash
+# 1. استنساخ المستودع
+git clone https://github.com/Ammourie/Mobile.git
+cd Mobile
+
+# 2. Flutter SDK (FVM)
+fvm install
+fvm use
+
+# 3. الحزم
+fvm flutter pub get
+
+# 4. توليد الكود (مطلوب بعد الاستنساخ أو تغيير النماذج/DI)
+fvm dart run build_runner build --delete-conflicting-outputs
+fvm dart run intl_utils:generate
+
+# 5. iOS فقط
+cd ios && pod install && cd ..
+```
+
+> **ملاحظة:** التغييرات الأصلية (Android manifest، iOS plist، حزم جديدة) تتطلب **إعادة تشغيل كاملة للتطبيق** — إعادة التحميل السريع لا تكفي.
+
+---
+
+## Download {#download-en}
+
+Pre-built APKs are published on GitHub Releases.
+
+<p align="center">
+  <a href="https://github.com/Ammourie/Mobile/releases/latest">
+    <img src="https://img.shields.io/github/v/release/Ammourie/Mobile?label=Download%20latest%20APK&style=for-the-badge&color=0F4C3A" alt="Download latest APK" />
+  </a>
+</p>
+
+| | |
+|---|---|
+| **All releases** | [github.com/Ammourie/Mobile/releases](https://github.com/Ammourie/Mobile/releases) |
+| **Install on device** | `adb install path/to/app-release.apk` |
+
+---
+
+## التحميل {#download-ar}
+
+ملفات APK الجاهزة تُنشر على GitHub Releases.
+
+<p align="center">
+  <a href="https://github.com/Ammourie/Mobile/releases/latest">
+    <img src="https://img.shields.io/github/v/release/Ammourie/Mobile?label=تحميل%20APK&style=for-the-badge&color=0F4C3A" alt="تحميل أحدث APK" />
+  </a>
+</p>
+
+| | |
+|---|---|
+| **كل الإصدارات** | [github.com/Ammourie/Mobile/releases](https://github.com/Ammourie/Mobile/releases) |
+| **التثبيت على الجهاز** | `adb install path/to/app-release.apk` |
+
+---
+
+## Run {#run-en}
+
+```bash
+# List devices
+fvm flutter devices
+
+# Debug (default)
+fvm flutter run
+
+# Release mode on device
+fvm flutter run --release
+
+# Build release APK
+fvm flutter build apk --release
+# Output: build/app/outputs/flutter-apk/app-release.apk
+
+# Build App Bundle (Play Store)
+fvm flutter build appbundle --release
+```
+
+**Analyze & test:**
+
+```bash
+fvm flutter analyze
+fvm flutter test
+```
+
+---
+
+## التشغيل {#run-ar}
+
+```bash
+# عرض الأجهزة
+fvm flutter devices
+
+# وضع التطوير (افتراضي)
+fvm flutter run
+
+# وضع الإصدار على الجهاز
+fvm flutter run --release
+
+# بناء APK للإصدار
+fvm flutter build apk --release
+# المخرجات: build/app/outputs/flutter-apk/app-release.apk
+
+# بناء App Bundle (متجر Google Play)
+fvm flutter build appbundle --release
+```
+
+**التحليل والاختبار:**
+
+```bash
+fvm flutter analyze
+fvm flutter test
+```
+
+---
+
+## TDD feature structure {#architecture-en}
+
+This project uses **TDD Clean Architecture** — three layers per feature, wired **top-down** when adding a capability:
+
+```
+presentation  →  domain  →  data
+   (UI)         (rules)    (API / cache / engines)
+```
+
+### Layer flow
+
+```mermaid
+flowchart LR
+  Widget --> Cubit
+  Cubit --> UseCase
+  UseCase --> Repository
+  Repository --> DataSource
+  DataSource --> API["API / Player / Cache"]
+  Model --> Entity
+```
+
+| Layer | Folder | Responsibility |
+|-------|--------|----------------|
+| **Presentation** | `presentation/` | Screens, widgets, **Cubit** + **Freezed state**, user events |
+| **Domain** | `domain/` | **Entities**, **repository interfaces**, **use cases** (app rules) |
+| **Data** | `data/` | **Models**, **params**, **datasources**, **repository impl** |
+
+### Adding a new use case (order matters)
+
+Follow this sequence — same as [`.cursor/skills/flutter-clean-architecture-usecase/SKILL.md`](.cursor/skills/flutter-clean-architecture-usecase/SKILL.md):
+
+1. **Entity** — `domain/entity/xxx_entity.dart` (pure Dart, `BaseEntity`)
+2. **Model** — `data/request/model/xxx_model.dart` (`BaseModel`, `fromMap` + `toEntity`, type validators)
+3. **Params** — `data/request/param/xxx_params.dart` (if the call needs input)
+4. **DataSource** — method on `IXxxRemoteDataSource` / implementation
+5. **Repository** — method on `IXxxRepository` / `XxxRepository` (maps `Either<AppErrors, Entity>`)
+6. **Use case** — `domain/usecase/xxx_usecase.dart` (`@injectable`, extends `UseCase`)
+7. **Cubit** — call use case from cubit; emit Freezed state
+
+### Per-feature folder layout
+
+```
+lib/features/<feature>/
+├── data/
+│   ├── datasource/       # remote/local sources, players, handlers
+│   └── request/
+│       ├── model/        # JSON → Model → Entity
+│       └── param/        # request bodies / query params
+├── domain/
+│   ├── entity/
+│   ├── repository/       # IRepository + Repository
+│   └── usecase/
+└── presentation/
+    ├── screen/
+    ├── widgets/
+    └── state_m/
+        └── cubit/        # Cubit + freezed state (part files)
+```
+
+### Home feature convention
+
+Prayer times and Quran radio share **one** repository stack under `lib/features/home/` (no separate `quran_radio` module). See [`.cursor/rules/home-single-layers.mdc`](.cursor/rules/home-single-layers.mdc).
 
 ```dart
-Consumer2<LocalizationProvider, ThemeModeProvider>(
-  builder: (_, locProvider, themeProvider, __) {
-    return MaterialApp(
-      locale: locProvider.appLocal,
-      supportedLocales: S.delegate.supportedLocales,
-      localizationsDelegates: [
-        S.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsWithKurdishLocalizations.delegate, // LTR/RTL direction
-        GlobalCupertinoLocalizations.delegate,
-        DefaultCupertinoLocalizations.delegate,
-      ],
-      localeResolutionCallback: (locale, supportedLocales) { /* first-start device locale */ },
-      // ...
-    );
-  },
+// ✅ UI → cubit → use case → repository → datasource
+quranRadioCubit.playRadio();
+
+// ❌ Widget calling player/API directly
+await quranRadioPlayer.play();
+```
+
+### State management
+
+- **Cubit + Freezed** union states (`initial`, `loading`, `loaded`, `error`) — see [`.cursor/rules/freezed-cubit-states.mdc`](.cursor/rules/freezed-cubit-states.mdc)
+- **GetIt + Injectable** for DI (`lib/di/`)
+- **Provider** for app-wide notifiers (theme, locale, connectivity)
+
+### Code generation
+
+After changing `@freezed`, `@injectable`, or `.arb` files, run locally:
+
+```bash
+fvm dart run build_runner build --delete-conflicting-outputs
+fvm dart run intl_utils:generate
+```
+
+Agents must **not** run codegen — see [`.cursor/rules/no-codegen.mdc`](.cursor/rules/no-codegen.mdc).
+
+---
+
+## بنية TDD للميزات {#architecture-ar}
+
+يستخدم المشروع **TDD Clean Architecture** — ثلاث طبقات لكل ميزة، يتم ربطها **من الأعلى للأسفل** عند إضافة قدرة جديدة:
+
+```
+presentation  →  domain  →  data
+   (الواجهة)      (القواعد)   (API / التخزين / المحركات)
+```
+
+### تدفق الطبقات
+
+| الطبقة | المجلد | المسؤولية |
+|--------|--------|-----------|
+| **Presentation** | `presentation/` | الشاشات، الودجات، **Cubit** + **حالة Freezed**، أحداث المستخدم |
+| **Domain** | `domain/` | **Entities**، **واجهات المستودع**، **Use cases** (قواعد التطبيق) |
+| **Data** | `data/` | **Models**، **params**، **datasources**، **تنفيذ المستودع** |
+
+### إضافة use case جديد (الترتيب مهم)
+
+اتبع هذا التسلسل — كما في [`.cursor/skills/flutter-clean-architecture-usecase/SKILL.md`](.cursor/skills/flutter-clean-architecture-usecase/SKILL.md):
+
+1. **Entity** — `domain/entity/xxx_entity.dart`
+2. **Model** — `data/request/model/xxx_model.dart` (`fromMap` + `toEntity`)
+3. **Params** — `data/request/param/xxx_params.dart` (إن وُجدت مدخلات)
+4. **DataSource** — دالة على `IXxxRemoteDataSource` / التنفيذ
+5. **Repository** — دالة على `IXxxRepository` / `XxxRepository`
+6. **Use case** — `domain/usecase/xxx_usecase.dart`
+7. **Cubit** — استدعاء use case وإصدار حالة Freezed
+
+### هيكل مجلد الميزة
+
+```
+lib/features/<feature>/
+├── data/          # datasource + models + params
+├── domain/        # entities + repository + use cases
+└── presentation/  # screens + widgets + cubits
+```
+
+### اتفاقية ميزة Home
+
+مواقيت الصلاة وراديو القرآن يشاركان **مستودعاً واحداً** تحت `lib/features/home/` — راجع [`.cursor/rules/home-single-layers.mdc`](.cursor/rules/home-single-layers.mdc).
+
+### إدارة الحالة
+
+- **Cubit + Freezed** — [`.cursor/rules/freezed-cubit-states.mdc`](.cursor/rules/freezed-cubit-states.mdc)
+- **GetIt + Injectable** — `lib/di/`
+- **Provider** — للموضوع، اللغة، الاتصال
+
+### توليد الكود
+
+```bash
+fvm dart run build_runner build --delete-conflicting-outputs
+fvm dart run intl_utils:generate
+```
+
+الوكلاء **لا يشغّلون** codegen — [`.cursor/rules/no-codegen.mdc`](.cursor/rules/no-codegen.mdc).
+
+---
+
+## Cursor skills & rules {#cursor-en}
+
+The repo ships **Cursor AI** configuration under [`.cursor/`](.cursor/) so humans and agents follow the same conventions.
+
+### Skills (`.cursor/skills/`)
+
+Step-by-step workflows — read when doing that kind of work:
+
+| Skill | Path | When to use |
+|-------|------|-------------|
+| **Clean Architecture / use case** | [`flutter-clean-architecture-usecase/SKILL.md`](.cursor/skills/flutter-clean-architecture-usecase/SKILL.md) | New endpoint, entity, repository method, use case, cubit wiring |
+| **UI conventions** | [`flutter-ui-conventions/SKILL.md`](.cursor/skills/flutter-ui-conventions/SKILL.md) | Screens, widgets, ScreenUtil sizing, loading states |
+| **Localized strings** | [`dart-localized-strings/SKILL.md`](.cursor/skills/dart-localized-strings/SKILL.md) | Any user-facing text → `S.current` + `.arb` keys |
+| **Design guidelines** | [`design-guidelines/SKILL.md`](.cursor/skills/design-guidelines/SKILL.md) | Material 3 polish, dual-theme, Lucide icons, surfaces |
+
+### Rules (`.cursor/rules/`)
+
+Always-on or glob-scoped constraints for the agent:
+
+| Rule | File | Summary |
+|------|------|---------|
+| Home single layers | [`home-single-layers.mdc`](.cursor/rules/home-single-layers.mdc) | One repo/datasource for home; no parallel `quran_radio` module |
+| Freezed cubit states | [`freezed-cubit-states.mdc`](.cursor/rules/freezed-cubit-states.mdc) | Union states via `@freezed`, not hand-written sealed classes |
+| No codegen | [`no-codegen.mdc`](.cursor/rules/no-codegen.mdc) | Never run or edit generated files |
+| Dual-theme UI | [`dual-theme-ui.mdc`](.cursor/rules/dual-theme-ui.mdc) | Light + dark; use `ColorScheme` / `context.appColors` |
+| Curved app bar | [`curved-app-bar.mdc`](.cursor/rules/curved-app-bar.mdc) | `CurvedAppBarLayout`, not raw `Scaffold.appBar` |
+| App wallpaper | [`app-wallpaper.mdc`](.cursor/rules/app-wallpaper.mdc) | Shared circles/grid canvas on every screen |
+| ScreenUtil design size | [`screenutil-design-size.mdc`](.cursor/rules/screenutil-design-size.mdc) | Single canvas via `AppConfig.screenUtilDesignSize()` |
+| Lucide SVG icons | [`lucide-svg-icons.mdc`](.cursor/rules/lucide-svg-icons.mdc) | New icons from Lucide static package |
+| Pub.dev platform setup | [`pubdev-platform-setup.mdc`](.cursor/rules/pubdev-platform-setup.mdc) | Native Android/iOS config when adding packages |
+| Notifier owns loading | [`notifier-owns-data-loading.mdc`](.cursor/rules/notifier-owns-data-loading.mdc) | Cubits/notifiers load data; widgets display only |
+| Context select builder | [`context-select-builder.mdc`](.cursor/rules/context-select-builder.mdc) | `context.select` inside `Builder` / provider scope |
+
+> **Tip:** In Cursor, `@` mention a rule or skill file to attach it to the chat.
+
+---
+
+## مهارات وقواعد Cursor {#cursor-ar}
+
+يحتوي المستودع على إعدادات **Cursor AI** في [`.cursor/`](.cursor/) ليتبع المطوّرون والوكلاء نفس الاتفاقيات.
+
+### المهارات (`.cursor/skills/`)
+
+| المهارة | المسار | متى تُستخدم |
+|---------|--------|-------------|
+| **Clean Architecture / use case** | [`flutter-clean-architecture-usecase/SKILL.md`](.cursor/skills/flutter-clean-architecture-usecase/SKILL.md) | endpoint جديد، entity، repository، use case، cubit |
+| **اتفاقيات الواجهة** | [`flutter-ui-conventions/SKILL.md`](.cursor/skills/flutter-ui-conventions/SKILL.md) | شاشات، ودجات، ScreenUtil، حالات التحميل |
+| **النصوص المترجمة** | [`dart-localized-strings/SKILL.md`](.cursor/skills/dart-localized-strings/SKILL.md) | أي نص للمستخدم → `S.current` + `.arb` |
+| **إرشادات التصميم** | [`design-guidelines/SKILL.md`](.cursor/skills/design-guidelines/SKILL.md) | Material 3، الوضعين، Lucide، الطبقات |
+
+### القواعد (`.cursor/rules/`)
+
+| القاعدة | الملف | ملخص |
+|---------|-------|------|
+| طبقة Home واحدة | [`home-single-layers.mdc`](.cursor/rules/home-single-layers.mdc) | مستودع واحد؛ لا وحدة `quran_radio` منفصلة |
+| حالات Freezed | [`freezed-cubit-states.mdc`](.cursor/rules/freezed-cubit-states.mdc) | `@freezed` للحالات |
+| بدون codegen | [`no-codegen.mdc`](.cursor/rules/no-codegen.mdc) | لا تشغيل/تعديل ملفات مُولَّدة |
+| واجهة ثنائية الموضوع | [`dual-theme-ui.mdc`](.cursor/rules/dual-theme-ui.mdc) | فاتح + داكن |
+| شريط علوي منحني | [`curved-app-bar.mdc`](.cursor/rules/curved-app-bar.mdc) | `CurvedAppBarLayout` |
+| خلفية التطبيق | [`app-wallpaper.mdc`](.cursor/rules/app-wallpaper.mdc) | الدوائر والشبكة |
+| حجم ScreenUtil | [`screenutil-design-size.mdc`](.cursor/rules/screenutil-design-size.mdc) | `AppConfig.screenUtilDesignSize()` |
+| أيقونات Lucide | [`lucide-svg-icons.mdc`](.cursor/rules/lucide-svg-icons.mdc) | SVG من Lucide |
+| إعداد حزم pub.dev | [`pubdev-platform-setup.mdc`](.cursor/rules/pubdev-platform-setup.mdc) | إعداد Android/iOS |
+| Notifier يحمّل البيانات | [`notifier-owns-data-loading.mdc`](.cursor/rules/notifier-owns-data-loading.mdc) | Cubit يحمّل؛ الودجت يعرض |
+| context.select | [`context-select-builder.mdc`](.cursor/rules/context-select-builder.mdc) | داخل `Builder` |
+
+> **نصيحة:** في Cursor، اذكر `@` مع مسار القاعدة أو المهارة لإرفاقها بالمحادثة.
+
+---
+
+## Key packages {#packages-en}
+
+Main dependencies from [`pubspec.yaml`](pubspec.yaml). Versions match the project lockfile at time of writing.
+
+### Architecture & state
+
+| Package | Version | Role in Sakeenah |
+|---------|---------|------------------|
+| [`flutter_bloc`](https://pub.dev/packages/flutter_bloc) | `9.1.1` | **Cubits** for feature state (`HomeCubit`, `QuranRadioCubit`); emits Freezed union states |
+| [`provider`](https://pub.dev/packages/provider) | `6.1.5+1` | App-wide notifiers: theme, locale, connectivity, screen-level providers |
+| [`get_it`](https://pub.dev/packages/get_it) | `9.2.1` | Service locator — resolves repositories, use cases, players |
+| [`injectable`](https://pub.dev/packages/injectable) | `2.7.1+4` | DI annotations; generates `service_locator.config.dart` |
+| [`freezed`](https://pub.dev/packages/freezed) + [`freezed_annotation`](https://pub.dev/packages/freezed_annotation) | `3.1.0` | Immutable union states for cubits (`HomeState`, `QuranRadioState`) |
+| [`dartz`](https://pub.dev/packages/dartz) | `0.10.1` | `Either<AppErrors, T>` in repositories and use cases |
+| [`equatable`](https://pub.dev/packages/equatable) | `2.0.8` | Value equality for entities and params |
+
+### Networking & connectivity
+
+| Package | Version | Role in Sakeenah |
+|---------|---------|------------------|
+| [`dio`](https://pub.dev/packages/dio) | `5.9.2` | HTTP client for **AlAdhan** prayer API, **CountriesNow**, and **Quran radio** Icecast stream |
+| [`pretty_dio_logger`](https://pub.dev/packages/pretty_dio_logger) | `1.4.0` | Debug logging interceptor for Dio (development) |
+| [`internet_connection_checker_plus`](https://pub.dev/packages/internet_connection_checker_plus) | `3.1.1` | Real internet reachability; drives offline banner and radio auto-retry |
+
+### Prayer times & location
+
+| Package | Version | Role in Sakeenah |
+|---------|---------|------------------|
+| [`geolocator`](https://pub.dev/packages/geolocator) | `14.0.2` | GPS coordinates for prayer times |
+| [`geocoding`](https://pub.dev/packages/geocoding) | `5.0.0` | Reverse geocoding for map/manual location labels |
+| [`google_maps_flutter`](https://pub.dev/packages/google_maps_flutter) | `2.17.1` | Map location picker with theme-aware map styles |
+| [`permission_handler`](https://pub.dev/packages/permission_handler) | `12.0.2` | Location permission requests and settings flow |
+
+### Storage & cache
+
+| Package | Version | Role in Sakeenah |
+|---------|---------|------------------|
+| [`hive`](https://pub.dev/packages/hive) + [`hive_flutter`](https://pub.dev/packages/hive_flutter) | `2.2.3` / `1.1.0` | Local cache: prayer schedules, countries/cities session, geocoding |
+| [`shared_preferences`](https://pub.dev/packages/shared_preferences) | `2.5.5` | Lightweight key-value prefs (onboarding, settings) |
+| [`path_provider`](https://pub.dev/packages/path_provider) | `2.1.5` | App support directory for notification artwork cache |
+
+### Quran radio & background audio
+
+| Package | Version | Role in Sakeenah |
+|---------|---------|------------------|
+| [`flutter_soloud`](https://pub.dev/packages/flutter_soloud) | `4.1.7` | **Audio engine** — live stream ingest, preserved RAM buffer, seek ±10s, volume |
+| [`audio_service`](https://pub.dev/packages/audio_service) | `0.18.19` | **Foreground service**, media notification, lock-screen / headset controls |
+| [`audio_session`](https://pub.dev/packages/audio_session) | `0.2.4` | OS audio focus, interruptions (calls), music session profile |
+
+> Native setup required for audio packages — see [`docs/quran_radio_background_playback.md`](docs/quran_radio_background_playback.md) and [`.cursor/rules/pubdev-platform-setup.mdc`](.cursor/rules/pubdev-platform-setup.mdc).
+
+### UI, theme & localization
+
+| Package | Version | Role in Sakeenah |
+|---------|---------|------------------|
+| [`flutter_screenutil`](https://pub.dev/packages/flutter_screenutil) | `5.9.3` | Responsive sizing (`.w`, `.h`, `.sp`, `.r`) against design canvas |
+| [`flutter_svg`](https://pub.dev/packages/flutter_svg) | `2.3.0` | Lucide SVG icons in widgets |
+| [`google_fonts`](https://pub.dev/packages/google_fonts) | `8.1.0` | Typography (Cairo, etc.) |
+| [`animated_theme_switcher`](https://pub.dev/packages/animated_theme_switcher) | `2.0.10` | Animated light / dark / system theme transitions |
+| [`skeletonizer`](https://pub.dev/packages/skeletonizer) | `2.1.3` | Skeleton loading placeholders |
+| [`flutter_animate`](https://pub.dev/packages/flutter_animate) | `4.5.2` | Motion / entrance animations |
+| [`cached_network_image`](https://pub.dev/packages/cached_network_image) | `3.4.1` | Cached remote images where used |
+| **flutter_intl** (config) | — | Generates `S` class from `lib/l10n/intl_en.arb` / `intl_ar.arb` |
+
+### Dev & codegen
+
+| Package | Version | Role |
+|---------|---------|------|
+| [`build_runner`](https://pub.dev/packages/build_runner) | `2.5.4` | Runs code generators |
+| [`injectable_generator`](https://pub.dev/packages/injectable_generator) | `2.7.0` | DI registration codegen |
+| [`json_serializable`](https://pub.dev/packages/json_serializable) | `6.9.5` | JSON helpers (with Freezed where needed) |
+| [`flutter_lints`](https://pub.dev/packages/flutter_lints) | `6.0.0` | Analyzer lint rules |
+| [`flutter_native_splash`](https://pub.dev/packages/flutter_native_splash) | `2.4.8` | Native splash screens |
+| [`flutter_launcher_icons`](https://pub.dev/packages/flutter_launcher_icons) | `0.14.4` | App launcher icons |
+
+---
+
+## الحزم الرئيسية {#packages-ar}
+
+الاعتماديات الأساسية من [`pubspec.yaml`](pubspec.yaml).
+
+### البنية وإدارة الحالة
+
+| الحزمة | الإصدار | الدور في سكينة |
+|--------|---------|----------------|
+| [`flutter_bloc`](https://pub.dev/packages/flutter_bloc) | `9.1.1` | **Cubits** لحالة الميزات (`HomeCubit`, `QuranRadioCubit`) |
+| [`provider`](https://pub.dev/packages/provider) | `6.1.5+1` | مزوّدو التطبيق: الموضوع، اللغة، الاتصال |
+| [`get_it`](https://pub.dev/packages/get_it) | `9.2.1` | محدد موقع الخدمات (DI) |
+| [`injectable`](https://pub.dev/packages/injectable) | `2.7.1+4` | تعليقات DI وتوليد `service_locator.config.dart` |
+| [`freezed`](https://pub.dev/packages/freezed) | `3.1.0` | حالات union غير قابلة للتغيير للـ cubits |
+| [`dartz`](https://pub.dev/packages/dartz) | `0.10.1` | `Either<AppErrors, T>` في المستودعات |
+| [`equatable`](https://pub.dev/packages/equatable) | `2.0.8` | مساواة الكيانات والمعاملات |
+
+### الشبكة والاتصال
+
+| الحزمة | الإصدار | الدور |
+|--------|---------|-------|
+| [`dio`](https://pub.dev/packages/dio) | `5.9.2` | HTTP لـ **AlAdhan** و**CountriesNow** وبث **راديو القرآن** |
+| [`pretty_dio_logger`](https://pub.dev/packages/pretty_dio_logger) | `1.4.0` | سجلات Dio في التطوير |
+| [`internet_connection_checker_plus`](https://pub.dev/packages/internet_connection_checker_plus) | `3.1.1` | فحص الإنترنت؛ شريط offline وإعادة تشغيل الراديو |
+
+### مواقيت الصلاة والموقع
+
+| الحزمة | الإصدار | الدور |
+|--------|---------|-------|
+| [`geolocator`](https://pub.dev/packages/geolocator) | `14.0.2` | إحداثيات GPS |
+| [`geocoding`](https://pub.dev/packages/geocoding) | `5.0.0` | تحويل الإحداثيات إلى عنوان |
+| [`google_maps_flutter`](https://pub.dev/packages/google_maps_flutter) | `2.17.1` | اختيار الموقع على الخريطة |
+| [`permission_handler`](https://pub.dev/packages/permission_handler) | `12.0.2` | أذونات الموقع |
+
+### التخزين والذاكرة المؤقتة
+
+| الحزمة | الإصدار | الدور |
+|--------|---------|-------|
+| [`hive`](https://pub.dev/packages/hive) / [`hive_flutter`](https://pub.dev/packages/hive_flutter) | `2.2.3` / `1.1.0` | تخزين مواقيت الصلاة والدول/المدن |
+| [`shared_preferences`](https://pub.dev/packages/shared_preferences) | `2.5.5` | إعدادات خفيفة |
+| [`path_provider`](https://pub.dev/packages/path_provider) | `2.1.5` | مسار ملفات artwork للإشعار |
+
+### راديو القرآن والصوت في الخلفية
+
+| الحزمة | الإصدار | الدور |
+|--------|---------|-------|
+| [`flutter_soloud`](https://pub.dev/packages/flutter_soloud) | `4.1.7` | **محرك الصوت** — بث مباشر، buffer، seek، صوت |
+| [`audio_service`](https://pub.dev/packages/audio_service) | `0.18.19` | **خدمة أمامية**، إشعار الوسائط، شاشة القفل |
+| [`audio_session`](https://pub.dev/packages/audio_session) | `0.2.4` | تركيز الصوت ومقاطعات المكالمات |
+
+> إعداد native مطلوب — [`docs/quran_radio_background_playback.md`](docs/quran_radio_background_playback.md)
+
+### الواجهة والترجمة
+
+| الحزمة | الإصدار | الدور |
+|--------|---------|-------|
+| [`flutter_screenutil`](https://pub.dev/packages/flutter_screenutil) | `5.9.3` | أحجام متجاوبة |
+| [`flutter_svg`](https://pub.dev/packages/flutter_svg) | `2.3.0` | أيقونات Lucide |
+| [`google_fonts`](https://pub.dev/packages/google_fonts) | `8.1.0` | الخطوط |
+| [`animated_theme_switcher`](https://pub.dev/packages/animated_theme_switcher) | `2.0.10` | تبديل الموضوع |
+| [`skeletonizer`](https://pub.dev/packages/skeletonizer) | `2.1.3` | تحميل هيكلي |
+| **flutter_intl** | — | `S.current` من ملفات `.arb` |
+
+### التطوير وتوليد الكود
+
+| الحزمة | الإصدار | الدور |
+|--------|---------|-------|
+| [`build_runner`](https://pub.dev/packages/build_runner) | `2.5.4` | تشغيل المولّدات |
+| [`injectable_generator`](https://pub.dev/packages/injectable_generator) | `2.7.0` | توليد DI |
+| [`json_serializable`](https://pub.dev/packages/json_serializable) | `6.9.5` | JSON |
+| [`flutter_lints`](https://pub.dev/packages/flutter_lints) | `6.0.0` | قواعد المحلل |
+
+---
+
+## Localization {#localization-en}
+
+Sakeenah supports **English** and **Arabic** with full **RTL** layout when Arabic is active.
+
+### Stack
+
+| Piece | Location | Role |
+|-------|----------|------|
+| **Source strings** | [`lib/l10n/intl_en.arb`](lib/l10n/intl_en.arb), [`lib/l10n/intl_ar.arb`](lib/l10n/intl_ar.arb) | Add keys here (camelCase) |
+| **Generated API** | [`lib/generated/l10n.dart`](lib/generated/l10n.dart) | `S.current.myKey` — do not edit by hand |
+| **Generator** | `flutter_intl` in [`pubspec.yaml`](pubspec.yaml) | Class name `S`; runs on save / manually |
+| **Runtime provider** | [`LocalizationProvider`](lib/core/localization/localization_provider.dart) | Singleton `ChangeNotifier`; holds `Locale`, persists choice |
+| **Skill** | [`.cursor/skills/dart-localized-strings/SKILL.md`](.cursor/skills/dart-localized-strings/SKILL.md) | All user-facing text → `S.current` |
+
+### Startup flow
+
+```mermaid
+flowchart TD
+  main["main.dart"] --> fetch["LocalizationProvider.fetchLocale()"]
+  fetch --> prefs["Read SharedPreferences KEY_LANGUAGE"]
+  prefs --> app["MaterialApp locale = locProvider.appLocal"]
+  app --> delegates["S.delegate + GlobalMaterial/Cupertino delegates"]
+```
+
+1. **`main.dart`** — `await LocalizationProvider().fetchLocale()` before `runApp` (and before `initQuranRadioAudioService()` so notification strings load).
+2. **`App`** — `Consumer<LocalizationProvider>` rebuilds `MaterialApp` when locale changes.
+3. **`localeResolutionCallback`** — on **first install only**, picks device language if supported, else English.
+
+### Changing language at runtime
+
+1. User opens **Language** screen (drawer or first-start onboarding).
+2. [`LanguageScreenNotifier.confirm()`](lib/core/ui/screens/language_screen_notifier.dart) calls `LocalizationProvider.changeLanguage(Locale, context)`.
+3. Provider saves `KEY_LANGUAGE` to `SharedPreferences` and `notifyListeners()`.
+4. `MaterialApp` rebuilds with new `locale` — **no app restart** (RTL updates automatically).
+
+```dart
+// In widgets — never hardcode UI strings
+Text(S.current.homePage)
+
+// After adding a key to .arb files, regenerate:
+// fvm dart run intl_utils:generate
+```
+
+### RTL
+
+- Arabic locale (`ar`) triggers RTL via Flutter’s localization delegates.
+- Directional widgets use `AlignmentDirectional`, `EdgeInsetsDirectional`, and `Start`/`End` where needed.
+- Some controls (e.g. volume slider) wrap with `Directionality(textDirection: TextDirection.ltr)` when rotation must stay fixed.
+
+### Adding a new string
+
+1. Add the key to **`intl_en.arb`** and **`intl_ar.arb`**.
+2. Run **`fvm dart run intl_utils:generate`** (or save if your IDE auto-generates).
+3. Use **`S.current.yourKey`** in code.
+
+---
+
+## Themes {#themes-en}
+
+Light, dark, and **system** theme with live preview and animated switching.
+
+### Stack
+
+| Piece | Location | Role |
+|-------|----------|------|
+| **Color schemes** | [`app_color_schemes.dart`](lib/core/theme/app_color_schemes.dart) | Material 3 `ColorScheme` (jade brand seed) |
+| **Semantic aliases** | [`custom_theme_colors.dart`](lib/core/theme/custom_theme_colors.dart) | `context.appColors` (ink, card, muted, …) |
+| **ThemeData** | [`themes_data.dart`](lib/core/theme/themes_data.dart) | `ThemesData.lightTheme` / `darkTheme` |
+| **Text styles** | [`text_theme_styles.dart`](lib/core/theme/text_theme_styles.dart) | Shared typography — no inline `TextStyle` |
+| **Provider** | [`ThemeModeProvider`](lib/core/providers/theme_mode_provider.dart) | `ThemeMode` + persistence + animated switch |
+| **Persistence** | [`LocalStorage`](lib/core/common/local_storage.dart) | `getThemeMode` / `persistThemeMode` |
+
+### Wiring in `App`
+
+```dart
+ThemeProvider(                          // animated_theme_switcher
+  initTheme: AppConfig().resolveThemeDataForMode(themeProvider.themeMode),
+  child: MaterialApp(
+    theme: ThemesData.lightTheme,
+    darkTheme: ThemesData.darkTheme,
+    themeMode: themeProvider.themeMode, // light | dark | system
+    ...
+  ),
 )
 ```
 
-- **`locale`** comes from `LocalizationProvider.appLocal` (defaults to `en`, restored from disk on launch).
-- **Arabic (`ar`)** automatically flips layout to **RTL** via `GlobalWidgetsLocalizations` — no manual `Directionality` needed in most screens.
-- **`localeResolutionCallback`** runs only on **first install**: if the device language is supported, it is applied once; otherwise English is used.
+- **`ThemeModeProvider.load()`** — read saved mode on startup (default **system**).
+- **`setThemeMode(mode, context: …)`** — persist, notify, optionally animate via `ThemeSwitcher.of(context).changeTheme(...)`.
+- **`didChangePlatformBrightness`** — when mode is `system`, OS theme changes trigger rebuild.
 
-#### Persistence
+### Changing theme at runtime
 
-| Key | Storage | Purpose |
-|-----|---------|---------|
-| `SharedPreferenceKeys.KEY_LANGUAGE` | `SharedPreferences` | `'en'` or `'ar'` |
-| `KEY_LANGUAGE_FIRST_START_SELECTED` | `SharedPreferences` | User completed onboarding language step |
-| `KEY_FIRST_START` | `SharedPreferences` | Legacy first-run flag used by `fetchLocale()` |
+1. **Theme screen** (drawer or first-start after language) — [`ThemeScreenNotifier`](lib/core/ui/screens/theme_screen_notifier.dart).
+2. User picks light / dark / system → `ThemeModeProvider.setThemeMode`.
+3. UI updates immediately; preference survives restarts.
 
-`LocalizationProvider.fetchLocale()` is called from `main()` before `runApp`.  
-`changeLanguage(Locale, context)` updates memory + prefs and calls `notifyListeners()` so `MaterialApp` rebuilds with the new locale.
+### UI rules (dual-theme)
 
-#### First launch vs. change later
+- Use **`Theme.of(context).colorScheme`** and **`context.appColors`** — not hardcoded light-only hex.
+- Every screen must work in **both** themes — see [`.cursor/rules/dual-theme-ui.mdc`](.cursor/rules/dual-theme-ui.mdc).
 
-| Context | Screen | On confirm |
-|---------|--------|------------|
-| **First launch** | `LanguageScreen` (no back button) | Save language → set `languageFirstStartSelected` → **`RestartWidget.restartApp`** → theme onboarding |
-| **Drawer → Change language** | `LanguageScreen` (with back) | If language changed and `AppSettings.changeLangRestart` → **restart**; else `Nav.pop()` |
+### First-start onboarding
 
-Language changes use **`RestartWidget`** (`lib/core/ui/widgets/restart_widget.dart`) because a full rebuild resets navigation, `Intl.defaultLocale`, and font resolution cleanly. Theme changes do **not** require a restart.
+[`App._resolveInitialScreen()`](lib/app.dart):
 
-#### Adding a new string
+1. Language not chosen → `LanguageScreen`
+2. Theme not chosen → `ThemeScreen`
+3. Else → `SplashScreen` → home
 
-1. Add the key to **`lib/l10n/intl_en.arb`** (English value).
-2. Add the **same key** to **`lib/l10n/intl_ar.arb`** (Arabic value).
-3. Save — the Flutter Intl plugin regenerates `lib/generated/l10n.dart`.
-4. Use in code: `S.current.myKey` or `S.current.myKey(param)` for placeholders.
+---
+
+## Routing {#routing-en}
+
+Named routes with typed screen parameters and custom transitions.
+
+### Stack
+
+| Piece | Location | Role |
+|-------|----------|------|
+| **Navigator key** | [`NavigationService`](lib/core/navigation/navigation_service.dart) | `@lazySingleton` `GlobalKey<NavigatorState>` via GetIt |
+| **Route table** | [`NavigationRoute.generateRoute`](lib/core/navigation/route_generator.dart) | `switch` on `settings.name` |
+| **Nav helper** | [`Nav`](lib/core/navigation/nav.dart) | Short API: `Nav.to`, `Nav.off`, `Nav.pop` |
+| **Screen base** | [`BaseScreen<Param>`](lib/core/ui/screens/base_screen.dart) | Every routed screen takes a typed `param` |
+
+### How a route is registered
+
+1. Define **`static const routeName = '/MyScreen'`** on the screen widget.
+2. Define a **`MyScreenParam`** class (often empty `const` for simple screens).
+3. Add a **`case`** in [`route_generator.dart`](lib/core/navigation/route_generator.dart):
 
 ```dart
-// ❌ Bad
-Text('Save')
-
-// ✅ Good
-Text(S.current.saveButton)
+case MyScreen.routeName:
+  return _getRoute<MyScreenParam>(
+    settings: settings,
+    createScreen: (param) => MyScreen(param: param),
+    type: RouteType.SWIPABLE, // or FADE, ANIMATED
+  );
 ```
 
-Placeholders in `.arb`:
-
-```json
-"nextPrayerIn": "Next is {prayer} after {time}",
-"@nextPrayerIn": {
-  "placeholders": {
-    "prayer": {"type": "String"},
-    "time": {"type": "String"}
-  }
-}
-```
-
-Run codegen after editing `.arb` if your IDE does not auto-generate:
-
-```bash
-fvm dart run build_runner build --delete-conflicting-outputs
-# or use the Flutter Intl plugin “Generate” action
-```
-
-#### Locale-aware formatting
-
-Not all text comes from `.arb` — **dates, times, and numbers** use `intl` with the active locale:
-
-| Utility | File | Example |
-|---------|------|---------|
-| **`DateUtility.formatLocalTime`** | `lib/core/common/utils/date_utils.dart` | Prayer row times (12h/24h from `MediaQuery.alwaysUse24HourFormatOf`) |
-| **`DateUtility.formatLocalFullDate`** | same | Schedule date line |
-| **`DateUtility.formatLocalDuration`** | same | Countdown text (`2 hours 20 minutes`) with localized unit words from `S.current.durationHourUnitOne`, etc. |
-| **Reverse geocoding** | `LocationLabelUtils` | Passes `AppConfig().appLanguage.languageCode` to `placemarkFromCoordinates` |
-
-In widgets, pass `Localizations.localeOf(context).languageCode` into these helpers.
-
-#### Typography per language
-
-`TextThemeStyles` (`lib/core/theme/text_theme_styles.dart`) picks the font from the active locale:
-
-| Language | Font | Package |
-|----------|------|---------|
-| English (LTR) | Plus Jakarta Sans | `google_fonts` |
-| Arabic (RTL) | Tajawal | `google_fonts` |
-
-`ThemesData` sets `fontFamily` and `textTheme` once; when locale changes and the app restarts, the correct family is applied.
-
-#### Accessing locale outside `BuildContext`
+4. Navigate:
 
 ```dart
-AppConfig().appLanguage          // Locale
-LocalizationProvider().currentLanguage  // 'en' | 'ar'
+Nav.to(MyScreen.routeName, arguments: const MyScreenParam());
+Nav.pop(context);
 ```
 
----
+### Route types
 
-### Theming — architecture & workflow
+| `RouteType` | Class | Use |
+|-------------|-------|-----|
+| `FADE` | `FadeRoute` | Default fade transition |
+| `ANIMATED` | `AnimatedRoute` | Custom animation |
+| `SWIPABLE` | `SwipeablePageRoute` | iOS-style edge swipe back (map/manual pickers) |
 
-The app uses **Material 3** with a fixed **emerald + gold** brand. Every screen must work in **light and dark** — colors come from `ColorScheme` roles or `context.appColors`, not hardcoded hex in widgets.
-
-#### Stack
-
-| Layer | File(s) | Purpose |
-|-------|---------|---------|
-| **Brand constants** | `lib/core/common/app_colors.dart` | Fixed hex (primary emerald, accent gold) — seed only |
-| **Color schemes** | `lib/core/theme/app_color_schemes.dart` | Full M3 `ColorScheme` for light & dark |
-| **Theme assembly** | `lib/core/theme/themes_data.dart` + `light/` / `dark/` parts | `ThemeData` (AppBar, buttons, cards, snackbar, …) |
-| **Semantic aliases** | `lib/core/theme/custom_theme_colors.dart` | `gold`, `ink`, `muted`, `card` mapped from `ColorScheme` |
-| **Context extension** | `lib/core/theme/theme_extensions.dart` | `context.appColors` |
-| **Mode state** | `lib/core/providers/theme_mode_provider.dart` | `ThemeMode` + persistence + system brightness observer |
-| **Global sync** | `lib/core/common/app_config.dart` | `resolveThemeData()`, `resolveThemeDataForMode()`, `themeMode` |
-
-#### Light vs. dark `ColorScheme`
-
-Both schemes are hand-tuned in `AppColorSchemes` (not only `ColorScheme.fromSeed`) so contrast stays readable:
-
-| Role | Light | Dark |
-|------|-------|------|
-| `primary` | Deep emerald | Same emerald on dark surfaces |
-| `secondary` | Warm gold | Same gold |
-| `surface` | Warm cream | Deep charcoal green |
-| `onSurface` | Charcoal | Light gray-green |
-| `surfaceContainer*` | Layered cream tones | Layered dark green tones |
-
-Widgets should prefer **`Theme.of(context).colorScheme`** (`primary`, `onPrimary`, `surfaceContainer`, `outline`, …) or **`context.appColors`** for named tokens.
+### `MaterialApp` setup
 
 ```dart
-// ❌ Bad — light-only or brightness branching
-color: AppColors.jade;
-color: isLight ? AppColors.ink : AppColors.darkText;
-
-// ✅ Good
-final s = Theme.of(context).colorScheme;
-final c = context.appColors;
-backgroundColor: s.primary;
-color: c.ink; // == onSurface
+navigatorKey: getIt<NavigationService>().getNavigationKey,
+onGenerateRoute: getIt<NavigationRoute>().generateRoute,
+initialRoute: "/",
+home: _resolveInitialScreen(), // onboarding gate before named routes
 ```
 
-#### `ThemeMode`: Light / Dark / System
+- **`Nav`** falls back to `NavigationService.appContext` when no `BuildContext` is passed.
+- Wrong or missing **`arguments`** → built-in error route in `NavigationRoute._errorRoute`.
 
-| Mode | Behaviour |
-|------|-----------|
-| **Light** | Always `ThemesData.lightTheme` |
-| **Dark** | Always `ThemesData.darkTheme` |
-| **System** | Follows `MediaQuery.platformBrightnessOf(context)`; `ThemeModeProvider` implements `WidgetsBindingObserver` and calls `notifyListeners()` on `didChangePlatformBrightness()` so the UI updates when the user toggles OS dark mode |
+### Registered routes (current)
 
-Persistence: `LocalStorage.persistThemeMode` / `getThemeMode` → `SharedPreferenceKeys.KEY_APP_THEME` (stores `ThemeMode.index`). Default is **`ThemeMode.system`**.
-
-#### Wiring in `MaterialApp` (`lib/app.dart`)
-
-```dart
-theme: ThemesData.lightTheme,
-darkTheme: ThemesData.darkTheme,
-themeMode: themeProvider.themeMode,
-```
-
-`Consumer2<LocalizationProvider, ThemeModeProvider>` rebuilds `MaterialApp` when either locale or theme mode changes.
-
-**`animated_theme_switcher`** wraps the tree for an optional smooth transition when the user picks a theme from settings (`ThemeModeProvider.setThemeMode(..., animate: true)`).
-
-#### First launch vs. change later
-
-| Context | Screen | On confirm |
-|---------|--------|------------|
-| **First launch** | `ThemeScreen` (after language) | Save `themeFirstStartSelected` → persist mode → navigate to **Splash** |
-| **Drawer → Switch theme** | `ThemeScreen` (with back) | Persist mode → `Nav.pop()` — **no app restart** |
-
-The theme picker wraps its content in `Theme(data: previewTheme, …)` so the **live preview** uses the selected mode before confirm (`AppConfig().resolveThemeDataForMode`).
-
-#### Building UI for both themes
-
-Project conventions (see `.cursor/rules/dual-theme-ui.mdc`):
-
-1. Use **Material 3 roles** — surfaces stack as `surface` → `surfaceContainerLow` → `surfaceContainer` → `surfaceContainerHigh`.
-2. Text: `onSurface` / `onSurfaceVariant` (via `appColors.ink` / `muted`).
-3. Primary actions: `primary` / `onPrimary`; accents/highlights: `secondary` / `onSecondary`.
-4. Borders: `outline` / `outlineVariant`.
-5. Shared screen background **`AppWallpaper`** reads from `colorScheme` so language/theme/splash and `CurvedAppBarLayout` screens adapt automatically.
-6. **`CurvedAppBar`** reads `colorScheme.primary` / `onPrimary` internally — do not duplicate status-bar styling on body screens.
-
-#### Resolving theme outside a themed subtree
-
-For previews (theme picker, drawer header) when you need explicit light/dark:
-
-```dart
-AppConfig().resolveThemeDataForMode(ThemeMode.dark, context);
-AppConfig().resolveThemeData(platformBrightness);
-```
-
-#### Onboarding gate (`lib/app.dart`)
-
-```dart
-Widget _resolveInitialScreen() {
-  if (!LocalStorage.languageFirstStartSelected) return LanguageScreen(...);
-  if (!LocalStorage.themeFirstStartSelected) return ThemeScreen(...);
-  return SplashScreen();
-}
-```
-
-After both flags are set, every cold start goes **Splash → Home**.
-
----
-
-### Build & run
-
-Requires **Flutter 3.44.0** ([FVM](https://fvm.app/) recommended).
-
-```bash
-fvm flutter pub get
-fvm flutter run
-```
-
-Release APK:
-
-```bash
-fvm flutter build apk --release
-```
-
-Run your usual local codegen when generated files need refreshing after editing `@freezed`, `@injectable`, or `.arb` source files (e.g. `StopQuranRadioUseCase`, `SeekQuranRadioToUseCase`). After adding `flutter_soloud` or changing iOS deployment target, **fully restart** the app (not hot reload).
-
----
-
-### Project layout
-
-```
-lib/
-├── app.dart, main.dart
-├── core/
-│   ├── theme/           # ColorScheme, ThemeData, CustomThemeColors
-│   ├── localization/    # LocalizationProvider
-│   ├── providers/       # ThemeModeProvider, InternetProvider, CountriesSessionProvider
-│   └── common/utils/    # DateUtility (locale-aware dates/times)
-├── features/
-│   ├── splash/
-│   └── home/            # prayer times + Quran radio (shared repo; HomeCubit + QuranRadioCubit)
-├── l10n/                # intl_en.arb, intl_ar.arb
-├── generated/           # l10n.dart (auto-generated — do not edit)
-└── di/
-```
-
-**Related docs & rules**
-
-| Resource | Topic |
-|----------|--------|
-| `.cursor/rules/dual-theme-ui.mdc` | Light/dark color rules for agents |
-| `.cursor/skills/dart-localized-strings/SKILL.md` | Never hardcode user-facing strings |
-| `lib/core/theme/app_color_schemes.dart` | Full palette reference |
-| `lib/app.dart` | MaterialApp locale + theme wiring |
-
-Further planning: [`docs/implementation_plan.md`](docs/implementation_plan.md)  
-Full product spec: [`docs/prayer_quran_app_requirements.md`](docs/prayer_quran_app_requirements.md)
-
----
-
-## العربية
-
-### عن التطبيق
-
-**سكينة** — تطبيق يبدأ بإعداد قصير (اللغة والمظهر) ثم ينتقل إلى الشاشة الرئيسية. الميزات أدناه **موجودة وتعمل في التطبيق حالياً**.
-
----
-
-### الميزات
-
-#### 1. مسار أول تشغيل
-
-عند فتح التطبيق لأول مرة:
-
-**اللغة** ← **المظهر** ← **الافتتاح** ← **الرئيسية**
-
-بعد ذلك، كل تشغيل: **الافتتاح** ← **الرئيسية**.
-
-- **كيف يعمل:** `lib/app.dart` يتحقق من علامات `LocalStorage` ويختار الشاشة الأولى. التنقل عبر `route_generator.dart`.
-
----
-
-#### 2. اختيار اللغة
-
-اختيار **English** أو **العربية** عبر بطاقات على خلفية wallpaper ناعمة.
-
-- **أول تشغيل:** شاشة كاملة؛ يجب التأكيد للمتابعة.
-- **من القائمة الجانبية:** نفس التصميم مع زر رجوع؛ إعادة تشغيل التطبيق لتطبيق اللغة.
-- **كيف يعمل:**
-  - الواجهة: `language_screen.dart`
-  - الحالة: `LocalizationProvider`
-  - النصوص: `intl_en.arb`, `intl_ar.arb`
-  - العربية تفعّل **RTL** تلقائياً.
-
----
-
-#### 3. المظهر (فاتح / داكن / النظام)
-
-اختيار **فاتح**، **داكن**، أو **النظام** مع **معاينة فورية** عند اللمس.
-
-- **أول تشغيل:** التأكيد يحفظ الاختيار وينتقل للافتتاح.
-- **من القائمة:** زر رجوع للرئيسية؛ التأكيد يحفظ بدون إعادة تشغيل.
-- **كيف يعمل:**
-  - الواجهة: `theme_screen.dart`
-  - الحالة: `ThemeModeProvider` + حفظ في `shared_preferences`
-  - تحديث `MaterialApp.themeMode` مباشرة.
-
----
-
-#### 4. شاشة الافتتاح (Splash)
-
-شاشة قصيرة (~2.2 ثانية) بالشعار والاسم ومؤشر تحميل، ثم الانتقال للرئيسية. أثناء عرضها يُحمَّل **قائمة الدول** مسبقاً لتسريع اختيار الموقع اليدوي.
-
-- **كيف يعمل:** `splash_screen.dart` — يستدعي `CountriesSessionProvider.prefetchCountries()` في الإطار الأول.
-
----
-
-#### 5. الرئيسية ومواقيت الصلاة
-
-**شريط علوي منحنٍ** + **بطاقة مواقيت الصلاة** + **مشغّل راديو القرآن** + **قائمة جانبية**.
-
-**مواقيت الصلاة**
-- جلب الأوقات من **AlAdhan** عبر GPS أو الخريطة أو **اختيار البلد/المدينة يدوياً**.
-- تمييز الصلاة التالية وعدّ تنازلي.
-- **وضع offline** من Hive.
-- بطاقة skeleton أثناء التحميل؛ بطاقة خطأ مع **إعادة المحاولة** و**تغيير الموقع**.
-
-**تغيير الموقع**
-- **من الخريطة** — Google Maps مع نمط داكن متوافق مع السمة.
-- **البلد / المدينة** — قوائم قابلة للبحث عبر **CountriesNow** (أسماء إنجليزية لـ AlAdhan).
-- تخزين مؤقت: Hive + `CountriesSessionProvider` (تحميل الدول في Splash).
-
-**راديو القرآن**
-- بث مباشر من RadioJar.
-- **تشغيل / إيقاف مؤقت**، **شريط الصوت** (0–1)، **كتم** (يستعيد آخر مستوى).
-- **إيقاف** — يوقف البث ويمسح المخزن المؤقت ويعيد الحالة إلى idle.
-- **رجوع / تقديم 10 ثوانٍ** ضمن الصوت المخزّن في الذاكرة — وليس إعادة بث كاملة.
-- **شريط تمرير قابل للسحب** — للانتقال داخل نافذة المخزن؛ النص `{position} / {buffered}` (مثل `1:23 / 4:56`).
-- حالة اتصال، خطأ داخل البطاقة، **بطاقة خطأ كاملة** (`QuranRadioErrorWidget`)، و**إعادة المحاولة**.
-- **إعادة تشغيل تلقائية** عند عودة الإنترنت إذا كان البث يعمل قبل الانقطاع (الإيقاف/الإيقاف المؤقت اليدوي يلغي ذلك).
-- **عند فتح الرئيسية:** إعادة تعيين أي جلسة رادio سابقة.
-- المحرك: `flutter_soloud` `^4.1.7` مع `BufferingType.preserved` + Dio.
-- البنية: `HomeCubit` (مواقيت) + `QuranRadioCubit` (رادio) → use cases → `HomeRepository` → `QuranRadioPlayer`.
-
-**ملاحظة:** التشغيل في الخلفية وعناصر التحكم من شاشة القفل **لم تُنفَّذ بعد** (المرحلة 5). iOS يتطلب **13.0+**.
-
-**القائمة الجانبية**
-- رأس: اسم التطبيق والشعار (متكيف مع الفاتح والداكن).
-- **تغيير اللغة** — يعرض اللغة الحالية.
-- **تغيير المظهر** — يعرض الوضع الحالي.
-
-- **كيف يعمل:**
-  - `home_screen_content.dart`
-  - `CurvedAppBarLayout` + `CurvedAppBar` داخل `Stack` في جسم الشاشة
-  - ألوان الدرج تتبع السمة النشطة عبر `AppConfig().resolveThemeDataForMode`
-
----
-
-#### 6. التصميم والسمات
-
-| العنصر | فاتح | داكن |
-|--------|------|------|
-| الأساسي | زمردي `#0F4C3A` | زمردي على خلفيات داكنة |
-| التمييز | ذهبي `#C9A24B` | نفس الذهبي |
-| الخلفية | كريمي `#FAF6EE` | أخضر فحمي `#0B1512` |
-| النص | فحمي `#1F2622` | رمادي-أخضر فاتح |
-
-- **الخطوط:** Plus Jakarta Sans (EN)، Tajawal (AR)
-- **ألوان دلالية:** `context.appColors`
-- **الملفات:** `app_color_schemes.dart`, `themes_data.dart`
-
----
-
-#### 7. خلفية الإعداد (Wallpaper)
-
-خلفية مشتركة لشاشات اللغة والمظهر والافتتاح — شبكة خفيفة وأشكال زمردية/ذهبية.
-
-- **كيف يعمل:** `app_wallpaper.dart` — يرسم من ألوان `ColorScheme` الحالية.
-
----
-
-#### 8. تنبيه انقطاع الإنترنت
-
-بانر في الأسفل عند فقدان الاتصال؛ يختفي عند عودته. على الشاشة الرئيسية، يُعاد تشغيل الرادio تلقائياً عند عودة الشبكة إذا كان يعمل قبل الانقطاع.
-
-- **كيف يعمل:** `InternetProvider` + `InternetBanner` في `app.dart`؛ `HomeScreen` → `QuranRadioCubit`.
-
----
-
-#### 9. واجهة متجاوبة
-
-المقاسات تُحسب من لوحة تصميم **390×844**.
-
-- **كيف يعمل:** `ScreenUtilInit` + `.w`, `.h`, `.sp`, `.r` في الواجهات.
-
----
-
-### الترجمة (Localization) — البنية والاستخدام
-
-التطبيق يدعم **الإنجليزية** و**العربية**. كل النصوص الظاهرة للمستخدم في ملفات `.arb` وتُستخدم عبر الصنف المُولَّد `S` — **لا تُكتب نصوص ثابتة داخل الواجهات**.
-
-#### المكدس التقني
-
-| المكوّن | الدور |
-|---------|--------|
-| **`flutter_intl`** | إعداد المولّد في `pubspec.yaml` |
-| **`intl_en.arb` / `intl_ar.arb`** | مصدر EN + ترجمة AR (نفس المفاتيح) |
-| **`lib/generated/l10n.dart`** | `S.current.*` |
-| **`LocalizationProvider`** | `ChangeNotifier` وحيد — يحفظ `Locale` النشط |
-| **`flutter_localizations`** | ترجمة Material/Cupertino + **RTL** تلقائياً للعربية |
-
-#### التوصيل في `MaterialApp`
-
-- `locale: locProvider.appLocal`
-- `localizationsDelegates`: `S.delegate` + delegates الرسمية
-- **`localeResolutionCallback`**: عند **أول تشغيل** فقط — يطابق لغة الجهاز إن وُجدت، وإلا الإنجليزية
-- العربية تفعّل **RTL** دون `Directionality` يدوي في أغلب الشاشات
-
-#### الحفظ
-
-- `KEY_LANGUAGE` في `SharedPreferences` → `'en'` أو `'ar'`
-- `fetchLocale()` من `main()` قبل `runApp`
-- `changeLanguage()` يحدّث الذاكرة + التخزين + `notifyListeners()`
-
-#### أول تشغيل مقابل التغيير لاحقاً
-
-| السياق | السلوك عند التأكيد |
-|--------|---------------------|
-| **أول تشغيل** | حفظ اللغة → `RestartWidget.restartApp` → شاشة المظهر |
-| **من القائمة الجانبية** | إن تغيّرت اللغة → إعادة تشغيل التطبيق (إن `changeLangRestart`)؛ وإلا رجوع |
-
-#### إضافة نص جديد
-
-1. أضف المفتاح في `intl_en.arb`
-2. أضف **نفس المفتاح** في `intl_ar.arb`
-3. احفظ ليُولَّد `l10n.dart`
-4. استخدم `S.current.myKey` في الكود
-
-```dart
-Text(S.current.saveButton)  // ✅
-Text('Save')                // ❌
-```
-
-#### تنسيق حسب اللغة
-
-- **`DateUtility`** — أوقات الصلاة، التاريخ، العدّ التنازلي (`formatLocalTime`, `formatLocalFullDate`, `formatLocalDuration`)
-- **`LocationLabelUtils`** — geocoding بلغة `AppConfig().appLanguage`
-- مرّر `Localizations.localeOf(context).languageCode` من الواجهات
-
-#### الخطوط
-
-| اللغة | الخط |
-|-------|------|
-| EN | Plus Jakarta Sans |
-| AR | Tajawal |
-
-يُختار عبر `TextThemeStyles` عند بناء `ThemeData`.
-
----
-
-### السمات (Theming) — البنية والاستخدام
-
-**Material 3** بهوية **زمردي + ذهبي**. كل شاشة يجب أن تعمل في **الفاتح والداكن** — الألوان من `ColorScheme` أو `context.appColors`.
-
-#### طبقات السمة
-
-| الطبقة | الملف | الغرض |
-|--------|-------|--------|
-| **`AppColorSchemes`** | `app_color_schemes.dart` | `ColorScheme` كامل للفاتح والداكن |
-| **`ThemesData`** | `themes_data.dart` | `ThemeData` (AppBar، أزرار، بطاقات…) |
-| **`CustomThemeColors`** | `custom_theme_colors.dart` | أسماء دلالية: `gold`, `ink`, `muted`, `card` |
-| **`context.appColors`** | `theme_extensions.dart` | وصول سريع من الواجهة |
-| **`ThemeModeProvider`** | `theme_mode_provider.dart` | Light / Dark / System + مراقبة سطوع النظام |
-
-#### أوضاع المظهر
-
-| الوضع | السلوك |
+| Route | Screen |
 |-------|--------|
-| **فاتح / داكن** | `ThemesData.lightTheme` أو `darkTheme` |
-| **النظام** | يتبع إعدادات الجهاز؛ `didChangePlatformBrightness` يحدّث الواجهة |
-
-الحفظ: `KEY_APP_THEME` في `SharedPreferences`. الافتراضي: **System**.
-
-#### التوصيل
-
-```dart
-theme: ThemesData.lightTheme,
-darkTheme: ThemesData.darkTheme,
-themeMode: themeProvider.themeMode,
-```
-
-`Consumer2` يعيد بناء `MaterialApp` عند تغيير اللغة أو المظهر.
-
-#### قواعد الواجهة
-
-1. استخدم أدوار M3: `primary`, `surfaceContainer`, `onSurface`, `outline`…
-2. **`context.appColors`** للأسماء الدلالية
-3. لا تفرّع على `isLight` للألوان في الواجهات
-4. **`AppWallpaper`** و **`CurvedAppBar`** يقرآن من `colorScheme` تلقائياً
-
-#### أول تشغيل
-
-`LanguageScreen` → `ThemeScreen` → `Splash` → `Home` (يُتحقق عبر `LocalStorage.languageFirstStartSelected` و `themeFirstStartSelected` في `app.dart`).
-
-تغيير المظهر من القائمة **لا يحتاج** إعادة تشغيل — يُطبَّق فوراً عبر `ThemeModeProvider.setThemeMode`.
+| `/AppMainScreenScreen` | App shell |
+| `/HomeScreen` | Home (prayer times + radio) |
+| `/LanguageScreen` | Language picker |
+| `/ThemeScreen` | Theme picker |
+| `/MapLocationPickerScreen` | GPS map picker |
+| `/ManualLocationPickerScreen` | Country/city picker |
 
 ---
 
-### البناء والتشغيل
+## الترجمة {#localization-ar}
 
-يتطلب **Flutter 3.44.0** (يُفضّل FVM).
+يدعم سكينة **الإنجليزية** و**العربية** مع **RTL** كامل عند اختيار العربية.
+
+### المكدس
+
+| العنصر | الموقع | الدور |
+|--------|--------|-------|
+| **النصوص المصدر** | [`lib/l10n/intl_en.arb`](lib/l10n/intl_en.arb), [`intl_ar.arb`](lib/l10n/intl_ar.arb) | أضف المفاتيح هنا |
+| **API المُولَّد** | [`lib/generated/l10n.dart`](lib/generated/l10n.dart) | `S.current.myKey` |
+| **المزوّد** | [`LocalizationProvider`](lib/core/localization/localization_provider.dart) | Singleton؛ يحفظ `Locale` |
+| **المهارة** | [`dart-localized-strings/SKILL.md`](.cursor/skills/dart-localized-strings/SKILL.md) | كل نص → `S.current` |
+
+### التشغيل
+
+1. **`main.dart`** — `await LocalizationProvider().fetchLocale()` قبل `runApp`.
+2. **`App`** — `Consumer<LocalizationProvider>` يعيد بناء `MaterialApp`.
+3. **`localeResolutionCallback`** — في **أول تشغيل** فقط: لغة الجهاز إن وُجدت، وإلا الإنجليزية.
+
+### تغيير اللغة
+
+1. شاشة **اللغة** من القائمة أو onboarding.
+2. `LanguageScreenNotifier.confirm()` → `changeLanguage`.
+3. حفظ في `SharedPreferences` + `notifyListeners()` — **بدون إعادة تشغيل**.
+
+### RTL
+
+- locale `ar` يفعّل RTL تلقائياً.
+- استخدم `AlignmentDirectional` و`EdgeInsetsDirectional`.
+- بعض الودجات (مثل شريط الصوت) تُثبت LTR عند الحاجة.
+
+### إضافة نص جديد
+
+1. أضف المفتاح في **`intl_en.arb`** و **`intl_ar.arb`**.
+2. **`fvm dart run intl_utils:generate`**
+3. **`S.current.yourKey`**
+
+---
+
+## الموضوعات {#themes-ar}
+
+وضع فاتح، داكن، و**النظام** مع معاينة مباشرة وتبديل متحرك.
+
+### المكدس
+
+| العنصر | الموقع | الدور |
+|--------|--------|-------|
+| **ColorScheme** | [`app_color_schemes.dart`](lib/core/theme/app_color_schemes.dart) | Material 3 (jade) |
+| **أسماء دلالية** | [`custom_theme_colors.dart`](lib/core/theme/custom_theme_colors.dart) | `context.appColors` |
+| **ThemeData** | [`themes_data.dart`](lib/core/theme/themes_data.dart) | light / dark |
+| **المزوّد** | [`ThemeModeProvider`](lib/core/providers/theme_mode_provider.dart) | حفظ + تبديل |
+| **التخزين** | [`LocalStorage`](lib/core/common/local_storage.dart) | `getThemeMode` |
+
+### التوصيل في `App`
+
+- `ThemeProvider` (animated_theme_switcher) يلف `MaterialApp`.
+- `theme` / `darkTheme` / `themeMode` من `ThemeModeProvider`.
+- **`setThemeMode`** — حفظ + تحديث فوري + animation اختياري.
+
+### قواعد الواجهة
+
+- **`colorScheme`** و **`context.appColors`** — لا ألوان hex للوضع الفاتح فقط.
+- كل شاشة تعمل في **الوضعين** — [`.cursor/rules/dual-theme-ui.mdc`](.cursor/rules/dual-theme-ui.mdc).
+
+### onboarding
+
+1. اللغة → 2. الموضوع → 3. Splash → الرئيسية
+
+---
+
+## التوجيه {#routing-ar}
+
+مسارات مسماة مع معاملات typed وانتقالات مخصصة.
+
+### المكدس
+
+| العنصر | الموقع | الدور |
+|--------|--------|-------|
+| **مفتاح Navigator** | [`NavigationService`](lib/core/navigation/navigation_service.dart) | GetIt + `GlobalKey` |
+| **جدول المسارات** | [`NavigationRoute`](lib/core/navigation/route_generator.dart) | `switch` على الاسم |
+| **Nav** | [`nav.dart`](lib/core/navigation/nav.dart) | `Nav.to` / `Nav.off` / `Nav.pop` |
+| **BaseScreen** | [`base_screen.dart`](lib/core/ui/screens/base_screen.dart) | `param` typed |
+
+### تسجيل مسار جديد
+
+1. `static const routeName = '/MyScreen'`
+2. class `MyScreenParam`
+3. `case` في `route_generator.dart`
+4. `Nav.to(MyScreen.routeName, arguments: const MyScreenParam())`
+
+### أنواع الانتقال
+
+| النوع | الاستخدام |
+|-------|-----------|
+| `FADE` | fade افتراضي |
+| `ANIMATED` | animation مخصص |
+| `SWIPABLE` | swipe من الحافة (الخرائط، الموقع اليدوي) |
+
+### المسارات الحالية
+
+| المسار | الشاشة |
+|--------|--------|
+| `/AppMainScreenScreen` | الهيكل الرئيسي |
+| `/HomeScreen` | الرئيسية |
+| `/LanguageScreen` | اللغة |
+| `/ThemeScreen` | الموضوع |
+| `/MapLocationPickerScreen` | خريطة |
+| `/ManualLocationPickerScreen` | دولة/مدينة |
+
+---
+
+## Prayer times {#prayer-times-en}
+
+Location-based daily salah times on the home screen, powered by the **[AlAdhan Prayer Times API v1](https://aladhan.com/prayer-times-api)**.
+
+**Full documentation:** [`docs/prayer_times_feature.md`](docs/prayer_times_feature.md)
+
+### What the user sees
+
+- Five daily prayers (Fajr → Isha) for **today**
+- **Next prayer** highlight and countdown
+- Location from **GPS**, **map pick**, or **manual country/city**
+- Offline fallback when a cached schedule exists for the same location and date
+
+### API request format
+
+The app calls AlAdhan with **today’s date in the URL path** (`DD-MM-YYYY`), matching the official API:
 
 ```bash
-fvm flutter pub get
-fvm dart run build_runner build --delete-conflicting-outputs
-fvm flutter run
-fvm flutter build apk --release
+curl 'https://api.aladhan.com/v1/timings/08-09-2025?latitude=51.5194682&longitude=-0.1360365&method=2'
 ```
 
-شغّل codegen بعد تعديل `@freezed` أو `@injectable` أو ملفات `.arb`. بعد إضافة `flutter_soloud` أو تغيير iOS deployment target، **أعد تشغيل التطبيق بالكامل**.
+| Location mode | Path | Query params |
+|---------------|------|--------------|
+| GPS | `timings/{date}` | `latitude`, `longitude`, `method` |
+| Manual city | `timingsByCity/{date}` | `city`, `country`, `method` |
+| Address | `timingsByAddress/{date}` | `address`, `method` |
+
+- **`{date}`** — built by [`GetTodayPrayerTimesParams.formatAladhanDate()`](lib/features/home/data/request/param/get_today_prayer_times_params.dart) from the device’s local calendar day.
+- **`method=2`** — ISNA calculation method (configurable via `aladhanCalculationMethod`).
+
+Optional AlAdhan params (`school`, `tune`, `shafaq`, etc.) are documented in [`docs/prayer_times_feature.md`](docs/prayer_times_feature.md) but not used in v1.
+
+### Implementation flow
+
+```
+HomeScreen → HomeScreenNotifier → HomeCubit
+  → GetTodayPrayerTimesUseCase → HomeRepository
+  → HomeRemoteSource.getTodayPrayerTimes()  [online]
+  → HomeLocalSource.getTodayPrayerTimes()   [offline / fallback]
+  → AlAdhan GET via Dio (base: AppSettings.ALADHAN_BASE_URL)
+```
+
+Key files:
+
+| Layer | File |
+|-------|------|
+| Params & date path | [`get_today_prayer_times_params.dart`](lib/features/home/data/request/param/get_today_prayer_times_params.dart) |
+| Remote fetch | [`home_remote_datasource.dart`](lib/features/home/data/datasource/home_remote_datasource.dart) |
+| Model parsing | [`daily_prayer_schedule_model.dart`](lib/features/home/data/request/model/daily_prayer_schedule_model.dart) |
+| Next prayer logic | [`prayer_times_utils.dart`](lib/features/home/domain/utils/prayer_times_utils.dart) |
+| UI card | [`prayer_times_card.dart`](lib/features/home/presentation/widgets/prayer_times_card.dart) |
+
+### Response handling
+
+AlAdhan returns `{ "code": 200, "status": "OK", "data": { "timings": {...}, "date": {...} } }`.
+
+- [`AlAdhanResponseValidator`](lib/core/net/response_validators/aladhan_response_validator.dart) checks success.
+- [`AlAdhanCreateModelInterceptor`](lib/core/net/create_model_interceptor/aladhan_create_model_interceptor.dart) unwraps `data`.
+- [`DailyPrayerScheduleModel.fromAladhanData()`](lib/features/home/data/request/model/daily_prayer_schedule_model.dart) maps Fajr–Isha and the gregorian date.
+
+On success, the schedule is cached in Hive (`HomeScreen._cachePrayerTimes`) keyed by location and `YYYY-MM-DD` for offline use.
 
 ---
 
-### هيكل المشروع
+## مواقيت الصلاة {#prayer-times-ar}
+
+مواقيت الصلاة اليومية على الشاشة الرئيسية، عبر **[AlAdhan Prayer Times API v1](https://aladhan.com/prayer-times-api)**.
+
+**التوثيق الكامل:** [`docs/prayer_times_feature.md`](docs/prayer_times_feature.md)
+
+### ما يراه المستخدم
+
+- خمس صلوات يومية (الفجر → العشاء) **لليوم الحالي**
+- تمييز **الصلاة القادمة** مع عدّ تنازلي
+- الموقع عبر **GPS** أو **الخريطة** أو **الدولة/المدينة يدوياً**
+- عمل دون اتصال عند وجود جدول مخزّن لنفس الموقع والتاريخ
+
+### صيغة طلب API
+
+يُرسل التطبيق **تاريخ اليوم في مسار URL** بصيغة `DD-MM-YYYY`:
+
+```bash
+curl 'https://api.aladhan.com/v1/timings/08-09-2025?latitude=51.5194682&longitude=-0.1360365&method=2'
+```
+
+| وضع الموقع | المسار | معاملات الاستعلام |
+|------------|--------|-------------------|
+| GPS | `timings/{date}` | `latitude`, `longitude`, `method` |
+| مدينة يدوية | `timingsByCity/{date}` | `city`, `country`, `method` |
+| عنوان | `timingsByAddress/{date}` | `address`, `method` |
+
+- **`{date}`** — يُبنى عبر [`formatAladhanDate()`](lib/features/home/data/request/param/get_today_prayer_times_params.dart) من التاريخ المحلي للجهاز.
+- **`method=2`** — طريقة ISNA (قابلة للتعديل في `aladhanCalculationMethod`).
+
+### مسار التنفيذ
 
 ```
-lib/
-├── app.dart, main.dart
-├── core/
-│   ├── theme/
-│   ├── localization/
-│   ├── providers/
-│   └── common/utils/
-├── features/
-├── l10n/
-├── generated/
-└── di/
+HomeScreen → HomeScreenNotifier → HomeCubit
+  → GetTodayPrayerTimesUseCase → HomeRepository
+  → HomeRemoteSource (عبر الإنترنت) / HomeLocalSource (دون اتصال)
+  → AlAdhan GET عبر Dio
 ```
 
-| مرجع | الموضوع |
-|------|---------|
-| `.cursor/rules/dual-theme-ui.mdc` | قواعد الفاتح/الداكن |
-| `.cursor/skills/dart-localized-strings/SKILL.md` | عدم تثبيت النصوص في الكود |
-| `lib/app.dart` | توصيل اللغة والسمة |
+### معالجة الاستجابة
 
-التخطيط الكامل: [`docs/implementation_plan.md`](docs/implementation_plan.md)
+AlAdhan يُرجع `{ "code": 200, "data": { "timings": {...}, "date": {...} } }`.
+
+- التحقق عبر `AlAdhanResponseValidator`
+- فك التغليف `data` عبر `AlAdhanCreateModelInterceptor`
+- التحويل إلى `DailyPrayerScheduleModel` ثم التخزين في Hive للاستخدام دون اتصال
 
 ---
 
-**Package:** `com.ammourie.sakeenah` · Flutter **3.44.0** (FVM)
+## Documentation phases {#phases-en}
 
-*Last updated: September 2026*
+This README is being rebuilt **in phases**. Current status:
+
+| Phase | Topic | Status |
+|-------|--------|--------|
+| **1** | Overview, FVM, install, download, run | ✅ Done |
+| **2** | TDD architecture, Cursor skills & rules, key packages | ✅ Done |
+| **3** | Localization, themes, routing | ✅ Done |
+| **4** | Features — prayer times (Quran radio pending) | 🟡 In progress |
+| **5** | Background audio & notifications | 🔜 Coming soon |
+| **6** | Build, release & submission | 🔜 Coming soon |
+
+Detailed implementation tracking: [`docs/implementation_plan.md`](docs/implementation_plan.md)
+
+---
+
+## مراحل التوثيق {#phases-ar}
+
+يتم إعادة بناء هذا الملف **على مراحل**. الحالة الحالية:
+
+| المرحلة | الموضوع | الحالة |
+|---------|---------|--------|
+| **1** | نظرة عامة، FVM، التثبيت، التحميل، التشغيل | ✅ مكتمل |
+| **2** | بنية TDD، مهارات وقواعد Cursor، الحزم الرئيسية | ✅ مكتمل |
+| **3** | الترجمة، الموضوعات، التوجيه | ✅ مكتمل |
+| **4** | الميزات — مواقيت الصلاة (راديو القرآن قيد الإكمال) | 🟡 جاري |
+| **5** | التشغيل في الخلفية والإشعارات | 🔜 قريباً |
+| **6** | البناء والإصدار والتسليم | 🔜 قريباً |
+
+تتبع التنفيذ التفصيلي: [`docs/implementation_plan.md`](docs/implementation_plan.md)
+
+---
+
+<p align="center">
+  <sub>Sakeenah · سكينة — Prayer times & Quran Radio</sub>
+</p>

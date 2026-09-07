@@ -79,6 +79,8 @@ class AppConstants {
   static const SVG_ICON_LANGUAGES = 'assets/images/svg/icons/languages.svg';
   static const SVG_ICON_CHECK = 'assets/images/svg/icons/check.svg';
   static const SVG_ICON_WIFI_OFF = 'assets/images/svg/icons/wifi-off.svg';
+  static const SVG_ICON_CIRCLE_ALERT =
+      'assets/images/svg/icons/circle-alert.svg';
   static const SVG_ICON_SUN = 'assets/images/svg/icons/sun.svg';
   static const SVG_ICON_MOON = 'assets/images/svg/icons/moon.svg';
   static const SVG_ICON_SUN_MOON = 'assets/images/svg/icons/sun-moon.svg';
@@ -105,6 +107,9 @@ class AppConstants {
   static const QURAN_RADIO_MEDIA_ID = 'quran_radio';
   static const QURAN_RADIO_NOTIFICATION_CHANNEL_ID =
       'com.ammourie.sakeenah.quran_radio';
+
+  /// Prayer times cache: max GPS drift (meters) to reuse cached schedule.
+  static const PRAYER_TIMES_LOCATION_CACHE_RADIUS_METERS = 500;
 
   /// ERROR IMAGES
   static const ERROR_403_401 = "assets/images/png/error/403.png";

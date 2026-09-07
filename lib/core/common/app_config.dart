@@ -1,14 +1,8 @@
-import 'dart:io';
-
-import 'package:eraser/eraser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:unique_identifier/unique_identifier.dart';
 
 import '../../di/service_locator.dart';
 import '../constants/app/google_map_styles.dart';
-import '../constants/enums/system_type.dart';
 import '../localization/flutter_localization.dart';
 import '../navigation/navigation_service.dart';
 import '../theme/themes_data.dart';
@@ -28,25 +22,12 @@ class AppConfig {
 
   AppConfig._internal();
 
-  final String apiKey = "";
-  SystemType? _os;
-  String? _currentVersion;
-  late String _buildNumber;
   String? _appName;
-  String? _appVersion;
   ThemeMode _themeMode = ThemeMode.system;
 
   BuildContext? get appContext => getIt<NavigationService>().appContext;
 
   Locale get appLanguage => LocalizationProvider().appLocal;
-
-  SystemType? get os => _os;
-
-  String? get currentVersion => _currentVersion;
-
-  String get buildNumber => _buildNumber;
-
-  String? get appVersion => _appVersion;
 
   String? get appName => _appName;
 
@@ -58,10 +39,9 @@ class AppConfig {
       case ThemeMode.light:
         return ThemesData.lightTheme;
       case ThemeMode.system:
-        final brightness =
-            context != null
-                ? MediaQuery.platformBrightnessOf(context)
-                : WidgetsBinding.instance.platformDispatcher.platformBrightness;
+        final brightness = context != null
+            ? MediaQuery.platformBrightnessOf(context)
+            : WidgetsBinding.instance.platformDispatcher.platformBrightness;
         return brightness == Brightness.dark
             ? ThemesData.darkTheme
             : ThemesData.lightTheme;
@@ -94,29 +74,9 @@ class AppConfig {
 
   String? deviceId;
 
-  Future<String?> _getDeviceId() async {
-    return await UniqueIdentifier.serial;
-  }
-
   initApp() async {
-    /// get OS
-    if (Platform.isIOS) {
-      _os = SystemType.IOS;
-    }
-    if (Platform.isAndroid) {
-      _os = SystemType.Android;
-    }
-
-    /// get version
-    final packageInfo = await PackageInfo.fromPlatform();
-    _currentVersion = packageInfo.version;
-    _buildNumber = packageInfo.buildNumber;
-    _appName = packageInfo.appName;
-
     /// Get Initital Theme Mode
     _themeMode = LocalStorage.getThemeMode;
-
-    deviceId = await _getDeviceId();
   }
 
   /// Logical design canvas for [ScreenUtilInit].
@@ -133,11 +93,5 @@ class AppConfig {
     if (brightness != Brightness.dark) return null;
 
     return rootBundle.loadString(GoogleMapStyles.darkAssetPath);
-  }
-
-  static void clearNotificationSystemCount() {
-    if (Platform.isAndroid) Eraser.clearAllAppNotifications();
-    if (Platform.isIOS)
-      Eraser.resetBadgeCountAndRemoveNotificationsFromCenter();
   }
 }

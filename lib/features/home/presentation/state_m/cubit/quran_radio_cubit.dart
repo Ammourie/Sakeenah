@@ -48,10 +48,7 @@ class QuranRadioCubit extends Cubit<QuranRadioState> {
     res.pick(
       onData: (data) => safeEmit(QuranRadioState.loaded(player: data)),
       onError: (error) => safeEmit(
-        QuranRadioState.error(
-          error: error,
-          callback: () => unawaited(_bootstrapRadio()),
-        ),
+        QuranRadioState.loaded(player: _playerWithError(error)),
       ),
     );
 
@@ -180,8 +177,24 @@ class QuranRadioCubit extends Cubit<QuranRadioState> {
           safeEmit(QuranRadioState.loaded(player: player));
           return;
         }
-        safeEmit(QuranRadioState.error(error: error, callback: onRetry));
+        safeEmit(QuranRadioState.loaded(player: _playerWithError(error, base: player)));
       },
+    );
+  }
+
+  RadioPlayerEntity _playerWithError(
+    AppErrors error, {
+    RadioPlayerEntity? base,
+  }) {
+    final current = base ?? _currentPlayer;
+    return current.copyWith(
+      status: RadioPlayerStatus.error,
+      errorMessage: error.maybeWhen(
+        customError: (message) => message,
+        badRequestError: (message) => message,
+        cancelError: (message) => message ?? '',
+        orElse: () => '',
+      ),
     );
   }
 

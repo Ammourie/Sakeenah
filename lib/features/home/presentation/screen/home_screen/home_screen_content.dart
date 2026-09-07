@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+import '../../../../../core/errors/app_errors.dart';
 import '../../../../../core/providers/internet_provider.dart';
 import '../../../../../core/ui/error_ui/errors_screens/error_widget.dart';
 import '../../../../../core/ui/widgets/curved_app_bar.dart';
 import '../../../../../core/ui/widgets/waiting_widget.dart';
 import '../../../../../generated/l10n.dart';
+import '../../../domain/entity/radio_player_entity.dart';
 import '../../../domain/utils/location_label_utils.dart';
 import '../../state_m/cubit/home_cubit.dart';
 import '../../state_m/cubit/quran_radio_cubit.dart';
@@ -15,7 +17,6 @@ import '../../state_m/provider/home_screen_notifier.dart';
 import '../../widgets/home_drawer.dart';
 import '../../widgets/prayer_times_card.dart';
 import '../../widgets/prayer_times_error_widget.dart';
-import '../../widgets/quran_radio_error_widget.dart';
 import '../../widgets/quran_radio_section.dart';
 
 class HomeScreenContent extends StatelessWidget {
@@ -29,7 +30,6 @@ class HomeScreenContent extends StatelessWidget {
     final isLoadingGps = context.select<HomeScreenNotifier, bool>(
       (n) => n.isLoadingGps,
     );
-    final hasInternet = context.read<InternetProvider>().hasInternet;
 
     final sn = context.read<HomeScreenNotifier>();
     final textTheme = Theme.of(context).textTheme;
@@ -67,7 +67,6 @@ class HomeScreenContent extends StatelessWidget {
                       context: context,
                       state: state,
                       sn: sn,
-                      hasInternet: hasInternet,
                     );
                   },
                 ),
@@ -79,9 +78,11 @@ class HomeScreenContent extends StatelessWidget {
                       context: context,
                       state: state,
                       sn: sn,
+                      hasInternet: context.read<InternetProvider>().hasInternet,
                     );
                   },
                 ),
+                50.verticalSpace,
               ],
             ),
           ),
@@ -94,7 +95,6 @@ class HomeScreenContent extends StatelessWidget {
     required BuildContext context,
     required HomeState state,
     required HomeScreenNotifier sn,
-    required bool hasInternet,
   }) {
     return state.maybeWhen(
       initial: () => const SizedBox.shrink(),
@@ -120,11 +120,13 @@ class HomeScreenContent extends StatelessWidget {
       },
       prayerTimesError: (_, __) => PrayerTimesErrorWidget(
         onRefresh: () {
-          sn.getPrayerTimes(hasInternet: hasInternet);
+          sn.getPrayerTimes(
+            hasInternet: context.read<InternetProvider>().hasInternet,
+          );
         },
         onChangeLocation: () => sn.changeLocation(
           context: context,
-          hasInternet: hasInternet,
+          hasInternet: context.read<InternetProvider>().hasInternet,
         ),
       ),
       orElse: () => const ScreenNotImplementedErrorWidget(),
@@ -135,26 +137,54 @@ class HomeScreenContent extends StatelessWidget {
     required BuildContext context,
     required QuranRadioState state,
     required HomeScreenNotifier sn,
+    required bool hasInternet,
   }) {
     return state.maybeWhen(
-      initial: () => const SizedBox.shrink(),
-      loaded: (player) => QuranRadioSection(
-        radio: player,
-        onPlay: sn.onPlayRadio,
-        onPause: sn.onPauseRadio,
-        onVolumeChanged: sn.onRadioVolumeChanged,
-        onToggleMute: sn.onToggleRadioMute,
-        onSeekBackward: sn.onSeekRadioBackward,
-        onSeekForward: sn.onSeekRadioForward,
-        onSeekToProgress: sn.onSeekRadioToProgress,
-        onStop: sn.onStopRadio,
-        onRetry: sn.onRetryRadio,
+      initial: () => _radioSection(
+        sn: sn,
+        hasInternet: hasInternet,
+        player: RadioPlayerEntity.initial,
+        isBootstrapping: true,
       ),
-      error: (error, callback) => QuranRadioErrorWidget(
-        error: error,
+      loaded: (player) =>
+          _radioSection(sn: sn, hasInternet: hasInternet, player: player),
+      error: (error, callback) => _radioSection(
+        sn: sn,
+        hasInternet: hasInternet,
+        player: const RadioPlayerEntity(status: RadioPlayerStatus.error),
+        appError: error,
         onRetry: callback,
       ),
-      orElse: () => const ScreenNotImplementedErrorWidget(),
+      orElse: () => _radioSection(
+        sn: sn,
+        hasInternet: hasInternet,
+        player: RadioPlayerEntity.initial,
+      ),
+    );
+  }
+
+  Widget _radioSection({
+    required HomeScreenNotifier sn,
+    required bool hasInternet,
+    required RadioPlayerEntity player,
+    bool isBootstrapping = false,
+    AppErrors? appError,
+    VoidCallback? onRetry,
+  }) {
+    return QuranRadioSection(
+      radio: player,
+      hasInternet: hasInternet,
+      isBootstrapping: isBootstrapping,
+      appError: appError,
+      onPlay: sn.onPlayRadio,
+      onPause: sn.onPauseRadio,
+      onVolumeChanged: sn.onRadioVolumeChanged,
+      onToggleMute: sn.onToggleRadioMute,
+      onSeekBackward: sn.onSeekRadioBackward,
+      onSeekForward: sn.onSeekRadioForward,
+      onSeekToProgress: sn.onSeekRadioToProgress,
+      onStop: sn.onStopRadio,
+      onRetry: onRetry ?? sn.onRetryRadio,
     );
   }
 }

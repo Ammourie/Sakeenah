@@ -5,10 +5,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/common/utils/language_utils.dart';
 import '../../../../core/constants/app/app_constants.dart';
+import '../../../../core/errors/app_errors.dart';
 import '../../../../core/ui/widgets/custom_image.dart';
 import '../../../../core/ui/widgets/waiting_widget.dart';
 import '../../../../generated/l10n.dart';
 import '../../domain/entity/radio_player_entity.dart';
+import '../utils/quran_radio_error_message.dart';
 import 'radio_wave_visualizer.dart';
 
 /// Theme-aware surface and accent tokens for the radio card (light + dark).
@@ -63,8 +65,6 @@ class _RadioSurfaceTokens {
 
   Color get activeSubtitle => scheme.onPrimaryContainer;
 
-  Color get errorScrim => scheme.scrim.withValues(alpha: _isDark ? 0.62 : 0.42);
-
   Color get badgeShadow =>
       scheme.shadow.withValues(alpha: _isDark ? 0.35 : 0.12);
 
@@ -75,6 +75,7 @@ class QuranRadioSection extends StatelessWidget {
   const QuranRadioSection({
     super.key,
     required this.radio,
+    required this.hasInternet,
     required this.onPlay,
     required this.onPause,
     required this.onVolumeChanged,
@@ -84,9 +85,14 @@ class QuranRadioSection extends StatelessWidget {
     required this.onSeekToProgress,
     required this.onStop,
     required this.onRetry,
+    this.isBootstrapping = false,
+    this.appError,
   });
 
   final RadioPlayerEntity radio;
+  final bool hasInternet;
+  final bool isBootstrapping;
+  final AppErrors? appError;
   final VoidCallback onPlay;
   final VoidCallback onPause;
   final ValueChanged<double> onVolumeChanged;
@@ -102,8 +108,10 @@ class QuranRadioSection extends StatelessWidget {
   bool get _isError => radio.status == RadioPlayerStatus.error;
   bool get _isIdle => radio.status == RadioPlayerStatus.idle;
   bool get _canUseSeekControls => !_isLoading && !_isError && !_isIdle;
-  bool get _canStop => !_isIdle;
+  bool get _canStop => !_isIdle && !_isError;
   bool get _shouldShowPlaybackProgress => !_isIdle && !_isError;
+  bool get _showPlayerBar => !_isError;
+  bool get _showPlayLoading => _isLoading || (isBootstrapping && _isIdle);
 
   @override
   Widget build(BuildContext context) {
@@ -128,36 +136,46 @@ class QuranRadioSection extends StatelessWidget {
               radio: radio,
               isPlaying: _isPlaying,
               isLoading: _isLoading,
-              isError: _isError,
-              onRetry: onRetry,
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(16.w, 16.h, 16.w, 16.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  if (_isError) ...[
+                    _RadioErrorPanel(
+                      radio: radio,
+                      hasInternet: hasInternet,
+                      appError: appError,
+                      onRetry: onRetry,
+                      onStop: onStop,
+                    ),
+                    16.verticalSpace,
+                  ],
                   _RadioMetadata(
                     radio: radio,
                     isIdle: _isIdle,
                     isError: _isError,
                   ),
-                  16.verticalSpace,
-                  _RadioPlayerBar(
-                    radio: radio,
-                    isPlaying: _isPlaying,
-                    isLoading: _isLoading,
-                    canUseSeekControls: _canUseSeekControls,
-                    canStop: _canStop,
-                    showPlaybackProgress: _shouldShowPlaybackProgress,
-                    onPlay: onPlay,
-                    onPause: onPause,
-                    onSeekBackward: onSeekBackward,
-                    onSeekForward: onSeekForward,
-                    onSeekToProgress: onSeekToProgress,
-                    onStop: onStop,
-                    onToggleMute: onToggleMute,
-                    onVolumeChanged: onVolumeChanged,
-                  ),
+                  if (_showPlayerBar) ...[
+                    16.verticalSpace,
+                    _RadioPlayerBar(
+                      radio: radio,
+                      isPlaying: _isPlaying,
+                      isLoading: _showPlayLoading,
+                      canUseSeekControls: _canUseSeekControls,
+                      canStop: _canStop,
+                      showPlaybackProgress: _shouldShowPlaybackProgress,
+                      onPlay: onPlay,
+                      onPause: onPause,
+                      onSeekBackward: onSeekBackward,
+                      onSeekForward: onSeekForward,
+                      onSeekToProgress: onSeekToProgress,
+                      onStop: onStop,
+                      onToggleMute: onToggleMute,
+                      onVolumeChanged: onVolumeChanged,
+                    ),
+                  ],
                 ],
               ),
             ),
@@ -173,15 +191,11 @@ class _RadioHeroStage extends StatefulWidget {
     required this.radio,
     required this.isPlaying,
     required this.isLoading,
-    required this.isError,
-    required this.onRetry,
   });
 
   final RadioPlayerEntity radio;
   final bool isPlaying;
   final bool isLoading;
-  final bool isError;
-  final VoidCallback onRetry;
 
   @override
   State<_RadioHeroStage> createState() => _RadioHeroStageState();
@@ -324,44 +338,104 @@ class _RadioHeroStageState extends State<_RadioHeroStage>
               ],
             ),
           ),
-          if (widget.isError)
-            ColoredBox(
-              color: tokens.errorScrim,
-              child: Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w),
-                  child: Material(
-                    color: colorScheme.errorContainer,
-                    borderRadius: BorderRadius.circular(16.r),
-                    child: Padding(
-                      padding: EdgeInsets.all(16.w),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            widget.radio.errorMessage?.isNotEmpty == true
-                                ? widget.radio.errorMessage!
-                                : S.current.quranRadioError,
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(color: colorScheme.onErrorContainer),
-                          ),
-                          12.verticalSpace,
-                          FilledButton(
-                            onPressed: widget.onRetry,
-                            style: FilledButton.styleFrom(
-                              backgroundColor: colorScheme.error,
-                              foregroundColor: colorScheme.onError,
-                            ),
-                            child: Text(S.current.quranRadioRetry),
-                          ),
-                        ],
+        ],
+      ),
+    );
+  }
+}
+
+class _RadioErrorPanel extends StatelessWidget {
+  const _RadioErrorPanel({
+    required this.radio,
+    required this.hasInternet,
+    required this.onRetry,
+    required this.onStop,
+    this.appError,
+  });
+
+  final RadioPlayerEntity radio;
+  final bool hasInternet;
+  final AppErrors? appError;
+  final VoidCallback onRetry;
+  final VoidCallback onStop;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    final useOfflineIcon = QuranRadioErrorMessage.useOfflineIcon(
+      hasInternet: hasInternet,
+    );
+
+    return Container(
+      padding: EdgeInsets.all(16.w),
+      decoration: BoxDecoration(
+        color: colorScheme.errorContainer,
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(color: colorScheme.outlineVariant),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomImage.asset(
+                useOfflineIcon
+                    ? AppConstants.SVG_ICON_WIFI_OFF
+                    : AppConstants.SVG_ICON_CIRCLE_ALERT,
+                width: 22.w,
+                height: 22.w,
+                color: colorScheme.onErrorContainer,
+              ),
+              12.horizontalSpace,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      QuranRadioErrorMessage.title(
+                        player: radio,
+                        hasInternet: hasInternet,
+                        appError: appError,
+                      ),
+                      style: textTheme.titleSmall?.copyWith(
+                        color: colorScheme.onErrorContainer,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                  ),
+                    4.verticalSpace,
+                    Text(
+                      QuranRadioErrorMessage.hint,
+                      style: textTheme.bodySmall?.copyWith(
+                        color: colorScheme.onErrorContainer.withValues(
+                          alpha: 0.85,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
+            ],
+          ),
+          16.verticalSpace,
+          FilledButton(
+            onPressed: onRetry,
+            style: FilledButton.styleFrom(
+              backgroundColor: colorScheme.error,
+              foregroundColor: colorScheme.onError,
             ),
+            child: Text(S.current.quranRadioRetry),
+          ),
+          8.verticalSpace,
+          OutlinedButton(
+            onPressed: onStop,
+            style: OutlinedButton.styleFrom(
+              foregroundColor: colorScheme.onErrorContainer,
+              side: BorderSide(color: colorScheme.outline),
+            ),
+            child: Text(S.current.quranRadioStop),
+          ),
         ],
       ),
     );
@@ -501,21 +575,19 @@ class _RadioMetadata extends StatelessWidget {
             letterSpacing: -0.2,
           ),
         ),
-        if (!isError) ...[
-          6.verticalSpace,
-          Text(
-            subtitle,
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: textTheme.bodyMedium?.copyWith(
-              color: isIdle
-                  ? colorScheme.onSurfaceVariant
-                  : tokens.activeSubtitle,
-              fontWeight: FontWeight.w600,
-            ),
+        6.verticalSpace,
+        Text(
+          subtitle,
+          textAlign: TextAlign.center,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: textTheme.bodyMedium?.copyWith(
+            color: isError || isIdle
+                ? colorScheme.onSurfaceVariant
+                : tokens.activeSubtitle,
+            fontWeight: FontWeight.w600,
           ),
-        ],
+        ),
       ],
     );
   }

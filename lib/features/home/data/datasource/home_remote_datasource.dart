@@ -12,22 +12,27 @@ class HomeRemoteSource extends IHomeRemoteSource {
     GetTodayPrayerTimesParams params,
   ) async {
     final location = params.location;
+    final today = DateTime.now();
+    final scheduleDate = DateTime(today.year, today.month, today.day);
+
     final queryParameters = <String, dynamic>{
-      'method': GetTodayPrayerTimesParams.aladhanCalculationMethod,
+      ...GetTodayPrayerTimesParams.aladhanQueryParameters(),
     };
 
     String url;
     if (location.source == LocationSource.gps &&
         location.latitude != null &&
         location.longitude != null) {
-      url = GetTodayPrayerTimesParams.aladhanTimingsPath;
+      url = GetTodayPrayerTimesParams.aladhanTimingsPathFor(scheduleDate);
       queryParameters['latitude'] = location.latitude;
       queryParameters['longitude'] = location.longitude;
     } else if (location.usesAddressLookup) {
-      url = GetTodayPrayerTimesParams.aladhanTimingsByAddressPath;
+      url = GetTodayPrayerTimesParams.aladhanTimingsByAddressPathFor(
+        scheduleDate,
+      );
       queryParameters['address'] = location.address!.trim();
     } else {
-      url = GetTodayPrayerTimesParams.aladhanTimingsByCityPath;
+      url = GetTodayPrayerTimesParams.aladhanTimingsByCityPathFor(scheduleDate);
       queryParameters['city'] = location.city;
       queryParameters['country'] = location.country;
     }

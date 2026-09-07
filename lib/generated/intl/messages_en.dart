@@ -298,13 +298,23 @@ class MessageLookup extends MessageLookupByLibrary {
     "quranRadioError": MessageLookupByLibrary.simpleMessage(
       "Unable to play the stream",
     ),
+    "quranRadioErrorHint": MessageLookupByLibrary.simpleMessage(
+      "Check your connection and try again",
+    ),
     "quranRadioIdleHint": MessageLookupByLibrary.simpleMessage(
       "Start the live Quran stream",
     ),
     "quranRadioLive": MessageLookupByLibrary.simpleMessage("Live"),
     "quranRadioMute": MessageLookupByLibrary.simpleMessage("Mute"),
+    "quranRadioNotificationChannelDescription":
+        MessageLookupByLibrary.simpleMessage(
+          "Live Quran radio playback controls",
+        ),
     "quranRadioNotificationChannelName": MessageLookupByLibrary.simpleMessage(
       "Quran Radio",
+    ),
+    "quranRadioOfflineError": MessageLookupByLibrary.simpleMessage(
+      "No internet connection",
     ),
     "quranRadioPause": MessageLookupByLibrary.simpleMessage("Paused"),
     "quranRadioPlay": MessageLookupByLibrary.simpleMessage("Play"),

@@ -196,6 +196,8 @@
   "quranRadioPause": "متوقف",
   "quranRadioConnecting": "جاري الاتصال…",
   "quranRadioError": "تعذر تشغيل البث",
+  "quranRadioOfflineError": "لا يوجد اتصال بالإنترنت",
+  "quranRadioErrorHint": "تحقق من اتصالك وحاول مرة أخرى",
   "quranRadioRetry": "إعادة المحاولة",
   "quranRadioVolume": "مستوى الصوت",
   "quranRadioMute": "كتم الصوت",

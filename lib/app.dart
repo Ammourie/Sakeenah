@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
-import 'package:statusbarz/statusbarz.dart';
 
 import 'core/providers/theme_mode_provider.dart';
 import 'core/theme/themes_data.dart';
@@ -54,102 +52,89 @@ class _AppState extends State<App> {
                     themeProvider.themeMode,
                   ),
                   builder: (_, theme) {
-                    return RefreshConfiguration(
-                      headerBuilder: () => WaterDropMaterialHeader(
-                        backgroundColor:
-                            ThemesData.lightTheme.colorScheme.primary,
-                        distance: 40,
-                      ),
-                      child: StatusbarzCapturer(
-                        child: MaterialApp(
-                          debugShowCheckedModeBanner: false,
-                          title: AppConstants.TITLE_APP_NAME,
+                    return MaterialApp(
+                      debugShowCheckedModeBanner: false,
+                      title: AppConstants.TITLE_APP_NAME,
 
-                          /// Routing
-                          navigatorKey:
-                              getIt<NavigationService>().getNavigationKey,
-                          onGenerateRoute:
-                              getIt<NavigationRoute>().generateRoute,
-                          initialRoute: "/",
+                      /// Routing
+                      navigatorKey: getIt<NavigationService>().getNavigationKey,
+                      onGenerateRoute: getIt<NavigationRoute>().generateRoute,
+                      initialRoute: "/",
 
-                          navigatorObservers: [Statusbarz.instance.observer],
+                      /// Setup app localization
+                      supportedLocales: S.delegate.supportedLocales,
+                      locale: locProvider.appLocal,
 
-                          /// Setup app localization
-                          supportedLocales: S.delegate.supportedLocales,
-                          locale: locProvider.appLocal,
+                      localizationsDelegates: [
+                        S.delegate,
 
-                          localizationsDelegates: [
-                            S.delegate,
+                        // Built-in localization of basic text for Material widgets
+                        GlobalMaterialLocalizations.delegate,
+                        // Built-in localization for text direction LTR/RTL
+                        GlobalWidgetsWithKurdishLocalizations.delegate,
+                        GlobalCupertinoLocalizations.delegate,
+                        DefaultCupertinoLocalizations.delegate,
+                      ],
 
-                            // Built-in localization of basic text for Material widgets
-                            GlobalMaterialLocalizations.delegate,
-                            // Built-in localization for text direction LTR/RTL
-                            GlobalWidgetsWithKurdishLocalizations.delegate,
-                            GlobalCupertinoLocalizations.delegate,
-                            DefaultCupertinoLocalizations.delegate,
-                          ],
+                      /// Run app at first time on device language
+                      localeResolutionCallback: (locale, supportedLocales) {
+                        if (locProvider.firstStart) {
+                          /// Check if the current device locale is supported
+                          for (var supportedLocale in supportedLocales) {
+                            if (supportedLocale.languageCode ==
+                                locale!.languageCode) {
+                              /// Set _firstStart false
+                              locProvider.firstStartOff();
 
-                          /// Run app at first time on device language
-                          localeResolutionCallback: (locale, supportedLocales) {
-                            if (locProvider.firstStart) {
-                              /// Check if the current device locale is supported
-                              for (var supportedLocale in supportedLocales) {
-                                if (supportedLocale.languageCode ==
-                                    locale!.languageCode) {
-                                  /// Set _firstStart false
-                                  locProvider.firstStartOff();
-
-                                  /// Change language
-                                  locProvider.changeLanguage(
-                                    Locale(locale.languageCode),
-                                    context,
-                                  );
-                                  return supportedLocale;
-                                }
-                              }
-
-                              /// If the locale of the device is not supported, use the first one
-                              /// from the list (English, in this case).
+                              /// Change language
                               locProvider.changeLanguage(
-                                supportedLocales.first,
+                                Locale(locale.languageCode),
                                 context,
                               );
-                              return supportedLocales.first;
-                            } else
-                              return null;
-                          },
+                              return supportedLocale;
+                            }
+                          }
 
-                          /// Theming — follow system by default (see LocalStorage.getThemeMode)
-                          theme: ThemesData.lightTheme,
-                          darkTheme: ThemesData.darkTheme,
-                          themeMode: themeProvider.themeMode,
+                          /// If the locale of the device is not supported, use the first one
+                          /// from the list (English, in this case).
+                          locProvider.changeLanguage(
+                            supportedLocales.first,
+                            context,
+                          );
+                          return supportedLocales.first;
+                        } else
+                          return null;
+                      },
 
-                          /// Init screen — language → theme → splash on first start
-                          home: _resolveInitialScreen(),
+                      /// Theming — follow system by default (see LocalStorage.getThemeMode)
+                      theme: ThemesData.lightTheme,
+                      darkTheme: ThemesData.darkTheme,
+                      themeMode: themeProvider.themeMode,
 
-                          // builder: DevicePreview.appBuilder,
-                          builder: (context, widget) {
-                            // return DevicePreview.appBuilder(context, widget!);
-                            _handleGlobalError(widget);
+                      /// Init screen — language → theme → splash on first start
+                      home: _resolveInitialScreen(),
 
-                            return MediaQuery(
-                              //Setting font does not change with system font size
-                              data: MediaQuery.of(
-                                context,
-                              ).copyWith(textScaler: TextScaler.noScaling),
-                              child: Stack(
-                                children: [
-                                  Positioned.fill(child: widget!),
-                                  const Align(
-                                    alignment: Alignment.bottomCenter,
-                                    child: InternetBanner(),
-                                  ),
-                                ],
+                      // builder: DevicePreview.appBuilder,
+                      builder: (context, widget) {
+                        // return DevicePreview.appBuilder(context, widget!);
+                        _handleGlobalError(widget);
+
+                        return MediaQuery(
+                          //Setting font does not change with system font size
+                          data: MediaQuery.of(
+                            context,
+                          ).copyWith(textScaler: TextScaler.noScaling),
+                          child: Stack(
+                            children: [
+                              Positioned.fill(child: widget!),
+                              const Align(
+                                alignment: Alignment.bottomCenter,
+                                child: InternetBanner(),
                               ),
-                            );
-                          },
-                        ),
-                      ),
+                            ],
+                          ),
+                        );
+                      },
                     );
                   },
                 );

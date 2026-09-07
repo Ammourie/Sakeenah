@@ -299,13 +299,23 @@ class MessageLookup extends MessageLookupByLibrary {
       "جاري الاتصال…",
     ),
     "quranRadioError": MessageLookupByLibrary.simpleMessage("تعذر تشغيل البث"),
+    "quranRadioErrorHint": MessageLookupByLibrary.simpleMessage(
+      "تحقق من اتصالك وحاول مرة أخرى",
+    ),
     "quranRadioIdleHint": MessageLookupByLibrary.simpleMessage(
       "ابدأ بث القرآن المباشر",
     ),
     "quranRadioLive": MessageLookupByLibrary.simpleMessage("مباشر"),
     "quranRadioMute": MessageLookupByLibrary.simpleMessage("كتم الصوت"),
+    "quranRadioNotificationChannelDescription":
+        MessageLookupByLibrary.simpleMessage(
+          "عناصر التحكم في بث القرآن المباشر",
+        ),
     "quranRadioNotificationChannelName": MessageLookupByLibrary.simpleMessage(
       "إذاعة القرآن",
+    ),
+    "quranRadioOfflineError": MessageLookupByLibrary.simpleMessage(
+      "لا يوجد اتصال بالإنترنت",
     ),
     "quranRadioPause": MessageLookupByLibrary.simpleMessage("متوقف"),
     "quranRadioPlay": MessageLookupByLibrary.simpleMessage("تشغيل"),

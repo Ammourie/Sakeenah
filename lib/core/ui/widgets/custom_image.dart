@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../common/app_config.dart';
 import '../../common/extensions/extensions.dart';
@@ -38,8 +37,6 @@ class CustomImage {
     String? cacheKey,
     int? maxWidthDiskCache,
     int? maxHeightDiskCache,
-    Color? shimmerBaseColor,
-    Color? shimmerHighlightColor,
     Color? placeholderForgroundColor,
     Key? key,
     Map<String, String>? httpHeaders,
@@ -85,22 +82,18 @@ class CustomImage {
       placeholder: placeholderBuilder ??
           (progressIndicatorBuilder == null && !showProgressIndicator
               ? (context, url) {
-                  return Shimmer.fromColors(
-                    baseColor: shimmerBaseColor ?? Colors.black,
-                    highlightColor: shimmerHighlightColor ?? Colors.black12,
-                    child: SvgPicture.asset(
-                      AppConstants.SVG_IMAGE_PLACEHOLDER,
-                      width: width,
-                      height: height,
-                      fit: fit ?? BoxFit.contain,
-                      alignment: alignment,
-                      colorFilter: placeholderForgroundColor != null
-                          ? ColorFilter.mode(
-                              placeholderForgroundColor,
-                              BlendMode.srcIn,
-                            )
-                          : null,
-                    ),
+                  return SvgPicture.asset(
+                    AppConstants.SVG_IMAGE_PLACEHOLDER,
+                    width: width,
+                    height: height,
+                    fit: fit ?? BoxFit.contain,
+                    alignment: alignment,
+                    colorFilter: placeholderForgroundColor != null
+                        ? ColorFilter.mode(
+                            placeholderForgroundColor,
+                            BlendMode.srcIn,
+                          )
+                        : null,
                   );
                 }
               : null),

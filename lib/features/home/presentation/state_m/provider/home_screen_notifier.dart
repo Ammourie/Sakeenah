@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/common/custom_modules/screen_notifier.dart';
 
+import '../../../../../core/common/hive_helper.dart';
 import '../../../../../core/errors/app_errors.dart';
 
 import '../../../../../core/navigation/nav.dart';
@@ -16,8 +17,11 @@ import '../../../../../core/ui/screens/theme_screen.dart';
 
 import '../../../../../generated/l10n.dart';
 
+import '../../../data/request/model/daily_prayer_schedule_model.dart';
+import '../../../data/request/model/location_preference_model.dart';
 import '../../../data/request/param/get_today_prayer_times_params.dart';
 
+import '../../../domain/entity/daily_prayer_schedule_entity.dart';
 import '../../../domain/entity/location_preference_entity.dart';
 
 import '../../screen/manual_location_picker_screen.dart';
@@ -62,13 +66,14 @@ class HomeScreenNotifier extends ScreenNotifier<HomeScreenParam> {
   bool get isLoading => _isLoading;
 
   Future<void> getPrayerTimes({required bool hasInternet}) async {
+    _selectedLocation ??= _restorePersistedLocation();
+
     final cachedLocation = _selectedLocation;
 
     if (cachedLocation != null) {
       homeCubit.getPrayerTimes(
         GetTodayPrayerTimesParams(
           location: cachedLocation,
-
           isOffline: !hasInternet,
         ),
       );
@@ -164,12 +169,50 @@ class HomeScreenNotifier extends ScreenNotifier<HomeScreenParam> {
     LocationPreferenceEntity location, {
 
     required bool hasInternet,
-  }) {
+  }) async {
     _selectedLocation = location;
 
     homeCubit.getPrayerTimes(
       GetTodayPrayerTimesParams(location: location, isOffline: !hasInternet),
     );
+  }
+
+  LocationPreferenceEntity? _restorePersistedLocation() {
+    final raw = HiveHelper.getPrayerLocation();
+    if (raw == null) return null;
+
+    try {
+      return LocationPreferenceModel.fromMap(raw).toEntity();
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<void> _persistLocation(LocationPreferenceEntity location) async {
+    await HiveHelper.putPrayerLocation(
+      LocationPreferenceModel.fromEntity(location).toMap(),
+    );
+  }
+
+  Future<void> cachePrayerTimesAndLocation(
+    DailyPrayerScheduleEntity schedule,
+  ) async {
+    final model = DailyPrayerScheduleModel.fromEntity(schedule);
+    final date = schedule.date ?? DateTime.now();
+    final scheduleDate =
+        '${date.year.toString().padLeft(4, '0')}-'
+        '${date.month.toString().padLeft(2, '0')}-'
+        '${date.day.toString().padLeft(2, '0')}';
+
+    await HiveHelper.putPrayerSchedule(
+      schedule: model.toMap(),
+      scheduleDate: scheduleDate,
+    );
+
+    final location = _selectedLocation;
+    if (location == null) return;
+
+    await _persistLocation(location);
   }
 
   void onChangeLanguageTap(BuildContext context) {
@@ -224,6 +267,7 @@ class HomeScreenNotifier extends ScreenNotifier<HomeScreenParam> {
 
   void onInternetConnectivityChanged({required bool hasInternet}) {
     quranRadioCubit.onInternetConnectivityChanged(hasInternet: hasInternet);
+    getPrayerTimes(hasInternet: hasInternet);
   }
 
   @override

@@ -1555,6 +1555,26 @@ class S {
     );
   }
 
+  /// `No internet connection`
+  String get quranRadioOfflineError {
+    return Intl.message(
+      'No internet connection',
+      name: 'quranRadioOfflineError',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check your connection and try again`
+  String get quranRadioErrorHint {
+    return Intl.message(
+      'Check your connection and try again',
+      name: 'quranRadioErrorHint',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Retry`
   String get quranRadioRetry {
     return Intl.message('Retry', name: 'quranRadioRetry', desc: '', args: []);
@@ -1640,6 +1660,16 @@ class S {
     return Intl.message(
       'Quran Radio',
       name: 'quranRadioNotificationChannelName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Live Quran radio playback controls`
+  String get quranRadioNotificationChannelDescription {
+    return Intl.message(
+      'Live Quran radio playback controls',
+      name: 'quranRadioNotificationChannelDescription',
       desc: '',
       args: [],
     );

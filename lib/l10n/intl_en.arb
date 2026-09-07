@@ -196,6 +196,8 @@
   "quranRadioPause": "Paused",
   "quranRadioConnecting": "Connecting…",
   "quranRadioError": "Unable to play the stream",
+  "quranRadioOfflineError": "No internet connection",
+  "quranRadioErrorHint": "Check your connection and try again",
   "quranRadioRetry": "Retry",
   "quranRadioVolume": "Volume",
   "quranRadioMute": "Mute",

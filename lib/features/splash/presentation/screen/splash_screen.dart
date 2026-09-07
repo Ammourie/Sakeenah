@@ -65,7 +65,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     ),
                   ),
                   32.verticalSpace,
-                  SizedBox(width: 50.r, height: 28.r, child: WaitingWidget()),
+                  SizedBox(width: 50.r, height: 28.r, child: const WaitingWidget()),
                 ],
               ),
             ),

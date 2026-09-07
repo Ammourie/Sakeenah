@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../../../generated/l10n.dart';
 import '../../../constants/app/app_settings.dart';
@@ -22,33 +21,7 @@ Widget buildErrorScreen({
     case ErrorWidgetOptions.IMAGE:
       if (imageUrl != null && imageUrl != "") image = Image.asset(imageUrl);
       break;
-    case ErrorWidgetOptions.LOTTIE:
-      if (errorAnimation != null)
-        image = SizedBox(
-          height: ScreenUtil().setHeight(500),
-          width: ScreenUtil().setWidth(500),
-          child: GestureDetector(
-            onTap: () async {
-              if (!errorAnimation.animationController.isAnimating) {
-                errorAnimation.animationController.reset();
-                errorAnimation.animationController.forward();
-              }
-            },
-            child: Lottie.asset(
-              errorAnimation.animUrl,
-              controller: errorAnimation.animationController,
-              onLoaded: (composition) {
-                // Configure the AnimationController with the duration of the
-                // Lottie file and start the animation.
-                errorAnimation.animationController
-                  ..duration = composition.duration
-                  ..forward();
-              },
-              repeat: false,
-            ),
-          ),
-        );
-      break;
+
     case ErrorWidgetOptions.NONE:
       image = const SizedBox.shrink();
       break;
