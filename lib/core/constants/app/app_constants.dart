@@ -56,8 +56,8 @@ class AppConstants {
   static const QURAN_RADIO_NOTIFICATION_ART_ASSET =
       'assets/images/png/logo_light.png';
 
-  /// Android status-bar notification icon (copy of [QURAN_RADIO_NOTIFICATION_ART_ASSET]).
-  static const QURAN_RADIO_NOTIFICATION_ICON = 'drawable/logo_light';
+  /// Android status-bar notification icon (Asset Studio white silhouette).
+  static const QURAN_RADIO_NOTIFICATION_ICON = 'drawable/ic_stat_name';
 
   /// Android media-notification action icons (Lucide, matches home radio bar).
   static const QURAN_RADIO_NOTIF_ICON_PLAY = 'drawable/ic_radio_play';
