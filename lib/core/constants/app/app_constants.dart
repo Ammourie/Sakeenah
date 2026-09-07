@@ -53,8 +53,9 @@ class AppConstants {
   }
 
   /// Large notification / lock-screen artwork (always the light logo).
-  static const QURAN_RADIO_NOTIFICATION_ART_ASSET =
-      'assets/images/png/logo_light.png';
+  static final QURAN_RADIO_NOTIFICATION_ART_ASSET = mainImageForTheme(
+    Brightness.light,
+  );
 
   /// Android status-bar notification icon (Asset Studio white silhouette).
   static const QURAN_RADIO_NOTIFICATION_ICON = 'drawable/ic_stat_name';
@@ -72,20 +73,16 @@ class AppConstants {
         : "assets/images/png/main_image_dark.png";
   }
 
-
-
-
-
   /// Svg Icons
-  static const SVG_IMAGE_PLACEHOLDER = 'assets/images/svg/image_placeholder.svg';
+  static const SVG_IMAGE_PLACEHOLDER =
+      'assets/images/svg/image_placeholder.svg';
   static const SVG_ICON_LANGUAGES = 'assets/images/svg/icons/languages.svg';
   static const SVG_ICON_CHECK = 'assets/images/svg/icons/check.svg';
   static const SVG_ICON_WIFI_OFF = 'assets/images/svg/icons/wifi-off.svg';
   static const SVG_ICON_SUN = 'assets/images/svg/icons/sun.svg';
   static const SVG_ICON_MOON = 'assets/images/svg/icons/moon.svg';
   static const SVG_ICON_SUN_MOON = 'assets/images/svg/icons/sun-moon.svg';
-  static const SVG_ICON_SMARTPHONE =
-      'assets/images/svg/icons/smartphone.svg';
+  static const SVG_ICON_SMARTPHONE = 'assets/images/svg/icons/smartphone.svg';
   static const SVG_ICON_GLOBE_2 = 'assets/images/svg/icons/globe-2.svg';
   static const SVG_ICON_MAP_PIN = 'assets/images/svg/icons/map-pin.svg';
   static const SVG_ICON_BOOK_OPEN_TEXT =
@@ -95,14 +92,16 @@ class AppConstants {
   static const SVG_ICON_VOLUME_2 = 'assets/images/svg/icons/volume-2.svg';
   static const SVG_ICON_VOLUME_X = 'assets/images/svg/icons/volume-x.svg';
   static const SVG_ICON_SKIP_BACK = 'assets/images/svg/icons/skip-back.svg';
-  static const SVG_ICON_SKIP_FORWARD = 'assets/images/svg/icons/skip-forward.svg';
+  static const SVG_ICON_SKIP_FORWARD =
+      'assets/images/svg/icons/skip-forward.svg';
   static const SVG_ICON_SQUARE = 'assets/images/svg/icons/square.svg';
 
   /// Quran radio live stream
   static const QURAN_RADIO_STREAM_URL =
       'https://stream.radiojar.com/8s5u5tpdtwzuv';
   static const QURAN_RADIO_SEEK_STEP_SECONDS = 10;
-  static const QURAN_RADIO_MAX_BUFFER_DURATION_SECONDS = 24 * 60 * 60; // 1 day of seconds
+  static const QURAN_RADIO_MAX_BUFFER_DURATION_SECONDS =
+      24 * 60 * 60; // 1 day of seconds
   static const QURAN_RADIO_MEDIA_ID = 'quran_radio';
   static const QURAN_RADIO_NOTIFICATION_CHANNEL_ID =
       'com.ammourie.sakeenah.quran_radio';
