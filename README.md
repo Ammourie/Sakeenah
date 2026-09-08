@@ -290,13 +290,6 @@ fvm flutter build apk --release
 fvm flutter build appbundle --release
 ```
 
-**Analyze & test:**
-
-```bash
-fvm flutter analyze
-fvm flutter test
-```
-
 ---
 
 <a id="run-ar"></a>
@@ -319,13 +312,6 @@ fvm flutter build apk --release
 
 # بناء App Bundle (متجر Google Play)
 fvm flutter build appbundle --release
-```
-
-**التحليل والاختبار:**
-
-```bash
-fvm flutter analyze
-fvm flutter test
 ```
 
 ---
