@@ -419,6 +419,54 @@ await quranRadioPlayer.play();
 - **GetIt + Injectable** for DI (`lib/di/`)
 - **Provider** for app-wide notifiers (theme, locale, connectivity)
 
+For screen-level UI flags that are not part of a feature result state, the app keeps them on a **Notifier** and reads them with `context.select(...)` so only the dependent widget rebuilds:
+
+```dart
+final isBusy = context.select<HomeScreenNotifier, bool>(
+  (n) => n.isLoading || n.isLoadingGps,
+);
+
+final isLoadingGps = context.select<HomeScreenNotifier, bool>(
+  (n) => n.isLoadingGps,
+);
+```
+
+- Keep transient UI concerns like `isLoading`, `isLoadingGps`, selected tabs, or local toggles on the notifier.
+- Use `context.select` instead of `context.watch` when a widget needs only one derived value.
+- This avoids rebuilding the whole widget tree when unrelated notifier fields change.
+
+### GetIt & singleton services
+
+Dependency injection is bootstrapped in [`lib/di/service_locator.dart`](lib/di/service_locator.dart):
+
+```dart
+final getIt = GetIt.instance;
+
+@injectableInit
+Future<void> configureInjection() async => await getIt.init();
+```
+
+The app registers long-lived services as singletons or lazy singletons, then resolves them where needed:
+
+```dart
+navigatorKey: getIt<NavigationService>().getNavigationKey,
+onGenerateRoute: getIt<NavigationRoute>().generateRoute,
+```
+
+Typical singleton-style services in this app:
+
+- `NavigationService` — one shared navigator key across the app
+- `LocalizationProvider` — one current locale source
+- `QuranRadioPlayer` — one shared audio engine for both UI and background handler
+
+Benefits we get:
+
+- **Single shared instance** for app-wide services that must stay in sync
+- **Loose coupling** — cubits and screens depend on abstractions instead of constructing services directly
+- **Cleaner startup** — `configureInjection()` wires dependencies once in `main.dart`
+- **Easier maintenance** — changing an implementation or lifetime happens in DI registration, not across many files
+- **Consistent state** — the radio player, navigation service, and localization source are not duplicated accidentally
+
 ### Code generation
 
 After changing `@freezed`, `@injectable`, or `.arb` files, run locally:
@@ -510,6 +558,54 @@ lib/features/<feature>/
 - **Cubit + Freezed** — [`.cursor/rules/freezed-cubit-states.mdc`](.cursor/rules/freezed-cubit-states.mdc)
 - **GetIt + Injectable** — `lib/di/`
 - **Provider** — للموضوع، اللغة، الاتصال
+
+وبالنسبة لحالات الواجهة المحلية التي لا تمثل نتيجة ميزة كاملة، يتم حفظها داخل **Notifier** ثم قراءتها عبر `context.select(...)` بحيث يُعاد بناء الجزء المتأثر فقط:
+
+```dart
+final isBusy = context.select<HomeScreenNotifier, bool>(
+  (n) => n.isLoading || n.isLoadingGps,
+);
+
+final isLoadingGps = context.select<HomeScreenNotifier, bool>(
+  (n) => n.isLoadingGps,
+);
+```
+
+- ضع الحالات المؤقتة مثل `isLoading` و `isLoadingGps` أو التبديلات المحلية داخل الـ notifier.
+- استخدم `context.select` بدلاً من `context.watch` عندما تحتاج قيمة واحدة مشتقة فقط.
+- بهذه الطريقة لا تتم إعادة بناء الشجرة كاملة عند تغيّر حقل غير متعلق بهذا الودجت.
+
+### GetIt والخدمات الـ singleton
+
+يتم تجهيز حقن الاعتماديات في [`lib/di/service_locator.dart`](lib/di/service_locator.dart):
+
+```dart
+final getIt = GetIt.instance;
+
+@injectableInit
+Future<void> configureInjection() async => await getIt.init();
+```
+
+بعدها يتم تسجيل الخدمات طويلة العمر كـ singleton أو lazy singleton ثم استخدامها عند الحاجة:
+
+```dart
+navigatorKey: getIt<NavigationService>().getNavigationKey,
+onGenerateRoute: getIt<NavigationRoute>().generateRoute,
+```
+
+أمثلة الخدمات المشتركة في هذا التطبيق:
+
+- `NavigationService` — مفتاح تنقل واحد مشترك في التطبيق
+- `LocalizationProvider` — مصدر اللغة الحالي
+- `QuranRadioPlayer` — محرك صوت واحد مشترك بين الواجهة ومعالج الخلفية
+
+الفوائد التي نحصل عليها:
+
+- **نسخة واحدة مشتركة** للخدمات العامة التي يجب أن تبقى متزامنة
+- **تقليل الترابط** لأن الشاشات والـ cubits لا تنشئ الخدمات بنفسها
+- **تهيئة أوضح** لأن `configureInjection()` يربط كل شيء مرة واحدة في `main.dart`
+- **صيانة أسهل** لأن تغيير التنفيذ أو العمر يتم في طبقة DI
+- **حالة أكثر اتساقاً** لأن خدمات مثل المشغل والتنقل والترجمة لا تتكرر بالخطأ
 
 ### توليد الكود
 
