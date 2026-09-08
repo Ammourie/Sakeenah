@@ -227,19 +227,24 @@ jobs:
 
   notify-failure:
     needs: build-release
-    if: ${{ always() && needs.build-release.result == 'failure' && secrets.TELEGRAM_BOT_TOKEN != '' && secrets.TELEGRAM_CHAT_ID != '' }}
+    if: ${{ always() && needs.build-release.result == 'failure' }}
     runs-on: ubuntu-latest
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Prepare Telegram helper
+        if: env.TELEGRAM_BOT_TOKEN != '' && env.TELEGRAM_CHAT_ID != ''
         run: |
           chmod +x .github/scripts/telegram_notify.sh
           echo "TG_SHORT_SHA=${GITHUB_SHA:0:7}" >> "$GITHUB_ENV"
 
       - name: Notify — build failed
+        if: env.TELEGRAM_BOT_TOKEN != '' && env.TELEGRAM_CHAT_ID != ''
         run: |
           BODY="The pipeline stopped with an error.
           Job result: <code>${{ needs.build-release.result }}</code>
