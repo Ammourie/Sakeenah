@@ -79,9 +79,11 @@ class HomeLocalSource implements IHomeLocalSource {
   }
 
   @override
-  Future<Either<AppErrors, CountryListModel>> getCountries() async {
+  Future<Either<AppErrors, CountryListModel>> getCountries(
+    GetCountriesParams params,
+  ) async {
     try {
-      final cached = HiveHelper.getCountriesList();
+      final cached = HiveHelper.getCountriesList(params.lang);
       if (cached == null || cached.isEmpty) {
         return const Left(
           AppErrors.customError(message: 'No cached countries'),
@@ -95,33 +97,94 @@ class HomeLocalSource implements IHomeLocalSource {
   }
 
   @override
-  Future<void> saveCountries(CountryListModel countries) async {
-    await HiveHelper.putCountriesList(countries.toCachedList());
+  bool hasCountriesCache(GetCountriesParams params) =>
+      HiveHelper.hasCountriesList(params.lang);
+
+  @override
+  Future<void> saveCountries({
+    required String lang,
+    required CountryListModel countries,
+  }) async {
+    await HiveHelper.putCountriesList(lang, countries.toCachedList());
   }
 
   @override
-  Future<Either<AppErrors, CityListModel>> getCitiesByCountry(
-    String country,
+  Future<Either<AppErrors, AdminDivisionListModel>> getAdminDivisionsByCountry(
+    GetAdminDivisionsByCountryParams params,
   ) async {
     try {
-      final cached = HiveHelper.getCitiesForCountry(country);
+      final cached = HiveHelper.getAdminDivisionsForCountry(
+        params.lang,
+        params.countryCode,
+      );
       if (cached == null || cached.isEmpty) {
         return const Left(
-          AppErrors.customError(message: 'No cached cities'),
+          AppErrors.customError(message: 'No cached admin divisions'),
         );
       }
 
-      return Right(CityListModel(cities: cached));
+      return Right(AdminDivisionListModel.fromCachedList(cached));
     } catch (e) {
       return Left(AppErrors.customError(message: e.toString()));
     }
   }
 
   @override
+  bool hasAdminDivisionsCache(GetAdminDivisionsByCountryParams params) =>
+      HiveHelper.hasAdminDivisionsForCountry(params.lang, params.countryCode);
+
+  @override
+  Future<void> saveAdminDivisionsByCountry({
+    required GetAdminDivisionsByCountryParams params,
+    required AdminDivisionListModel adminDivisions,
+  }) async {
+    await HiveHelper.putAdminDivisionsForCountry(
+      lang: params.lang,
+      countryCode: params.countryCode,
+      adminDivisions: adminDivisions.toCachedList(),
+    );
+  }
+
+  @override
+  Future<Either<AppErrors, CityListModel>> getCitiesByCountry(
+    GetCitiesByCountryParams params,
+  ) async {
+    try {
+      final cached = HiveHelper.getCitiesForAdminDivision(
+        params.lang,
+        params.countryCode,
+        params.adminCode1,
+      );
+      if (cached == null || cached.isEmpty) {
+        return const Left(
+          AppErrors.customError(message: 'No cached cities'),
+        );
+      }
+
+      return Right(CityListModel.fromCachedList(cached));
+    } catch (e) {
+      return Left(AppErrors.customError(message: e.toString()));
+    }
+  }
+
+  @override
+  bool hasCitiesCache(GetCitiesByCountryParams params) =>
+      HiveHelper.hasCitiesForAdminDivision(
+        params.lang,
+        params.countryCode,
+        params.adminCode1,
+      );
+
+  @override
   Future<void> saveCitiesByCountry({
-    required String country,
+    required GetCitiesByCountryParams params,
     required CityListModel cities,
   }) async {
-    await HiveHelper.putCitiesForCountry(country, cities.cities);
+    await HiveHelper.putCitiesForCountry(
+      lang: params.lang,
+      countryCode: params.countryCode,
+      adminCode1: params.adminCode1,
+      cities: cities.toCachedList(),
+    );
   }
 }

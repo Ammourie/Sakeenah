@@ -42,6 +42,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Account Not Verified",
     ),
     "addressHint": MessageLookupByLibrary.simpleMessage("Address"),
+    "adminDivisionHint": MessageLookupByLibrary.simpleMessage(
+      "Governorate / State",
+    ),
     "anErrorOccurredWhileDisplayingTheAudio":
         MessageLookupByLibrary.simpleMessage(
           "An error occurred while displaying the aduio",
@@ -341,6 +344,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "saveLocation": MessageLookupByLibrary.simpleMessage("Save location"),
     "search": MessageLookupByLibrary.simpleMessage("Search"),
     "secondsShort": MessageLookupByLibrary.simpleMessage("s"),
+    "selectAdminDivisionFirstHint": MessageLookupByLibrary.simpleMessage(
+      "Select a governorate or state first",
+    ),
+    "selectAdminDivisionHint": MessageLookupByLibrary.simpleMessage(
+      "Select a governorate or state",
+    ),
     "selectCityHint": MessageLookupByLibrary.simpleMessage("Select a city"),
     "selectCountryFirstHint": MessageLookupByLibrary.simpleMessage(
       "Select a country first",

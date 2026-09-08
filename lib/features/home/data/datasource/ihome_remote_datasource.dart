@@ -8,15 +8,16 @@ import '../../../../core/constants/enums/http_method.dart';
 import '../../../../core/datasources/remote_data_source.dart';
 import '../../../../core/errors/app_errors.dart';
 import '../../../../core/net/create_model_interceptor/aladhan_create_model_interceptor.dart';
-import '../../../../core/net/create_model_interceptor/countries_now_create_model_interceptor.dart';
+import '../../../../core/net/create_model_interceptor/geonames_create_model_interceptor.dart';
 import '../../../../core/net/response_validators/aladhan_response_validator.dart';
-import '../../../../core/net/response_validators/countries_now_response_validator.dart';
+import '../../../../core/net/response_validators/geonames_response_validator.dart';
 import '../../domain/entity/location_preference_entity.dart';
 import '../../domain/entity/radio_player_entity.dart';
 import '../request/model/country_model.dart';
 import '../request/model/daily_prayer_schedule_model.dart';
 import '../request/model/location_preference_model.dart';
 import '../request/model/prayer_time_model.dart';
+import '../request/param/get_admin_divisions_by_country_params.dart';
 import '../request/param/get_cities_by_country_params.dart';
 import '../request/param/get_countries_params.dart';
 import '../request/param/get_today_prayer_times_params.dart';
@@ -30,14 +31,36 @@ abstract class IHomeLocalSource {
     GetTodayPrayerTimesParams params,
   );
 
-  Future<Either<AppErrors, CountryListModel>> getCountries();
+  Future<Either<AppErrors, CountryListModel>> getCountries(
+    GetCountriesParams params,
+  );
 
-  Future<void> saveCountries(CountryListModel countries);
+  bool hasCountriesCache(GetCountriesParams params);
 
-  Future<Either<AppErrors, CityListModel>> getCitiesByCountry(String country);
+  Future<void> saveCountries({
+    required String lang,
+    required CountryListModel countries,
+  });
+
+  Future<Either<AppErrors, AdminDivisionListModel>> getAdminDivisionsByCountry(
+    GetAdminDivisionsByCountryParams params,
+  );
+
+  bool hasAdminDivisionsCache(GetAdminDivisionsByCountryParams params);
+
+  Future<void> saveAdminDivisionsByCountry({
+    required GetAdminDivisionsByCountryParams params,
+    required AdminDivisionListModel adminDivisions,
+  });
+
+  Future<Either<AppErrors, CityListModel>> getCitiesByCountry(
+    GetCitiesByCountryParams params,
+  );
+
+  bool hasCitiesCache(GetCitiesByCountryParams params);
 
   Future<void> saveCitiesByCountry({
-    required String country,
+    required GetCitiesByCountryParams params,
     required CityListModel cities,
   });
 }
@@ -49,6 +72,10 @@ abstract class IHomeRemoteSource extends RemoteDataSource {
 
   Future<Either<AppErrors, CountryListModel>> getCountries(
     GetCountriesParams params,
+  );
+
+  Future<Either<AppErrors, AdminDivisionListModel>> getAdminDivisionsByCountry(
+    GetAdminDivisionsByCountryParams params,
   );
 
   Future<Either<AppErrors, CityListModel>> getCitiesByCountry(

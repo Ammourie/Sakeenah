@@ -62,62 +62,48 @@ class HomeRemoteSource extends IHomeRemoteSource {
   Future<Either<AppErrors, CountryListModel>> getCountries(
     GetCountriesParams params,
   ) async {
-    final cached = await _localDataSource.getCountries();
-    if (cached.isRight()) {
-      return cached;
-    }
-
-    final remote = await request<CountryListModel>(
+    return request<CountryListModel>(
       method: HttpMethod.GET,
-      url: GetCountriesParams.countriesNowCountriesPath,
-      baseUrl: AppSettings.COUNTRIES_NOW_BASE_URL,
+      url: GetCountriesParams.geonamesCountryInfoPath,
+      baseUrl: AppSettings.GEONAMES_BASE_URL,
+      queryParameters: params.toQueryParameters(),
       cancelToken: params.cancelToken,
-      responseValidator: CountriesNowResponseValidator(),
-      createModelInterceptor: const CountriesNowCreateModelInterceptor(),
+      responseValidator: GeoNamesResponseValidator(),
+      createModelInterceptor: const GeoNamesCreateModelInterceptor(),
       converter: CountryListModel.fromMap,
     );
+  }
 
-    if (remote.isRight()) {
-      final countries = remote.getOrElse(
-        () => CountryListModel(countries: const []),
-      );
-      await _localDataSource.saveCountries(countries);
-      return Right(countries);
-    }
-
-    return cached;
+  @override
+  Future<Either<AppErrors, AdminDivisionListModel>> getAdminDivisionsByCountry(
+    GetAdminDivisionsByCountryParams params,
+  ) async {
+    return request<AdminDivisionListModel>(
+      method: HttpMethod.GET,
+      url: GetAdminDivisionsByCountryParams.geonamesSearchPath,
+      baseUrl: AppSettings.GEONAMES_BASE_URL,
+      queryParameters: params.toQueryParameters(),
+      cancelToken: params.cancelToken,
+      responseValidator: GeoNamesResponseValidator(),
+      createModelInterceptor: const GeoNamesCreateModelInterceptor(),
+      converter: AdminDivisionListModel.fromMap,
+    );
   }
 
   @override
   Future<Either<AppErrors, CityListModel>> getCitiesByCountry(
     GetCitiesByCountryParams params,
   ) async {
-    final cached = await _localDataSource.getCitiesByCountry(params.country);
-    if (cached.isRight()) {
-      return cached;
-    }
-
-    final remote = await request<CityListModel>(
+    return request<CityListModel>(
       method: HttpMethod.GET,
-      url: GetCitiesByCountryParams.countriesNowCitiesPath,
-      baseUrl: AppSettings.COUNTRIES_NOW_BASE_URL,
+      url: GetCitiesByCountryParams.geonamesSearchPath,
+      baseUrl: AppSettings.GEONAMES_BASE_URL,
       queryParameters: params.toQueryParameters(),
       cancelToken: params.cancelToken,
-      responseValidator: CountriesNowResponseValidator(),
-      createModelInterceptor: const CountriesNowCreateModelInterceptor(),
+      responseValidator: GeoNamesResponseValidator(),
+      createModelInterceptor: const GeoNamesCreateModelInterceptor(),
       converter: CityListModel.fromMap,
     );
-
-    if (remote.isRight()) {
-      final cities = remote.getOrElse(() => CityListModel(cities: const []));
-      await _localDataSource.saveCitiesByCountry(
-        country: params.country,
-        cities: cities,
-      );
-      return Right(cities);
-    }
-
-    return cached;
   }
 
   @override

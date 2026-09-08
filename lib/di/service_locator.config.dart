@@ -79,6 +79,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i1034.GetCountriesUseCase>(
       () => _i1034.GetCountriesUseCase(gh<_i329.IHomeRepository>()),
     );
+    gh.singleton<_i1034.GetAdminDivisionsByCountryUseCase>(
+      () =>
+          _i1034.GetAdminDivisionsByCountryUseCase(gh<_i329.IHomeRepository>()),
+    );
     gh.singleton<_i1034.GetCitiesByCountryUseCase>(
       () => _i1034.GetCitiesByCountryUseCase(gh<_i329.IHomeRepository>()),
     );

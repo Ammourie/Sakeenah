@@ -43,6 +43,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "لم يتم التحقق من الحساب",
     ),
     "addressHint": MessageLookupByLibrary.simpleMessage("العنوان"),
+    "adminDivisionHint": MessageLookupByLibrary.simpleMessage(
+      "المحافظة / الولاية",
+    ),
     "anErrorOccurredWhileDisplayingTheAudio":
         MessageLookupByLibrary.simpleMessage("حدث خطأ في عرض الصوت"),
     "anErrorOccurredWhileDisplayingTheVideo":
@@ -342,6 +345,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "saveLocation": MessageLookupByLibrary.simpleMessage("حفظ الموقع"),
     "search": MessageLookupByLibrary.simpleMessage("بحث"),
     "secondsShort": MessageLookupByLibrary.simpleMessage("ث"),
+    "selectAdminDivisionFirstHint": MessageLookupByLibrary.simpleMessage(
+      "اختر المحافظة أو الولاية أولاً",
+    ),
+    "selectAdminDivisionHint": MessageLookupByLibrary.simpleMessage(
+      "اختر المحافظة أو الولاية",
+    ),
     "selectCityHint": MessageLookupByLibrary.simpleMessage("اختر المدينة"),
     "selectCountryFirstHint": MessageLookupByLibrary.simpleMessage(
       "اختر البلد أولاً",

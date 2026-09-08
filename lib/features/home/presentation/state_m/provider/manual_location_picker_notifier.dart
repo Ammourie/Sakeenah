@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../../../../core/common/custom_modules/screen_notifier.dart';
 import '../../../../../core/errors/app_errors.dart';
+import '../../../../../core/localization/localization_provider.dart';
 import '../../../../../core/navigation/nav.dart';
-import '../../../../../core/providers/countries_session_provider.dart';
 import '../../../../../core/results/result.dart';
 import '../../../../../di/service_locator.dart';
+import '../../../data/request/param/get_admin_divisions_by_country_params.dart';
 import '../../../data/request/param/get_cities_by_country_params.dart';
 import '../../../data/request/param/get_countries_params.dart';
 import '../../../domain/entity/country_entity.dart';
@@ -20,26 +21,32 @@ class ManualLocationPickerNotifier
   ManualLocationPickerNotifier(super.param);
 
   CountryEntity? _selectedCountry;
-  String? _selectedCity;
+  AdminDivisionEntity? _selectedAdminDivision;
+  CityEntity? _selectedCity;
   ManualLocationInputMode _inputMode = ManualLocationInputMode.countryCity;
   final TextEditingController manualAddressController = TextEditingController();
 
   CountryEntity? get selectedCountry => _selectedCountry;
-  String? get selectedCity => _selectedCity;
+  AdminDivisionEntity? get selectedAdminDivision => _selectedAdminDivision;
+  CityEntity? get selectedCity => _selectedCity;
   ManualLocationInputMode get inputMode => _inputMode;
+
+  String get _lang => LocalizationProvider().currentLanguage;
 
   bool get canConfirm {
     if (_inputMode == ManualLocationInputMode.address) {
       return manualAddressController.text.trim().isNotEmpty;
     }
     return _selectedCountry != null &&
-        (_selectedCity?.trim().isNotEmpty ?? false);
+        _selectedAdminDivision != null &&
+        (_selectedCity?.name.trim().isNotEmpty ?? false);
   }
 
   void setInputMode(ManualLocationInputMode mode) {
     if (_inputMode == mode) return;
     _inputMode = mode;
     _selectedCountry = null;
+    _selectedAdminDivision = null;
     _selectedCity = null;
     manualAddressController.clear();
     notifyListeners();
@@ -47,12 +54,19 @@ class ManualLocationPickerNotifier
 
   void selectCountry(CountryEntity? country) {
     _selectedCountry = country;
+    _selectedAdminDivision = null;
     _selectedCity = null;
     manualAddressController.clear();
     notifyListeners();
   }
 
-  void selectCity(String? city) {
+  void selectAdminDivision(AdminDivisionEntity? adminDivision) {
+    _selectedAdminDivision = adminDivision;
+    _selectedCity = null;
+    notifyListeners();
+  }
+
+  void selectCity(CityEntity? city) {
     _selectedCity = city;
     notifyListeners();
   }
@@ -61,37 +75,60 @@ class ManualLocationPickerNotifier
     notifyListeners();
   }
 
-  Future<Result<AppErrors, List<CountryEntity>>> fetchCountries() async {
-    final session = CountriesSessionProvider();
-    if (session.hasCountries) {
-      return Result.data(session.countries);
-    }
-
-    final result = await getIt<GetCountriesUseCase>()(GetCountriesParams());
+  Future<Result<AppErrors, List<CountryEntity>>> fetchCountries({
+    required bool isOffline,
+  }) async {
+    final result = await getIt<GetCountriesUseCase>()(
+      GetCountriesParams.fromAppLocale(lang: _lang, isOffline: isOffline),
+    );
     if (result.hasDataOnly) {
-      session.setCountries(result.data!.countries);
       return Result.data(result.data!.countries);
     }
     return Result.error(result.error!);
   }
 
-  Future<Result<AppErrors, List<String>>> fetchCities() async {
-    final country = _selectedCountry?.name;
-    if (country == null || country.isEmpty) {
+  Future<Result<AppErrors, List<AdminDivisionEntity>>> fetchAdminDivisions({
+    required bool isOffline,
+  }) async {
+    final country = _selectedCountry;
+    if (country == null || country.countryCode.isEmpty) {
       return Result.data(const []);
     }
 
-    final session = CountriesSessionProvider();
-    final sessionCities = session.citiesFor(country);
-    if (sessionCities != null) {
-      return Result.data(sessionCities);
+    final result = await getIt<GetAdminDivisionsByCountryUseCase>()(
+      GetAdminDivisionsByCountryParams.fromAppLocale(
+        countryCode: country.countryCode,
+        lang: _lang,
+        isOffline: isOffline,
+      ),
+    );
+    if (result.hasDataOnly) {
+      return Result.data(result.data!.adminDivisions);
+    }
+    return Result.error(result.error!);
+  }
+
+  Future<Result<AppErrors, List<CityEntity>>> fetchCities({
+    required bool isOffline,
+  }) async {
+    final country = _selectedCountry;
+    final adminDivision = _selectedAdminDivision;
+    if (country == null ||
+        country.countryCode.isEmpty ||
+        adminDivision == null ||
+        adminDivision.adminCode1.isEmpty) {
+      return Result.data(const []);
     }
 
     final result = await getIt<GetCitiesByCountryUseCase>()(
-      GetCitiesByCountryParams(country: country),
+      GetCitiesByCountryParams.fromAppLocale(
+        countryCode: country.countryCode,
+        adminCode1: adminDivision.adminCode1,
+        lang: _lang,
+        isOffline: isOffline,
+      ),
     );
     if (result.hasDataOnly) {
-      session.setCitiesForCountry(country, result.data!.cities);
       return Result.data(result.data!.cities);
     }
     return Result.error(result.error!);
@@ -112,14 +149,15 @@ class ManualLocationPickerNotifier
     }
 
     final country = _selectedCountry;
-    final city = _selectedCity?.trim();
-    if (country == null || city == null || city.isEmpty) return;
+    final city = _selectedCity;
+    if (country == null || city == null || city.name.trim().isEmpty) return;
 
     final location = LocationPreferenceEntity(
       source: LocationSource.manual,
-      city: city,
+      city: city.name,
       country: country.name,
-      displayLabel: '$city, ${country.name}',
+      displayLabel: '${city.name}, ${country.name}',
+      labelLanguageCode: _lang,
     );
 
     Nav.pop(context, location);

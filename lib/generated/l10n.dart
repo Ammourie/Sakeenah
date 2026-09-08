@@ -1200,6 +1200,16 @@ class S {
     return Intl.message('Country', name: 'countryHint', desc: '', args: []);
   }
 
+  /// `Governorate / State`
+  String get adminDivisionHint {
+    return Intl.message(
+      'Governorate / State',
+      name: 'adminDivisionHint',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Use GPS instead`
   String get useGpsLocation {
     return Intl.message(
@@ -1445,6 +1455,26 @@ class S {
     return Intl.message(
       'Select a country',
       name: 'selectCountryHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select a governorate or state`
+  String get selectAdminDivisionHint {
+    return Intl.message(
+      'Select a governorate or state',
+      name: 'selectAdminDivisionHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select a governorate or state first`
+  String get selectAdminDivisionFirstHint {
+    return Intl.message(
+      'Select a governorate or state first',
+      name: 'selectAdminDivisionFirstHint',
       desc: '',
       args: [],
     );

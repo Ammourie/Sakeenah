@@ -2,7 +2,7 @@ import '../../common/type_validators.dart';
 import '../../errors/app_errors.dart';
 import 'response_validator.dart';
 
-class CountriesNowResponseValidator extends ResponseValidator {
+class GeoNamesResponseValidator extends ResponseValidator {
   @override
   void processData(dynamic data) {
     if (data is! Map) {
@@ -11,9 +11,9 @@ class CountriesNowResponseValidator extends ResponseValidator {
       return;
     }
 
-    final hasError = boolV(data['error']);
-    if (hasError) {
-      final message = stringV(data['msg']);
+    final status = data['status'];
+    if (status is Map) {
+      final message = stringV(status['message']);
       error = AppErrors.customError(
         message: message.isNotEmpty ? message : 'Invalid response',
       );

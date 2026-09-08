@@ -4,32 +4,28 @@ import '../../../../../core/constants/app/app_constants.dart';
 import '../../../../../core/params/base_params.dart';
 import 'get_countries_params.dart';
 
-class GetCitiesByCountryParams extends BaseParams {
+class GetAdminDivisionsByCountryParams extends BaseParams {
   static const geonamesSearchPath = 'searchJSON';
 
   final String countryCode;
-  final String adminCode1;
   final String lang;
   final bool isOffline;
 
-  GetCitiesByCountryParams({
+  GetAdminDivisionsByCountryParams({
     required this.countryCode,
-    required this.adminCode1,
     required this.lang,
     required this.isOffline,
     super.cancelToken,
   });
 
-  factory GetCitiesByCountryParams.fromAppLocale({
+  factory GetAdminDivisionsByCountryParams.fromAppLocale({
     required String countryCode,
-    required String adminCode1,
     required String lang,
     required bool isOffline,
     CancelToken? cancelToken,
   }) {
-    return GetCitiesByCountryParams(
+    return GetAdminDivisionsByCountryParams(
       countryCode: countryCode,
-      adminCode1: adminCode1,
       lang: GetCountriesParams.fromAppLocale(
         lang: lang,
         isOffline: isOffline,
@@ -41,9 +37,8 @@ class GetCitiesByCountryParams extends BaseParams {
 
   Map<String, dynamic> toQueryParameters() => {
         'country': countryCode,
-        'adminCode1': adminCode1,
-        'featureClass': 'P',
-        'cities': 'cities5000',
+        'featureClass': 'A',
+        'featureCode': 'ADM1',
         'maxRows': 1000,
         'lang': lang,
         'username': AppConstants.GEONAMES_USERNAME,
@@ -52,7 +47,6 @@ class GetCitiesByCountryParams extends BaseParams {
   @override
   Map<String, dynamic> toMap() => {
         'countryCode': countryCode,
-        'adminCode1': adminCode1,
         'lang': lang,
         'isOffline': isOffline,
       };

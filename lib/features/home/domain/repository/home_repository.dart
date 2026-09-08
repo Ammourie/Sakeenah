@@ -24,8 +24,49 @@ class HomeRepository extends IHomeRepository {
   Future<Result<AppErrors, CountryListEntity>> getCountries(
     GetCountriesParams params,
   ) async {
-    return execute<CountryListModel, CountryListEntity>(
-      remoteResult: await _remoteDataSource.getCountries(params),
+    final useLocal = params.isOffline ||
+        _localDataSource.hasCountriesCache(params);
+
+    final result = useLocal
+        ? await _localDataSource.getCountries(params)
+        : await _remoteDataSource.getCountries(params);
+
+    if (!useLocal && result.isRight()) {
+      final countries = result.getOrElse(
+        () => CountryListModel(countries: const []),
+      );
+      await _localDataSource.saveCountries(
+        lang: params.lang,
+        countries: countries,
+      );
+    }
+
+    return execute<CountryListModel, CountryListEntity>(remoteResult: result);
+  }
+
+  @override
+  Future<Result<AppErrors, AdminDivisionListEntity>> getAdminDivisionsByCountry(
+    GetAdminDivisionsByCountryParams params,
+  ) async {
+    final useLocal = params.isOffline ||
+        _localDataSource.hasAdminDivisionsCache(params);
+
+    final result = useLocal
+        ? await _localDataSource.getAdminDivisionsByCountry(params)
+        : await _remoteDataSource.getAdminDivisionsByCountry(params);
+
+    if (!useLocal && result.isRight()) {
+      final adminDivisions = result.getOrElse(
+        () => AdminDivisionListModel(adminDivisions: const []),
+      );
+      await _localDataSource.saveAdminDivisionsByCountry(
+        params: params,
+        adminDivisions: adminDivisions,
+      );
+    }
+
+    return execute<AdminDivisionListModel, AdminDivisionListEntity>(
+      remoteResult: result,
     );
   }
 
@@ -33,9 +74,22 @@ class HomeRepository extends IHomeRepository {
   Future<Result<AppErrors, CityListEntity>> getCitiesByCountry(
     GetCitiesByCountryParams params,
   ) async {
-    return execute<CityListModel, CityListEntity>(
-      remoteResult: await _remoteDataSource.getCitiesByCountry(params),
-    );
+    final useLocal = params.isOffline ||
+        _localDataSource.hasCitiesCache(params);
+
+    final result = useLocal
+        ? await _localDataSource.getCitiesByCountry(params)
+        : await _remoteDataSource.getCitiesByCountry(params);
+
+    if (!useLocal && result.isRight()) {
+      final cities = result.getOrElse(() => CityListModel(cities: const []));
+      await _localDataSource.saveCitiesByCountry(
+        params: params,
+        cities: cities,
+      );
+    }
+
+    return execute<CityListModel, CityListEntity>(remoteResult: result);
   }
 
   @override

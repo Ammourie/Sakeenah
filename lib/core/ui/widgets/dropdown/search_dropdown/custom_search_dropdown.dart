@@ -147,7 +147,9 @@ class _CustomSearchDropdownState<T> extends State<CustomSearchDropdown<T>> {
                 _isError = false;
                 _items = data;
               });
-              _selectValueNotifier.value = widget.initValue;
+              if (widget.initValue != null) {
+                _selectValueNotifier.value = widget.initValue;
+              }
             },
             orElse: () {},
           );
@@ -161,7 +163,9 @@ class _CustomSearchDropdownState<T> extends State<CustomSearchDropdown<T>> {
   @override
   void didUpdateWidget(covariant CustomSearchDropdown<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _selectValueNotifier.value = widget.initValue;
+    if (widget.initValue != oldWidget.initValue) {
+      _selectValueNotifier.value = widget.initValue;
+    }
     if (widget.items != null) _items = widget.items!;
   }
 

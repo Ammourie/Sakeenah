@@ -111,6 +111,9 @@ class AppConstants {
   /// Prayer times cache: max GPS drift (meters) to reuse cached schedule.
   static const PRAYER_TIMES_LOCATION_CACHE_RADIUS_METERS = 500;
 
+  /// GeoNames API username
+  static const GEONAMES_USERNAME = 'ammourie';
+
   /// ERROR IMAGES
   static const ERROR_403_401 = "assets/images/png/error/403.png";
   static const ERROR_EMPTY = "assets/images/png/error/empty.png";

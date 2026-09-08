@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../core/providers/internet_provider.dart';
 import '../../../../core/ui/widgets/curved_app_bar.dart';
 import '../../../../core/ui/widgets/dropdown/search_dropdown/custom_search_dropdown.dart';
 import '../../../../generated/l10n.dart';
@@ -18,6 +19,9 @@ class ManualLocationPickerScreenContent extends StatelessWidget {
     final sn = context.read<ManualLocationPickerNotifier>();
     final canConfirm = context.select<ManualLocationPickerNotifier, bool>(
       (sn) => sn.canConfirm,
+    );
+    final isOffline = !context.select<InternetProvider, bool>(
+      (provider) => provider.hasInternet,
     );
 
     return Scaffold(
@@ -48,7 +52,7 @@ class ManualLocationPickerScreenContent extends StatelessWidget {
                   children: [
                     const _LocationInputModeSelector(),
                     16.verticalSpace,
-                    const _LocationInputSection(),
+                    _LocationInputSection(isOffline: isOffline),
                   ],
                 ),
               ),
@@ -117,7 +121,9 @@ class _LocationInputModeSelector extends StatelessWidget {
 }
 
 class _LocationInputSection extends StatelessWidget {
-  const _LocationInputSection();
+  const _LocationInputSection({required this.isOffline});
+
+  final bool isOffline;
 
   @override
   Widget build(BuildContext context) {
@@ -129,12 +135,14 @@ class _LocationInputSection extends StatelessWidget {
       return const _ManualAddressField();
     }
 
-    return const _CountryCityPickerSection();
+    return _CountryCityPickerSection(isOffline: isOffline);
   }
 }
 
 class _CountryCityPickerSection extends StatelessWidget {
-  const _CountryCityPickerSection();
+  const _CountryCityPickerSection({required this.isOffline});
+
+  final bool isOffline;
 
   @override
   Widget build(BuildContext context) {
@@ -147,40 +155,107 @@ class _CountryCityPickerSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         CustomSearchDropdown<CountryEntity>(
+          initValue: selectedCountry,
           label: S.current.countryHint,
-          fetchItemsFromAPI: sn.fetchCountries,
+          fetchItemsFromAPI: () => sn.fetchCountries(isOffline: isOffline),
           getStringFromItem: (country) => country.name,
           onChanged: sn.selectCountry,
           hint: Text(S.current.selectCountryHint),
         ),
         16.verticalSpace,
-        _CityPickerField(selectedCountry: selectedCountry),
+        _AdminDivisionPickerField(
+          selectedCountry: selectedCountry,
+          isOffline: isOffline,
+        ),
+        16.verticalSpace,
+        _CityPickerField(
+          selectedCountry: selectedCountry,
+          isOffline: isOffline,
+        ),
       ],
     );
   }
 }
 
-class _CityPickerField extends StatelessWidget {
-  const _CityPickerField({required this.selectedCountry});
+class _AdminDivisionPickerField extends StatelessWidget {
+  const _AdminDivisionPickerField({
+    required this.selectedCountry,
+    required this.isOffline,
+  });
 
   final CountryEntity? selectedCountry;
+  final bool isOffline;
 
   @override
   Widget build(BuildContext context) {
     final sn = context.read<ManualLocationPickerNotifier>();
+    final selectedAdminDivision =
+        context.select<ManualLocationPickerNotifier, AdminDivisionEntity?>(
+      (sn) => sn.selectedAdminDivision,
+    );
 
-    return CustomSearchDropdown<String>(
-      key: ValueKey(selectedCountry?.name ?? 'no-country'),
-      label: S.current.cityHint,
+    return CustomSearchDropdown<AdminDivisionEntity>(
+      key: ValueKey(selectedCountry?.countryCode ?? 'no-country-admin'),
+      initValue: selectedAdminDivision,
+      label: S.current.adminDivisionHint,
       enabled: selectedCountry != null,
-      fetchItemsFromAPI: selectedCountry != null ? sn.fetchCities : null,
+      fetchItemsFromAPI: selectedCountry != null
+          ? () => sn.fetchAdminDivisions(isOffline: isOffline)
+          : null,
       items: selectedCountry != null ? null : const [],
-      getStringFromItem: (city) => city,
-      onChanged: sn.selectCity,
+      getStringFromItem: (division) => division.name,
+      onChanged: sn.selectAdminDivision,
       hint: Text(
         selectedCountry != null
-            ? S.current.selectCityHint
+            ? S.current.selectAdminDivisionHint
             : S.current.selectCountryFirstHint,
+      ),
+    );
+  }
+}
+
+class _CityPickerField extends StatelessWidget {
+  const _CityPickerField({
+    required this.selectedCountry,
+    required this.isOffline,
+  });
+
+  final CountryEntity? selectedCountry;
+  final bool isOffline;
+
+  @override
+  Widget build(BuildContext context) {
+    final sn = context.read<ManualLocationPickerNotifier>();
+    final selectedAdminDivision =
+        context.select<ManualLocationPickerNotifier, AdminDivisionEntity?>(
+      (sn) => sn.selectedAdminDivision,
+    );
+    final selectedCity = context.select<ManualLocationPickerNotifier, CityEntity?>(
+      (sn) => sn.selectedCity,
+    );
+
+    return CustomSearchDropdown<CityEntity>(
+      key: ValueKey(
+        '${selectedCountry?.countryCode ?? 'no-country'}|'
+        '${selectedAdminDivision?.adminCode1 ?? 'no-admin'}',
+      ),
+      initValue: selectedCity,
+      label: S.current.cityHint,
+      enabled: selectedCountry != null && selectedAdminDivision != null,
+      fetchItemsFromAPI: selectedCountry != null && selectedAdminDivision != null
+          ? () => sn.fetchCities(isOffline: isOffline)
+          : null,
+      items: selectedCountry != null && selectedAdminDivision != null
+          ? null
+          : const [],
+      getStringFromItem: (city) => city.name,
+      onChanged: sn.selectCity,
+      hint: Text(
+        selectedCountry == null
+            ? S.current.selectCountryFirstHint
+            : selectedAdminDivision == null
+                ? S.current.selectAdminDivisionFirstHint
+                : S.current.selectCityHint,
       ),
     );
   }
