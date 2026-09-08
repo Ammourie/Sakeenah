@@ -7,8 +7,9 @@
 </p>
 
 <p align="center">
-  <strong>English</strong> · <a href="#table-of-contents-en">Contents</a> ·
-  <strong>العربية</strong> · <a href="#table-of-contents-ar">المحتويات</a>
+  <a href="#table-of-contents-en"><strong>English Contents</strong></a>
+  &nbsp;|&nbsp;
+  <a href="#table-of-contents-ar"><strong>المحتويات العربية</strong></a>
 </p>
 
 ---
@@ -17,22 +18,22 @@
 
 ## Table of contents
 
-| Section | Link |
-|---------|------|
-| About the app | [About](#about-en) |
-| Flutter & FVM | [Flutter & FVM](#flutter-fvm-en) |
-| Installation | [Install](#install-en) |
-| Download APK | [Download](#download-en) |
-| Run the app | [Run](#run-en) |
-| TDD feature structure | [Architecture](#architecture-en) |
-| Cursor skills & rules | [Cursor reference](#cursor-en) |
-| Key packages | [Packages](#packages-en) |
-| Localization | [Localization](#localization-en) |
-| Themes | [Themes](#themes-en) |
-| Routing | [Routing](#routing-en) |
-| Prayer times feature | [Prayer times](#prayer-times-en) |
-| Quran radio & background playback | [Quran radio](#quran-radio-en) |
-| Documentation phases | [Phases](#phases-en) |
+Jump to:
+
+- [About](#about-en)
+- [Flutter & FVM](#flutter-fvm-en)
+- [Install](#install-en)
+- [Download](#download-en)
+- [Run](#run-en)
+- [Architecture](#architecture-en)
+- [Cursor Reference](#cursor-en)
+- [Packages](#packages-en)
+- [Localization](#localization-en)
+- [Themes](#themes-en)
+- [Routing](#routing-en)
+- [Prayer times](#prayer-times-en)
+- [Quran radio](#quran-radio-en)
+- [Phases](#phases-en)
 
 ---
 
@@ -40,22 +41,22 @@
 
 ## جدول المحتويات
 
-| القسم | الرابط |
-|-------|--------|
-| عن التطبيق | [عن التطبيق](#about-ar) |
-| Flutter و FVM | [Flutter و FVM](#flutter-fvm-ar) |
-| التثبيت | [التثبيت](#install-ar) |
-| تحميل APK | [التحميل](#download-ar) |
-| تشغيل التطبيق | [التشغيل](#run-ar) |
-| بنية TDD للميزات | [البنية](#architecture-ar) |
-| مهارات وقواعد Cursor | [مرجع Cursor](#cursor-ar) |
-| الحزم الرئيسية | [الحزم](#packages-ar) |
-| الترجمة | [الترجمة](#localization-ar) |
-| الموضوعات | [الموضوعات](#themes-ar) |
-| التوجيه | [التوجيه](#routing-ar) |
-| مواقيت الصلاة | [مواقيت الصلاة](#prayer-times-ar) |
-| راديو القرآن والتشغيل بالخلفية | [راديو القرآن](#quran-radio-ar) |
-| مراحل التوثيق | [المراحل](#phases-ar) |
+الانتقال السريع:
+
+- [عن التطبيق](#about-ar)
+- [Flutter و FVM](#flutter-fvm-ar)
+- [التثبيت](#install-ar)
+- [التحميل](#download-ar)
+- [التشغيل](#run-ar)
+- [البنية](#architecture-ar)
+- [مرجع Cursor](#cursor-ar)
+- [الحزم](#packages-ar)
+- [الترجمة](#localization-ar)
+- [الموضوعات](#themes-ar)
+- [التوجيه](#routing-ar)
+- [مواقيت الصلاة](#prayer-times-ar)
+- [راديو القرآن](#quran-radio-ar)
+- [المراحل](#phases-ar)
 
 ---
 
