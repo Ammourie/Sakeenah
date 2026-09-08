@@ -331,12 +331,33 @@ presentation  →  domain  →  data
 
 ```mermaid
 flowchart LR
-  Widget --> Cubit
+  subgraph presentationLayer [Presentation]
+    Screen["Screen / Widget"]
+    Cubit["Cubit + Freezed state"]
+  end
+
+  subgraph domainLayer [Domain]
+    UseCase["Use case"]
+    Entity["Entity"]
+    RepositoryContract["Repository interface"]
+  end
+
+  subgraph dataLayer [Data]
+    RepositoryImpl["Repository implementation"]
+    DataSource["Remote / Local datasource"]
+    Model["Model / Params"]
+    External["API / Cache / Player"]
+  end
+
+  Screen --> Cubit
   Cubit --> UseCase
-  UseCase --> Repository
-  Repository --> DataSource
-  DataSource --> API["API / Player / Cache"]
+  UseCase --> RepositoryContract
+  RepositoryContract --> RepositoryImpl
+  RepositoryImpl --> DataSource
+  DataSource --> External
+  DataSource --> Model
   Model --> Entity
+  RepositoryImpl --> Entity
 ```
 
 | Layer | Folder | Responsibility |
@@ -414,9 +435,35 @@ Agents must **not** run codegen — see [`.cursor/rules/no-codegen.mdc`](.cursor
 
 يستخدم المشروع **TDD Clean Architecture** — ثلاث طبقات لكل ميزة، يتم ربطها **من الأعلى للأسفل** عند إضافة قدرة جديدة:
 
-```
-presentation  →  domain  →  data
-   (الواجهة)      (القواعد)   (API / التخزين / المحركات)
+```mermaid
+flowchart LR
+  subgraph presentationLayerAr [Presentation]
+    ScreenAr["Screen / Widget"]
+    CubitAr["Cubit + Freezed state"]
+  end
+
+  subgraph domainLayerAr [Domain]
+    UseCaseAr["Use case"]
+    EntityAr["Entity"]
+    RepositoryContractAr["Repository interface"]
+  end
+
+  subgraph dataLayerAr [Data]
+    RepositoryImplAr["Repository implementation"]
+    DataSourceAr["Remote / Local datasource"]
+    ModelAr["Model / Params"]
+    ExternalAr["API / Cache / Player"]
+  end
+
+  ScreenAr --> CubitAr
+  CubitAr --> UseCaseAr
+  UseCaseAr --> RepositoryContractAr
+  RepositoryContractAr --> RepositoryImplAr
+  RepositoryImplAr --> DataSourceAr
+  DataSourceAr --> ExternalAr
+  DataSourceAr --> ModelAr
+  ModelAr --> EntityAr
+  RepositoryImplAr --> EntityAr
 ```
 
 ### تدفق الطبقات
