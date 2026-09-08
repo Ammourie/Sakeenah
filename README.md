@@ -13,7 +13,9 @@
 
 ---
 
-## Table of contents {#table-of-contents-en}
+<a id="table-of-contents-en"></a>
+
+## Table of contents
 
 | Section | Link |
 |---------|------|
@@ -34,7 +36,9 @@
 
 ---
 
-## جدول المحتويات {#table-of-contents-ar}
+<a id="table-of-contents-ar"></a>
+
+## جدول المحتويات
 
 | القسم | الرابط |
 |-------|--------|
@@ -55,7 +59,9 @@
 
 ---
 
-## About {#about-en}
+<a id="about-en"></a>
+
+## About
 
 **Sakeenah** is a simple, reliable Flutter mobile app for daily Islamic use. It combines:
 
@@ -72,7 +78,9 @@ The app supports **English and Arabic (RTL)**, **light and dark themes**, and a 
 
 ---
 
-## عن التطبيق {#about-ar}
+<a id="about-ar"></a>
+
+## عن التطبيق
 
 **سكينة (Sakeenah)** تطبيق Flutter بسيط وموثوق للاستخدام اليومي. يجمع بين:
 
@@ -89,7 +97,9 @@ The app supports **English and Arabic (RTL)**, **light and dark themes**, and a 
 
 ---
 
-## Flutter & FVM {#flutter-fvm-en}
+<a id="flutter-fvm-en"></a>
+
+## Flutter & FVM
 
 This project uses **[FVM](https://fvm.app/)** (Flutter Version Management) so everyone builds with the same Flutter SDK.
 
@@ -116,7 +126,9 @@ fvm use 3.44.0
 
 ---
 
-## Flutter و FVM {#flutter-fvm-ar}
+<a id="flutter-fvm-ar"></a>
+
+## Flutter و FVM
 
 يستخدم هذا المشروع **[FVM](https://fvm.app/)** (إدارة إصدارات Flutter) لضمان بناء التطبيق بنفس إصدار Flutter لدى الجميع.
 
@@ -143,7 +155,9 @@ fvm use 3.44.0
 
 ---
 
-## Install {#install-en}
+<a id="install-en"></a>
+
+## Install
 
 ### Prerequisites
 
@@ -178,7 +192,9 @@ cd ios && pod install && cd ..
 
 ---
 
-## التثبيت {#install-ar}
+<a id="install-ar"></a>
+
+## التثبيت
 
 ### المتطلبات
 
@@ -213,7 +229,9 @@ cd ios && pod install && cd ..
 
 ---
 
-## Download {#download-en}
+<a id="download-en"></a>
+
+## Download
 
 Pre-built APKs are published on GitHub Releases.
 
@@ -230,7 +248,9 @@ Pre-built APKs are published on GitHub Releases.
 
 ---
 
-## التحميل {#download-ar}
+<a id="download-ar"></a>
+
+## التحميل
 
 ملفات APK الجاهزة تُنشر على GitHub Releases.
 
@@ -247,7 +267,9 @@ Pre-built APKs are published on GitHub Releases.
 
 ---
 
-## Run {#run-en}
+<a id="run-en"></a>
+
+## Run
 
 ```bash
 # List devices
@@ -276,7 +298,9 @@ fvm flutter test
 
 ---
 
-## التشغيل {#run-ar}
+<a id="run-ar"></a>
+
+## التشغيل
 
 ```bash
 # عرض الأجهزة
@@ -305,7 +329,9 @@ fvm flutter test
 
 ---
 
-## TDD feature structure {#architecture-en}
+<a id="architecture-en"></a>
+
+## TDD feature structure
 
 This project uses **TDD Clean Architecture** — three layers per feature, wired **top-down** when adding a capability:
 
@@ -395,7 +421,9 @@ Agents must **not** run codegen — see [`.cursor/rules/no-codegen.mdc`](.cursor
 
 ---
 
-## بنية TDD للميزات {#architecture-ar}
+<a id="architecture-ar"></a>
+
+## بنية TDD للميزات
 
 يستخدم المشروع **TDD Clean Architecture** — ثلاث طبقات لكل ميزة، يتم ربطها **من الأعلى للأسفل** عند إضافة قدرة جديدة:
 
@@ -454,7 +482,9 @@ fvm dart run intl_utils:generate
 
 ---
 
-## Cursor skills & rules {#cursor-en}
+<a id="cursor-en"></a>
+
+## Cursor skills & rules
 
 The repo ships **Cursor AI** configuration under [`.cursor/`](.cursor/) so humans and agents follow the same conventions.
 
@@ -491,7 +521,9 @@ Always-on or glob-scoped constraints for the agent:
 
 ---
 
-## مهارات وقواعد Cursor {#cursor-ar}
+<a id="cursor-ar"></a>
+
+## مهارات وقواعد Cursor
 
 يحتوي المستودع على إعدادات **Cursor AI** في [`.cursor/`](.cursor/) ليتبع المطوّرون والوكلاء نفس الاتفاقيات.
 
@@ -524,7 +556,9 @@ Always-on or glob-scoped constraints for the agent:
 
 ---
 
-## Key packages {#packages-en}
+<a id="packages-en"></a>
+
+## Key packages
 
 Main dependencies from [`pubspec.yaml`](pubspec.yaml). Versions match the project lockfile at time of writing.
 
@@ -601,7 +635,9 @@ Main dependencies from [`pubspec.yaml`](pubspec.yaml). Versions match the projec
 
 ---
 
-## الحزم الرئيسية {#packages-ar}
+<a id="packages-ar"></a>
+
+## الحزم الرئيسية
 
 الاعتماديات الأساسية من [`pubspec.yaml`](pubspec.yaml).
 
@@ -674,7 +710,9 @@ Main dependencies from [`pubspec.yaml`](pubspec.yaml). Versions match the projec
 
 ---
 
-## Localization {#localization-en}
+<a id="localization-en"></a>
+
+## Localization
 
 Sakeenah supports **English** and **Arabic** with full **RTL** layout when Arabic is active.
 
@@ -731,7 +769,9 @@ Text(S.current.homePage)
 
 ---
 
-## Themes {#themes-en}
+<a id="themes-en"></a>
+
+## Themes
 
 Light, dark, and **system** theme with live preview and animated switching.
 
@@ -785,7 +825,9 @@ ThemeProvider(                          // animated_theme_switcher
 
 ---
 
-## Routing {#routing-en}
+<a id="routing-en"></a>
+
+## Routing
 
 Named routes with typed screen parameters and custom transitions.
 
@@ -853,7 +895,9 @@ home: _resolveInitialScreen(), // onboarding gate before named routes
 
 ---
 
-## الترجمة {#localization-ar}
+<a id="localization-ar"></a>
+
+## الترجمة
 
 يدعم سكينة **الإنجليزية** و**العربية** مع **RTL** كامل عند اختيار العربية.
 
@@ -892,7 +936,9 @@ home: _resolveInitialScreen(), // onboarding gate before named routes
 
 ---
 
-## الموضوعات {#themes-ar}
+<a id="themes-ar"></a>
+
+## الموضوعات
 
 وضع فاتح، داكن، و**النظام** مع معاينة مباشرة وتبديل متحرك.
 
@@ -923,7 +969,9 @@ home: _resolveInitialScreen(), // onboarding gate before named routes
 
 ---
 
-## التوجيه {#routing-ar}
+<a id="routing-ar"></a>
+
+## التوجيه
 
 مسارات مسماة مع معاملات typed وانتقالات مخصصة.
 
@@ -964,7 +1012,9 @@ home: _resolveInitialScreen(), // onboarding gate before named routes
 
 ---
 
-## Prayer times {#prayer-times-en}
+<a id="prayer-times-en"></a>
+
+## Prayer times
 
 Location-based daily salah times on the home screen, powered by the **[AlAdhan Prayer Times API v1](https://aladhan.com/prayer-times-api)**.
 
@@ -1028,7 +1078,9 @@ On success, the schedule and its location are cached in Hive via `HomeScreenNoti
 
 ---
 
-## مواقيت الصلاة {#prayer-times-ar}
+<a id="prayer-times-ar"></a>
+
+## مواقيت الصلاة
 
 مواقيت الصلاة اليومية على الشاشة الرئيسية، عبر **[AlAdhan Prayer Times API v1](https://aladhan.com/prayer-times-api)**.
 
@@ -1077,7 +1129,9 @@ AlAdhan يُرجع `{ "code": 200, "data": { "timings": {...}, "date": {...} } }
 
 ---
 
-## Quran radio {#quran-radio-en}
+<a id="quran-radio-en"></a>
+
+## Quran radio
 
 Live Quran recitation with an in-app player, preserved buffer seeking, and true background playback through `audio_service`.
 
@@ -1210,7 +1264,9 @@ After any native package or manifest / plist change, do a **full app restart** o
 
 ---
 
-## راديو القرآن {#quran-radio-ar}
+<a id="quran-radio-ar"></a>
+
+## راديو القرآن
 
 بث مباشر لتلاوة القرآن مع مشغل داخل التطبيق، وإمكانية التقديم داخل الـ buffer، وتشغيل حقيقي في الخلفية عبر `audio_service`.
 
@@ -1342,7 +1398,9 @@ flowchart TD
 
 ---
 
-## Documentation phases {#phases-en}
+<a id="phases-en"></a>
+
+## Documentation phases
 
 This README is being rebuilt **in phases**. Current status:
 
@@ -1359,7 +1417,9 @@ Detailed implementation tracking: [`docs/implementation_plan.md`](docs/implement
 
 ---
 
-## مراحل التوثيق {#phases-ar}
+<a id="phases-ar"></a>
+
+## مراحل التوثيق
 
 يتم إعادة بناء هذا الملف **على مراحل**. الحالة الحالية:
 
