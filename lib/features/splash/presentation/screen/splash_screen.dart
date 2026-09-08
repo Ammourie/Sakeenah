@@ -1,4 +1,5 @@
 import 'package:Sakeenah/core/ui/widgets/waiting_widget.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -19,19 +20,29 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  static const _typewriterCharDuration = Duration(milliseconds: 60);
+  static const _splashMessageHoldDuration = Duration(milliseconds: 1200);
+
   @override
   void initState() {
     super.initState();
+    final splashStayDuration = _calculateSplashStayDuration();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       context.read<CountriesSessionProvider>().prefetchCountries();
     });
-    Future.delayed(const Duration(milliseconds: 2200), _goToMain);
+    Future.delayed(splashStayDuration, _goToMain);
   }
 
   void _goToMain() {
     if (!mounted) return;
     Nav.off(AppMainScreen.routeName, arguments: AppMainScreenParam());
+  }
+
+  Duration _calculateSplashStayDuration() {
+    final message = S.current.splashExamMessage.trim();
+    final typingDuration = _typewriterCharDuration * message.runes.length;
+    return typingDuration + _splashMessageHoldDuration;
   }
 
   @override
@@ -62,6 +73,26 @@ class _SplashScreenState extends State<SplashScreen> {
                     style: textTheme.headlineSmall?.copyWith(
                       color: colorScheme.onSurface,
                       fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  16.verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 28.w),
+                    child: AnimatedTextKit(
+                      totalRepeatCount: 1,
+                      isRepeatingAnimation: false,
+                      animatedTexts: [
+                        TypewriterAnimatedText(
+                          S.current.splashExamMessage,
+                          speed: _typewriterCharDuration,
+                          textAlign: TextAlign.center,
+                          textStyle: textTheme.bodyLarge?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                            height: 1.5,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   32.verticalSpace,

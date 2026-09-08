@@ -359,6 +359,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "setLocationTitle": MessageLookupByLibrary.simpleMessage("حدد موقعك"),
     "signUp": MessageLookupByLibrary.simpleMessage("تسجيل حساب"),
     "specificPermissionRequired": m6,
+    "splashExamMessage": MessageLookupByLibrary.simpleMessage(
+      "هذا هو تطبيق سكينة الخاص بالامتحان الكتابي لصالح وزارة الإعلام للمتقدم محمد العموري",
+    ),
     "switchTheme": MessageLookupByLibrary.simpleMessage("تغيير وضع الالوان"),
     "testErrorScreen": MessageLookupByLibrary.simpleMessage(
       "اختبار كاشف الأخطاء",

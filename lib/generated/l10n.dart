@@ -1689,6 +1689,16 @@ class S {
   String get secondsShort {
     return Intl.message('s', name: 'secondsShort', desc: '', args: []);
   }
+
+  /// `This is the Sakeenah app for the written exam of the Ministry of Information by applicant Mohammed Al-Ammourie.`
+  String get splashExamMessage {
+    return Intl.message(
+      'This is the Sakeenah app for the written exam of the Ministry of Information by applicant Mohammed Al-Ammourie.',
+      name: 'splashExamMessage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

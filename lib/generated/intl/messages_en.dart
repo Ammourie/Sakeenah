@@ -366,6 +366,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "signUp": MessageLookupByLibrary.simpleMessage("Signup"),
     "specificPermissionRequired": m6,
+    "splashExamMessage": MessageLookupByLibrary.simpleMessage(
+      "This is the Sakeenah app for the written exam of the Ministry of Information by applicant Mohammed Al-Ammourie.",
+    ),
     "switchTheme": MessageLookupByLibrary.simpleMessage("Switch theme"),
     "testErrorScreen": MessageLookupByLibrary.simpleMessage(
       "Test Error Handler",
