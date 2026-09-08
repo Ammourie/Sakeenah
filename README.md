@@ -358,6 +358,9 @@ flowchart LR
   DataSource --> Model
   Model --> Entity
   RepositoryImpl --> Entity
+  Entity -. "back to app rules" .-> UseCase
+  UseCase -. "state/result to UI" .-> Cubit
+  Cubit -. "rebuild" .-> Screen
 ```
 
 | Layer | Folder | Responsibility |
@@ -464,6 +467,9 @@ flowchart LR
   DataSourceAr --> ModelAr
   ModelAr --> EntityAr
   RepositoryImplAr --> EntityAr
+  EntityAr -. "العودة إلى قواعد التطبيق" .-> UseCaseAr
+  UseCaseAr -. "حالة/نتيجة إلى الواجهة" .-> CubitAr
+  CubitAr -. "إعادة بناء" .-> ScreenAr
 ```
 
 ### تدفق الطبقات
