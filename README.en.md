@@ -237,10 +237,15 @@ flowchart TD
   B --> C[HomeCubit]
   C --> D[GetTodayPrayerTimesUseCase]
   D --> E[HomeRepository]
-  E --> F[HomeRemoteSource]
-  E --> G[HomeLocalSource]
+  E -->|online| F[HomeRemoteSource]
+  E -->|offline| G[HomeLocalSource]
   F --> H[AlAdhan via Dio]
-  G --> H
+  G --> I[Hive cache]
+  F -.->|on failure| G
+  E -->|DailyPrayerScheduleEntity| D
+  D --> C
+  C --> B
+  B --> A
 ```
 
 </div>
