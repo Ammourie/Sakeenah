@@ -132,12 +132,10 @@ fvm flutter build apk --release
 
 <div dir="ltr">
 
-```
-presentation
-     ↓
-   domain
-     ↓
-    data
+```mermaid
+flowchart TD
+  P[Presentation] --> D[Domain]
+  D --> DA[Data]
 ```
 
 </div>
@@ -233,21 +231,16 @@ Optional AlAdhan params (`school`, `tune`, `shafaq`, etc.) are supported by the 
 
 <div dir="ltr">
 
-```
-HomeScreen
-     ↓
-HomeScreenNotifier
-     ↓
-HomeCubit
-     ↓
-GetTodayPrayerTimesUseCase
-     ↓
-HomeRepository
-     ↓
-HomeRemoteSource.getTodayPrayerTimes()   [online]
-HomeLocalSource.getTodayPrayerTimes()    [offline / fallback]
-     ↓
-AlAdhan GET via Dio
+```mermaid
+flowchart TD
+  A[HomeScreen] --> B[HomeScreenNotifier]
+  B --> C[HomeCubit]
+  C --> D[GetTodayPrayerTimesUseCase]
+  D --> E[HomeRepository]
+  E --> F[HomeRemoteSource]
+  E --> G[HomeLocalSource]
+  F --> H[AlAdhan via Dio]
+  G --> H
 ```
 
 </div>
@@ -293,26 +286,18 @@ Live Quran recitation with an in-app player, preserved buffer seeking, and true 
 
 <div dir="ltr">
 
-```
-QuranRadioSection
-     ↓
-HomeScreenNotifier
-     ↓
-QuranRadioCubit
-     ↓
-Play / Pause / Seek / Retry use cases
-     ↓
-HomeRepository
-     ↓
-HomeRemoteSource
-     ↓
-QuranRadioPlayer
-     ↓
-RadioPlayerEntity stream
-     ├─→ QuranRadioCubit (UI)
-     └─→ QuranRadioAudioHandler
-              ↓
-         Notification / lock screen
+```mermaid
+flowchart TD
+  A[QuranRadioSection] --> B[HomeScreenNotifier]
+  B --> C[QuranRadioCubit]
+  C --> D[Use cases]
+  D --> E[HomeRepository]
+  E --> F[HomeRemoteSource]
+  F --> G[QuranRadioPlayer]
+  G --> H[RadioPlayerEntity]
+  H --> C
+  H --> I[AudioHandler]
+  I --> J[Lock screen / notification]
 ```
 
 </div>
@@ -391,18 +376,15 @@ For connectivity:
 
 <div dir="ltr">
 
-```
-Foreground:
-InternetProvider
-     ↓
-HomeScreenNotifier
-     ↓
-QuranRadioCubit
-
-Background:
-QuranRadioAudioHandler
-     ↓
-InternetConnection.onStatusChange
+```mermaid
+flowchart TD
+  subgraph FG [Foreground]
+    A[InternetProvider] --> B[HomeScreenNotifier]
+    B --> C[QuranRadioCubit]
+  end
+  subgraph BG [Background]
+    D[AudioHandler] --> E[InternetConnection]
+  end
 ```
 
 </div>
