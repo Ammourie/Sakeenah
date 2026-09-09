@@ -26,7 +26,7 @@ Jump to:
 - [Download](#download-en)
 - [Run](#run-en)
 - [Architecture](#architecture-en)
-- [Cursor Reference](#cursor-en)
+- [Cursor rules](#cursor-en)
 - [Packages](#packages-en)
 - [Localization](#localization-en)
 - [Themes](#themes-en)
@@ -49,7 +49,7 @@ Jump to:
 - [التحميل](#download-ar)
 - [التشغيل](#run-ar)
 - [البنية](#architecture-ar)
-- [مرجع Cursor](#cursor-ar)
+- [قواعد Cursor](#cursor-ar)
 - [الحزم](#packages-ar)
 - [الترجمة](#localization-ar)
 - [الموضوعات](#themes-ar)
@@ -108,7 +108,6 @@ This project uses **[FVM](https://fvm.app/)** (Flutter Version Management) so ev
 |------|----------------|
 | **Flutter** | `3.44.0` (see [`.fvmrc`](.fvmrc)) |
 | **Dart SDK** | `^3.10.0` (see [`pubspec.yaml`](pubspec.yaml)) |
-| **Package manager** | Always use `fvm flutter` / `fvm dart` — not bare `flutter` |
 
 **Why FVM?** Pinning the SDK avoids “works on my machine” issues when teammates or CI use a different Flutter version.
 
@@ -137,7 +136,6 @@ fvm use 3.44.0
 |--------|-------------------|
 | **Flutter** | `3.44.0` (راجع [`.fvmrc`](.fvmrc)) |
 | **Dart SDK** | `^3.10.0` (راجع [`pubspec.yaml`](pubspec.yaml)) |
-| **مدير الحزم** | استخدم دائماً `fvm flutter` / `fvm dart` — وليس `flutter` مباشرة |
 
 **لماذا FVM؟** تثبيت الإصدار يمنع مشاكل “يعمل عندي فقط” عندما يستخدم الزملاء أو CI إصدار Flutter مختلف.
 
@@ -371,7 +369,7 @@ flowchart LR
 
 ### Adding a new use case (order matters)
 
-Follow this sequence — same as [`.cursor/skills/flutter-clean-architecture-usecase/SKILL.md`](.cursor/skills/flutter-clean-architecture-usecase/SKILL.md):
+Follow this sequence:
 
 1. **Entity** — `domain/entity/xxx_entity.dart` (pure Dart, `BaseEntity`)
 2. **Model** — `data/request/model/xxx_model.dart` (`BaseModel`, `fromMap` + `toEntity`, type validators)
@@ -530,7 +528,7 @@ flowchart LR
 
 ### إضافة use case جديد (الترتيب مهم)
 
-اتبع هذا التسلسل — كما في [`.cursor/skills/flutter-clean-architecture-usecase/SKILL.md`](.cursor/skills/flutter-clean-architecture-usecase/SKILL.md):
+اتبع هذا التسلسل:
 
 1. **Entity** — `domain/entity/xxx_entity.dart`
 2. **Model** — `data/request/model/xxx_model.dart` (`fromMap` + `toEntity`)
@@ -620,24 +618,9 @@ fvm dart run intl_utils:generate
 
 <a id="cursor-en"></a>
 
-## Cursor skills & rules
+## Cursor rules
 
-The repo ships **Cursor AI** configuration under [`.cursor/`](.cursor/) so humans and agents follow the same conventions.
-
-### Skills (`.cursor/skills/`)
-
-Step-by-step workflows — read when doing that kind of work:
-
-| Skill | Path | When to use |
-|-------|------|-------------|
-| **Clean Architecture / use case** | [`flutter-clean-architecture-usecase/SKILL.md`](.cursor/skills/flutter-clean-architecture-usecase/SKILL.md) | New endpoint, entity, repository method, use case, cubit wiring |
-| **UI conventions** | [`flutter-ui-conventions/SKILL.md`](.cursor/skills/flutter-ui-conventions/SKILL.md) | Screens, widgets, ScreenUtil sizing, loading states |
-| **Localized strings** | [`dart-localized-strings/SKILL.md`](.cursor/skills/dart-localized-strings/SKILL.md) | Any user-facing text → `S.current` + `.arb` keys |
-| **Design guidelines** | [`design-guidelines/SKILL.md`](.cursor/skills/design-guidelines/SKILL.md) | Material 3 polish, dual-theme, Lucide icons, surfaces |
-
-### Rules (`.cursor/rules/`)
-
-Always-on or glob-scoped constraints for the agent:
+The repo ships **Cursor AI** configuration under [`.cursor/rules/`](.cursor/rules/) so humans and agents follow the same conventions.
 
 | Rule | File | Summary |
 |------|------|---------|
@@ -653,26 +636,15 @@ Always-on or glob-scoped constraints for the agent:
 | Notifier owns loading | [`notifier-owns-data-loading.mdc`](.cursor/rules/notifier-owns-data-loading.mdc) | Cubits/notifiers load data; widgets display only |
 | Context select builder | [`context-select-builder.mdc`](.cursor/rules/context-select-builder.mdc) | `context.select` inside `Builder` / provider scope |
 
-> **Tip:** In Cursor, `@` mention a rule or skill file to attach it to the chat.
+> **Tip:** In Cursor, `@` mention a rule file to attach it to the chat.
 
 ---
 
 <a id="cursor-ar"></a>
 
-## مهارات وقواعد Cursor
+## قواعد Cursor
 
-يحتوي المستودع على إعدادات **Cursor AI** في [`.cursor/`](.cursor/) ليتبع المطوّرون والوكلاء نفس الاتفاقيات.
-
-### المهارات (`.cursor/skills/`)
-
-| المهارة | المسار | متى تُستخدم |
-|---------|--------|-------------|
-| **Clean Architecture / use case** | [`flutter-clean-architecture-usecase/SKILL.md`](.cursor/skills/flutter-clean-architecture-usecase/SKILL.md) | endpoint جديد، entity، repository، use case، cubit |
-| **اتفاقيات الواجهة** | [`flutter-ui-conventions/SKILL.md`](.cursor/skills/flutter-ui-conventions/SKILL.md) | شاشات، ودجات، ScreenUtil، حالات التحميل |
-| **النصوص المترجمة** | [`dart-localized-strings/SKILL.md`](.cursor/skills/dart-localized-strings/SKILL.md) | أي نص للمستخدم → `S.current` + `.arb` |
-| **إرشادات التصميم** | [`design-guidelines/SKILL.md`](.cursor/skills/design-guidelines/SKILL.md) | Material 3، الوضعين، Lucide، الطبقات |
-
-### القواعد (`.cursor/rules/`)
+يحتوي المستودع على إعدادات **Cursor AI** في [`.cursor/rules/`](.cursor/rules/) ليتبع المطوّرون والوكلاء نفس الاتفاقيات.
 
 | القاعدة | الملف | ملخص |
 |---------|-------|------|
@@ -688,7 +660,7 @@ Always-on or glob-scoped constraints for the agent:
 | Notifier يحمّل البيانات | [`notifier-owns-data-loading.mdc`](.cursor/rules/notifier-owns-data-loading.mdc) | Cubit يحمّل؛ الودجت يعرض |
 | context.select | [`context-select-builder.mdc`](.cursor/rules/context-select-builder.mdc) | داخل `Builder` |
 
-> **نصيحة:** في Cursor، اذكر `@` مع مسار القاعدة أو المهارة لإرفاقها بالمحادثة.
+> **نصيحة:** في Cursor، اذكر `@` مع مسار القاعدة لإرفاقها بالمحادثة.
 
 ---
 
@@ -860,7 +832,6 @@ Sakeenah supports **English** and **Arabic** with full **RTL** layout when Arabi
 | **Generated API** | [`lib/generated/l10n.dart`](lib/generated/l10n.dart) | `S.current.myKey` — do not edit by hand |
 | **Generator** | `flutter_intl` in [`pubspec.yaml`](pubspec.yaml) | Class name `S`; runs on save / manually |
 | **Runtime provider** | [`LocalizationProvider`](lib/core/localization/localization_provider.dart) | Singleton `ChangeNotifier`; holds `Locale`, persists choice |
-| **Skill** | [`.cursor/skills/dart-localized-strings/SKILL.md`](.cursor/skills/dart-localized-strings/SKILL.md) | All user-facing text → `S.current` |
 
 ### Startup flow
 
@@ -1044,7 +1015,6 @@ home: _resolveInitialScreen(), // onboarding gate before named routes
 | **النصوص المصدر** | [`lib/l10n/intl_en.arb`](lib/l10n/intl_en.arb), [`intl_ar.arb`](lib/l10n/intl_ar.arb) | أضف المفاتيح هنا |
 | **API المُولَّد** | [`lib/generated/l10n.dart`](lib/generated/l10n.dart) | `S.current.myKey` |
 | **المزوّد** | [`LocalizationProvider`](lib/core/localization/localization_provider.dart) | Singleton؛ يحفظ `Locale` |
-| **المهارة** | [`dart-localized-strings/SKILL.md`](.cursor/skills/dart-localized-strings/SKILL.md) | كل نص → `S.current` |
 
 ### التشغيل
 
@@ -1543,7 +1513,7 @@ This README is being rebuilt **in phases**. Current status:
 | Phase | Topic | Status |
 |-------|--------|--------|
 | **1** | Overview, FVM, install, download, run | ✅ Done |
-| **2** | TDD architecture, Cursor skills & rules, key packages | ✅ Done |
+| **2** | TDD architecture, Cursor rules, key packages | ✅ Done |
 | **3** | Localization, themes, routing | ✅ Done |
 | **4** | Features — prayer times + Quran radio | ✅ Done |
 | **5** | Background audio & notifications | ✅ Done |
@@ -1562,7 +1532,7 @@ Detailed implementation tracking: [`docs/implementation_plan.md`](docs/implement
 | المرحلة | الموضوع | الحالة |
 |---------|---------|--------|
 | **1** | نظرة عامة، FVM، التثبيت، التحميل، التشغيل | ✅ مكتمل |
-| **2** | بنية TDD، مهارات وقواعد Cursor، الحزم الرئيسية | ✅ مكتمل |
+| **2** | بنية TDD، قواعد Cursor، الحزم الرئيسية | ✅ مكتمل |
 | **3** | الترجمة، الموضوعات، التوجيه | ✅ مكتمل |
 | **4** | الميزات — مواقيت الصلاة + راديو القرآن | ✅ مكتمل |
 | **5** | التشغيل في الخلفية والإشعارات | ✅ مكتمل |
