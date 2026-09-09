@@ -35,7 +35,6 @@
 - [التنقل (Routing)](#routing)
 - [مواقيت الصلاة](#prayer-times)
 - [راديو القرآن](#quran-radio)
-- [مراحل التوثيق](#phases)
 
 ---
 
@@ -73,16 +72,24 @@
 
 **تثبيت FVM** (مرة واحدة فقط على كل جهاز):
 
+<div dir="ltr">
+
 ```bash
 dart pub global activate fvm
 ```
 
+</div>
+
 ثم من داخل مجلد المشروع:
+
+<div dir="ltr">
 
 ```bash
 fvm install 3.44.0
 fvm use 3.44.0
 ```
+
+</div>
 
 ---
 
@@ -98,6 +105,8 @@ fvm use 3.44.0
 - **iOS (على macOS فقط):** Xcode و CocoaPods
 
 ### الخطوات
+
+<div dir="ltr">
 
 ```bash
 # 1. Clone
@@ -118,6 +127,8 @@ fvm dart run intl_utils:generate
 # 5. لمستخدمي iOS فقط
 cd ios && pod install && cd ..
 ```
+
+</div>
 
 > **ملاحظة:** أي تعديل native (Android manifest، iOS plist، أو إضافة plugin جديد) يتطلب **full app restart** — الـ hot reload وحده لا يكفي.
 
@@ -146,6 +157,8 @@ cd ios && pod install && cd ..
 
 ## التشغيل
 
+<div dir="ltr">
+
 ```bash
 # List devices
 fvm flutter devices
@@ -164,6 +177,8 @@ fvm flutter build apk --release
 fvm flutter build appbundle --release
 ```
 
+</div>
+
 ---
 
 <a id="architecture"></a>
@@ -172,12 +187,18 @@ fvm flutter build appbundle --release
 
 يعتمد المشروع على **TDD Clean Architecture** — أي ثلاث layers لكل feature، تُربط دائماً **من الأعلى إلى الأسفل** عند إضافة قدرة جديدة:
 
+<div dir="ltr">
+
 ```
 presentation  →  domain  →  data
    (UI)         (rules)    (API / cache / engines)
 ```
 
+</div>
+
 ### مسار الـ layers
+
+<div dir="ltr">
 
 ```mermaid
 flowchart LR
@@ -213,6 +234,8 @@ flowchart LR
   CubitAr -. "rebuild" .-> ScreenAr
 ```
 
+</div>
+
 | Layer | Folder | المسؤولية |
 |-------|--------|-----------|
 | **Presentation** | `presentation/` | الـ Screens والـ widgets، **Cubit** مع **Freezed state**، وأحداث المستخدم |
@@ -233,6 +256,8 @@ flowchart LR
 
 ### هيكل المجلدات لكل feature
 
+<div dir="ltr">
+
 ```
 lib/features/<feature>/
 ├── data/
@@ -251,9 +276,13 @@ lib/features/<feature>/
         └── cubit/        # Cubit + freezed state (part files)
 ```
 
+</div>
+
 ### الاتفاقية الخاصة بـ feature الـ Home
 
 مواقيت الصلاة وراديو القرآن يشتركان في **repository stack واحد** تحت `lib/features/home/` (بدون module منفصل باسم `quran_radio`). راجع [`.cursor/rules/home-single-layers.mdc`](.cursor/rules/home-single-layers.mdc).
+
+<div dir="ltr">
 
 ```dart
 // ✅ الطريقة الصحيحة: UI → cubit → use case → repository → datasource
@@ -263,6 +292,8 @@ quranRadioCubit.playRadio();
 await quranRadioPlayer.play();
 ```
 
+</div>
+
 ### إدارة الـ State
 
 - **Cubit + Freezed** لبناء union states (`initial`, `loading`, `loaded`, `error`) — راجع [`.cursor/rules/freezed-cubit-states.mdc`](.cursor/rules/freezed-cubit-states.mdc)
@@ -270,6 +301,8 @@ await quranRadioPlayer.play();
 - **Provider** للـ notifiers العامة على مستوى التطبيق (الثيم، اللغة، حالة الاتصال بالإنترنت)
 
 بالنسبة لأي UI flag خاص بشاشة معينة ولا يُعتبر جزءاً من feature result state، يحتفظ التطبيق به داخل **Notifier**، ويقرأه عبر `context.select(...)` بحيث يُعاد بناء الـ widget المرتبط فقط:
+
+<div dir="ltr">
 
 ```dart
 final isBusy = context.select<HomeScreenNotifier, bool>(
@@ -281,6 +314,8 @@ final isLoadingGps = context.select<HomeScreenNotifier, bool>(
 );
 ```
 
+</div>
+
 - ضَع الحالات المؤقتة مثل `isLoading` و`isLoadingGps` والـ tabs المختارة أو أي toggle محلي داخل الـ notifier.
 - استخدم `context.select` بدلاً من `context.watch` عندما يحتاج الـ widget قيمة واحدة مشتقة فقط.
 - بهذه الطريقة نتجنب إعادة بناء شجرة الـ widgets كاملة عند تغيّر حقل غير مرتبط بها في الـ notifier.
@@ -289,6 +324,8 @@ final isLoadingGps = context.select<HomeScreenNotifier, bool>(
 
 يتم تجهيز حقن الاعتماديات (dependency injection) في [`lib/di/service_locator.dart`](lib/di/service_locator.dart):
 
+<div dir="ltr">
+
 ```dart
 final getIt = GetIt.instance;
 
@@ -296,12 +333,18 @@ final getIt = GetIt.instance;
 Future<void> configureInjection() async => await getIt.init();
 ```
 
+</div>
+
 يسجّل التطبيق الخدمات طويلة العمر كـ singleton أو lazy singleton، ثم يستدعيها أينما احتاجها:
+
+<div dir="ltr">
 
 ```dart
 navigatorKey: getIt<NavigationService>().getNavigationKey,
 onGenerateRoute: getIt<NavigationRoute>().generateRoute,
 ```
+
+</div>
 
 أمثلة على خدمات الـ singleton في هذا التطبيق:
 
@@ -321,10 +364,14 @@ onGenerateRoute: getIt<NavigationRoute>().generateRoute,
 
 بعد أي تعديل على `@freezed` أو `@injectable` أو ملفات `.arb`، شغّل الأوامر التالية محلياً:
 
+<div dir="ltr">
+
 ```bash
 fvm dart run build_runner build --delete-conflicting-outputs
 fvm dart run intl_utils:generate
 ```
+
+</div>
 
 الوكلاء (agents) **ممنوعون** من تشغيل codegen بأنفسهم — راجع [`.cursor/rules/no-codegen.mdc`](.cursor/rules/no-codegen.mdc).
 
@@ -450,6 +497,8 @@ fvm dart run intl_utils:generate
 
 ### مسار بدء التشغيل
 
+<div dir="ltr">
+
 ```mermaid
 flowchart TD
   main["main.dart"] --> fetch["LocalizationProvider.fetchLocale()"]
@@ -457,6 +506,8 @@ flowchart TD
   prefs --> app["MaterialApp locale = locProvider.appLocal"]
   app --> delegates["S.delegate + GlobalMaterial/Cupertino delegates"]
 ```
+
+</div>
 
 1. **`main.dart`** — يتم استدعاء `await LocalizationProvider().fetchLocale()` قبل `runApp` (وقبل `initQuranRadioAudioService()` حتى تُحمَّل نصوص الإشعار باللغة الصحيحة).
 2. **`App`** — يعيد `Consumer<LocalizationProvider>` بناء `MaterialApp` عند تغيّر اللغة.
@@ -469,6 +520,8 @@ flowchart TD
 3. يحفظ الـ Provider القيمة `KEY_LANGUAGE` في `SharedPreferences` ثم يستدعي `notifyListeners()`.
 4. يعيد `MaterialApp` بناء نفسه بالـ `locale` الجديد — **بدون إعادة تشغيل التطبيق** (اتجاه RTL يتحدّث تلقائياً).
 
+<div dir="ltr">
+
 ```dart
 // داخل الـ widgets — لا تكتب النصوص مباشرة (hardcoded) أبداً
 Text(S.current.homePage)
@@ -476,6 +529,8 @@ Text(S.current.homePage)
 // بعد إضافة مفتاح جديد لملفات .arb، أعد التوليد:
 // fvm dart run intl_utils:generate
 ```
+
+</div>
 
 ### RTL
 
@@ -510,6 +565,8 @@ Text(S.current.homePage)
 
 ### الربط داخل `App`
 
+<div dir="ltr">
+
 ```dart
 ThemeProvider(                          // animated_theme_switcher
   initTheme: AppConfig().resolveThemeDataForMode(themeProvider.themeMode),
@@ -521,6 +578,8 @@ ThemeProvider(                          // animated_theme_switcher
   ),
 )
 ```
+
+</div>
 
 - **`ThemeModeProvider.load()`** — يقرأ الوضع المحفوظ عند بدء التشغيل (الافتراضي هو **system**).
 - **`setThemeMode(mode, context: …)`** — يحفظ، يُشعر المستمعين، ويمكن أن يشغّل الانتقال المتحرك عبر `ThemeSwitcher.of(context).changeTheme(...)`.
@@ -568,6 +627,8 @@ Named routes مع typed screen parameters وانتقالات (transitions) مخ�
 2. عرّف class باسم **`MyScreenParam`** (غالباً `const` فارغ في الشاشات البسيطة).
 3. أضِف **`case`** جديد داخل [`route_generator.dart`](lib/core/navigation/route_generator.dart):
 
+<div dir="ltr">
+
 ```dart
 case MyScreen.routeName:
   return _getRoute<MyScreenParam>(
@@ -577,12 +638,18 @@ case MyScreen.routeName:
   );
 ```
 
+</div>
+
 4. للتنقل:
+
+<div dir="ltr">
 
 ```dart
 Nav.to(MyScreen.routeName, arguments: const MyScreenParam());
 Nav.pop(context);
 ```
+
+</div>
 
 ### أنواع الـ Route
 
@@ -594,12 +661,16 @@ Nav.pop(context);
 
 ### إعداد `MaterialApp`
 
+<div dir="ltr">
+
 ```dart
 navigatorKey: getIt<NavigationService>().getNavigationKey,
 onGenerateRoute: getIt<NavigationRoute>().generateRoute,
 initialRoute: "/",
 home: _resolveInitialScreen(), // onboarding gate before named routes
 ```
+
+</div>
 
 - يعود **`Nav`** تلقائياً إلى `NavigationService.appContext` عندما لا يُمرَّر `BuildContext`.
 - أي **`arguments`** خاطئة أو مفقودة → تُوجَّه إلى route الخطأ المدمج داخل `NavigationRoute._errorRoute`.
@@ -634,9 +705,13 @@ home: _resolveInitialScreen(), // onboarding gate before named routes
 
 يستدعي التطبيق AlAdhan مع **تاريخ اليوم داخل مسار الـ URL** بصيغة (`DD-MM-YYYY`)، بما يطابق الـ API الرسمي:
 
+<div dir="ltr">
+
 ```bash
 curl 'https://api.aladhan.com/v1/timings/08-09-2025?latitude=51.5194682&longitude=-0.1360365&method=2'
 ```
+
+</div>
 
 | نمط الموقع | Path | Query params |
 |------------|------|---------------|
@@ -651,6 +726,8 @@ curl 'https://api.aladhan.com/v1/timings/08-09-2025?latitude=51.5194682&longitud
 
 ### مسار التنفيذ
 
+<div dir="ltr">
+
 ```
 HomeScreen → HomeScreenNotifier → HomeCubit
   → GetTodayPrayerTimesUseCase → HomeRepository
@@ -658,6 +735,8 @@ HomeScreen → HomeScreenNotifier → HomeCubit
   → HomeLocalSource.getTodayPrayerTimes()   [offline / fallback]
   → AlAdhan GET via Dio (base: AppSettings.ALADHAN_BASE_URL)
 ```
+
+</div>
 
 الملفات الأساسية:
 
@@ -698,6 +777,8 @@ HomeScreen → HomeScreenNotifier → HomeCubit
 
 ### البنية العامة (High-level architecture)
 
+<div dir="ltr">
+
 ```mermaid
 flowchart TD
   HomeUi["QuranRadioSection"] --> Notifier["HomeScreenNotifier"]
@@ -711,6 +792,8 @@ flowchart TD
   Stream --> Handler["QuranRadioAudioHandler"]
   Handler --> System["Notification / lock screen / headset"]
 ```
+
+</div>
 
 ### العناصر الأساسية
 
@@ -813,27 +896,6 @@ flowchart TD
 بعد أي تعديل على package native أو على manifest / plist، يجب عمل **full app restart** أو إعادة التثبيت. الـ hot reload وحده لا يكفي.
 
 ---
-
-<a id="phases"></a>
-
-## مراحل التوثيق
-
-يتم إعادة بناء هذا الملف **على مراحل**. الحالة الحالية:
-
-| المرحلة | الموضوع | الحالة |
-|---------|---------|--------|
-| **1** | نظرة عامة، FVM، التثبيت، التحميل، التشغيل | ✅ اكتملت |
-| **2** | بنية الـ TDD، قواعد Cursor، أهم الـ packages | ✅ اكتملت |
-| **3** | الترجمة (Localization)، الثيمات، التنقل | ✅ اكتملت |
-| **4** | Features — مواقيت الصلاة + راديو القرآن | ✅ اكتملت |
-| **5** | الصوت في الخلفية والإشعارات | ✅ اكتملت |
-| **6** | البناء (Build)، الإصدار، والنشر | 🔜 قريباً |
-
----
-
-<p align="center">
-  <sub>Sakeenah · سكينة — Prayer times & Quran Radio</sub>
-</p>
 
 <p align="center">
   <sub>Sakeenah · سكينة — Prayer times & Quran Radio</sub>

@@ -31,6 +31,8 @@
 
 ## Quick start
 
+<div dir="ltr">
+
 ```bash
 git clone https://github.com/Ammourie/Mobile.git
 cd Mobile
@@ -40,6 +42,8 @@ fvm dart run build_runner build --delete-conflicting-outputs
 fvm dart run intl_utils:generate
 fvm flutter run
 ```
+
+</div>
 
 <p align="center">
   <sub>Sakeenah · سكينة — Prayer times & Quran Radio</sub>
